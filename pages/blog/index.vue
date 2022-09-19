@@ -18,6 +18,7 @@
         :description="article.description"
         :date="article.date"
         :slug="article.slug"
+        :image="article.image"
       ></blog-item>
     </div>
   </div>
@@ -30,7 +31,7 @@ export default {
       .only([
         "title",
         "description",
-        "img",
+        "image",
         "slug",
         "tag",
         "author",
