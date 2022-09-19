@@ -21,19 +21,13 @@
         <div class="md:text-lg text-gray-600 dark:text-blue-100">
           {{ siteMetadata.position }}
         </div>
-        <a
-          :href="`mailto:${siteMetadata.email}`"
-          class="text-gray-600 md:hidden mt-1 dark:text-blue-100"
-        >
-          {{ siteMetadata.email }}
-        </a>
       </div>
     </div>
 
     <div class="mx-7 hidden md:block ">
       <div class="my-2 text-gray-600 flex dark:text-blue-100">
         <Mail />
-        <a :href="`mailto:${siteMetadata.email}`">&nbsp;&nbsp; {{ siteMetadata.email }}</a>
+        &nbsp;&nbsp; {{ siteMetadata.email }}
       </div>
       <div class="my-2 text-gray-600 flex dark:text-blue-100">
         <Glob />

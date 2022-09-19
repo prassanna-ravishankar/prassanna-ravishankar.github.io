@@ -44,7 +44,7 @@
         <div>Copyright © {{ new Date().getFullYear() }}</div>
         <div>•</div>
         <a href="/"
-          >{{ siteMetadata.author }}'s blog - {{ siteMetadata.slogan }}</a
+          >{{ siteMetadata.author }}'s website - {{ siteMetadata.slogan }}</a
         >
       </div>
       <div class="mb-8 text-sm text-gray-500 dark:text-gray-400">
