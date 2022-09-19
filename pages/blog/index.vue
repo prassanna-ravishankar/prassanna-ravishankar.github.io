@@ -7,7 +7,7 @@
         Blog
       </h1>
       <p class="text-lg text-slate-700 dark:text-slate-400">
-        All the latest Tailwind CSS news, straight from the&nbsp;team.
+        My thoughts on Technology, Philosophy, Poetry and Python.
       </p>
     </header>
     <div class="space-y-16 mx-auto max-w-7xl">
