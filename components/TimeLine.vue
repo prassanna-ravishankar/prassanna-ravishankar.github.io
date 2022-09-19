@@ -34,7 +34,7 @@
           Applied researcher
         </h3>
         <h3 class="flex items-center mb-1 text-sm font-semibold text-gray-500 uppercase dark:text-white">
-          Anvision (now Oosto)
+          Anyvision (now Oosto)
         </h3>
         <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">September 2019 - October 2020</time>
         <p class="bg-gray-50 px-5 py-2 flex rounded-full text-gray-900 text-xs uppercase"> Skills: Python, C++, ONNX, CMake, Docker, Pytorch, OpenCV, Depth Estimation, 3D Geometry, Homography</p>
