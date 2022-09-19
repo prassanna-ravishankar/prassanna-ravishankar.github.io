@@ -3,7 +3,7 @@ title: Pyenv and pipenv for the perfect python environment
 tags: Python, Packaging, Environment, Programming
 date: 2019-05-29
 description: Dependency hell in python, and the problem of consistent environments when dependencies do not agree. There are tools like pipenv that take a proper stab at this problem, but the they don't solve virtual-environment portability. I show how you can use pipenv with pyenv to get powerful environments across different versions of python
-image: https://preview.redd.it/2o8wlapqk5h31.png?width=492&format=png&auto=webp&s=aff6c993cdfcceff2080731993ef6ba6ec67af25
+image: blog/python-deps.png
 author: Prassanna Ravishankar
 draft: false
 ---
