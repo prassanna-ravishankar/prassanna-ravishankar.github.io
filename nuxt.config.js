@@ -27,7 +27,11 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ["@nuxt/postcss8", "@nuxt/image"],
+  buildModules: [
+    "@nuxt/postcss8", 
+    "@nuxt/image",
+    "@nuxtjs/google-analytics"
+  ],
   vite: {
     /* options for vite */
     // ssr: true // enable unstable server-side rendering for development (false by default)
@@ -68,4 +72,9 @@ export default {
       },
     },
   },
+
+  //google anayltucs
+  googleAnalytics: {
+    id: 'G-Z5QBL0321X'
+  }
 };
