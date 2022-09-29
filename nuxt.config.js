@@ -21,7 +21,9 @@ export default {
   css: ["@/assets/css/main.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    "@/plugins/gtag"
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -29,8 +31,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     "@nuxt/postcss8", 
-    "@nuxt/image",
-    "@nuxtjs/google-analytics"
+    "@nuxt/image"
   ],
   vite: {
     /* options for vite */
@@ -71,10 +72,5 @@ export default {
         autoprefixer: {},
       },
     },
-  },
-
-  //google anayltucs
-  googleAnalytics: {
-    id: 'G-Z5QBL0321X'
   }
 };
