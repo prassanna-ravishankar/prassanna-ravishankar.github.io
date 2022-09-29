@@ -43,7 +43,12 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxt/content", "@nuxtjs/svg", "@nuxt/image"],
+  modules: [
+    "@nuxt/content", 
+    "@nuxtjs/svg", 
+    "@nuxt/image",
+    "@nuxtjs/sitemap"
+  ],
   svg: {
     vueSvgLoader: {
       // vue-svg-loader options
@@ -72,5 +77,10 @@ export default {
         autoprefixer: {},
       },
     },
+  },
+
+  sitemap: {
+    hostname: 'https://prassanna.io',
+    gzip: true,
   }
 };
