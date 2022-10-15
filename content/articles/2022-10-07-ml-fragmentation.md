@@ -37,7 +37,7 @@ There are many, many ML frameworks. Back in 2017 when I quit my PhD., there were
 
 Find more here:  [https://github.com/EthicalML/awesome-production-machine-learning#model-serving-and-monitoring](https://github.com/EthicalML/awesome-production-machine-learning#model-serving-and-monitoring)
 
-The ML landscape is constantly increasing as people are thinking of ML systems increasingly more than just ML modelling. Don’t mistake me - *it’s a good thing that we have so many ML frameworks.* It shows that the community is lively and always innovating. However, the downside of this is that every framework wants to invent its own experience for the user - which means new interfaces, constructs, and ways of doing things. 
+The ML landscape is constantly expanding as people are thinking of ML systems increasingly more than just ML modelling. Don’t mistake me - *it’s a good thing that we have so many ML frameworks.* It shows that the community is lively and always innovating. However, the downside of this is that every framework wants to invent its own experience for the user - which means new interfaces, constructs, and ways of doing things. 
 
 This issue (or feature) has existed in the javascript world for a while. A quick look at [https://dayssincelastjavascriptframework.com/](https://dayssincelastjavascriptframework.com/) will tell you that a new framework is being invented everyday. 
 
@@ -164,9 +164,9 @@ I’ve digressed. What these libraries end up doing is expose a machine learning
 
 ## It’s okay to be opinionated
 
-There are more problems with the ML ecosystem, but they aren’t relevant to my fundamental [rant](https://www.notion.so/Machine-Learning-ain-t-JavaScript-5d8f48935837489f8c684e620c9c8579). A lot of machine learning libraries aim to be general, support many use cases, and therefore sacrifice on user experience. 
+There are more problems with the ML ecosystem, but they aren’t relevant to my fundamental [rant](#rant). A lot of machine learning libraries aim to be general, support many use cases, and therefore sacrifice on user experience. 
 
-There is no one-size-fits-all in this universe, and as a result of poor design, many of these frameworks suffer from l[eaky abstraction](https://en.wikipedia.org/wiki/Leaky_abstraction). Alienating users is a good thing; it shows the power of being opinionated. As there is less focus on the horizontal breadth of the stack, there is more focus on the vertical depth of the stack, permitting more and more high level applications and constructs to be built on top. Supporting the entire breadth of the ML stack is hard since the ML space is constantly evolving - Yesterday’s [object detection problem](https://en.wikipedia.org/wiki/Object_detection) has turned into today’s  [diffusion problem](https://www.assemblyai.com/blog/diffusion-models-for-machine-learning-introduction/). 
+There is no one-size-fits-all in this universe, and as a result of poor design, many of these frameworks suffer from [leaky abstraction](https://en.wikipedia.org/wiki/Leaky_abstraction). Alienating users is a good thing; it shows the power of being opinionated. As there is less focus on the horizontal breadth of the stack, there is more focus on the vertical depth of the stack, permitting more and more high level applications and constructs to be built on top. Supporting the entire breadth of the ML stack is hard since the ML space is constantly evolving - Yesterday’s [object detection problem](https://en.wikipedia.org/wiki/Object_detection) has turned into today’s  [diffusion problem](https://www.assemblyai.com/blog/diffusion-models-for-machine-learning-introduction/). 
 
 The only realistic way we can deal with a rapidly evolving ecosystem is ***to be opinionated, build a vertical stack, learn from our mistakes, tear it down, re-build new abstractions and repeat***. However, if we keep waiting for “the perfect” abstraction, the stack doesn’t grow vertically and we never end up growing the solution space of real-world solutions.
 
@@ -197,8 +197,9 @@ So I had a plan of action. I new I wanted to plug into a training loop and “em
 
 So I decided to stick to the [pytorch ecosystem](https://pytorch.org/ecosystem/). I decided to keep things extremely simple, and write the least amount of code. So I identified standard libraries for my favourite ML problems. I used timm specifically because it gave me a very simple and standard way of accessing different models for image classification. This is what I meant earlier about ***fragmentation, the stack** and **being opinionated.***
 
-| Image Classification | pytorch-image-models (timm) |
+|     |     |
 | --- | --- |
+| Image Classification | pytorch-image-models (timm) |
 | Object Detection | detectron2 |
 | NLP | Huggingface |
 
