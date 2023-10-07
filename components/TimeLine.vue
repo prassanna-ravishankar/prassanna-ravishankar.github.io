@@ -7,6 +7,32 @@
           <img class="w-3 h-3 text-blue-600 dark:text-blue-400" src="~assets/icon/academy.svg" />
         </span>
         <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+          Machine Learning Platforms Team Lead
+          <span
+            class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">Currently</span>
+        </h3>
+        <h3 class="flex items-center mb-1 text-sm font-semibold text-gray-500 uppercase dark:text-white">
+          Papercup AI 
+        </h3>
+        <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">January 2023 - Now</time>
+        <p class="bg-gray-50 px-5 py-2 flex rounded-full text-gray-900 text-xs uppercase"> Skills: Python, Pytorch, Dask, Data analysis, Python packaging, AWS, Docker, Terraform, FastAPI</p>
+        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+        <ul>
+          <li> → Created the ML Platforms team and hired two team members, line managing and leading projects for the team.  </li>
+          <li> → Deployed collaborative experiment tracking with ClearML, \textbf{saving \$40k and growing}.</li>
+          <li> → Implemented a queue based process using ClearML to train models on the appropriate GPU generation, \textbf{reducing training time by 50\%}. </li>
+          <li> → Implemented a tool using GPT-4 and langchain to automate data generation to reduce the data acquisition time from \textbf{~4 months} to \textbf{~2 weeks}. </li>
+          <li> → Automated and productionised a \textbf{data preprocessing} workflow using Deepgram, GPT-4, Langchain, Temporal, FastAPI and Streamlit, allowing the asynchronous \textbf{system to serve 1000\% more workflows per day}. </li>
+          <li> → Led the team to implement a production pipeline solving the  end to end ML lifecycle, reducing \textbf{lead time by 50\%}.  Used Dagster, Airflow, ClearML and CI/CD pipelines.</li>
+        </ul>
+        </p>
+      </li>
+      <li class="mb-10 ml-6">
+        <span
+          class="flex absolute -left-3 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+          <img class="w-3 h-3 text-blue-600 dark:text-blue-400" src="~assets/icon/academy.svg" />
+        </span>
+        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
           Senior Machine Learning Engineer
           <span
             class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">Currently</span>
@@ -14,7 +40,7 @@
         <h3 class="flex items-center mb-1 text-sm font-semibold text-gray-500 uppercase dark:text-white">
           Zenith Ai (Acquired by Opentrons)
         </h3>
-        <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">October 2020 - Currently</time>
+        <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">October 2020 - January 2023</time>
         <p class="bg-gray-50 px-5 py-2 flex rounded-full text-gray-900 text-xs uppercase"> Skills: Python, Pytorch, Dask, Data analysis, Python packaging, AWS, Docker, Terraform, FastAPI</p>
         <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
         <ul>
