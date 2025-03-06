@@ -10,7 +10,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://prassanna-ravishankar.github.io',
+  site: 'https://prassanna.io',
   
   integrations: [
     tailwind(),
