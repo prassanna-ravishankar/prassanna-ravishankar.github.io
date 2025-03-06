@@ -1,8 +1,8 @@
 ---
 title: "Ambi-Alert"
-description: "A real-time ambient sound monitoring system that detects and alerts users to important environmental sounds"
+description: "A smart web monitoring tool that tracks websites and alerts you when relevant changes occur"
 pubDate: 2025-01-15
-tags: ["python", "audio processing", "machine learning", "accessibility", "IoT"]
+tags: ["python", "web monitoring", "AI", "automation", "notifications"]
 github: "https://github.com/prassanna-ravishankar/ambi-alert"
 image: "/images/projects/ambi-alert.png"
 link: "https://prassanna.io/ambi-alert/"
@@ -11,38 +11,45 @@ featured: true
 
 ## Features
 
-* 🎧 Real-time ambient sound monitoring
-* 🔔 Customizable alerts for specific sounds (doorbell, alarms, etc.)
-* 📱 Mobile notifications via companion app
-* 🧠 Machine learning-based sound classification
-* ⚡ Low-latency processing for immediate alerts
-* 🔋 Energy-efficient design for continuous operation
-* 🔒 Privacy-focused with on-device processing
+* 🔍 **Smart Query Expansion**: Automatically expands search queries to cover different aspects of your topic
+* 🌐 **Intelligent Web Monitoring**: Tracks relevant websites and detects meaningful changes
+* 🤖 **AI-Powered Relevance Checking**: Uses advanced language models to ensure changes are actually relevant to your interests
+* 📧 **Flexible Alerting System**: Supports email notifications with more backends coming soon
+* 💾 **Persistent Monitoring**: Uses SQLite to track monitored URLs and their states
+* 🔄 **Automatic Retries**: Handles temporary failures gracefully
 
 ## Overview
 
-Ambi-Alert is designed to help users stay aware of important sounds in their environment, particularly beneficial for those with hearing impairments or when wearing headphones. The system continuously monitors ambient sounds, identifies specific acoustic events, and delivers timely notifications.
+AmbiAlert is a powerful web monitoring tool that helps you stay informed about topics that matter to you. Instead of constantly checking websites for updates, AmbiAlert does the work for you by monitoring relevant web pages and alerting you when meaningful changes occur.
 
 ## Technical Details
 
-Ambi-Alert uses a combination of signal processing techniques and machine learning models to detect and classify sounds. The core system runs on a lightweight Python backend that can be deployed on various devices, from Raspberry Pi to desktop computers.
+AmbiAlert uses a combination of web scraping, natural language processing, and AI to monitor websites and detect relevant changes. The system is built on a Python backend that can be run as a service or used programmatically.
 
-The sound classification model is trained on a diverse dataset of environmental sounds and can be fine-tuned for specific use cases. All processing happens locally on the device, ensuring user privacy and reducing latency.
+The relevance checking is powered by advanced language models that understand the context of your queries and can determine if changes to a webpage are actually related to your interests.
 
 ```python
-from ambi_alert import AmbiMonitor
+from ambi_alert import AmbiAlert
+from ambi_alert.alerting import EmailAlertBackend
 
-# Initialize the monitor with custom sound profiles
-monitor = AmbiMonitor(
-    sound_profiles=["doorbell", "alarm", "baby_crying"],
-    notification_method="app"  # or "email", "sms"
+# Create an alert backend
+alert_backend = EmailAlertBackend(
+    smtp_server="smtp.gmail.com",
+    smtp_port=587,
+    username="your.email@gmail.com",
+    password="your-app-password",
+    from_email="your.email@gmail.com",
+    to_email="target.email@example.com"
 )
 
-# Start monitoring
-monitor.start()
+# Create AmbiAlert instance
+async with AmbiAlert(alert_backend=alert_backend) as ambi:
+    # Add queries to monitor
+    await ambi.add_monitoring_query("next iPhone release")
+    await ambi.add_monitoring_query("AI breakthrough")
 
-# The system will now run in the background,
-# alerting you when it detects specified sounds
+    # Start monitoring
+    await ambi.run_monitor()
 ```
 
-Ambi-Alert can be integrated with smart home systems and IoT devices for enhanced functionality, such as automatically turning on lights when a doorbell is detected or pausing media playback during important announcements. 
+AmbiAlert can be configured to check websites at different intervals and can be integrated with various notification systems. It's perfect for researchers, journalists, investors, or anyone who needs to stay updated on specific topics without constantly refreshing web pages. 
