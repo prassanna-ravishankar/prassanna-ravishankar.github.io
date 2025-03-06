@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://prassanna-ravishankar.github.io/sitemap-index.xml 

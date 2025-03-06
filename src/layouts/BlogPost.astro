@@ -1,0 +1,130 @@
+---
+import Layout from './Layout.astro';
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+type Props = {
+  entry: CollectionEntry<'blog'>;
+};
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Format date function
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+// Make Image component available to MDX content
+const components = { Image };
+---
+
+<Layout title={`${entry.data.title} | Prassanna Ravishankar`} description={entry.data.description} image={entry.data.heroImage}>
+  <article class="container mx-auto py-12">
+    <div class="max-w-3xl mx-auto">
+      <!-- Back to blog link -->
+      <a href="/blog" class="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to all posts
+      </a>
+      
+      <!-- Hero image if available -->
+      {entry.data.heroImage && (
+        <div class="mb-8">
+          <Image 
+            src={entry.data.heroImage} 
+            alt={entry.data.title}
+            width={1200}
+            height={630}
+            class="w-full h-auto rounded-lg shadow-md aspect-video object-cover"
+            loading="eager"
+          />
+        </div>
+      )}
+      
+      <!-- Post header -->
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">{entry.data.title}</h1>
+        
+        <div class="flex flex-wrap items-center text-gray-600 dark:text-gray-400 mb-4">
+          <time class="mr-4">
+            <span class="font-medium">Published:</span> {formatDate(entry.data.pubDate)}
+          </time>
+          
+          {entry.data.updatedDate && (
+            <time>
+              <span class="font-medium">Updated:</span> {formatDate(entry.data.updatedDate)}
+            </time>
+          )}
+        </div>
+        
+        {entry.data.tags && entry.data.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {entry.data.tags.map(tag => (
+              <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+      
+      <!-- Post content -->
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <Content components={components} />
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<script>
+  // Simple client-side script to enhance images
+  document.addEventListener('DOMContentLoaded', () => {
+    // Find all images in the blog content
+    const images = document.querySelectorAll('.prose img');
+    
+    images.forEach(img => {
+      // Create a figure element
+      const figure = document.createElement('figure');
+      figure.className = 'my-6';
+      
+      // Clone the image
+      const newImg = img.cloneNode(true);
+      
+      // Add width and height attributes if they don't exist
+      if (!newImg.hasAttribute('width')) {
+        newImg.setAttribute('width', '800');
+      }
+      
+      if (!newImg.hasAttribute('height')) {
+        newImg.setAttribute('height', '600');
+      }
+      
+      // Add loading="lazy" attribute
+      newImg.setAttribute('loading', 'lazy');
+      
+      // Add class for styling
+      newImg.className = 'w-full h-auto rounded-md';
+      
+      // Add the image to the figure
+      figure.appendChild(newImg);
+      
+      // Add figcaption if alt text exists
+      if (img.alt) {
+        const figcaption = document.createElement('figcaption');
+        figcaption.className = 'text-center text-sm text-gray-600 dark:text-gray-400 mt-2';
+        figcaption.textContent = img.alt;
+        figure.appendChild(figcaption);
+      }
+      
+      // Replace the original image with the figure
+      img.parentNode.replaceChild(figure, img);
+    });
+  });
+</script> 

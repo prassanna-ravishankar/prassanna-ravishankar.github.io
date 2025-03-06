@@ -1,0 +1,90 @@
+---
+import { formatDate } from '../utils';
+import { Image } from 'astro:assets';
+import PlatformIcon from './PlatformIcon.astro';
+
+interface Platform {
+  name: string;
+  url: string;
+  icon: string;
+  color: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  cohost?: string;
+  imageUrl?: string;
+  topics?: string[];
+  latestEpisode?: string;
+  platforms: Platform[];
+}
+
+const { title, description, cohost, imageUrl, topics, latestEpisode, platforms } = Astro.props;
+---
+
+<article class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="relative md:col-span-1">
+      {imageUrl ? (
+        <div class="aspect-square">
+          <Image 
+            src={imageUrl} 
+            alt={`Cover image for ${title}`}
+            width={400}
+            height={400}
+            class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none"
+          />
+        </div>
+      ) : (
+        <div class="aspect-square bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+          <span class="text-gray-500 dark:text-gray-400">No cover image</span>
+        </div>
+      )}
+    </div>
+    
+    <div class="p-4 md:col-span-2">
+      <h2 class="text-xl font-bold mb-2 line-clamp-2">{title}</h2>
+      
+      {latestEpisode && (
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Latest: {latestEpisode}</p>
+      )}
+      
+      <p class="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">{description}</p>
+      
+      {cohost && (
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Co-hosted with {cohost}</p>
+      )}
+      
+      {topics && topics.length > 0 && (
+        <div class="mb-4">
+          <p class="text-sm font-medium mb-2">Topics:</p>
+          <div class="flex flex-wrap gap-2">
+            {topics.map(topic => (
+              <span class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-xs">{topic}</span>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-2 md:mb-0">Available on:</p>
+        <div class="flex flex-wrap gap-2">
+          {platforms.map(platform => (
+            <a 
+              href={platform.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class={`${platform.color} text-white px-3 py-1 rounded-full transition-colors inline-flex items-center text-sm`}
+              aria-label={`Listen on ${platform.name}`}
+              title={`Listen on ${platform.name}`}
+            >
+              <PlatformIcon platform={platform.icon} />
+              {platform.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</article> 

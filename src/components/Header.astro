@@ -1,0 +1,77 @@
+---
+// Navigation links
+const navItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog' },
+  { name: 'Verses', url: '/verses' },
+  { name: 'Podcasts', url: '/podcasts' },
+  { name: 'Projects', url: '/projects' },
+  { name: 'About', url: '/about' },
+];
+
+// Get current path for highlighting active link
+const currentPath = Astro.url.pathname;
+---
+
+<header class="bg-white dark:bg-gray-900 shadow-sm">
+  <div class="container mx-auto py-4">
+    <nav class="flex items-center justify-between">
+      <a href="/" class="text-xl font-bold">Prassanna Ravishankar</a>
+      
+      <!-- Mobile menu button -->
+      <button id="menu-toggle" class="md:hidden p-2" aria-label="Toggle menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      
+      <!-- Desktop navigation -->
+      <div class="hidden md:flex space-x-6">
+        {navItems.map(item => (
+          <a 
+            href={item.url} 
+            class={`hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${
+              currentPath === item.url || 
+              (item.url !== '/' && currentPath.startsWith(item.url)) 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            {item.name}
+          </a>
+        ))}
+      </div>
+    </nav>
+    
+    <!-- Mobile navigation -->
+    <div id="mobile-menu" class="md:hidden hidden mt-4 pb-2">
+      <div class="flex flex-col space-y-3">
+        {navItems.map(item => (
+          <a 
+            href={item.url} 
+            class={`hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${
+              currentPath === item.url || 
+              (item.url !== '/' && currentPath.startsWith(item.url)) 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            {item.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+</script> 

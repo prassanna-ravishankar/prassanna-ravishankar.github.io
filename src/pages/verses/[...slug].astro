@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const verses = await getCollection('verses');
+  return verses.map(verse => ({
+    params: { slug: verse.slug },
+    props: { verse },
+  }));
+}
+
+const { verse } = Astro.props;
+const { Content } = await verse.render();
+---
+
+<Layout 
+  title={`${verse.data.title} | Verses | Prassanna Ravishankar`}
+  description={verse.data.description}
+>
+  <article class="container mx-auto py-12 px-4">
+    <div class="max-w-3xl mx-auto">
+      <header class="mb-12">
+        <h1 class="text-4xl font-bold mb-4">{verse.data.title}</h1>
+        {verse.data.description && (
+          <p class="text-xl text-gray-600 dark:text-gray-400 mb-4">
+            {verse.data.description}
+          </p>
+        )}
+        
+        <div class="flex flex-wrap gap-2 mb-4">
+          {verse.data.tags?.map(tag => (
+            <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs">
+              {tag}
+            </span>
+          ))}
+        </div>
+        
+        <div class="text-sm text-gray-500 dark:text-gray-400">
+          {new Date(verse.data.pubDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </div>
+      </header>
+
+      {verse.data.image && (
+        <div class="mb-8 rounded-lg overflow-hidden shadow-lg">
+          <img 
+            src={verse.data.image} 
+            alt={verse.data.title}
+            class="w-full h-auto"
+          />
+        </div>
+      )}
+
+      <div class="prose dark:prose-invert max-w-none">
+        <Content />
+      </div>
+      
+      <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <a 
+          href="/verses" 
+          class="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Verses
+        </a>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  /* Style poetry content */
+  .prose {
+    line-height: 1.8;
+  }
+  
+  .prose p {
+    margin-bottom: 1.5em;
+    white-space: pre-line;
+  }
+</style> 

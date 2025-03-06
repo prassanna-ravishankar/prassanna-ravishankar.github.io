@@ -1,0 +1,20 @@
+---
+import { Image } from 'astro:assets';
+
+const { src, alt = '', width = 800, height = 600, ...props } = Astro.props;
+
+// Handle both absolute and relative paths
+const imageSrc = src.startsWith('/') ? src : `/images/blog/${src}`;
+---
+
+<figure class="my-6">
+  <Image 
+    src={imageSrc} 
+    alt={alt} 
+    width={width}
+    height={height}
+    class="w-full h-auto rounded-md"
+    {...props}
+  />
+  {alt && <figcaption class="text-center text-sm text-gray-600 dark:text-gray-400 mt-2">{alt}</figcaption>}
+</figure> 

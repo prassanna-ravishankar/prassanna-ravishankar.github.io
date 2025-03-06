@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import PodcastCard from '../../components/PodcastCard.astro';
+import { podcasts } from '../../data/podcasts.js';
+---
+
+<Layout title="Podcasts | Prassanna Ravishankar" description="Podcasts hosted by Prassanna Ravishankar on technology, AI, and startups">
+  <div class="container mx-auto py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+      <header class="mb-12 text-center">
+        <h1 class="text-4xl font-bold mb-4">Podcasts</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400">Conversations about AI, technology, and the startup ecosystem</p>
+      </header>
+
+      <div class="space-y-12">
+        {podcasts.map(podcast => (
+          <PodcastCard
+            title={podcast.title}
+            description={podcast.description}
+            cohost={podcast.cohost}
+            imageUrl={podcast.imageUrl}
+            topics={podcast.topics}
+            latestEpisode={podcast.latestEpisode}
+            platforms={podcast.platforms}
+          />
+        ))}
+      </div>
+
+      <div class="mt-16 text-center">
+        <p class="text-gray-600 dark:text-gray-400 mb-8">
+          Interested in being a guest on one of my podcasts? Have a topic suggestion?
+        </p>
+        <a 
+          href="mailto:me@prassanna.io?subject=Podcast Inquiry" 
+          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md transition-colors inline-flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Get in Touch
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout> 

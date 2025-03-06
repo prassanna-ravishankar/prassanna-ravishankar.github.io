@@ -1,39 +1,47 @@
-# NuxtJs Tailwind Blog
+# Astro Starter Kit: Minimal
 
-This is a nuxtjs, Tailwind CSS blogging template. Its supported Markdown for blog
-![Drag Racing](thumbnail.png)
-
-# Examples/Demo
-
-- [Demo blog - This repo](https://nuxt-tailwind-blog.netlify.app)
-
-## Build Setup
-
-```bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
+```sh
+npm create astro@latest -- --template minimal
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
 
-<a href="https://www.buymeacoffee.com/mdrathik" target="_blank"
-    ><img
-      src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-      alt="Buy Me A Coffee"
-      style="height: 60px !important; width: 217px !important"
-  /></a>
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
+## 🚀 Project Structure
 
-Inspired from [timlrx](https://github.com/timlrx/tailwind-nextjs-starter-blog) nextJs Blog
-## Spacial Thanks to :
+Inside of your Astro project, you'll see the following folders and files:
 
-i made the design inspired from them.
-[ansango](https://github.com/ansango/resume) , [einargudni](https://www.einargudni.com/projects) , [leohuynh](https://www.leohuynh.dev)
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
 
-# Licence
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-This project can be modified, edited and whatever you want to do. But i wish that you would love to contribute
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+
+Any static assets, like images, can be placed in the `public/` directory.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
