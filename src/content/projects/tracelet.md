@@ -1,7 +1,7 @@
 ---
 title: "Tracelet"
 description: "An automagic PyTorch metric exporter that seamlessly integrates with popular experiment tracking tools"
-pubDate: 2024-03-01
+pubDate: 2024-12-13
 tags: ["python", "pytorch", "machine learning", "metrics", "mlops"]
 github: "https://github.com/prassanna-ravishankar/tracelet"
 image: "/images/projects/tracelet.png"
