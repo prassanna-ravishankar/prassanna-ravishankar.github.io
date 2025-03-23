@@ -84,7 +84,6 @@
         "title",
         "description",
         "pubDate",
-        "audioFile",
         "duration"
       ],
       "additionalProperties": false

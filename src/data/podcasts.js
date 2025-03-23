@@ -7,6 +7,7 @@ export const podcasts = [
     topics: ["AI", "Technology", "Future of Work", "Digital Innovation"],
     featured: true,
     latestEpisode: "SAAS isn't dead (Mar 03, 2025)",
+    slug: "feed-forward",
     platforms: [
       { 
         name: "Spotify", 
@@ -36,6 +37,7 @@ export const podcasts = [
     topics: ["Startups", "Entrepreneurship", "Business Growth", "Innovation"],
     featured: true,
     latestEpisode: "Season 2 EP 1 - Pivot (May 21, 2023)",
+    slug: "startup-rx",
     platforms: [
       { 
         name: "Spotify", 

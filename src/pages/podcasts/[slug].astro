@@ -3,71 +3,125 @@ import { getCollection, getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { formatDate } from '../../utils';
 import { Image } from 'astro:assets';
+import { podcasts } from '../../data/podcasts.js';
 
-// Generate static paths for all podcast episodes
+// Generate static paths for both podcast shows and episodes
 export async function getStaticPaths() {
-  const podcastEntries = await getCollection('podcasts');
-  return podcastEntries.map(entry => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
-}
+  // Get all podcast episodes
+  const allEpisodes = await getCollection('podcasts');
+  console.log('All episodes:', allEpisodes.map(e => e.id));
+  
+  const podcastShows = podcasts.filter(show => show.slug);
+  console.log('Shows with slugs:', podcastShows.map(s => s.slug));
+  
+  // Create paths for both shows and episodes
+  const paths = [];
+  
+  // Add paths for podcast shows
+  for (const show of podcastShows) {
+    // Filter episodes for this show by checking their directory path
+    const showEpisodes = allEpisodes.filter(episode => {
+      console.log(`Checking episode ${episode.id} for show ${show.slug}`);
+      return episode.id.startsWith(`${show.slug}/`);
+    }).sort(
+      (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
+    );
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+    console.log(`Found ${showEpisodes.length} episodes for ${show.slug}:`, showEpisodes.map(e => e.id));
 
-const { 
-  title, 
-  description, 
-  pubDate, 
-  audioFile, 
-  duration, 
-  episodeNumber, 
-  season, 
-  coverImage, 
-  externalLinks,
-  guests,
-  tags
-} = entry.data;
+    paths.push({
+      params: { slug: show.slug },
+      props: { 
+        type: 'show', 
+        show,
+        episodes: showEpisodes
+      },
+    });
 
-// Generate structured data for the podcast episode
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "PodcastEpisode",
-  "name": title,
-  "description": description,
-  "datePublished": pubDate,
-  "timeRequired": duration,
-  "episodeNumber": episodeNumber,
-  "partOfSeason": {
-    "@type": "PodcastSeason",
-    "seasonNumber": season
-  },
-  "partOfSeries": {
-    "@type": "PodcastSeries",
-    "name": "Prassanna Ravishankar's Podcast"
+    // Add paths for this show's episodes
+    for (const episode of showEpisodes) {
+      // Get just the episode name without the show prefix
+      const episodeSlug = episode.id.split('/')[1];
+      console.log(`Adding episode path for ${episodeSlug} from ${episode.id}`);
+      paths.push({
+        params: { slug: episodeSlug },
+        props: { 
+          type: 'episode', 
+          entry: episode,
+          show // Pass the show data to the episode page
+        },
+      });
+    }
   }
-};
-
-// Add guests to structured data if available
-if (guests && guests.length > 0) {
-  structuredData.contributor = guests.map(guest => ({
-    "@type": "Person",
-    "name": guest.name
-  }));
+  
+  console.log('Final paths:', paths.map(p => ({ slug: p.params.slug, type: p.props.type })));
+  return paths;
 }
 
-// Add audio file to structured data if available
-if (audioFile) {
-  structuredData.associatedMedia = {
-    "@type": "AudioObject",
-    "contentUrl": new URL(audioFile, Astro.site).toString()
+const { type, show, entry, episodes } = Astro.props;
+
+// For episode pages, get the rendered content and metadata
+let Content, structuredData;
+if (type === 'episode' && entry) {
+  const rendered = await entry.render();
+  Content = rendered.Content;
+  
+  const { 
+    title, 
+    description, 
+    pubDate, 
+    audioFile, 
+    duration, 
+    episodeNumber, 
+    season, 
+    coverImage, 
+    externalLinks,
+    guests,
+    tags
+  } = entry.data;
+
+  // Generate structured data for the podcast episode
+  structuredData = {
+    "@context": "https://schema.org",
+    "@type": "PodcastEpisode",
+    "name": title,
+    "description": description,
+    "datePublished": pubDate,
+    "timeRequired": duration,
+    "episodeNumber": episodeNumber,
+    "partOfSeason": {
+      "@type": "PodcastSeason",
+      "seasonNumber": season
+    },
+    "partOfSeries": {
+      "@type": "PodcastSeries",
+      "name": show.title
+    }
   };
+
+  // Add guests to structured data if available
+  if (guests && guests.length > 0) {
+    structuredData.contributor = guests.map(guest => ({
+      "@type": "Person",
+      "name": guest
+    }));
+  }
+
+  // Add audio file to structured data if available
+  if (audioFile) {
+    structuredData.associatedMedia = {
+      "@type": "AudioObject",
+      "contentUrl": new URL(audioFile, Astro.site).toString()
+    };
+  }
 }
 ---
 
-<Layout title={`${title} | Podcasts | Prassanna Ravishankar`} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+<Layout 
+  title={type === 'show' ? `${show.title} | Podcasts | Prassanna Ravishankar` : `${entry.data.title} | Podcasts | Prassanna Ravishankar`}
+  description={type === 'show' ? show.description : entry.data.description}
+>
+  {type === 'episode' && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
   
   <main class="container mx-auto px-4 py-8">
     <a href="/podcasts" class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 mb-6">
@@ -77,109 +131,230 @@ if (audioFile) {
       Back to all podcasts
     </a>
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-      <div class="md:flex">
-        <div class="md:w-1/3">
-          {coverImage ? (
-            <Image 
-              src={coverImage} 
-              alt={`Cover image for ${title}`}
-              width={600}
-              height={800}
-              class="w-full h-64 md:h-full object-cover"
-            />
-          ) : (
-            <div class="w-full h-64 md:h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-              <span class="text-gray-500 dark:text-gray-400">No cover image</span>
+    {type === 'show' ? (
+      <>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+            <div class="md:col-span-1">
+              {show.imageUrl ? (
+                <img 
+                  src={show.imageUrl} 
+                  alt={`Cover image for ${show.title}`}
+                  class="w-full rounded-lg shadow-md"
+                />
+              ) : (
+                <div class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <span class="text-gray-500 dark:text-gray-400">No cover image</span>
+                </div>
+              )}
             </div>
-          )}
+            
+            <div class="md:col-span-2">
+              <h1 class="text-3xl font-bold mb-4">{show.title}</h1>
+              <p class="text-gray-700 dark:text-gray-300 mb-6">{show.description}</p>
+              
+              {show.cohost && (
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Co-hosted with {show.cohost}
+                </p>
+              )}
+              
+              {show.topics && show.topics.length > 0 && (
+                <div class="mb-6">
+                  <h2 class="text-xl font-semibold mb-2">Topics</h2>
+                  <div class="flex flex-wrap gap-2">
+                    {show.topics.map(topic => (
+                      <span class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-sm">
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {show.platforms && show.platforms.length > 0 && (
+                <div>
+                  <h2 class="text-xl font-semibold mb-2">Listen on</h2>
+                  <div class="flex flex-wrap gap-2">
+                    {show.platforms.map(platform => (
+                      <a 
+                        href={platform.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class={`${platform.color} text-white px-3 py-1 rounded-full transition-colors inline-flex items-center text-sm`}
+                        aria-label={`Listen on ${platform.name}`}
+                        title={`Listen on ${platform.name}`}
+                      >
+                        <span class="mr-1">
+                          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d={platform.icon === 'spotify' ? 
+                              "M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" :
+                              platform.icon === 'youtube' ? 
+                              "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" :
+                              ""
+                            } />
+                          </svg>
+                        </span>
+                        {platform.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        
-        <div class="md:w-2/3 p-6">
-          <div class="flex flex-wrap items-center gap-2 mb-2">
-            {season && episodeNumber && (
-              <span class="bg-indigo-600 text-white text-xs font-bold px-2 py-1 rounded">
-                Season {season}, Episode {episodeNumber}
-              </span>
-            )}
-            
-            <span class="text-gray-600 dark:text-gray-400 text-sm">
-              {formatDate(pubDate)}
-            </span>
-            
-            {duration && (
-              <span class="text-gray-600 dark:text-gray-400 text-sm">
-                • {duration}
-              </span>
+
+        {/* Episodes Section */}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+          <div class="p-8">
+            <h2 class="text-2xl font-bold mb-6">Episodes</h2>
+            <div class="space-y-6">
+              {episodes?.map(episode => {
+                const episodeSlug = episode.id.split('/').slice(1).join('/');
+                return (
+                  <a 
+                    href={`/podcasts/${episodeSlug}`}
+                    class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  >
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                      {episode.data.season && episode.data.episodeNumber && (
+                        <span class="bg-indigo-600 text-white text-xs font-bold px-2 py-1 rounded">
+                          Season {episode.data.season}, Episode {episode.data.episodeNumber}
+                        </span>
+                      )}
+                      
+                      <span class="text-gray-600 dark:text-gray-400 text-sm">
+                        {formatDate(episode.data.pubDate)}
+                      </span>
+                      
+                      {episode.data.duration && (
+                        <span class="text-gray-600 dark:text-gray-400 text-sm">
+                          • {episode.data.duration}
+                        </span>
+                      )}
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                      {episode.data.title}
+                    </h3>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 line-clamp-2">
+                      {episode.data.description}
+                    </p>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+        <div class="md:flex">
+          <div class="md:w-1/3">
+            {entry.data.coverImage ? (
+              <Image 
+                src={entry.data.coverImage} 
+                alt={`Cover image for ${entry.data.title}`}
+                width={600}
+                height={800}
+                class="w-full h-64 md:h-full object-cover"
+              />
+            ) : (
+              <div class="w-full h-64 md:h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <span class="text-gray-500 dark:text-gray-400">No cover image</span>
+              </div>
             )}
           </div>
           
-          <h1 class="text-3xl font-bold mb-4">{title}</h1>
-          <p class="text-gray-700 dark:text-gray-300 mb-6">{description}</p>
-          
-          {audioFile && (
-            <div class="mb-6">
-              <h2 class="text-xl font-semibold mb-2">Listen</h2>
-              <audio controls class="w-full">
-                <source src={audioFile} type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
+          <div class="md:w-2/3 p-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              {entry.data.season && entry.data.episodeNumber && (
+                <span class="bg-indigo-600 text-white text-xs font-bold px-2 py-1 rounded">
+                  Season {entry.data.season}, Episode {entry.data.episodeNumber}
+                </span>
+              )}
+              
+              <span class="text-gray-600 dark:text-gray-400 text-sm">
+                {formatDate(entry.data.pubDate)}
+              </span>
+              
+              {entry.data.duration && (
+                <span class="text-gray-600 dark:text-gray-400 text-sm">
+                  • {entry.data.duration}
+                </span>
+              )}
             </div>
-          )}
-          
-          {externalLinks && externalLinks.length > 0 && (
-            <div class="mb-6">
-              <h2 class="text-xl font-semibold mb-2">Listen on</h2>
-              <div class="flex flex-wrap gap-2">
-                {externalLinks.map((link: { platform: string; url: string }) => (
-                  <a 
-                    href={link.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded transition-colors duration-200"
-                  >
-                    {link.platform}
-                  </a>
-                ))}
+            
+            <h1 class="text-3xl font-bold mb-4">{entry.data.title}</h1>
+            <p class="text-gray-700 dark:text-gray-300 mb-6">{entry.data.description}</p>
+            
+            {entry.data.audioFile && (
+              <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2">Listen</h2>
+                <audio controls class="w-full">
+                  <source src={entry.data.audioFile} type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
               </div>
-            </div>
-          )}
-          
-          {guests && guests.length > 0 && (
-            <div class="mb-6">
-              <h2 class="text-xl font-semibold mb-2">Guests</h2>
-              <ul class="space-y-2">
-                {guests.map((guest: { name: string; title: string; }) => (
-                  <li>
-                    <span class="font-medium">{guest.name}</span>
-                    {guest.title && <span class="text-gray-600 dark:text-gray-400"> • {guest.title}</span>}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          
-          {tags && tags.length > 0 && (
-            <div>
-              <h2 class="text-xl font-semibold mb-2">Topics</h2>
-              <div class="flex flex-wrap gap-2">
-                {tags.map((tag: string) => (
-                  <span class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-sm">
-                    {tag}
-                  </span>
-                ))}
+            )}
+            
+            {entry.data.externalLinks && Object.keys(entry.data.externalLinks).length > 0 && (
+              <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2">Listen on</h2>
+                <div class="flex flex-wrap gap-2">
+                  {Object.entries(entry.data.externalLinks).map(([platform, url]) => (
+                    <a 
+                      href={url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class={`${
+                        platform === 'spotify' ? 'bg-green-600 hover:bg-green-700' :
+                        platform === 'youtube' ? 'bg-red-600 hover:bg-red-700' :
+                        'bg-gray-600 hover:bg-gray-700'
+                      } text-white px-3 py-1 rounded-full transition-colors inline-flex items-center text-sm`}
+                    >
+                      {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+            
+            {entry.data.guests && entry.data.guests.length > 0 && (
+              <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2">Guests</h2>
+                <ul class="space-y-2">
+                  {entry.data.guests.map(guest => (
+                    <li class="text-gray-700 dark:text-gray-300">{guest}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {entry.data.tags && entry.data.tags.length > 0 && (
+              <div>
+                <h2 class="text-xl font-semibold mb-2">Topics</h2>
+                <div class="flex flex-wrap gap-2">
+                  {entry.data.tags.map(tag => (
+                    <span class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div class="p-6 border-t border-gray-200 dark:border-gray-700">
+          <h2 class="text-2xl font-bold mb-4">Show Notes</h2>
+          <div class="prose dark:prose-invert max-w-none">
+            <Content />
+          </div>
         </div>
       </div>
-      
-      <div class="p-6 border-t border-gray-200 dark:border-gray-700">
-        <h2 class="text-2xl font-bold mb-4">Show Notes</h2>
-        <div class="prose dark:prose-invert max-w-none">
-          <Content />
-        </div>
-      </div>
-    </div>
+    )}
   </main>
 </Layout> 

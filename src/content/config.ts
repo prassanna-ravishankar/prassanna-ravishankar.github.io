@@ -50,7 +50,7 @@ const podcastsCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.date(),
-    audioFile: z.string(),
+    audioFile: z.string().optional(),
     duration: z.string(),
     episodeNumber: z.number().optional(),
     season: z.number().optional(),
