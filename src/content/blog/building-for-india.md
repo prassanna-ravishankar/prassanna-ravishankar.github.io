@@ -8,8 +8,6 @@ author: "Prassanna Ravishankar"
 draft: false
 ---
 
-# Building Tech Products for India: A First-Principles Playbook
-
 India's tech landscape is like no other – a billion-strong, culturally rich market where cricket and cinema command daily life, and cutting-edge digital payments coexist with ancient traditions. Developing products here requires first-principles thinking: understanding fundamental local needs and behaviors rather than copying Western models. The following insights, backed by data and examples, explore how cultural, economic, and technological factors make India a uniquely challenging and rewarding market for innovation.
 
 ---
