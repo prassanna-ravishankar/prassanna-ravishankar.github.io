@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://prassanna-ravishankar.github.io/sitemap-index.xml 
+Sitemap: https://www.prassanna.io/sitemap-index.xml 
