@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import partytown from '@astrojs/partytown';
 // Temporarily comment out plugin imports
 // import { remarkImagePaths } from './src/plugins/remark-image-paths.mjs';
 // import { rehypeImageOptimizer } from './src/plugins/rehype-image-optimizer.mjs';
@@ -25,7 +26,12 @@ export default defineConfig({
     }), 
     sitemap({
       filter: (page) => !page.includes('/tags/')
-    })
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
   ],
   
   markdown: {
