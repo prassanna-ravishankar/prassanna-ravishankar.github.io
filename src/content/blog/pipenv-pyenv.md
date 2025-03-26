@@ -1,15 +1,12 @@
 ---
 title: "Pipenv and Pyenv - The Python Productivity Combo"
 description: "A guide to setting up a productive Python environment using Pipenv and Pyenv"
-pubDate: 2022-10-01
+pubDate: 2019-05-29
 heroImage: "/images/blog/python-deps.png"
 tags: ["Python", "Pipenv", "Pyenv", "Development", "Productivity"]
 author: "Prassanna Ravishankar"
 draft: false
 ---
-
-# Pyenv and pipenv for the perfect python environment
-
 
 ## Why?
 
