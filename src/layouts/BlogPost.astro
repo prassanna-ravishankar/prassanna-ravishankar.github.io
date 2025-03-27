@@ -2,6 +2,7 @@
 import Layout from './Layout.astro';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import NotionNav from '../components/NotionNav.astro';
 
 type Props = {
   entry: CollectionEntry<'blog'>;
@@ -75,6 +76,9 @@ const components = { Image };
         )}
       </header>
       
+      <!-- Navigation -->
+      <NotionNav />
+      
       <!-- Post content -->
       <div class="prose prose-lg dark:prose-invert max-w-none">
         <Content components={components} />
@@ -84,8 +88,25 @@ const components = { Image };
 </Layout>
 
 <script>
-  // Simple client-side script to enhance images
+  // Simple client-side script to enhance images and add IDs to headings
   document.addEventListener('DOMContentLoaded', () => {
+    // Add IDs to headings if they don't have them
+    const headings = document.querySelectorAll('.prose h2, .prose h3');
+    headings.forEach((heading, index) => {
+      if (!heading.id) {
+        const headingText = heading.textContent;
+        heading.id = headingText
+          .toLowerCase()
+          .replace(/[^\w\s]/g, '')
+          .replace(/\s+/g, '-');
+        
+        // Add a number if ID already exists
+        if (document.getElementById(heading.id) !== heading) {
+          heading.id = `${heading.id}-${index}`;
+        }
+      }
+    });
+    
     // Find all images in the blog content
     const images = document.querySelectorAll('.prose img');
     

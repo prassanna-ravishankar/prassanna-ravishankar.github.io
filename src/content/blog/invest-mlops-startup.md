@@ -1,9 +1,9 @@
 ---
 title: "When (and How) to Invest in MLOps at Your Startup"
 description: "A practical guide for startup founders on when and how to invest in MLOps - from early stage flexibility to scaling infrastructure, with key principles and pitfalls to avoid."
-pubDate: 2025-03-26
+pubDate: 2025-03-27
 heroImage: "/images/blog/invest-mlops/hero-image2.png"
-tags: ["MLOps", "Machine Learning", "Startups", "Infrastructure", "AI Engineering"]
+tags: ["MLOps", "Machine Learning", "Startups", "Infrastructure", "AI Engineering", "ML Engineering", "Model Deployment", "LLMOps", "ML Tooling", "Data Pipelines", "Observability", "Training Infrastructure", "AI in Startups", "Scaling ML Teams"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

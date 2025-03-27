@@ -1,0 +1,320 @@
+---
+// NotionNav.astro - A Notion-style header navigation component for blog posts
+---
+
+<div class="notion-nav-container">
+  <button 
+    class="nav-arrow nav-arrow-left" 
+    aria-label="Scroll left"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+    </svg>
+  </button>
+  
+  <nav class="notion-style-nav">
+    <!-- Headings will be added here by the client-side script -->
+  </nav>
+  
+  <button 
+    class="nav-arrow nav-arrow-right" 
+    aria-label="Scroll right"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+    </svg>
+  </button>
+</div>
+
+<style>
+  .notion-nav-container {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    background: white;
+    border-bottom: 1px solid #eaeaea;
+    padding: 12px 0;
+    z-index: 40;
+    margin-bottom: 32px;
+    max-width: 100%;
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  :global(.dark) .notion-nav-container {
+    background-color: rgba(26, 26, 26, 0.9);
+    border-bottom: 1px solid #333;
+  }
+
+  .notion-style-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scroll-behavior: smooth;
+    padding: 0 10px;
+    flex: 1;
+  }
+
+  .notion-style-nav::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  .nav-arrow {
+    background: white;
+    border: 1px solid #eaeaea;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.2s ease;
+    margin: 0 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+
+  :global(.dark) .nav-arrow {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+
+  .nav-arrow:hover {
+    background: #f5f5f5;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  :global(.dark) .nav-arrow:hover {
+    background: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  @media (max-width: 640px) {
+    .nav-arrow {
+      display: none;
+    }
+    
+    .notion-style-nav {
+      padding: 0 15px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Elements
+    const navContainer = document.querySelector('.notion-nav-container');
+    const nav = document.querySelector('.notion-style-nav');
+    const leftArrow = document.querySelector('.nav-arrow-left');
+    const rightArrow = document.querySelector('.nav-arrow-right');
+    
+    if (!nav || !leftArrow || !rightArrow) return;
+    
+    // Find all headings from the blog post content - only h2 and h3
+    const headingElements = Array.from(document.querySelectorAll('.prose h2, .prose h3'));
+    
+    if (headingElements.length === 0) {
+      // Hide the navigation if there are no headings
+      navContainer.style.display = 'none';
+      return;
+    }
+    
+    // Add IDs to headings if they don't have them
+    headingElements.forEach((heading, index) => {
+      if (!heading.id) {
+        const headingText = heading.textContent;
+        heading.id = headingText
+          .toLowerCase()
+          .replace(/[^\w\s]/g, '')
+          .replace(/\s+/g, '-');
+        
+        // Add a number if ID already exists
+        if (document.getElementById(heading.id) !== heading) {
+          heading.id = `${heading.id}-${index}`;
+        }
+      }
+    });
+    
+    // Create navigation links
+    headingElements.forEach(heading => {
+      const link = document.createElement('a');
+      link.href = `#${heading.id}`;
+      link.textContent = heading.textContent;
+      link.dataset.target = heading.id;
+      
+      // Add class for h3 (subheadings)
+      if (heading.tagName.toLowerCase() === 'h3') {
+        link.classList.add('subheading');
+      }
+      
+      nav.appendChild(link);
+      
+      // Add click event
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const targetElement = document.getElementById(heading.id);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          
+          // Update URL hash without jumping
+          history.pushState(null, null, `#${heading.id}`);
+        }
+      });
+    });
+    
+    // Arrow click events for scrolling
+    leftArrow.addEventListener('click', () => {
+      nav.scrollBy({ left: -250, behavior: 'smooth' });
+    });
+    
+    rightArrow.addEventListener('click', () => {
+      nav.scrollBy({ left: 250, behavior: 'smooth' });
+    });
+    
+    // Show/hide arrows based on scroll position
+    const updateArrows = () => {
+      if (nav.scrollLeft <= 10) {
+        leftArrow.classList.add('semi-transparent');
+      } else {
+        leftArrow.classList.remove('semi-transparent');
+      }
+      
+      if (nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 10) {
+        rightArrow.classList.add('semi-transparent');
+      } else {
+        rightArrow.classList.remove('semi-transparent');
+      }
+    };
+    
+    nav.addEventListener('scroll', updateArrows);
+    
+    // Update active link on scroll
+    const updateActiveLink = () => {
+      const scrollPosition = window.scrollY + 120; // offset for nav
+      
+      // Find the current heading based on scroll position
+      let currentHeading = null;
+      
+      for (let i = headingElements.length - 1; i >= 0; i--) {
+        const element = headingElements[i];
+        if (element.offsetTop <= scrollPosition) {
+          currentHeading = element;
+          break;
+        }
+      }
+      
+      // Remove active class from all links
+      const links = nav.querySelectorAll('a');
+      links.forEach(link => link.classList.remove('active'));
+      
+      // Add active class to current link
+      if (currentHeading) {
+        const activeLink = nav.querySelector(`a[data-target="${currentHeading.id}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+          
+          // Scroll active link into view if needed
+          const navRect = nav.getBoundingClientRect();
+          const linkRect = activeLink.getBoundingClientRect();
+          
+          if (linkRect.left < navRect.left || linkRect.right > navRect.right) {
+            activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+        }
+      }
+    };
+    
+    // Initial update and add scroll event listener
+    updateActiveLink();
+    updateArrows();
+    window.addEventListener('scroll', updateActiveLink);
+    
+    // Check if URL has a hash and scroll to that element
+    if (window.location.hash) {
+      const targetId = window.location.hash.substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        setTimeout(() => {
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }, 300);
+      }
+    }
+    
+    // Add styles for links
+    const style = document.createElement('style');
+    style.textContent = `
+      .notion-style-nav a {
+        padding: 6px 12px;
+        margin-right: 8px;
+        color: #555;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+      }
+      
+      .dark .notion-style-nav a {
+        color: #aaa;
+      }
+      
+      .notion-style-nav a:hover {
+        background: #f0f0f0;
+        color: #000;
+      }
+      
+      .dark .notion-style-nav a:hover {
+        background: #2a2a2a;
+        color: #fff;
+      }
+      
+      .notion-style-nav a.active {
+        background: #f0f0f0;
+        color: #000;
+        border: 1px solid #e0e0e0;
+        font-weight: 600;
+      }
+      
+      .dark .notion-style-nav a.active {
+        background: #2a2a2a;
+        color: #fff;
+        border: 1px solid #3a3a3a;
+      }
+      
+      .notion-style-nav a.subheading {
+        color: #777;
+        font-size: 13px;
+        font-weight: 400;
+        padding-left: 16px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: 6px center;
+        background-size: 8px;
+      }
+      
+      .dark .notion-style-nav a.subheading {
+        color: #888;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+      }
+      
+      .semi-transparent {
+        opacity: 0.5;
+      }
+    `;
+    document.head.appendChild(style);
+  });
+</script> 
