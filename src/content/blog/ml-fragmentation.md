@@ -8,8 +8,6 @@ author: "Prassanna Ravishankar"
 draft: false
 ---
 
-# Machine Learning ain't JavaScript!
-
 
 ## Rant
 

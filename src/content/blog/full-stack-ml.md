@@ -8,8 +8,6 @@ author: "Prassanna Ravishankar"
 draft: false
 ---
 
-# The Emergence of the full stack ML engineer
-
 ## A bit of history
 
 > In the beginning was code (nice [TED talk here](https://www.youtube.com/watch?v=T1Ogwa76yQo)).
