@@ -15,4 +15,38 @@
   .container {
     @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
   }
+
+  /* Style the details element itself as a box */
+  .prose details {
+    @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 my-5;
+  }
+
+  /* Style the summary (the clickable part) */
+  .prose summary {
+    @apply font-semibold cursor-pointer;
+  }
+
+  /* Ensure code inside details/summary looks correct within prose */
+  /* Override typography plugin vars specifically for code inside details */
+  .prose details code,
+  .prose summary code {
+    /* Set the CSS variables used by @tailwindcss/typography */
+    /* We set BOTH code-bg and pre-bg because the plugin seems to incorrectly use pre-bg here */
+    --tw-prose-code-bg: theme('colors.gray.100 / 90%');
+    --tw-prose-pre-bg: theme('colors.gray.100 / 90%'); /* Use inline code background */
+    --tw-prose-code: theme('colors.gray.800');
+    /* Add back essential visual styles if needed */
+    padding: 0.2em 0.4em;
+    border-radius: theme('borderRadius.md');
+    font-size: 0.875em;
+    font-weight: 500;
+  }
+
+  /* Dark mode override for code inside details */
+  .dark .prose details code,
+  .dark .prose summary code {
+    --tw-prose-code-bg: theme('colors.gray.700 / 50%');
+    --tw-prose-pre-bg: theme('colors.gray.700 / 50%'); /* Use inline code background */
+    --tw-prose-code: theme('colors.gray.100');
+  }
 }
