@@ -4,7 +4,7 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      typography: {
+      typography: (theme) => ({
         DEFAULT: {
           css: {
             'code::before': {
@@ -15,7 +15,7 @@ export default {
             },
             code: {
               fontWeight: '400',
-              backgroundColor: 'var(--tw-prose-pre-bg)',
+              backgroundColor: theme('colors.gray.100'),
               paddingLeft: '0.25rem',
               paddingRight: '0.25rem',
               paddingTop: '0.125rem',
@@ -24,7 +24,7 @@ export default {
             },
           },
         },
-      },
+      }),
     },
   },
   plugins: [
