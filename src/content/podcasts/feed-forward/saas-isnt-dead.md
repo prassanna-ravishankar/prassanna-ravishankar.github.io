@@ -5,7 +5,7 @@ pubDate: 2025-03-03
 duration: "01:07:44"
 episodeNumber: 9
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://open.spotify.com/episode/1tFuH7A2lESeTXEoyvP4dM"
   youtube: "https://www.youtube.com/watch?v=Hs_0Jz0AHZQ"

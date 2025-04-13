@@ -5,7 +5,7 @@ pubDate: 2025-01-27
 duration: "01:05:22"
 episodeNumber: 6
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://open.spotify.com/episode/6NJAF1tI3IewAuoYGF42tP"
   youtube: "https://www.youtube.com/watch?v=Hs_0Jz0AHZQ"

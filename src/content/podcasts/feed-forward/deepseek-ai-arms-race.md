@@ -5,7 +5,7 @@ pubDate: 2025-02-05
 duration: "01:30:45"
 episodeNumber: 7
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://open.spotify.com/episode/7eli5ZDZiMRkNCSAqebNQL"
   youtube: "https://www.youtube.com/watch?v=Hs_0Jz0AHZQ"

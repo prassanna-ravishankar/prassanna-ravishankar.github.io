@@ -5,7 +5,7 @@ pubDate: 2024-11-04
 duration: "01:06:08"
 episodeNumber: 1
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://creators.spotify.com/pod/show/feed-forward-space/"
 tags: ["call centers", "customer support", "AI", "automation", "customer service", "chatbots", "predictive support"]

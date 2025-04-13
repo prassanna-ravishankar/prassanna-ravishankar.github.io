@@ -5,7 +5,7 @@ pubDate: 2024-11-25
 duration: "01:32:41"
 episodeNumber: 4
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://creators.spotify.com/pod/show/feed-forward-space/"
 tags: ["AI", "LLMs", "productivity", "agentic AI", "workflows", "ChatGPT", "Claude"]

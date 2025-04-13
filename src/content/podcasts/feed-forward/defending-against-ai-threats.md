@@ -5,7 +5,7 @@ pubDate: 2024-11-18
 duration: "42:52"
 episodeNumber: 3
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://creators.spotify.com/pod/show/feed-forward-space/"
 tags: ["AI security", "cybersecurity", "honeypots", "zero-trust", "watermarking", "open-source", "security"]

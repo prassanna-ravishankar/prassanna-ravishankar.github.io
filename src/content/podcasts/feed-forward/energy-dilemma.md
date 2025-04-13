@@ -5,7 +5,7 @@ pubDate: 2024-12-11
 duration: "01:03:08"
 episodeNumber: 5
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://open.spotify.com/episode/5NXgaXcZ1vsCb1z4ybaUru"
   youtube: "https://www.youtube.com/watch?v=Hs_0Jz0AHZQ"

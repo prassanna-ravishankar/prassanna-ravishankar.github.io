@@ -5,7 +5,7 @@ pubDate: 2025-03-21
 duration: "01:08:14"
 episodeNumber: 10
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://open.spotify.com/episode/10tEpd3CIi9vx3L7kDF9FK"
   youtube: "https://www.youtube.com/watch?v=Hs_0Jz0AHZQ"

@@ -5,7 +5,7 @@ pubDate: 2024-11-11
 duration: "48:01"
 episodeNumber: 2
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://creators.spotify.com/pod/show/feed-forward-space/"
 tags: ["AI", "cybersecurity", "social engineering", "elections", "deepfakes", "digital security", "privacy"]

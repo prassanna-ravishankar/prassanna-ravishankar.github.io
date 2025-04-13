@@ -5,7 +5,7 @@ pubDate: 2025-02-16
 duration: "54:55"
 episodeNumber: 8
 season: 1
-coverImage: "/images/podcasts/placeholder.svg"
+coverImage: "/images/podcasts/feed-forward.jpeg"
 externalLinks:
   spotify: "https://open.spotify.com/episode/44rKjYOGrwV2YZYnmQMmPy"
   youtube: "https://www.youtube.com/watch?v=Hs_0Jz0AHZQ"
