@@ -49,4 +49,30 @@
     --tw-prose-pre-bg: theme('colors.gray.700 / 50%'); /* Use inline code background */
     --tw-prose-code: theme('colors.gray.100');
   }
+
+  /* Custom styles for "Imagine..." / "What if..." callouts */
+  .prose blockquote,
+  .prose-invert blockquote {
+    @apply bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 dark:border-blue-400 px-4 py-3 my-6 rounded-r-md shadow-sm;
+  }
+
+  .prose blockquote p:first-of-type::before,
+  .prose-invert blockquote p:first-of-type::before {
+    @apply content-none; /* Remove default quote styling from prose plugin */
+  }
+
+  .prose blockquote p:last-of-type::after,
+  .prose-invert blockquote p:last-of-type::after {
+    @apply content-none; /* Remove default quote styling from prose plugin */
+  }
+
+  .prose blockquote strong em,
+  .prose-invert blockquote strong em {
+    @apply text-blue-700 dark:text-blue-300 not-italic font-semibold;
+  }
+
+  .prose blockquote p,
+  .prose-invert blockquote p {
+    @apply text-base;
+  }
 }
