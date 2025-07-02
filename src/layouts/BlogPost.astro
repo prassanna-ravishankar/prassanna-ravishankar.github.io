@@ -22,9 +22,15 @@ const formatDate = (date: Date) => {
 
 // Make Image component available to MDX content
 const components = { Image };
+
+// Ensure canonical URL for blog posts
+const canonicalURL = `https://prassanna.io/blog/${entry.slug}/`;
 ---
 
 <Layout title={`${entry.data.title} | Prassanna Ravishankar`} description={entry.data.description} image={entry.data.heroImage}>
+  <!-- Additional canonical for blog posts -->
+  <link slot="head" rel="canonical" href={canonicalURL} />
+  
   <article class="container mx-auto py-12">
     <div class="max-w-3xl mx-auto">
       <!-- Back to blog link -->

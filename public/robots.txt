@@ -4,4 +4,14 @@ Allow: /
 # Block crawling of .md extension URLs
 Disallow: /*.md
 
-Sitemap: https://www.prassanna.io/sitemap-index.xml 
+# Block old date-based blog URL patterns
+Disallow: /blog/????-??-??*
+
+# Block old project links that don't exist
+Disallow: /ambi-alert
+Disallow: /~partytown/
+
+# Block query parameter URLs
+Disallow: /*?cat=*
+
+Sitemap: https://prassanna.io/sitemap-index.xml 

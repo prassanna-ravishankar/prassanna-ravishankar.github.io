@@ -11,7 +11,7 @@ import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.prassanna.io',
+  site: 'https://prassanna.io',
   
   integrations: [
     tailwind(),
@@ -25,14 +25,25 @@ export default defineConfig({
       optimize: true,
     }), 
     sitemap({
-      filter: (page) => !page.includes('/tags/'),
+      filter: (page) => {
+        // Exclude URLs with query parameters
+        if (page.includes('?')) return false;
+        // Exclude old date-based patterns
+        if (page.match(/\/blog\/\d{4}-\d{2}-\d{2}-/)) return false;
+        // Exclude redirect pages
+        if (page.includes('redirect') || page.includes('/ambi-alert/')) return false;
+        // Exclude non-existent podcast episodes
+        if (page.includes('/podcasts/ml-engineering-challenges') || 
+            page.includes('/podcasts/deep-learning-frameworks')) return false;
+        // Exclude other problematic patterns
+        if (page.includes('~partytown')) return false;
+        return true;
+      },
       customPages: [
-        'https://www.prassanna.io/',
-        'https://www.prassanna.io/about/',
-        'https://www.prassanna.io/blog/',
-        'https://www.prassanna.io/podcasts/',
-        'https://www.prassanna.io/projects/',
-        'https://www.prassanna.io/verses/'
+        'https://prassanna.io/blog/',
+        'https://prassanna.io/podcasts/',
+        'https://prassanna.io/projects/',
+        'https://prassanna.io/verses/',
       ]
     }),
     partytown({

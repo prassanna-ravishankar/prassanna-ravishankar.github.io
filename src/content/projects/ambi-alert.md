@@ -1,12 +1,13 @@
 ---
 title: "Ambi-Alert"
 description: "A smart web monitoring tool that tracks websites and alerts you when relevant changes occur"
-pubDate: 2025-01-15
-tags: ["python", "web monitoring", "AI", "automation", "notifications"]
-github: "https://github.com/prassanna-ravishankar/ambi-alert"
-image: "/images/projects/ambi-alert.png"
-link: "https://prassanna.io/ambi-alert/"
 featured: true
+image: "/images/projects/ambi-alert.png"
+github: "https://github.com/prassanna-ravishankar/ambi-alert"
+link: "/projects/ambi-alert/"
+tags: ["python", "web monitoring", "AI", "automation", "notifications"]
+pubDate: 2025-01-15
+draft: false
 ---
 
 ## Features

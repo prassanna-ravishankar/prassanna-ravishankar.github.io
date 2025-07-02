@@ -14,6 +14,9 @@ const {
   description = "Prassanna Ravishankar's personal website - ML Engineer, Researcher, and Poetry Enthusiast", 
   image = "/images/profile.jpg" 
 } = Astro.props;
+
+// Ensure canonical URL always uses prassanna.io (non-www)
+const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toString();
 ---
 
 <!DOCTYPE html>
@@ -25,16 +28,19 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.url)} />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
