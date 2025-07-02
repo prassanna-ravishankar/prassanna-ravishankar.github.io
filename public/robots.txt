@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Block crawling of .md extension URLs
+Disallow: /*.md
+
 Sitemap: https://www.prassanna.io/sitemap-index.xml 

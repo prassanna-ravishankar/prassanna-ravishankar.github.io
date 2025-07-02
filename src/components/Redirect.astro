@@ -1,9 +1,13 @@
 ---
-interface Props {
+export interface Props {
   to: string;
 }
 
 const { to } = Astro.props;
+
+// Set proper redirect headers
+Astro.response.status = 301;
+Astro.response.headers.set('Location', to);
 ---
 
 <!DOCTYPE html>
@@ -15,9 +19,6 @@ const { to } = Astro.props;
     <link rel="canonical" href={to}>
   </head>
   <body>
-    <p>Redirecting to <a href={to}>{to}</a>...</p>
-    <script>
-      window.location.href = '{to}';
-    </script>
+    <p>If you are not redirected automatically, <a href={to}>click here</a>.</p>
   </body>
 </html> 

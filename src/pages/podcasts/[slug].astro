@@ -40,8 +40,8 @@ export async function getStaticPaths() {
 
     // Add paths for this show's episodes
     for (const episode of showEpisodes) {
-      // Get just the episode name without the show prefix
-      const episodeSlug = episode.id.split('/')[1];
+      // Get just the episode name without the show prefix and remove .md extension
+      const episodeSlug = episode.id.split('/')[1].replace(/\.md$/, '');
       console.log(`Adding episode path for ${episodeSlug} from ${episode.id}`);
       paths.push({
         params: { slug: episodeSlug },
@@ -211,7 +211,7 @@ if (type === 'episode' && entry) {
             <h2 class="text-2xl font-bold mb-6">Episodes</h2>
             <div class="space-y-6">
               {episodes?.map(episode => {
-                const episodeSlug = episode.id.split('/').slice(1).join('/');
+                const episodeSlug = episode.id.split('/').slice(1).join('/').replace(/\.md$/, '');
                 return (
                   <a 
                     href={`/podcasts/${episodeSlug}`}

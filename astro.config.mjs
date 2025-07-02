@@ -25,7 +25,15 @@ export default defineConfig({
       optimize: true,
     }), 
     sitemap({
-      filter: (page) => !page.includes('/tags/')
+      filter: (page) => !page.includes('/tags/'),
+      customPages: [
+        'https://www.prassanna.io/',
+        'https://www.prassanna.io/about/',
+        'https://www.prassanna.io/blog/',
+        'https://www.prassanna.io/podcasts/',
+        'https://www.prassanna.io/projects/',
+        'https://www.prassanna.io/verses/'
+      ]
     }),
     partytown({
       config: {
