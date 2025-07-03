@@ -7,16 +7,76 @@ export interface Props {
   title: string;
   description?: string;
   image?: string;
+  article?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  tags?: string[];
+  author?: string;
 }
 
 const { 
   title, 
   description = "Prassanna Ravishankar's personal website - ML Engineer, Researcher, and Poetry Enthusiast", 
-  image = "/images/profile.jpg" 
+  image = "/images/profile.jpg",
+  article = false,
+  publishedTime,
+  modifiedTime,
+  tags = [],
+  author = "Prassanna Ravishankar"
 } = Astro.props;
 
 // Ensure canonical URL always uses prassanna.io (non-www)
 const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toString();
+
+// Generate structured data for website
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Prassanna Ravishankar",
+  "description": "ML Engineer, Researcher, and Poetry Enthusiast",
+  "url": "https://prassanna.io",
+  "author": {
+    "@type": "Person",
+    "name": "Prassanna Ravishankar",
+    "url": "https://prassanna.io",
+    "sameAs": [
+      "https://github.com/prassanna-ravishankar",
+      "https://linkedin.com/in/prassanna-ravishankar",
+      "https://x.com/thenomadiccoder"
+    ]
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://prassanna.io/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// Generate article schema if this is an article
+const articleSchema = article ? {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "image": new URL(image, Astro.url).toString(),
+  "datePublished": publishedTime,
+  "dateModified": modifiedTime || publishedTime,
+  "author": {
+    "@type": "Person",
+    "name": author,
+    "url": "https://prassanna.io"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Prassanna Ravishankar",
+    "url": "https://prassanna.io"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalURL
+  },
+  "keywords": tags.join(", ")
+} : null;
 ---
 
 <!DOCTYPE html>
@@ -24,6 +84,14 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toStrin
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content={author} />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/favicon.svg" as="image" />
+    <link rel="preload" href="/images/profile.jpg" as="image" />
+    
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -32,11 +100,18 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toStrin
     <link rel="canonical" href={canonicalURL} />
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:site_name" content="Prassanna Ravishankar" />
+    <meta property="og:locale" content="en_US" />
+    
+    {article && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {article && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {article && tags.length > 0 && tags.map(tag => <meta property="article:tag" content={tag} />)}
+    {article && <meta property="article:author" content={author} />}
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -44,6 +119,20 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toStrin
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta property="twitter:site" content="@thenomadiccoder" />
+    <meta property="twitter:creator" content="@thenomadiccoder" />
+
+    <!-- Additional SEO meta tags -->
+    <meta name="language" content="en" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="general" />
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Prassanna Ravishankar - Blog" href="/rss.xml" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
 
     <!-- Google Analytics -->
     <script
@@ -61,6 +150,9 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toStrin
         cookie_flags: 'SameSite=None;Secure'
       });
     </script>
+    
+    <!-- Allow additional head content -->
+    <slot name="head" />
   </head>
   <body>
     <div class="flex flex-col min-h-screen">

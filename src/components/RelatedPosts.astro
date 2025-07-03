@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  currentPost: CollectionEntry<'blog'>;
+  limit?: number;
+}
+
+const { currentPost, limit = 3 } = Astro.props;
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Filter out current post
+const otherPosts = allPosts.filter(post => post.slug !== currentPost.slug);
+
+// Calculate similarity based on shared tags
+const getRelatedPosts = (current: CollectionEntry<'blog'>, posts: CollectionEntry<'blog'>[], maxResults: number) => {
+  const currentTags = new Set(current.data.tags || []);
+  
+  if (currentTags.size === 0) {
+    // If no tags, return most recent posts
+    return posts
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .slice(0, maxResults);
+  }
+  
+  // Score posts based on tag overlap
+  const scoredPosts = posts.map(post => {
+    const postTags = new Set(post.data.tags || []);
+    const sharedTags = new Set([...currentTags].filter(tag => postTags.has(tag)));
+    const score = sharedTags.size;
+    
+    return {
+      post,
+      score,
+      sharedTags: Array.from(sharedTags)
+    };
+  });
+  
+  // Sort by score (descending) then by date (descending)
+  scoredPosts.sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf();
+  });
+  
+  return scoredPosts.slice(0, maxResults);
+};
+
+const relatedPosts = getRelatedPosts(currentPost, otherPosts, limit);
+
+// Format date function
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+---
+
+{relatedPosts.length > 0 && (
+  <section class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+    <h2 class="text-2xl font-bold mb-6">Related Posts</h2>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {relatedPosts.map(({ post, sharedTags }) => (
+        <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="p-6">
+            <h3 class="font-semibold text-lg mb-2">
+              <a 
+                href={`/blog/${post.slug}/`}
+                class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                {post.data.title}
+              </a>
+            </h3>
+            
+            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-3">
+              {post.data.description}
+            </p>
+            
+            <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+              <time>{formatDate(post.data.pubDate)}</time>
+              
+              {sharedTags.length > 0 && (
+                <div class="flex flex-wrap gap-1">
+                  {sharedTags.slice(0, 2).map(tag => (
+                    <span class="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-full text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                  {sharedTags.length > 2 && (
+                    <span class="text-xs text-gray-400">
+                      +{sharedTags.length - 2}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style> 
