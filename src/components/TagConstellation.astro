@@ -1,0 +1,763 @@
+---
+export interface Props {
+  tags: Array<{
+    name: string;
+    count: number;
+    posts: Array<{
+      title: string;
+      url: string;
+      description: string;
+    }>;
+  }>;
+}
+
+const { tags } = Astro.props;
+---
+
+<div class="tag-constellation-container">
+  <div class="constellation-header">
+    <h3 class="constellation-title">Knowledge Constellation</h3>
+    <p class="constellation-subtitle">Explore interconnected topics and discover new insights</p>
+  </div>
+  
+  <div class="constellation-wrapper">
+    <canvas id="constellation-canvas" width="800" height="600"></canvas>
+    
+    <div class="constellation-controls">
+      <button id="reset-view" class="control-btn">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Reset View
+      </button>
+      
+      <button id="toggle-connections" class="control-btn">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+        </svg>
+        Toggle Links
+      </button>
+      
+      <div class="search-container">
+        <input 
+          id="tag-search" 
+          type="text" 
+          placeholder="Search tags..."
+          class="search-input"
+        />
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  
+  <div id="tag-info-panel" class="info-panel hidden">
+    <div class="info-header">
+      <h4 id="selected-tag-name"></h4>
+      <button id="close-panel" class="close-btn">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="info-content">
+      <div class="tag-stats">
+        <span id="tag-post-count" class="stat-badge"></span>
+        <span id="tag-connections" class="stat-badge"></span>
+      </div>
+      <div id="related-posts" class="related-posts"></div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ tags }}>
+  class TagConstellation {
+    constructor(canvas, tagsData) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.tagsData = tagsData;
+      this.nodes = [];
+      this.connections = [];
+      this.selectedNode = null;
+      this.hoveredNode = null;
+      this.showConnections = true;
+      this.searchTerm = '';
+      
+      this.centerX = canvas.width / 2;
+      this.centerY = canvas.height / 2;
+      this.animationId = null;
+      
+      this.colors = {
+        primary: '#3b82f6',
+        secondary: '#10b981',
+        accent: '#f59e0b',
+        danger: '#ef4444',
+        background: '#f8fafc',
+        text: '#1f2937',
+        connection: '#e5e7eb'
+      };
+      
+      this.init();
+    }
+    
+    init() {
+      this.createNodes();
+      this.createConnections();
+      this.setupEventListeners();
+      this.animate();
+      
+      // Handle dark mode
+      this.updateColors();
+    }
+    
+    updateColors() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        this.colors.background = '#1f2937';
+        this.colors.text = '#f9fafb';
+        this.colors.connection = '#374151';
+      }
+    }
+    
+    createNodes() {
+      this.nodes = this.tagsData.map((tag, index) => {
+        const angle = (index / this.tagsData.length) * Math.PI * 2;
+        const radius = Math.min(this.canvas.width, this.canvas.height) * 0.3;
+        
+        // Size based on post count
+        const maxCount = Math.max(...this.tagsData.map(t => t.count));
+        const normalizedSize = (tag.count / maxCount) * 30 + 10;
+        
+        return {
+          id: index,
+          name: tag.name,
+          count: tag.count,
+          posts: tag.posts,
+          x: this.centerX + Math.cos(angle) * radius + (Math.random() - 0.5) * 100,
+          y: this.centerY + Math.sin(angle) * radius + (Math.random() - 0.5) * 100,
+          targetX: this.centerX + Math.cos(angle) * radius,
+          targetY: this.centerY + Math.sin(angle) * radius,
+          vx: 0,
+          vy: 0,
+          radius: normalizedSize,
+          color: this.getTagColor(tag.name),
+          visible: true,
+          alpha: 1
+        };
+      });
+    }
+    
+    createConnections() {
+      this.connections = [];
+      
+      for (let i = 0; i < this.nodes.length; i++) {
+        for (let j = i + 1; j < this.nodes.length; j++) {
+          const node1 = this.nodes[i];
+          const node2 = this.nodes[j];
+          
+          // Calculate relationship strength based on shared words or semantic similarity
+          const strength = this.calculateRelationship(node1.name, node2.name);
+          
+          if (strength > 0.3) {
+            this.connections.push({
+              node1: node1,
+              node2: node2,
+              strength: strength,
+              visible: true
+            });
+          }
+        }
+      }
+    }
+    
+    calculateRelationship(tag1, tag2) {
+      // Simple semantic relationship calculation
+      const commonWords = ['AI', 'ML', 'Machine', 'Learning', 'Agent', 'Infrastructure', 'Web', 'API'];
+      const tech1Words = tag1.toLowerCase().split(/[\s-_]/);
+      const tech2Words = tag2.toLowerCase().split(/[\s-_]/);
+      
+      let score = 0;
+      
+      // Check for common words
+      commonWords.forEach(word => {
+        if (tech1Words.some(w => w.includes(word.toLowerCase())) && 
+            tech2Words.some(w => w.includes(word.toLowerCase()))) {
+          score += 0.5;
+        }
+      });
+      
+      // Check for direct word overlap
+      tech1Words.forEach(word1 => {
+        tech2Words.forEach(word2 => {
+          if (word1 === word2 && word1.length > 2) {
+            score += 0.3;
+          }
+        });
+      });
+      
+      return Math.min(score, 1);
+    }
+    
+    getTagColor(tagName) {
+      const colors = [
+        '#3b82f6', '#10b981', '#f59e0b', '#ef4444', 
+        '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'
+      ];
+      
+      // Simple hash to assign consistent colors
+      let hash = 0;
+      for (let i = 0; i < tagName.length; i++) {
+        hash = tagName.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      
+      return colors[Math.abs(hash) % colors.length];
+    }
+    
+    animate() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      // Update physics
+      this.updatePhysics();
+      
+      // Draw connections
+      if (this.showConnections) {
+        this.drawConnections();
+      }
+      
+      // Draw nodes
+      this.drawNodes();
+      
+      // Draw labels
+      this.drawLabels();
+      
+      this.animationId = requestAnimationFrame(() => this.animate());
+    }
+    
+    updatePhysics() {
+      this.nodes.forEach(node => {
+        if (!node.visible) return;
+        
+        // Apply forces
+        let fx = 0, fy = 0;
+        
+        // Attraction to target position
+        fx += (node.targetX - node.x) * 0.01;
+        fy += (node.targetY - node.y) * 0.01;
+        
+        // Repulsion from other nodes
+        this.nodes.forEach(other => {
+          if (other === node || !other.visible) return;
+          
+          const dx = node.x - other.x;
+          const dy = node.y - other.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 100) {
+            const force = (100 - distance) / 100 * 2;
+            fx += (dx / distance) * force;
+            fy += (dy / distance) * force;
+          }
+        });
+        
+        // Update velocity and position
+        node.vx += fx;
+        node.vy += fy;
+        node.vx *= 0.9; // Damping
+        node.vy *= 0.9;
+        
+        node.x += node.vx;
+        node.y += node.vy;
+        
+        // Keep nodes within bounds
+        const margin = node.radius;
+        node.x = Math.max(margin, Math.min(this.canvas.width - margin, node.x));
+        node.y = Math.max(margin, Math.min(this.canvas.height - margin, node.y));
+      });
+    }
+    
+    drawConnections() {
+      this.connections.forEach(conn => {
+        if (!conn.visible || !conn.node1.visible || !conn.node2.visible) return;
+        
+        const alpha = conn.strength * 0.3;
+        const highlighted = this.selectedNode === conn.node1 || this.selectedNode === conn.node2;
+        
+        this.ctx.beginPath();
+        this.ctx.moveTo(conn.node1.x, conn.node1.y);
+        this.ctx.lineTo(conn.node2.x, conn.node2.y);
+        this.ctx.strokeStyle = highlighted ? 
+          `rgba(59, 130, 246, ${alpha * 2})` : 
+          `rgba(156, 163, 175, ${alpha})`;
+        this.ctx.lineWidth = highlighted ? 2 : 1;
+        this.ctx.stroke();
+      });
+    }
+    
+    drawNodes() {
+      this.nodes.forEach(node => {
+        if (!node.visible) return;
+        
+        const isSelected = this.selectedNode === node;
+        const isHovered = this.hoveredNode === node;
+        const scale = isSelected ? 1.3 : (isHovered ? 1.1 : 1);
+        
+        // Draw glow for selected/hovered
+        if (isSelected || isHovered) {
+          this.ctx.beginPath();
+          this.ctx.arc(node.x, node.y, node.radius * scale * 1.5, 0, Math.PI * 2);
+          this.ctx.fillStyle = `${node.color}20`;
+          this.ctx.fill();
+        }
+        
+        // Draw main node
+        this.ctx.beginPath();
+        this.ctx.arc(node.x, node.y, node.radius * scale, 0, Math.PI * 2);
+        this.ctx.fillStyle = node.color;
+        this.ctx.fill();
+        
+        // Draw border
+        this.ctx.beginPath();
+        this.ctx.arc(node.x, node.y, node.radius * scale, 0, Math.PI * 2);
+        this.ctx.strokeStyle = isSelected ? '#ffffff' : node.color;
+        this.ctx.lineWidth = isSelected ? 3 : 1;
+        this.ctx.stroke();
+        
+        // Draw post count
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = `${Math.max(10, node.radius * 0.4)}px sans-serif`;
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(node.count, node.x, node.y + 3);
+      });
+    }
+    
+    drawLabels() {
+      this.nodes.forEach(node => {
+        if (!node.visible) return;
+        
+        const isSelected = this.selectedNode === node;
+        const isHovered = this.hoveredNode === node;
+        
+        if (isSelected || isHovered || node.radius > 20) {
+          this.ctx.fillStyle = this.colors.text;
+          this.ctx.font = 'bold 12px sans-serif';
+          this.ctx.textAlign = 'center';
+          
+          // Draw background for text
+          const textWidth = this.ctx.measureText(node.name).width;
+          this.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+          this.ctx.fillRect(
+            node.x - textWidth / 2 - 4,
+            node.y + node.radius + 8,
+            textWidth + 8,
+            16
+          );
+          
+          this.ctx.fillStyle = this.colors.text;
+          this.ctx.fillText(node.name, node.x, node.y + node.radius + 20);
+        }
+      });
+    }
+    
+    setupEventListeners() {
+      // Mouse interactions
+      this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+      this.canvas.addEventListener('click', (e) => this.handleClick(e));
+      
+      // Controls
+      document.getElementById('reset-view')?.addEventListener('click', () => this.resetView());
+      document.getElementById('toggle-connections')?.addEventListener('click', () => this.toggleConnections());
+      document.getElementById('tag-search')?.addEventListener('input', (e) => this.handleSearch(e));
+      document.getElementById('close-panel')?.addEventListener('click', () => this.closeInfoPanel());
+      
+      // Dark mode observer
+      const observer = new MutationObserver(() => {
+        this.updateColors();
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+    
+    handleMouseMove(e) {
+      const rect = this.canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      let foundNode = null;
+      
+      this.nodes.forEach(node => {
+        if (!node.visible) return;
+        
+        const distance = Math.sqrt(Math.pow(x - node.x, 2) + Math.pow(y - node.y, 2));
+        if (distance < node.radius) {
+          foundNode = node;
+        }
+      });
+      
+      if (foundNode !== this.hoveredNode) {
+        this.hoveredNode = foundNode;
+        this.canvas.style.cursor = foundNode ? 'pointer' : 'default';
+      }
+    }
+    
+    handleClick(e) {
+      if (this.hoveredNode) {
+        this.selectedNode = this.selectedNode === this.hoveredNode ? null : this.hoveredNode;
+        
+        if (this.selectedNode) {
+          this.showInfoPanel(this.selectedNode);
+        } else {
+          this.closeInfoPanel();
+        }
+      }
+    }
+    
+    showInfoPanel(node) {
+      const panel = document.getElementById('tag-info-panel');
+      const nameEl = document.getElementById('selected-tag-name');
+      const countEl = document.getElementById('tag-post-count');
+      const connectionsEl = document.getElementById('tag-connections');
+      const postsEl = document.getElementById('related-posts');
+      
+      if (panel && nameEl && countEl && connectionsEl && postsEl) {
+        nameEl.textContent = node.name;
+        countEl.textContent = `${node.count} posts`;
+        
+        const connectionCount = this.connections.filter(c => 
+          c.node1 === node || c.node2 === node
+        ).length;
+        connectionsEl.textContent = `${connectionCount} connections`;
+        
+        postsEl.innerHTML = node.posts.map(post => `
+          <a href="${post.url}" class="post-link">
+            <h5>${post.title}</h5>
+            <p>${post.description}</p>
+          </a>
+        `).join('');
+        
+        panel.classList.remove('hidden');
+      }
+    }
+    
+    closeInfoPanel() {
+      const panel = document.getElementById('tag-info-panel');
+      if (panel) {
+        panel.classList.add('hidden');
+      }
+      this.selectedNode = null;
+    }
+    
+    resetView() {
+      this.nodes.forEach((node, index) => {
+        const angle = (index / this.nodes.length) * Math.PI * 2;
+        const radius = Math.min(this.canvas.width, this.canvas.height) * 0.3;
+        node.targetX = this.centerX + Math.cos(angle) * radius;
+        node.targetY = this.centerY + Math.sin(angle) * radius;
+      });
+    }
+    
+    toggleConnections() {
+      this.showConnections = !this.showConnections;
+    }
+    
+    handleSearch(e) {
+      this.searchTerm = e.target.value.toLowerCase();
+      
+      this.nodes.forEach(node => {
+        node.visible = this.searchTerm === '' || 
+          node.name.toLowerCase().includes(this.searchTerm);
+        node.alpha = node.visible ? 1 : 0.2;
+      });
+      
+      this.connections.forEach(conn => {
+        conn.visible = conn.node1.visible && conn.node2.visible;
+      });
+    }
+  }
+  
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('constellation-canvas');
+    if (canvas && tags) {
+      new TagConstellation(canvas, tags);
+    }
+  });
+</script>
+
+<style>
+  .tag-constellation-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .tag-constellation-container {
+    background: #1f2937;
+  }
+  
+  .constellation-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .constellation-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+  }
+  
+  .dark .constellation-title {
+    color: #f9fafb;
+  }
+  
+  .constellation-subtitle {
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  .dark .constellation-subtitle {
+    color: #9ca3af;
+  }
+  
+  .constellation-wrapper {
+    position: relative;
+  }
+  
+  #constellation-canvas {
+    border-radius: 8px;
+    background: #f8fafc;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
+  }
+  
+  .dark #constellation-canvas {
+    background: #374151;
+  }
+  
+  .constellation-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: center;
+  }
+  
+  @media (max-width: 768px) {
+    .constellation-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  
+  .control-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .control-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+  }
+  
+  .search-container {
+    position: relative;
+    flex: 1;
+    max-width: 300px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    color: #1f2937;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .search-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .dark .search-input {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    color: #6b7280;
+    pointer-events: none;
+  }
+  
+  .info-panel {
+    position: absolute;
+    top: 0;
+    right: -320px;
+    width: 300px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+    z-index: 10;
+    transition: all 0.3s ease;
+  }
+  
+  .dark .info-panel {
+    background: #374151;
+    border-color: #4b5563;
+  }
+  
+  .info-panel.hidden {
+    transform: translateX(20px);
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .info-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .dark .info-header {
+    border-bottom-color: #4b5563;
+  }
+  
+  .info-header h4 {
+    margin: 0;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .dark .info-header h4 {
+    color: #f9fafb;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .close-btn:hover {
+    background: #f3f4f6;
+    color: #374151;
+  }
+  
+  .dark .close-btn:hover {
+    background: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .info-content {
+    padding: 1rem;
+  }
+  
+  .tag-stats {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .stat-badge {
+    background: #3b82f6;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .related-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .post-link {
+    display: block;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .post-link:hover {
+    background: #f1f5f9;
+    transform: translateY(-1px);
+  }
+  
+  .dark .post-link {
+    background: #4b5563;
+  }
+  
+  .dark .post-link:hover {
+    background: #6b7280;
+  }
+  
+  .post-link h5 {
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 0.875rem;
+  }
+  
+  .dark .post-link h5 {
+    color: #f9fafb;
+  }
+  
+  .post-link p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+  
+  .dark .post-link p {
+    color: #9ca3af;
+  }
+  
+  @media (max-width: 1024px) {
+    .info-panel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
+    }
+    
+    .info-panel.hidden {
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+</style>

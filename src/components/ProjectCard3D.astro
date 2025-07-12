@@ -1,0 +1,434 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  github?: string;
+  demo?: string;
+  featured?: boolean;
+  stars?: number;
+  lastCommit?: string;
+}
+
+const { title, description, image, tags, github, demo, featured, stars, lastCommit } = Astro.props;
+---
+
+<div class="project-card-3d group cursor-pointer" data-featured={featured}>
+  <div class="card-container">
+    <!-- Front Face -->
+    <div class="card-face card-front">
+      <div class="image-container">
+        <img src={image} alt={title} class="project-image" />
+        <div class="overlay">
+          <div class="overlay-content">
+            <h3 class="project-title">{title}</h3>
+            {featured && <span class="featured-badge">★ Featured</span>}
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <div class="tech-stack">
+          {tags.slice(0, 3).map(tag => (
+            <span class="tech-tag">{tag}</span>
+          ))}
+          {tags.length > 3 && <span class="tech-tag-more">+{tags.length - 3}</span>}
+        </div>
+        
+        <p class="description">{description}</p>
+        
+        <div class="stats-bar">
+          {stars && (
+            <div class="stat">
+              <svg class="star-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <span>{stars}</span>
+            </div>
+          )}
+          
+          {lastCommit && (
+            <div class="stat">
+              <svg class="commit-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-xs">{lastCommit}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Back Face -->
+    <div class="card-face card-back">
+      <div class="back-content">
+        <h3 class="back-title">{title}</h3>
+        
+        <div class="full-tech-stack">
+          {tags.map(tag => (
+            <span class="tech-tag-full">{tag}</span>
+          ))}
+        </div>
+        
+        <div class="action-buttons">
+          {github && (
+            <a href={github} target="_blank" rel="noopener noreferrer" class="action-btn primary">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              View Code
+            </a>
+          )}
+          
+          {demo && (
+            <a href={demo} target="_blank" rel="noopener noreferrer" class="action-btn secondary">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              Live Demo
+            </a>
+          )}
+        </div>
+        
+        <div class="project-metrics">
+          <div class="metric">
+            <span class="metric-label">Language</span>
+            <span class="metric-value">{tags[0] || 'Multiple'}</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Type</span>
+            <span class="metric-value">{featured ? 'Featured' : 'Project'}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .project-card-3d {
+    perspective: 1000px;
+    height: 400px;
+    margin: 1rem;
+  }
+  
+  .card-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  
+  .project-card-3d:hover .card-container {
+    transform: rotateY(180deg) scale(1.02);
+  }
+  
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1), 
+      rgba(255, 255, 255, 0.05)
+    );
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .dark .card-face {
+    background: linear-gradient(135deg, 
+      rgba(30, 41, 59, 0.9), 
+      rgba(15, 23, 42, 0.9)
+    );
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(59, 130, 246, 0.1),
+      inset 0 1px 0 rgba(59, 130, 246, 0.1);
+  }
+  
+  .card-back {
+    transform: rotateY(180deg);
+  }
+  
+  .image-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .project-card-3d:hover .project-image {
+    transform: scale(1.1);
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+  
+  .overlay-content {
+    color: white;
+  }
+  
+  .project-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .featured-badge {
+    background: linear-gradient(45deg, #fbbf24, #f59e0b);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-shadow: none;
+  }
+  
+  .card-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: calc(100% - 200px);
+  }
+  
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  .tech-tag {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+  
+  .tech-tag-more {
+    background: rgba(107, 114, 128, 0.1);
+    color: #6b7280;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+  
+  .dark .description {
+    color: #9ca3af;
+  }
+  
+  .stats-bar {
+    display: flex;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .stats-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #6b7280;
+    font-size: 0.75rem;
+  }
+  
+  .star-icon, .commit-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  /* Back Face Styles */
+  .back-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+  }
+  
+  .back-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1f2937;
+    text-align: center;
+  }
+  
+  .dark .back-title {
+    color: white;
+  }
+  
+  .full-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tech-tag-full {
+    background: linear-gradient(45deg, #3b82f6, #6366f1);
+    color: white;
+    padding: 0.375rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin: auto 0;
+  }
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .action-btn.primary {
+    background: linear-gradient(45deg, #3b82f6, #6366f1);
+    color: white;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  }
+  
+  .action-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  }
+  
+  .action-btn.secondary {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+  
+  .action-btn.secondary:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .btn-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .project-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+  }
+  
+  .dark .project-metrics {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .metric {
+    text-align: center;
+  }
+  
+  .metric-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+  
+  .metric-value {
+    display: block;
+    font-size: 0.875rem;
+    color: #1f2937;
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+  
+  .dark .metric-value {
+    color: white;
+  }
+  
+  /* Featured card special effects */
+  .project-card-3d[data-featured="true"] .card-face {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.1), 
+      rgba(99, 102, 241, 0.05)
+    );
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+  
+  .dark .project-card-3d[data-featured="true"] .card-face {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.2), 
+      rgba(99, 102, 241, 0.1)
+    );
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .project-card-3d {
+      height: 350px;
+    }
+    
+    .image-container {
+      height: 160px;
+    }
+    
+    .card-content {
+      height: calc(100% - 160px);
+    }
+  }
+</style>

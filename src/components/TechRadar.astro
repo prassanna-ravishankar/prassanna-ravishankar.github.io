@@ -1,0 +1,511 @@
+---
+// Technology Radar Component
+---
+
+<div class="tech-radar-container">
+  <div class="radar-header">
+    <h3 class="radar-title">Technology Radar</h3>
+    <p class="radar-subtitle">Current expertise and learning path</p>
+  </div>
+  
+  <div class="radar-wrapper">
+    <canvas id="tech-radar-canvas" width="400" height="400"></canvas>
+    
+    <div class="radar-legend">
+      <div class="legend-section">
+        <h4 class="legend-title">Rings</h4>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-indicator ring-adopt"></div>
+            <span>Expert</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-indicator ring-trial"></div>
+            <span>Proficient</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-indicator ring-assess"></div>
+            <span>Learning</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-indicator ring-hold"></div>
+            <span>Exploring</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="legend-section">
+        <h4 class="legend-title">Categories</h4>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-indicator quadrant-ml"></div>
+            <span>ML/AI</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-indicator quadrant-infra"></div>
+            <span>Infrastructure</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-indicator quadrant-web"></div>
+            <span>Web/API</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-indicator quadrant-tools"></div>
+            <span>Tools</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="radar-tooltip" class="radar-tooltip"></div>
+</div>
+
+<script>
+  class TechRadar {
+    constructor(canvas) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.centerX = canvas.width / 2;
+      this.centerY = canvas.height / 2;
+      this.radius = Math.min(canvas.width, canvas.height) / 2 - 20;
+      
+      // Technology data
+      this.technologies = [
+        // ML/AI Quadrant (0-90 degrees)
+        { name: 'PyTorch', ring: 0, quadrant: 0, angle: 15 },
+        { name: 'TensorFlow', ring: 1, quadrant: 0, angle: 35 },
+        { name: 'MLOps', ring: 0, quadrant: 0, angle: 55 },
+        { name: 'Agent Frameworks', ring: 1, quadrant: 0, angle: 75 },
+        { name: 'LLMs', ring: 0, quadrant: 0, angle: 25 },
+        { name: 'Computer Vision', ring: 1, quadrant: 0, angle: 45 },
+        { name: 'NLP', ring: 0, quadrant: 0, angle: 65 },
+        { name: 'Reinforcement Learning', ring: 2, quadrant: 0, angle: 85 },
+        
+        // Infrastructure Quadrant (90-180 degrees)
+        { name: 'Docker', ring: 0, quadrant: 1, angle: 105 },
+        { name: 'Kubernetes', ring: 1, quadrant: 1, angle: 125 },
+        { name: 'AWS', ring: 0, quadrant: 1, angle: 145 },
+        { name: 'GCP', ring: 1, quadrant: 1, angle: 165 },
+        { name: 'Terraform', ring: 1, quadrant: 1, angle: 185 },
+        { name: 'Modal', ring: 0, quadrant: 1, angle: 135 },
+        { name: 'Ray', ring: 2, quadrant: 1, angle: 155 },
+        { name: 'Spark', ring: 1, quadrant: 1, angle: 175 },
+        
+        // Web/API Quadrant (180-270 degrees)
+        { name: 'Python', ring: 0, quadrant: 2, angle: 195 },
+        { name: 'JavaScript', ring: 1, quadrant: 2, angle: 215 },
+        { name: 'FastAPI', ring: 0, quadrant: 2, angle: 235 },
+        { name: 'React', ring: 1, quadrant: 2, angle: 255 },
+        { name: 'Astro', ring: 1, quadrant: 2, angle: 275 },
+        { name: 'TypeScript', ring: 1, quadrant: 2, angle: 225 },
+        { name: 'GraphQL', ring: 2, quadrant: 2, angle: 245 },
+        { name: 'Rust', ring: 3, quadrant: 2, angle: 265 },
+        
+        // Tools Quadrant (270-360 degrees)
+        { name: 'Git', ring: 0, quadrant: 3, angle: 285 },
+        { name: 'VSCode', ring: 0, quadrant: 3, angle: 305 },
+        { name: 'Jupyter', ring: 0, quadrant: 3, angle: 325 },
+        { name: 'Weights & Biases', ring: 1, quadrant: 3, angle: 345 },
+        { name: 'GitHub Actions', ring: 1, quadrant: 3, angle: 295 },
+        { name: 'Prometheus', ring: 2, quadrant: 3, angle: 315 },
+        { name: 'Grafana', ring: 2, quadrant: 3, angle: 335 },
+        { name: 'Supabase', ring: 1, quadrant: 3, angle: 355 }
+      ];
+      
+      this.colors = {
+        rings: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
+        quadrants: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
+        background: '#f8fafc',
+        text: '#1f2937',
+        grid: '#e5e7eb'
+      };
+      
+      this.ringLabels = ['Expert', 'Proficient', 'Learning', 'Exploring'];
+      this.quadrantLabels = ['ML/AI', 'Infrastructure', 'Web/API', 'Tools'];
+      
+      this.hoveredTech = null;
+      this.tooltip = document.getElementById('radar-tooltip');
+      
+      this.init();
+    }
+    
+    init() {
+      this.draw();
+      this.setupInteractions();
+      
+      // Handle dark mode
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        this.colors.background = '#1f2937';
+        this.colors.text = '#f9fafb';
+        this.colors.grid = '#374151';
+        this.draw();
+      }
+    }
+    
+    draw() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      // Set background
+      this.ctx.fillStyle = this.colors.background;
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      this.drawGrid();
+      this.drawQuadrants();
+      this.drawRings();
+      this.drawTechnologies();
+      this.drawLabels();
+    }
+    
+    drawGrid() {
+      this.ctx.strokeStyle = this.colors.grid;
+      this.ctx.lineWidth = 1;
+      
+      // Draw concentric circles
+      for (let i = 1; i <= 4; i++) {
+        const r = (this.radius / 4) * i;
+        this.ctx.beginPath();
+        this.ctx.arc(this.centerX, this.centerY, r, 0, Math.PI * 2);
+        this.ctx.stroke();
+      }
+      
+      // Draw quadrant lines
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.centerX, this.centerY - this.radius);
+      this.ctx.lineTo(this.centerX, this.centerY + this.radius);
+      this.ctx.moveTo(this.centerX - this.radius, this.centerY);
+      this.ctx.lineTo(this.centerX + this.radius, this.centerY);
+      this.ctx.stroke();
+    }
+    
+    drawQuadrants() {
+      this.ctx.globalAlpha = 0.1;
+      
+      for (let i = 0; i < 4; i++) {
+        this.ctx.fillStyle = this.colors.quadrants[i];
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.centerX, this.centerY);
+        this.ctx.arc(this.centerX, this.centerY, this.radius, 
+          (i * Math.PI) / 2, ((i + 1) * Math.PI) / 2);
+        this.ctx.closePath();
+        this.ctx.fill();
+      }
+      
+      this.ctx.globalAlpha = 1;
+    }
+    
+    drawRings() {
+      this.ctx.lineWidth = 2;
+      
+      for (let i = 0; i < 4; i++) {
+        this.ctx.strokeStyle = this.colors.rings[i];
+        this.ctx.globalAlpha = 0.3;
+        
+        const r = (this.radius / 4) * (i + 1);
+        this.ctx.beginPath();
+        this.ctx.arc(this.centerX, this.centerY, r, 0, Math.PI * 2);
+        this.ctx.stroke();
+      }
+      
+      this.ctx.globalAlpha = 1;
+    }
+    
+    drawTechnologies() {
+      this.technologies.forEach(tech => {
+        const position = this.getTechPosition(tech);
+        const isHovered = this.hoveredTech === tech;
+        
+        // Draw shadow for hovered item
+        if (isHovered) {
+          this.ctx.shadowBlur = 10;
+          this.ctx.shadowColor = this.colors.rings[tech.ring];
+        }
+        
+        // Draw technology dot
+        this.ctx.fillStyle = this.colors.rings[tech.ring];
+        this.ctx.beginPath();
+        this.ctx.arc(position.x, position.y, isHovered ? 8 : 6, 0, Math.PI * 2);
+        this.ctx.fill();
+        
+        // Draw inner dot
+        this.ctx.fillStyle = this.colors.background;
+        this.ctx.beginPath();
+        this.ctx.arc(position.x, position.y, isHovered ? 4 : 3, 0, Math.PI * 2);
+        this.ctx.fill();
+        
+        // Reset shadow
+        this.ctx.shadowBlur = 0;
+        
+        // Draw label for hovered item
+        if (isHovered) {
+          this.ctx.fillStyle = this.colors.text;
+          this.ctx.font = '12px sans-serif';
+          this.ctx.textAlign = 'center';
+          this.ctx.fillText(tech.name, position.x, position.y - 15);
+        }
+      });
+    }
+    
+    drawLabels() {
+      this.ctx.fillStyle = this.colors.text;
+      this.ctx.font = 'bold 14px sans-serif';
+      this.ctx.textAlign = 'center';
+      
+      // Quadrant labels
+      const labelRadius = this.radius * 0.8;
+      this.quadrantLabels.forEach((label, i) => {
+        const angle = (i * Math.PI) / 2 + Math.PI / 4;
+        const x = this.centerX + Math.cos(angle) * labelRadius;
+        const y = this.centerY + Math.sin(angle) * labelRadius;
+        
+        this.ctx.fillStyle = this.colors.quadrants[i];
+        this.ctx.fillText(label, x, y);
+      });
+      
+      // Ring labels
+      this.ctx.font = '10px sans-serif';
+      this.ctx.textAlign = 'left';
+      this.ringLabels.forEach((label, i) => {
+        const r = (this.radius / 4) * (i + 1);
+        this.ctx.fillStyle = this.colors.rings[i];
+        this.ctx.fillText(label, this.centerX + 5, this.centerY - r + 5);
+      });
+    }
+    
+    getTechPosition(tech) {
+      const ringRadius = (this.radius / 4) * (tech.ring + 1);
+      const minRadius = tech.ring === 0 ? 20 : (this.radius / 4) * tech.ring;
+      const actualRadius = minRadius + (ringRadius - minRadius) * 0.7;
+      
+      const angleRad = (tech.angle * Math.PI) / 180;
+      
+      return {
+        x: this.centerX + Math.cos(angleRad) * actualRadius,
+        y: this.centerY + Math.sin(angleRad) * actualRadius
+      };
+    }
+    
+    setupInteractions() {
+      this.canvas.addEventListener('mousemove', (e) => {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        let foundTech = null;
+        
+        this.technologies.forEach(tech => {
+          const pos = this.getTechPosition(tech);
+          const distance = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow(y - pos.y, 2));
+          
+          if (distance < 12) {
+            foundTech = tech;
+          }
+        });
+        
+        if (foundTech !== this.hoveredTech) {
+          this.hoveredTech = foundTech;
+          this.draw();
+          
+          if (foundTech) {
+            this.showTooltip(e, foundTech);
+            this.canvas.style.cursor = 'pointer';
+          } else {
+            this.hideTooltip();
+            this.canvas.style.cursor = 'default';
+          }
+        }
+      });
+      
+      this.canvas.addEventListener('mouseleave', () => {
+        this.hoveredTech = null;
+        this.draw();
+        this.hideTooltip();
+        this.canvas.style.cursor = 'default';
+      });
+    }
+    
+    showTooltip(e, tech) {
+      const rect = this.canvas.getBoundingClientRect();
+      this.tooltip.style.display = 'block';
+      this.tooltip.style.left = (e.clientX + 10) + 'px';
+      this.tooltip.style.top = (e.clientY - 10) + 'px';
+      
+      const ringLabel = this.ringLabels[tech.ring];
+      const quadrantLabel = this.quadrantLabels[tech.quadrant];
+      
+      this.tooltip.innerHTML = `
+        <div class="tooltip-title">${tech.name}</div>
+        <div class="tooltip-details">
+          <span class="tooltip-ring">${ringLabel}</span> • 
+          <span class="tooltip-quadrant">${quadrantLabel}</span>
+        </div>
+      `;
+    }
+    
+    hideTooltip() {
+      this.tooltip.style.display = 'none';
+    }
+  }
+  
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('tech-radar-canvas');
+    if (canvas) {
+      new TechRadar(canvas);
+    }
+  });
+</script>
+
+<style>
+  .tech-radar-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .tech-radar-container {
+    background: #1f2937;
+  }
+  
+  .radar-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .radar-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+  }
+  
+  .dark .radar-title {
+    color: #f9fafb;
+  }
+  
+  .radar-subtitle {
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  .dark .radar-subtitle {
+    color: #9ca3af;
+  }
+  
+  .radar-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  
+  @media (max-width: 768px) {
+    .radar-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  #tech-radar-canvas {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .radar-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 150px;
+  }
+  
+  .legend-section {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .dark .legend-section {
+    background: #374151;
+    border: 1px solid #4b5563;
+  }
+  
+  .legend-title {
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    color: #1f2937;
+    font-size: 0.875rem;
+  }
+  
+  .dark .legend-title {
+    color: #f9fafb;
+  }
+  
+  .legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .dark .legend-item {
+    color: #9ca3af;
+  }
+  
+  .legend-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  
+  .ring-adopt { background: #10b981; }
+  .ring-trial { background: #3b82f6; }
+  .ring-assess { background: #f59e0b; }
+  .ring-hold { background: #ef4444; }
+  
+  .quadrant-ml { background: #3b82f6; }
+  .quadrant-infra { background: #10b981; }
+  .quadrant-web { background: #f59e0b; }
+  .quadrant-tools { background: #ef4444; }
+  
+  .radar-tooltip {
+    position: fixed;
+    display: none;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    z-index: 1000;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+  }
+  
+  .tooltip-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .tooltip-details {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+  
+  .tooltip-ring {
+    color: #10b981;
+  }
+  
+  .tooltip-quadrant {
+    color: #3b82f6;
+  }
+</style>

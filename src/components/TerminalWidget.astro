@@ -1,0 +1,306 @@
+---
+// Terminal Command Interface Widget
+---
+
+<div id="terminal-widget" class="fixed bottom-4 right-4 z-50 bg-gray-900 dark:bg-black border border-gray-700 rounded-lg shadow-2xl max-w-md w-80 transition-all duration-300 transform translate-y-full opacity-0">
+  <div class="terminal-header flex items-center justify-between p-3 border-b border-gray-700">
+    <div class="flex items-center space-x-2">
+      <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+      <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+      <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+    </div>
+    <span class="text-gray-400 text-sm font-mono">prassanna.terminal</span>
+    <button id="terminal-close" class="text-gray-400 hover:text-white">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="terminal-body p-4 h-64 overflow-y-auto bg-gray-900 dark:bg-black">
+    <div id="terminal-output" class="font-mono text-sm text-green-400 space-y-1">
+      <div class="text-blue-400">Welcome to Prassanna's AI Lab Terminal 🤖</div>
+      <div class="text-gray-400">Type 'help' to see available commands</div>
+      <div class="text-gray-400">────────────────────────────────────</div>
+    </div>
+    
+    <div class="flex items-center mt-2 font-mono text-sm">
+      <span class="text-green-400 mr-2">$</span>
+      <input 
+        type="text" 
+        id="terminal-input" 
+        class="bg-transparent text-white outline-none flex-1 caret-green-400"
+        placeholder="Enter command..."
+        autocomplete="off"
+      />
+      <span id="terminal-cursor" class="w-2 h-4 bg-green-400 animate-pulse"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Terminal Toggle Button -->
+<button 
+  id="terminal-toggle" 
+  class="fixed bottom-4 right-4 z-40 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+  title="Open Terminal"
+>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+  </svg>
+</button>
+
+<script>
+  class Terminal {
+    constructor() {
+      this.widget = document.getElementById('terminal-widget');
+      this.toggle = document.getElementById('terminal-toggle');
+      this.close = document.getElementById('terminal-close');
+      this.input = document.getElementById('terminal-input');
+      this.output = document.getElementById('terminal-output');
+      this.isOpen = false;
+      this.history = [];
+      this.historyIndex = -1;
+      
+      this.commands = {
+        help: {
+          description: 'Show available commands',
+          action: () => this.showHelp()
+        },
+        about: {
+          description: 'Learn about Prassanna',
+          action: () => this.navigateTo('/about')
+        },
+        projects: {
+          description: 'View all projects',
+          action: () => this.navigateTo('/projects')
+        },
+        blog: {
+          description: 'Read the latest blog posts',
+          action: () => this.navigateTo('/blog')
+        },
+        verses: {
+          description: 'Explore philosophical musings',
+          action: () => this.navigateTo('/verses')
+        },
+        podcasts: {
+          description: 'Listen to podcast episodes',
+          action: () => this.navigateTo('/podcasts')
+        },
+        'hire-me': {
+          description: 'Get in touch for collaboration',
+          action: () => this.showContact()
+        },
+        github: {
+          description: 'Visit GitHub profile',
+          action: () => window.open('https://github.com/prassanna-ravishankar', '_blank')
+        },
+        linkedin: {
+          description: 'Connect on LinkedIn',
+          action: () => window.open('https://linkedin.com/in/prassanna-ravishankar', '_blank')
+        },
+        twitter: {
+          description: 'Follow on Twitter/X',
+          action: () => window.open('https://x.com/thenomadiccoder', '_blank')
+        },
+        clear: {
+          description: 'Clear terminal output',
+          action: () => this.clearOutput()
+        },
+        status: {
+          description: 'Show current status',
+          action: () => this.showStatus()
+        },
+        whoami: {
+          description: 'Display user information',
+          action: () => this.whoami()
+        }
+      };
+      
+      this.init();
+    }
+    
+    init() {
+      this.toggle.addEventListener('click', () => this.toggleTerminal());
+      this.close.addEventListener('click', () => this.closeTerminal());
+      this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
+      
+      // Show welcome message
+      this.addOutput('Ready for commands! 🚀', 'text-yellow-400');
+    }
+    
+    toggleTerminal() {
+      if (this.isOpen) {
+        this.closeTerminal();
+      } else {
+        this.openTerminal();
+      }
+    }
+    
+    openTerminal() {
+      this.isOpen = true;
+      this.widget.classList.remove('translate-y-full', 'opacity-0');
+      this.widget.classList.add('translate-y-0', 'opacity-100');
+      this.toggle.style.display = 'none';
+      setTimeout(() => this.input.focus(), 300);
+    }
+    
+    closeTerminal() {
+      this.isOpen = false;
+      this.widget.classList.add('translate-y-full', 'opacity-0');
+      this.widget.classList.remove('translate-y-0', 'opacity-100');
+      this.toggle.style.display = 'block';
+    }
+    
+    handleKeydown(e) {
+      if (e.key === 'Enter') {
+        const command = this.input.value.trim();
+        if (command) {
+          this.executeCommand(command);
+          this.history.push(command);
+          this.historyIndex = this.history.length;
+          this.input.value = '';
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (this.historyIndex > 0) {
+          this.historyIndex--;
+          this.input.value = this.history[this.historyIndex];
+        }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (this.historyIndex < this.history.length - 1) {
+          this.historyIndex++;
+          this.input.value = this.history[this.historyIndex];
+        } else {
+          this.historyIndex = this.history.length;
+          this.input.value = '';
+        }
+      } else if (e.key === 'Escape') {
+        this.closeTerminal();
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        this.handleTab();
+      }
+    }
+    
+    handleTab() {
+      const input = this.input.value.toLowerCase();
+      const matches = Object.keys(this.commands).filter(cmd => cmd.startsWith(input));
+      
+      if (matches.length === 1) {
+        this.input.value = matches[0];
+      } else if (matches.length > 1) {
+        this.addOutput(`Possible completions: ${matches.join(', ')}`, 'text-gray-400');
+      }
+    }
+    
+    executeCommand(command) {
+      this.addOutput(`$ ${command}`, 'text-green-400');
+      
+      const cmd = command.toLowerCase().trim();
+      
+      if (this.commands[cmd]) {
+        this.commands[cmd].action();
+      } else {
+        this.addOutput(`Command not found: ${command}`, 'text-red-400');
+        this.addOutput(`Type 'help' to see available commands`, 'text-gray-400');
+      }
+    }
+    
+    addOutput(text, className = 'text-white') {
+      const div = document.createElement('div');
+      div.className = className;
+      div.textContent = text;
+      this.output.appendChild(div);
+      this.output.scrollTop = this.output.scrollHeight;
+    }
+    
+    showHelp() {
+      this.addOutput('Available commands:', 'text-blue-400');
+      this.addOutput('────────────────────────────────────', 'text-gray-600');
+      
+      Object.entries(this.commands).forEach(([cmd, info]) => {
+        this.addOutput(`${cmd.padEnd(12)} - ${info.description}`, 'text-gray-300');
+      });
+      
+      this.addOutput('────────────────────────────────────', 'text-gray-600');
+      this.addOutput('Tip: Use Tab for autocompletion, ↑/↓ for history', 'text-yellow-400');
+    }
+    
+    navigateTo(path) {
+      this.addOutput(`Navigating to ${path}...`, 'text-blue-400');
+      setTimeout(() => {
+        window.location.href = path;
+      }, 500);
+    }
+    
+    showContact() {
+      this.addOutput('🤝 Let\'s collaborate!', 'text-green-400');
+      this.addOutput('📧 Email: hey@prassanna.io', 'text-blue-400');
+      this.addOutput('💼 LinkedIn: /in/prassanna-ravishankar', 'text-blue-400');
+      this.addOutput('🐦 Twitter: @thenomadiccoder', 'text-blue-400');
+    }
+    
+    clearOutput() {
+      this.output.innerHTML = `
+        <div class="text-blue-400">Welcome to Prassanna's AI Lab Terminal 🤖</div>
+        <div class="text-gray-400">Type 'help' to see available commands</div>
+        <div class="text-gray-400">────────────────────────────────────</div>
+      `;
+    }
+    
+    showStatus() {
+      this.addOutput('🤖 System Status:', 'text-green-400');
+      this.addOutput(`⏰ Local time: ${new Date().toLocaleTimeString()}`, 'text-gray-300');
+      this.addOutput(`🌍 Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`, 'text-gray-300');
+      this.addOutput(`💻 Platform: ${navigator.platform}`, 'text-gray-300');
+      this.addOutput(`🔋 Online: ${navigator.onLine ? 'Yes' : 'No'}`, 'text-gray-300');
+      this.addOutput(`🚀 Currently: Building the future of AI`, 'text-blue-400');
+    }
+    
+    whoami() {
+      this.addOutput('👨‍💻 Prassanna Ravishankar', 'text-green-400');
+      this.addOutput('🤖 ML Engineer & AI Researcher', 'text-blue-400');
+      this.addOutput('📝 Technical Writer & Poet', 'text-purple-400');
+      this.addOutput('🎙️ Podcast Host', 'text-yellow-400');
+      this.addOutput('🔬 Currently exploring: Agent frameworks & protocols', 'text-gray-300');
+    }
+  }
+  
+  // Initialize terminal when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new Terminal();
+  });
+</script>
+
+<style>
+  #terminal-widget {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  }
+  
+  #terminal-input {
+    caret-color: #10b981;
+  }
+  
+  #terminal-output {
+    scrollbar-width: thin;
+    scrollbar-color: #374151 #1f2937;
+  }
+  
+  #terminal-output::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  #terminal-output::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+  
+  #terminal-output::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 2px;
+  }
+  
+  #terminal-toggle {
+    backdrop-filter: blur(10px);
+  }
+</style>
