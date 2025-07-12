@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard3D from '../../components/ProjectCard3D.astro';
+import SEOBreadcrumbs from '../../components/SEOBreadcrumbs.astro';
 import { getCollection } from 'astro:content';
 
 // Get all projects that are not drafts
@@ -21,12 +22,27 @@ const sortedProjects = projects.sort((a, b) => {
 // Separate featured and regular projects
 const featuredProjects = sortedProjects.filter(p => p.data.featured);
 const regularProjects = sortedProjects.filter(p => !p.data.featured);
+
+// Breadcrumbs for SEO
+const breadcrumbs = [
+  { name: 'Home', url: 'https://prassanna.io' },
+  { name: 'Projects', url: 'https://prassanna.io/projects' }
+];
 ---
 
-<Layout title="Projects - AI Engineering Portfolio | Prassanna Ravishankar" description="Explore my portfolio of AI and machine learning projects, from infrastructure tools to innovative applications in computer vision, NLP, and MLOps.">
+<Layout 
+  title="AI & ML Projects Portfolio | Prassanna Ravishankar - MLOps Engineer"
+  description="Comprehensive portfolio of AI engineering projects: ML infrastructure tools, computer vision applications, NLP solutions, and MLOps systems. Open source contributions and production-ready solutions."
+  image="/images/projects-og.jpg"
+>
   <link rel="stylesheet" href="/src/styles/design-system.css" />
   
   <main class="projects-container">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb-container">
+      <SEOBreadcrumbs breadcrumbs={breadcrumbs} />
+    </div>
+    
     <!-- Hero Section -->
     <section class="projects-hero">
       <div class="hero-content">
@@ -199,6 +215,12 @@ const regularProjects = sortedProjects.filter(p => !p.data.featured);
   .projects-container {
     min-height: 100vh;
     background: var(--color-bg-primary);
+  }
+
+  .breadcrumb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-8) 0;
   }
 
   /* Hero Section */

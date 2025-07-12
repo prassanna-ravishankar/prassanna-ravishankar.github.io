@@ -28,26 +28,58 @@ const {
 // Ensure canonical URL always uses prassanna.io (non-www)
 const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toString();
 
-// Generate structured data for website
+// Generate comprehensive structured data
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Prassanna Ravishankar",
+  "jobTitle": "Principal MLOps Engineer & AI Infrastructure Specialist",
+  "description": "AI Engineer specializing in machine learning infrastructure, MLOps, and production AI systems",
+  "url": "https://prassanna.io",
+  "email": "me@prassanna.io",
+  "image": "https://prassanna.io/images/profile.jpg",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Papercup AI",
+    "url": "https://papercup.com"
+  },
+  "alumniOf": [
+    {
+      "@type": "Organization",
+      "name": "Computer Vision Center",
+      "location": "Barcelona, Spain"
+    },
+    {
+      "@type": "Organization", 
+      "name": "University of Sheffield",
+      "location": "Sheffield, UK"
+    }
+  ],
+  "knowsAbout": [
+    "Machine Learning", "Artificial Intelligence", "MLOps", "Python", "PyTorch",
+    "Kubernetes", "Docker", "AWS", "GCP", "Computer Vision", "NLP", "Infrastructure"
+  ],
+  "sameAs": [
+    "https://github.com/prassanna-ravishankar",
+    "https://linkedin.com/in/prassanna-ravishankar",
+    "https://x.com/thenomadiccoder"
+  ]
+};
+
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Prassanna Ravishankar",
-  "description": "ML Engineer, Researcher, and Poetry Enthusiast",
+  "name": "Prassanna Ravishankar - AI Engineer's Digital Lab",
+  "description": "AI Engineering insights, ML infrastructure, and cutting-edge technology solutions",
   "url": "https://prassanna.io",
-  "author": {
-    "@type": "Person",
-    "name": "Prassanna Ravishankar",
-    "url": "https://prassanna.io",
-    "sameAs": [
-      "https://github.com/prassanna-ravishankar",
-      "https://linkedin.com/in/prassanna-ravishankar",
-      "https://x.com/thenomadiccoder"
-    ]
-  },
+  "author": personSchema,
+  "publisher": personSchema,
+  "inLanguage": "en-US",
+  "copyrightYear": new Date().getFullYear(),
+  "copyrightHolder": personSchema,
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://prassanna.io/search?q={search_term_string}",
+    "target": "https://prassanna.io/blog?q={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 };
@@ -133,6 +165,7 @@ const articleSchema = article ? {
     
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
 
     <!-- Google Analytics -->

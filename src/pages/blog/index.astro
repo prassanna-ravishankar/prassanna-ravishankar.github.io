@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import TagConstellation from '../../components/TagConstellation.astro';
+import SEOBreadcrumbs from '../../components/SEOBreadcrumbs.astro';
 import { getCollection } from 'astro:content';
 
 // Get all blog posts that are not drafts
@@ -49,12 +50,27 @@ const formatDate = (date: Date) => {
 if (Astro.url.search) {
   return Astro.redirect('/blog/', 301);
 }
+
+// Breadcrumbs for SEO
+const breadcrumbs = [
+  { name: 'Home', url: 'https://prassanna.io' },
+  { name: 'Blog', url: 'https://prassanna.io/blog' }
+];
 ---
 
-<Layout title="Blog - AI Engineering Insights | Prassanna Ravishankar" description="Deep dives into machine learning, AI infrastructure, MLOps, and the future of artificial intelligence. Technical insights and practical engineering solutions.">
+<Layout 
+  title="AI Engineering Blog | ML Infrastructure & MLOps Insights | Prassanna Ravishankar"
+  description="Technical blog covering machine learning engineering, AI infrastructure, MLOps best practices, production ML systems, and emerging AI technologies. In-depth tutorials and industry insights."
+  image="/images/blog-og.jpg"
+>
   <link rel="stylesheet" href="/src/styles/design-system.css" />
   
   <main class="blog-container">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb-container">
+      <SEOBreadcrumbs breadcrumbs={breadcrumbs} />
+    </div>
+    
     <!-- Hero Section -->
     <section class="blog-hero">
       <div class="hero-content">
@@ -217,6 +233,12 @@ if (Astro.url.search) {
   .blog-container {
     min-height: 100vh;
     background: var(--color-bg-primary);
+  }
+
+  .breadcrumb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-8) 0;
   }
 
   /* Hero Section */

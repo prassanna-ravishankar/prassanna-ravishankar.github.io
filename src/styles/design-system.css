@@ -569,6 +569,83 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  /* Typography adjustments */
+  .heading-hero { font-size: var(--text-4xl); line-height: var(--leading-tight); }
+  .heading-section { font-size: var(--text-2xl); }
+  .heading-card { font-size: var(--text-lg); }
+  
+  /* Touch-friendly interactive elements */
+  .btn {
+    min-height: 44px;
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+  }
+  
+  /* Improved tap targets */
+  a, button, .filter-tag, .article-tag {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Better spacing for mobile */
+  .section-header {
+    margin-bottom: var(--space-8);
+    padding: 0 var(--space-4);
+  }
+  
+  /* Enhanced card spacing */
+  .card-glass,
+  .exploration-card,
+  .project-card,
+  .article-card,
+  .topic-card {
+    margin: 0 var(--space-2);
+  }
+  
+  /* Mobile navigation improvements */
+  .filter-tags {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: var(--space-2) var(--space-4);
+  }
+  
+  .filter-tags::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Responsive text scaling */
+  .text-6xl { font-size: var(--text-4xl); }
+  .text-5xl { font-size: var(--text-3xl); }
+  .text-4xl { font-size: var(--text-2xl); }
+  .text-3xl { font-size: var(--text-xl); }
+}
+
+@media (max-width: 480px) {
+  /* Even more aggressive scaling for small phones */
+  .heading-hero { font-size: var(--text-3xl); }
+  .heading-section { font-size: var(--text-xl); }
+  
+  /* Tighter spacing */
+  .section-header {
+    margin-bottom: var(--space-6);
+  }
+  
+  /* Full-width cards on small screens */
+  .card-glass,
+  .exploration-card,
+  .project-card,
+  .article-card,
+  .topic-card {
+    margin: 0;
+  }
+}
+
 /* Responsive Utilities */
 @media (min-width: 640px) {
   .sm\:text-sm { font-size: var(--text-sm); }

@@ -1,0 +1,102 @@
+---
+export interface Props {
+  breadcrumbs: Array<{
+    name: string;
+    url: string;
+  }>;
+}
+
+const { breadcrumbs } = Astro.props;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((crumb, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": crumb.name,
+    "item": crumb.url
+  }))
+};
+---
+
+<!-- Breadcrumb Navigation -->
+<nav aria-label="Breadcrumb" class="breadcrumb-nav">
+  <ol class="breadcrumb-list">
+    {breadcrumbs.map((crumb, index) => (
+      <li class="breadcrumb-item">
+        {index < breadcrumbs.length - 1 ? (
+          <a href={crumb.url} class="breadcrumb-link">{crumb.name}</a>
+        ) : (
+          <span class="breadcrumb-current" aria-current="page">{crumb.name}</span>
+        )}
+        {index < breadcrumbs.length - 1 && (
+          <svg class="breadcrumb-separator" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+<style>
+  .breadcrumb-nav {
+    margin-bottom: var(--space-6);
+    padding: var(--space-4) 0;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .breadcrumb-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: color var(--duration-200) var(--ease-out);
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-primary-600);
+    text-decoration: underline;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+  }
+
+  .breadcrumb-separator {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-tertiary);
+  }
+
+  @media (max-width: 768px) {
+    .breadcrumb-nav {
+      margin-bottom: var(--space-4);
+    }
+    
+    .breadcrumb-link,
+    .breadcrumb-current {
+      font-size: var(--text-xs);
+    }
+  }
+</style>
