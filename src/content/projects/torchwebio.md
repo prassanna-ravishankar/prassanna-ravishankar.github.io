@@ -1,11 +1,11 @@
 ---
 title: "TorchWebIO"
 description: "Simple model to app generator"
-image: "/images/projects/torchwebio.png"
+image: "/images/projects/torchwebio.webp"
 link: "https://torchwebio.readthedocs.io/en/latest/"
 github: "https://github.com/prassanna-ravishankar/torchwebio"
 tags: ["PyTorch", "PyWebIO", "Machine Learning", "Web Apps"]
-featured: true
+featured: false
 pubDate: 2022-01-01
 ---
 

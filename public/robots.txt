@@ -5,10 +5,11 @@ Allow: /
 Disallow: /*.md
 
 # Block old date-based blog URL patterns
-Disallow: /blog/????-??-??*
+# These are now handled by proper 301 redirects
+# Disallow: /blog/????-??-??*
 
-# Block old project links that don't exist
-Disallow: /ambi-alert
+# Old URLs are now properly redirected
+# Disallow: /ambi-alert
 Disallow: /~partytown/
 
 # Block query parameter URLs

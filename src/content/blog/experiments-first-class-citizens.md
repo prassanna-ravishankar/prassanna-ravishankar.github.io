@@ -2,7 +2,7 @@
 title: "Experiments as First-Class Citizens"
 description: "Stop treating ML experiments as disposable! Learn why elevating experiment tracking to first-class infrastructure is crucial for robust MLOps, reproducibility & Software 2.0."
 pubDate: 2025-04-08
-heroImage: "/images/blog/experiments-first-class-citizens/hero.png"
+heroImage: "/images/blog/experiments-first-class-citizens/hero.webp"
 tags: ["mlops", "experiment tracking", "machine learning", "reproducibility", "ml infrastructure", "software 2.0", "devops"]
 author: "Prassanna Ravishankar"
 draft: false
@@ -13,7 +13,7 @@ draft: false
 
 ## The Second-Class Treatment of Experiments Today
 
-![The Second-Class Treatment of Experiments Today](/images/blog/experiments-first-class-citizens/second-class.png)
+![The Second-Class Treatment of Experiments Today](/images/blog/experiments-first-class-citizens/second-class.webp)
 
 In many teams, experiment tracking is an afterthought. Data scientists run dozens of training jobs, copy-paste metrics into spreadsheets, and manually version file names with dates. This ad-hoc approach is the norm, but it should be unacceptable. *Imagine a software team not using Git or not logging production errors* – unthinkable, right? Yet in ML, entire model histories vanish into personal notebooks or, worse, get lost entirely. Current ML tooling often treats experiments as a *utility* or addon, rather than the beating heart of model development. The result: wasted effort, irreproducible results, and "mystery" models whose exact provenance is anyone's guess.
 
@@ -23,7 +23,7 @@ Why does this happen? Partly because ML experiments have been seen as **disposab
 
 ## Lessons from DevOps and Science
 
-![Lessons from DevOps and Science](/images/blog/experiments-first-class-citizens/lessons-from-devops.png)
+![Lessons from DevOps and Science](/images/blog/experiments-first-class-citizens/lessons-from-devops.webp)
 
 We don't have to accept this status quo – other disciplines have solved analogous problems. Take DevOps: modern software teams **bake observability in from day one**. Logging, metrics, and traces are *first-class features* of any [serious application deployment](https://about.gitlab.com/blog/2022/06/14/observability-vs-monitoring-in-devops/#:~:text=However%2C%20despite%20the%20value%20and,never%20updated%20to%20modern%20standards), offering a [holistic, automatic view](https://about.gitlab.com/blog/2022/06/14/observability-vs-monitoring-in-devops/#:~:text=In%20contrast%2C%20observability%20offers%20a,operational%20feedback%20about%20their%20code) in context, rather than requiring engineers to bolt on monitoring after the fact. Engineers would never say "let's deploy to prod and maybe later figure out how to monitor it." Observability isn't a "nice-to-have"; it's foundational. Similarly, ML experiment infrastructure should let us *observe and record everything about a model run* by default – not as a hacky add-on. We need the same mindset for experiments: tracking should be pervasive and automatic, not an optional extra.
 
@@ -33,7 +33,7 @@ We can also draw on the scientific method. In traditional science, *lab notebook
 
 ## Experiments: The Core of Software 2.0
 
-![Experiments: The Core of Software 2.0](/images/blog/experiments-first-class-citizens/experiments-software-2_0.png)
+![Experiments: The Core of Software 2.0](/images/blog/experiments-first-class-citizens/experiments-software-2_0.webp)
 
 There's also a deeper reason to elevate experiments: in the era of **Software 2.0**, experiments *are* the development process. Andrej Karpathy famously described [Software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35#:~:text=the%20final%20neural%20network,infrastructure%2C%20analytics%2C%20visualizations%20and%20labeling) as the paradigm where we don't write detailed code; instead we train neural networks by feeding data and tweaking parameters. In this view, **the act of training a model is analogous to writing code** – it's how we "program" the behavior. If training is the new coding, then experiment tracking is the new version control and debugger. Karpathy pointed out that much of the real work shifts to curating data and running training jobs, while [only a small part remains writing glue code](https://karpathy.medium.com/software-2-0-a64152b37c35#:~:text=architectures%20and%20the%20training%20systems,analytics%2C%20visualizations%20and%20labeling%20interfaces). That means our iteration loop is driven by experiments: try a new dataset tweak or architecture, run training, evaluate, repeat. It's the *core loop* of ML development. Not treating that loop as a first-class citizen is like a software team neglecting their code repository. We need to recognize that an experiment run in ML is a **first-class artifact** – as important as a Git commit in a software project. Every experiment carries the "source" of a model (data + code + hyperparameters) and the resulting "binary" (the model weights), making the [experiment analogous to source code and the model analogous to a binary](https://karpathy.medium.com/software-2-0-a64152b37c35#:~:text=To%20make%20the%20analogy%20explicit%2C,development%E2%80%9D%20takes%20the%20form%20of) in [traditional software development cycles](https://karpathy.medium.com/software-2-0-a64152b37c35#:~:text=the%20final%20neural%20network,infrastructure%2C%20analytics%2C%20visualizations%20and%20labeling). It's high time we manage these artifacts with the same seriousness we manage source code and binaries in traditional software.
 
@@ -41,7 +41,7 @@ There's also a deeper reason to elevate experiments: in the era of **Software 2.
 
 ## Experiment Tracking: Progress So Far (and Why It's Not Enough)
 
-![Experiment Tracking: Progress So Far (and Why It's Not Enough)](/images/blog/experiments-first-class-citizens/experiment-tracking-so-far.png)
+![Experiment Tracking: Progress So Far (and Why It's Not Enough)](/images/blog/experiments-first-class-citizens/experiment-tracking-so-far.webp)
 
 The good news is the community isn't starting from scratch. Over the past few years, many teams have adopted experiment tracking tools such as **MLflow, Weights & Biases, ClearML, Comet,** and others. A cottage industry of experiment management platforms has emerged, all [designed to treat ML experiments as first-class citizens](https://neptune.ai/blog/ml-experiment-tracking#:~:text=Today%2C%20there%20are%20several%20tools,citizens%2C%20and%20they%20will%20always) in the workflow. These tools provide interfaces to log parameters and metrics, store model artifacts, record code versions, and sometimes even capture the environment or system stats. This is a big step forward – using any structured tracking is usually better than logs floating around or results in someone's head. Many organizations now require that each model training is logged in a centralized dashboard where any team member can see what was tried.
 
@@ -72,7 +72,7 @@ So what's missing? Let's dissect a few pain points with today's tools and practi
 
 ## Envisioning an Experiment-First Future
 
-![Envisioning an Experiment-First Future](/images/blog/experiments-first-class-citizens/experiment-first-future.png)
+![Envisioning an Experiment-First Future](/images/blog/experiments-first-class-citizens/experiment-first-future.webp)
 
 How would ML development look if we **truly treated experiments as first-class citizens**? Let's paint that picture. In a future (not too far off, we hope), experiment tracking becomes so ingrained and advanced that it's part of the fabric of ML work, much like git and continuous integration are for software. Here are some characteristics of an experiment-centric ML infrastructure:
 
@@ -92,7 +92,7 @@ In essence, a truly experiment-centric infrastructure would make ML development 
 
 ## Conclusion: Elevating Experimentation in the ML Lifecycle
 
-![Conclusion: Elevating Experimentation in the ML Lifecycle](/images/blog/experiments-first-class-citizens/conclusion.png)
+![Conclusion: Elevating Experimentation in the ML Lifecycle](/images/blog/experiments-first-class-citizens/conclusion.webp)
 
 It's time to **treat experiments as first-class citizens** in ML, not as second-class chores. The provocative stance is that anything less is holding our field back. We have the analogies and prior art to guide us: software engineering gave us version control and agile processes, DevOps gave us observability and automation, science gave us rigorous experiment protocol. ML can combine these lessons to build something uniquely suited to our needs – an experimentation culture backed by great tools, where no insight is lost and every model's story is known.
 
