@@ -5,7 +5,7 @@ pubDate: 2017-02-01
 tags: ["C++", "Python", "Machine Learning", "Computer Vision", "Random Forest"]
 github: "https://github.com/prassanna-ravishankar/slither"
 featured: true
-image: "/images/projects/slither.png"
+image: "/images/projects/slither.webp"
 ---
 
 ## Overview

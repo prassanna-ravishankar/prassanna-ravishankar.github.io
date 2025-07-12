@@ -17,6 +17,8 @@ export default defineConfig({
     '/blog/2019-05-29-pipenv-pyenv': '/blog/pipenv-pyenv',
     '/ambi-alert': '/projects/ambi-alert',
     '/blog/ml-fragmentation-redirect': '/blog/ml-fragmentation',
+    '/blog/ml-fragmentation-2': '/blog/ml-fragmentation',
+    '/blog/full-stack-ml-3': '/blog/full-stack-ml',
   },
   
   integrations: [

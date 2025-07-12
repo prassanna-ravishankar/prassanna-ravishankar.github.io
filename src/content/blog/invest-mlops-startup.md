@@ -2,7 +2,7 @@
 title: "When (and How) to Invest in MLOps at Your Startup"
 description: "A practical guide for startup founders on when and how to invest in MLOps - from early stage flexibility to scaling infrastructure, with key principles and pitfalls to avoid."
 pubDate: 2025-03-27
-heroImage: "/images/blog/invest-mlops/hero-image2.png"
+heroImage: "/images/blog/invest-mlops/hero-image2.webp"
 tags: ["MLOps", "Machine Learning", "Startups", "Infrastructure", "AI Engineering", "ML Engineering", "Model Deployment", "LLMOps", "ML Tooling", "Data Pipelines", "Observability", "Training Infrastructure", "AI in Startups", "Scaling ML Teams"]
 author: "Prassanna Ravishankar"
 draft: false
@@ -14,7 +14,7 @@ draft: false
 
 ## MLOps Is More Than Model Deployment
 
-![MLOps Beyond Model Development](/images/blog/invest-mlops/mlops-beyond-model-development.png)
+![MLOps Beyond Model Development](/images/blog/invest-mlops/mlops-beyond-model-development.webp)
 
 Let's start by clarifying what MLOps actually means. **MLOps** isn't just "DevOps for ML models" or pushing models to production. Instead, it's the DevOps principles of toil prioritisation, CI/CD,  Observability and Monitoring applied across the Machine learning lifecycle. It's a broad discipline focused on optimizing the *entire* ML workflow:
 
@@ -44,7 +44,7 @@ Instead, **prioritize developer experience with lightweight tools.** Make it eas
 
 ## When to Bring in Dedicated MLOps: After Product Validation
 
-![Product Validation](/images/blog/invest-mlops/product-validation.png)
+![Product Validation](/images/blog/invest-mlops/product-validation.webp)
 
 How do you know when it's time to get serious about MLOps? A good rule of thumb: **wait until you have a small herd of ML models or a larger ML team (say 5–10 MLEs) before hiring dedicated MLOps engineers or building out a complex infrastructure.** Often, this inflection point comes post-Series A, when the company has users, funding, and a mandate to scale. At that stage, the "move fast and break things" approach to ML can start breaking the wrong things (like customer trust, or the on-call engineer's sleep schedule).
 
@@ -56,7 +56,7 @@ At this point, investing in MLOps will pay off in developer productivity and rel
 
 ## Be Surgical with Tooling and Infrastructure
 
-![Surgical Additions](/images/blog/invest-mlops/surgical-additions.png)
+![Surgical Additions](/images/blog/invest-mlops/surgical-additions.webp)
 
 When you do start adding MLOps tools and infrastructure, **take a surgical approach.** Rather than adopting a giant platform that claims to do everything, add tools incrementally that solve specific pain points – ideally, tools that can tackle *multiple* issues at once. Think of it like upgrading parts on a car one by one, not replacing the whole engine while you're still tuning it.
 
@@ -81,7 +81,7 @@ No matter how fancy your models, they're only as good as the data feeding them. 
 
 ## MLOps and ML Engineering: Blurring the Lines
 
-![MLOps and ML Engineering](/images/blog/invest-mlops/mlops-ml-engineering.png)
+![MLOps and ML Engineering](/images/blog/invest-mlops/mlops-ml-engineering.webp)
 
 As you invest more in MLOps, you'll notice the line between an "ML engineer" and an "MLOps engineer" can get pretty blurry. And that's a good thing. In practice, a strong MLOps engineer will dive into research or model code, and an ML engineer will contribute to tooling when needed. **MLOps isn't a siloed DevOps team pushing buttons from afar; they're in the codebase alongside data scientists.** In fact, they often make small tweaks to model code that have huge downstream benefits.
 

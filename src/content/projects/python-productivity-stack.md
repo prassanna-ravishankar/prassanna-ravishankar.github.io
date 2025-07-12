@@ -1,7 +1,7 @@
 ---
 title: "Python Productivity Stack"
 description: "A curated collection of tools for machine learning productivity"
-image: "/images/projects/python-productivity.png"
+image: "/images/projects/python-productivity.webp"
 link: "https://github.com/prassanna-ravishankar/python-productivity-stack"
 github: "https://github.com/prassanna-ravishankar/python-productivity-stack"
 tags: ["Python", "Machine Learning", "Productivity", "Development Tools"]
