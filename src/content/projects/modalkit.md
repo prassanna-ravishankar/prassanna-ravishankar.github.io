@@ -2,7 +2,7 @@
 title: "Modalkit"
 description: "A powerful Python framework for deploying ML models on Modal with production-ready features."
 pubDate: "2024-07-18"
-image: "https://raw.githubusercontent.com/prassanna-ravishankar/modalkit/main/docs/modalkit.png"
+image: "/images/projects/modalkit.png"
 github: "https://github.com/prassanna-ravishankar/modalkit"
 link: "https://prassanna.io/modalkit"
 tags: ["python", "machine-learning", "modal", "framework", "mlops"]
