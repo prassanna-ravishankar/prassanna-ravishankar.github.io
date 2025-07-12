@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ProjectCard3D from '../../components/ProjectCard3D.astro';
 import { getCollection } from 'astro:content';
 
 // Get all projects that are not drafts
@@ -16,96 +17,423 @@ const sortedProjects = projects.sort((a, b) => {
   // Then sort by date
   return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
 });
+
+// Separate featured and regular projects
+const featuredProjects = sortedProjects.filter(p => p.data.featured);
+const regularProjects = sortedProjects.filter(p => !p.data.featured);
 ---
 
-<Layout title="Projects | Prassanna Ravishankar">
-  <div class="container mx-auto py-12 px-4">
-    <h1 class="text-4xl font-bold mb-4">Projects</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">
-      A showcase of my work in machine learning, software engineering, and research.
-    </p>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {sortedProjects.map(project => (
-        <a href={`/projects/${project.slug}`} class="group">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full transition-transform hover:translate-y-[-5px] duration-300">
-            <div class="aspect-video">
-              {project.data.image ? (
-                <img 
-                  src={project.data.image} 
-                  alt={project.data.title}
-                  class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
-                />
-              ) : (
-                <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex flex-col items-center justify-center p-4 text-white">
-                  <span class="text-lg font-semibold text-center mb-2">{project.data.title}</span>
-                  {project.data.tags && project.data.tags.length > 0 && (
-                    <span class="text-sm opacity-75">{project.data.tags[0]}</span>
-                  )}
-                </div>
-              )}
-            </div>
-            
-            <div class="p-6 flex-grow">
-              <h2 class="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                {project.data.title}
-                
-                {project.data.featured && (
-                  <span class="ml-2 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-medium px-2 py-0.5 rounded">
-                    Featured
-                  </span>
-                )}
-              </h2>
-              
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
-                {project.data.description}
-              </p>
-              
-              {project.data.tags && project.data.tags.length > 0 && (
-                <div class="flex flex-wrap gap-2 mb-4">
-                  {project.data.tags.map(tag => (
-                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-            
-            <div class="px-6 pb-6 mt-auto">
-              <div class="flex gap-4">
-                {project.data.github && (
-                  <span 
-                    class="text-gray-600 dark:text-gray-400 inline-flex items-center"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(project.data.github, '_blank');
-                    }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    GitHub
-                  </span>
-                )}
-                
-                <span class="text-blue-600 dark:text-blue-400 inline-flex items-center">
-                  View Details
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-              </div>
-            </div>
+<Layout title="Projects - AI Engineering Portfolio | Prassanna Ravishankar" description="Explore my portfolio of AI and machine learning projects, from infrastructure tools to innovative applications in computer vision, NLP, and MLOps.">
+  <link rel="stylesheet" href="/src/styles/design-system.css" />
+  
+  <main class="projects-container">
+    <!-- Hero Section -->
+    <section class="projects-hero">
+      <div class="hero-content">
+        <h1 class="heading-hero">
+          Project <span class="text-gradient gradient-primary">Portfolio</span>
+        </h1>
+        <p class="hero-subtitle text-body">
+          A curated collection of AI engineering projects, infrastructure tools, and innovative applications 
+          spanning machine learning, computer vision, NLP, and MLOps.
+        </p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">{projects.length}</div>
+            <div class="stat-label">Projects</div>
           </div>
-        </a>
-      ))}
-    </div>
-    
-    {sortedProjects.length === 0 && (
-      <div class="text-center py-12">
-        <p class="text-gray-600 dark:text-gray-400">No projects found. Check back soon!</p>
+          <div class="stat-card">
+            <div class="stat-number">{featuredProjects.length}</div>
+            <div class="stat-label">Featured</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">{[...new Set(projects.flatMap(p => p.data.tags || []))].length}</div>
+            <div class="stat-label">Technologies</div>
+          </div>
+        </div>
       </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    {featuredProjects.length > 0 && (
+      <section class="featured-section">
+        <div class="section-container">
+          <div class="section-header">
+            <h2 class="heading-section">Featured Projects</h2>
+            <p class="text-body">
+              Highlighted work showcasing innovative solutions and technical excellence
+            </p>
+          </div>
+          
+          <div class="projects-grid featured-grid">
+            {featuredProjects.map(project => (
+              <ProjectCard3D
+                title={project.data.title}
+                description={project.data.description}
+                image={project.data.image}
+                tags={project.data.tags}
+                github={project.data.github}
+                demo={project.data.demo}
+                featured={project.data.featured}
+                stars={project.data.stars}
+                lastCommit={project.data.lastCommit}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
     )}
-  </div>
-</Layout> 
+
+    <!-- All Projects Section -->
+    <section class="all-projects-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="heading-section">All Projects</h2>
+          <p class="text-body">
+            Complete portfolio of engineering projects and experiments
+          </p>
+        </div>
+        
+        <!-- Filter Tags -->
+        <div class="filter-section">
+          <div class="filter-title">Filter by Technology:</div>
+          <div class="filter-tags" id="filter-tags">
+            <button class="filter-tag active" data-filter="all">All</button>
+            {[...new Set(projects.flatMap(p => p.data.tags || []))].sort().map(tag => (
+              <button class="filter-tag" data-filter={tag}>{tag}</button>
+            ))}
+          </div>
+        </div>
+        
+        <div class="projects-grid all-projects-grid" id="projects-grid">
+          {sortedProjects.map(project => (
+            <div class="project-wrapper" data-tags={JSON.stringify(project.data.tags || [])}>
+              <ProjectCard3D
+                title={project.data.title}
+                description={project.data.description}
+                image={project.data.image}
+                tags={project.data.tags}
+                github={project.data.github}
+                demo={project.data.demo}
+                featured={project.data.featured}
+                stars={project.data.stars}
+                lastCommit={project.data.lastCommit}
+              />
+            </div>
+          ))}
+        </div>
+        
+        {sortedProjects.length === 0 && (
+          <div class="empty-state">
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+            </div>
+            <h3 class="heading-card">No Projects Found</h3>
+            <p class="text-body">Check back soon for new projects!</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+      <div class="cta-content card-glass">
+        <h2 class="heading-section">Interested in Collaboration?</h2>
+        <p class="text-body">
+          I'm always excited to work on innovative AI projects and explore new technologies. 
+          Let's build something amazing together!
+        </p>
+        <div class="cta-actions">
+          <a href="/hire-me" class="btn btn-primary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Let's Connect
+          </a>
+          <a href="https://github.com/prassanna-ravishankar" target="_blank" class="btn btn-secondary">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  // Project filtering functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterTags = document.querySelectorAll('.filter-tag');
+    const projectWrappers = document.querySelectorAll('.project-wrapper');
+    
+    filterTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        const filter = tag.dataset.filter;
+        
+        // Update active state
+        filterTags.forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        
+        // Filter projects
+        projectWrappers.forEach(wrapper => {
+          const projectTags = JSON.parse(wrapper.dataset.tags || '[]');
+          
+          if (filter === 'all' || projectTags.includes(filter)) {
+            wrapper.style.display = 'block';
+            wrapper.classList.add('animate-fade-in');
+          } else {
+            wrapper.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .projects-container {
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+  }
+
+  /* Hero Section */
+  .projects-hero {
+    padding: var(--space-20) var(--space-8) var(--space-16);
+    background: linear-gradient(135deg, 
+      var(--color-primary-50), 
+      var(--color-secondary-50)
+    );
+    text-align: center;
+  }
+
+  .dark .projects-hero {
+    background: linear-gradient(135deg, 
+      var(--color-primary-950), 
+      var(--color-secondary-950)
+    );
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-xl);
+    margin: var(--space-6) 0 var(--space-12) 0;
+    opacity: 0.9;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: var(--space-6);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-primary);
+    box-shadow: var(--shadow-base);
+  }
+
+  .stat-number {
+    font-family: var(--font-family-display);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-black);
+    color: var(--color-primary-600);
+    line-height: var(--leading-none);
+  }
+
+  .stat-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-2);
+  }
+
+  /* Sections */
+  .featured-section,
+  .all-projects-section {
+    padding: var(--space-20) 0;
+  }
+
+  .all-projects-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-8);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .section-header .text-body {
+    font-size: var(--text-lg);
+    margin-top: var(--space-4);
+  }
+
+  /* Projects Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-8);
+  }
+
+  .featured-grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+
+  .project-wrapper {
+    transition: all var(--duration-300) var(--ease-out);
+  }
+
+  /* Filter Section */
+  .filter-section {
+    margin-bottom: var(--space-12);
+    text-align: center;
+  }
+
+  .filter-title {
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+  }
+
+  .filter-tag {
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--duration-200) var(--ease-out);
+  }
+
+  .filter-tag:hover {
+    border-color: var(--color-primary-300);
+    color: var(--color-primary-600);
+  }
+
+  .filter-tag.active {
+    background: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+    color: white;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: var(--space-20);
+    color: var(--color-text-secondary);
+  }
+
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-6);
+    color: var(--color-text-tertiary);
+  }
+
+  .empty-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: var(--space-20) var(--space-8);
+    background: linear-gradient(135deg, 
+      var(--color-primary-50), 
+      var(--color-secondary-50)
+    );
+  }
+
+  .dark .cta-section {
+    background: linear-gradient(135deg, 
+      var(--color-primary-950), 
+      var(--color-secondary-950)
+    );
+  }
+
+  .cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: var(--space-12);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    margin-top: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .projects-grid,
+    .featured-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-lg);
+    }
+
+    .filter-tags {
+      justify-content: flex-start;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: var(--space-2);
+    }
+
+    .filter-tag {
+      flex-shrink: 0;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .section-header .text-body {
+      font-size: var(--text-base);
+    }
+  }
+</style>
