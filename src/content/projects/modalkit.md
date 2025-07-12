@@ -6,7 +6,7 @@ image: "/images/projects/modalkit.png"
 github: "https://github.com/prassanna-ravishankar/modalkit"
 link: "https://prassanna.io/modalkit"
 tags: ["python", "machine-learning", "modal", "framework", "mlops"]
-featured: false
+featured: true
 draft: false
 ---
 

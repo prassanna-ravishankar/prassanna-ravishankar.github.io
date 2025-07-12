@@ -5,7 +5,7 @@ pubDate: 2024-12-13
 tags: ["python", "pytorch", "machine learning", "metrics", "mlops"]
 github: "https://github.com/prassanna-ravishankar/tracelet"
 image: "/images/projects/tracelet.png"
-featured: true
+featured: false
 ---
 
 ## Features
