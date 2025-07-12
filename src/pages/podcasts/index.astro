@@ -1,49 +1,565 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import SEOBreadcrumbs from '../../components/SEOBreadcrumbs.astro';
+import PodcastWaveform from '../../components/PodcastWaveform.astro';
 import { Image } from 'astro:assets';
-import PodcastCard from '../../components/PodcastCard.astro';
 import { podcasts } from '../../data/podcasts.js';
+import { getCollection } from 'astro:content';
+
+// Get podcast episodes
+const allEpisodes = await getCollection('podcasts');
+const sortedEpisodes = allEpisodes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const latestEpisodes = sortedEpisodes.slice(0, 6);
+
+// Breadcrumbs for SEO
+const breadcrumbs = [
+  { name: 'Home', url: 'https://prassanna.io' },
+  { name: 'Podcasts', url: 'https://prassanna.io/podcasts' }
+];
+
+// Format date function
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+// Mock featured podcast data for display
+const featuredShows = [
+  {
+    title: "Feed Forward",
+    description: "Exploring the intersection of AI, technology, and society with thought leaders and innovators.",
+    hosts: ["Prassanna Ravishankar"],
+    episodeCount: allEpisodes.filter(ep => ep.slug.startsWith('feed-forward')).length,
+    latestEpisode: sortedEpisodes.find(ep => ep.slug.startsWith('feed-forward')),
+    topics: ["AI", "Technology", "Future", "Innovation"],
+    platforms: [
+      { name: "Spotify", url: "#" },
+      { name: "Apple Podcasts", url: "#" },
+      { name: "Google Podcasts", url: "#" }
+    ]
+  }
+];
 ---
 
-<Layout title="Podcasts | Prassanna Ravishankar" description="Podcasts hosted by Prassanna Ravishankar on technology, AI, and startups">
-  <div class="container mx-auto py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      <header class="mb-12 text-center">
-        <h1 class="text-4xl font-bold mb-4">Podcasts</h1>
-        <p class="text-xl text-gray-600 dark:text-gray-400">Conversations about AI, technology, and the startup ecosystem</p>
-      </header>
-
-      <div class="space-y-12">
-        {podcasts.map(podcast => (
-          <PodcastCard
-            title={podcast.title}
-            description={podcast.description}
-            cohost={podcast.cohost}
-            imageUrl={podcast.imageUrl}
-            topics={podcast.topics}
-            latestEpisode={podcast.latestEpisode}
-            platforms={podcast.platforms}
-            slug={podcast.slug}
-          />
-        ))}
-      </div>
-
-      <div class="mt-16 text-center">
-        <p class="text-gray-600 dark:text-gray-400 mb-8">
-          Interested in being a guest on one of my podcasts? Have a topic suggestion?
-        </p>
-        <a 
-          href="https://form.typeform.com/to/YM7SfLUV" 
-          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md transition-colors inline-flex items-center"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-          Get in Touch
-        </a>
-      </div>
+<Layout 
+  title="Podcasts | AI Engineering Conversations | Prassanna Ravishankar"
+  description="Deep conversations about AI, machine learning, technology, and the future. Hosted by Prassanna Ravishankar, featuring industry experts and thought leaders."
+  image="/images/podcasts-og.jpg"
+>
+  <link rel="stylesheet" href="/src/styles/design-system.css" />
+  
+  <main class="podcasts-container">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb-container">
+      <SEOBreadcrumbs breadcrumbs={breadcrumbs} />
     </div>
-  </div>
-</Layout> 
+    
+    <!-- Hero Section -->
+    <section class="podcasts-hero">
+      <div class="hero-content">
+        <h1 class="heading-hero">
+          Podcast <span class="text-gradient gradient-accent">Conversations</span>
+        </h1>
+        <p class="hero-subtitle text-body">
+          Deep dives into AI, technology, and the future of innovation. 
+          Conversations with industry leaders, researchers, and visionaries shaping our digital world.
+        </p>
+        
+        <div class="podcasts-stats">
+          <div class="stat-item">
+            <span class="stat-number">{featuredShows.length}</span>
+            <span class="stat-label">Shows</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{allEpisodes.length}</span>
+            <span class="stat-label">Episodes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{Math.round(allEpisodes.reduce((acc, ep) => acc + (ep.body?.length || 2000), 0) / 1000)}</span>
+            <span class="stat-label">K Words</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Shows Section -->
+    <section class="shows-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="heading-section">Featured Shows</h2>
+          <p class="text-body">
+            Curated conversations exploring the frontiers of technology and AI
+          </p>
+        </div>
+        
+        <div class="shows-grid">
+          {featuredShows.map(show => (
+            <div class="show-card">
+              <div class="show-header">
+                <div class="show-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                </div>
+                <div class="show-info">
+                  <h3 class="show-title">{show.title}</h3>
+                  <p class="show-hosts">Hosted by {show.hosts.join(', ')}</p>
+                </div>
+                <div class="show-stats">
+                  <span class="episode-count">{show.episodeCount} episodes</span>
+                </div>
+              </div>
+              
+              <p class="show-description">{show.description}</p>
+              
+              <div class="show-topics">
+                {show.topics.map(topic => (
+                  <span class="topic-tag">{topic}</span>
+                ))}
+              </div>
+              
+              <div class="show-platforms">
+                <span class="platforms-label">Listen on:</span>
+                <div class="platforms-links">
+                  {show.platforms.map(platform => (
+                    <a href={platform.url} class="platform-link">
+                      {platform.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              
+              <a href={`/podcasts/${show.title.toLowerCase().replace(' ', '-')}`} class="show-link">
+                <span>Browse Episodes</span>
+                <svg class="show-link-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Episodes Section -->
+    <section class="episodes-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="heading-section">Latest Episodes</h2>
+          <p class="text-body">
+            Fresh conversations and insights from the world of AI and technology
+          </p>
+        </div>
+        
+        <div class="episodes-grid">
+          {latestEpisodes.map((episode, index) => (
+            <PodcastWaveform
+              title={episode.data.title}
+              duration={episode.data.duration || "30:00"}
+              description={episode.data.description}
+              url={`/podcasts/${episode.slug}`}
+              date={formatDate(episode.data.pubDate)}
+              featured={index === 0}
+            />
+          ))}
+        </div>
+        
+        {latestEpisodes.length === 0 && (
+          <div class="empty-state">
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+              </svg>
+            </div>
+            <h3 class="heading-card">No Episodes Yet</h3>
+            <p class="text-body">New podcast episodes coming soon!</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Guest CTA Section -->
+    <section class="guest-cta-section">
+      <div class="cta-content card-glass">
+        <h2 class="heading-section">Join the Conversation</h2>
+        <p class="text-body">
+          Interested in being a guest? Have a compelling story about AI, technology, or innovation? 
+          I'd love to explore new perspectives and share your insights with our community.
+        </p>
+        <div class="cta-actions">
+          <a href="https://form.typeform.com/to/YM7SfLUV" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            Be a Guest
+          </a>
+          <a href="/blog" class="btn btn-secondary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+            Read the Blog
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .podcasts-container {
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+  }
+
+  .breadcrumb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-8) 0;
+  }
+
+  /* Hero Section */
+  .podcasts-hero {
+    padding: var(--space-20) var(--space-8) var(--space-16);
+    background: linear-gradient(135deg, 
+      var(--color-accent-50), 
+      var(--color-primary-50)
+    );
+    text-align: center;
+  }
+
+  .dark .podcasts-hero {
+    background: linear-gradient(135deg, 
+      var(--color-accent-950), 
+      var(--color-primary-950)
+    );
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-xl);
+    margin: var(--space-6) 0 var(--space-12) 0;
+    opacity: 0.9;
+  }
+
+  .podcasts-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-12);
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-family: var(--font-family-display);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-black);
+    color: var(--color-accent-600);
+    line-height: var(--leading-none);
+  }
+
+  .stat-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+  }
+
+  /* Shows Section */
+  .shows-section {
+    padding: var(--space-20) 0;
+  }
+
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-8);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .section-header .text-body {
+    font-size: var(--text-lg);
+    margin-top: var(--space-4);
+  }
+
+  .shows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-8);
+  }
+
+  .show-card {
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    transition: all var(--duration-300) var(--ease-out);
+    box-shadow: var(--shadow-base);
+  }
+
+  .show-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-accent-300);
+  }
+
+  .show-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .show-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--color-accent-100);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .dark .show-icon {
+    background: var(--color-accent-900);
+  }
+
+  .show-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--color-accent-600);
+  }
+
+  .show-info {
+    flex: 1;
+  }
+
+  .show-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-1) 0;
+  }
+
+  .show-hosts {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .show-stats {
+    text-align: right;
+  }
+
+  .episode-count {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    background: var(--color-bg-tertiary);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+  }
+
+  .show-description {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-6);
+  }
+
+  .show-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .topic-tag {
+    font-size: var(--text-xs);
+    color: var(--color-accent-700);
+    background: var(--color-accent-100);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+  }
+
+  .dark .topic-tag {
+    background: var(--color-accent-900);
+    color: var(--color-accent-300);
+  }
+
+  .show-platforms {
+    margin-bottom: var(--space-6);
+  }
+
+  .platforms-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+    display: block;
+  }
+
+  .platforms-links {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .platform-link {
+    font-size: var(--text-sm);
+    color: var(--color-accent-600);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+    transition: color var(--duration-200) var(--ease-out);
+  }
+
+  .platform-link:hover {
+    color: var(--color-accent-700);
+    text-decoration: underline;
+  }
+
+  .show-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-accent-600);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+    transition: all var(--duration-200) var(--ease-out);
+  }
+
+  .show-link:hover {
+    color: var(--color-accent-700);
+    transform: translateX(4px);
+  }
+
+  .show-link-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--duration-200) var(--ease-out);
+  }
+
+  .show-link:hover .show-link-icon {
+    transform: translateX(2px);
+  }
+
+  /* Episodes Section */
+  .episodes-section {
+    padding: var(--space-20) 0;
+    background: var(--color-bg-secondary);
+  }
+
+  .episodes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: var(--space-20);
+    color: var(--color-text-secondary);
+  }
+
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-6);
+    color: var(--color-text-tertiary);
+  }
+
+  .empty-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Guest CTA Section */
+  .guest-cta-section {
+    padding: var(--space-20) var(--space-8);
+    background: linear-gradient(135deg, 
+      var(--color-accent-50), 
+      var(--color-primary-50)
+    );
+  }
+
+  .dark .guest-cta-section {
+    background: linear-gradient(135deg, 
+      var(--color-accent-950), 
+      var(--color-primary-950)
+    );
+  }
+
+  .cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: var(--space-12);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    margin-top: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .podcasts-stats {
+      gap: var(--space-8);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-lg);
+    }
+
+    .shows-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .show-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .show-stats {
+      text-align: left;
+    }
+
+    .platforms-links {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .podcasts-stats {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+  }
+</style> 

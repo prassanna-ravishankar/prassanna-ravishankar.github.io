@@ -5,7 +5,7 @@ import TerminalWidget from '../components/TerminalWidget.astro';
 import ProjectCard3D from '../components/ProjectCard3D.astro';
 import TechRadar from '../components/TechRadar.astro';
 import PodcastWaveform from '../components/PodcastWaveform.astro';
-import TagConstellation from '../components/TagConstellation.astro';
+import D3TagConstellation from '../components/D3TagConstellation.astro';
 import { getCollection } from 'astro:content';
 
 // Get featured projects
@@ -233,7 +233,7 @@ const featuredPodcasts = [
 
     <!-- Knowledge Constellation Section -->
     <section class="constellation-section">
-      <TagConstellation tags={tagData} />
+      <D3TagConstellation tags={tagData} />
     </section>
 
     <!-- Connect Section -->

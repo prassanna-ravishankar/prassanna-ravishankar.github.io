@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import SEOBreadcrumbs from '../../components/SEOBreadcrumbs.astro';
 import { getCollection } from 'astro:content';
 
 const verses = await getCollection('verses', ({ data }) => {
@@ -8,69 +9,509 @@ const verses = await getCollection('verses', ({ data }) => {
 
 // Sort verses by date
 const sortedVerses = verses.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Breadcrumbs for SEO
+const breadcrumbs = [
+  { name: 'Home', url: 'https://prassanna.io' },
+  { name: 'Verses', url: 'https://prassanna.io/verses' }
+];
+
+// Format date function
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
 ---
 
 <Layout 
-  title="Verses | Prassanna Ravishankar" 
-  description="A collection of verses exploring philosophy, life, and the human experience through poetry."
+  title="Verses & Poetry | Prassanna Ravishankar - Exploring Life Through Words"
+  description="A curated collection of verses and poetry exploring philosophy, technology, life, and the human experience. Thoughtful reflections through the lens of an AI engineer."
+  image="/images/verses-og.jpg"
 >
-  <div class="container mx-auto py-12 px-4">
-    <header class="max-w-3xl mx-auto mb-12 text-center">
-      <h1 class="text-4xl font-bold mb-4">Verses</h1>
-      <p class="text-xl text-gray-600 dark:text-gray-400">
-        Exploring the depths of existence through poetry
-      </p>
-    </header>
-
-    <div class="max-w-3xl mx-auto space-y-12">
-      {sortedVerses.map(verse => (
-        <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-          {verse.data.image && (
-            <a href={`/verses/${verse.slug}`} class="block">
-              <div class="aspect-video w-full overflow-hidden">
-                <img 
-                  src={verse.data.image} 
-                  alt={verse.data.title}
-                  class="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
-                />
-              </div>
-            </a>
-          )}
-          
-          <div class="p-6">
-            <h2 class="text-2xl font-bold mb-4">
-              <a 
-                href={`/verses/${verse.slug}`} 
-                class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                {verse.data.title}
-              </a>
-            </h2>
-            
-            {verse.data.description && (
-              <p class="text-gray-600 dark:text-gray-400 mb-4">
-                {verse.data.description}
-              </p>
-            )}
-            
-            <div class="flex flex-wrap gap-2 mb-4">
-              {verse.data.tags?.map(tag => (
-                <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-              {new Date(verse.data.pubDate).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </div>
-          </div>
-        </article>
-      ))}
+  <link rel="stylesheet" href="/src/styles/design-system.css" />
+  
+  <main class="verses-container">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb-container">
+      <SEOBreadcrumbs breadcrumbs={breadcrumbs} />
     </div>
-  </div>
-</Layout> 
+    
+    <!-- Hero Section -->
+    <section class="verses-hero">
+      <div class="hero-content">
+        <h1 class="heading-hero">
+          Verses & <span class="text-gradient gradient-secondary">Poetry</span>
+        </h1>
+        <p class="hero-subtitle text-body">
+          Exploring the intersection of technology, philosophy, and the human experience through verse.
+          A collection of reflections from an engineer's journey through code and consciousness.
+        </p>
+        
+        <div class="verses-stats">
+          <div class="stat-item">
+            <span class="stat-number">{verses.length}</span>
+            <span class="stat-label">Verses</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{[...new Set(verses.flatMap(v => v.data.tags || []))].length}</span>
+            <span class="stat-label">Themes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{Math.round(verses.reduce((acc, verse) => acc + (verse.body?.length || 500), 0) / 500)}</span>
+            <span class="stat-label">K Words</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verses Collection -->
+    <section class="verses-section">
+      <div class="section-container">
+        <div class="verses-grid">
+          {sortedVerses.map((verse, index) => (
+            <article class={`verse-card ${index === 0 ? 'featured' : ''}`}>
+              {verse.data.image && (
+                <a href={`/verses/${verse.slug}`} class="verse-image-link">
+                  <div class="verse-image-container">
+                    <img 
+                      src={verse.data.image} 
+                      alt={verse.data.title}
+                      class="verse-image"
+                      loading={index < 3 ? 'eager' : 'lazy'}
+                    />
+                    <div class="verse-image-overlay">
+                      <svg class="read-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              )}
+              
+              <div class="verse-content">
+                <div class="verse-header">
+                  <time class="verse-date" datetime={verse.data.pubDate.toISOString()}>
+                    {formatDate(verse.data.pubDate)}
+                  </time>
+                  {index === 0 && <span class="featured-badge">Latest</span>}
+                </div>
+                
+                <h2 class="verse-title">
+                  <a href={`/verses/${verse.slug}`} class="verse-link">
+                    {verse.data.title}
+                  </a>
+                </h2>
+                
+                {verse.data.description && (
+                  <p class="verse-description">
+                    {verse.data.description}
+                  </p>
+                )}
+                
+                {verse.data.tags && verse.data.tags.length > 0 && (
+                  <div class="verse-tags">
+                    {verse.data.tags.slice(0, 3).map(tag => (
+                      <span class="verse-tag">
+                        {tag}
+                      </span>
+                    ))}
+                    {verse.data.tags.length > 3 && (
+                      <span class="verse-tag-more">+{verse.data.tags.length - 3}</span>
+                    )}
+                  </div>
+                )}
+                
+                <a href={`/verses/${verse.slug}`} class="read-verse-link">
+                  Read Verse
+                  <svg class="read-verse-icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+        
+        {sortedVerses.length === 0 && (
+          <div class="empty-state">
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="heading-card">No Verses Yet</h3>
+            <p class="text-body">Check back soon for new poetry and reflections!</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="verses-cta-section">
+      <div class="cta-content card-glass">
+        <h2 class="heading-section">Words Shape Worlds</h2>
+        <p class="text-body">
+          Poetry bridges the technical and philosophical, offering glimpses into the soul of an engineer 
+          navigating the complexities of our digital age.
+        </p>
+        <div class="cta-actions">
+          <a href="/blog" class="btn btn-primary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+            Read Technical Blog
+          </a>
+          <a href="/about" class="btn btn-secondary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            About the Author
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .verses-container {
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+  }
+
+  .breadcrumb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-8) 0;
+  }
+
+  /* Hero Section */
+  .verses-hero {
+    padding: var(--space-20) var(--space-8) var(--space-16);
+    background: linear-gradient(135deg, 
+      var(--color-secondary-50), 
+      var(--color-accent-50)
+    );
+    text-align: center;
+  }
+
+  .dark .verses-hero {
+    background: linear-gradient(135deg, 
+      var(--color-secondary-950), 
+      var(--color-accent-950)
+    );
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-xl);
+    margin: var(--space-6) 0 var(--space-12) 0;
+    opacity: 0.9;
+  }
+
+  .verses-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-12);
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-family: var(--font-family-display);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-black);
+    color: var(--color-secondary-600);
+    line-height: var(--leading-none);
+  }
+
+  .stat-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+  }
+
+  /* Verses Section */
+  .verses-section {
+    padding: var(--space-20) 0;
+    background: var(--color-bg-secondary);
+  }
+
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-8);
+  }
+
+  .verses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-8);
+  }
+
+  .verse-card {
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    transition: all var(--duration-300) var(--ease-out);
+    box-shadow: var(--shadow-base);
+  }
+
+  .verse-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .verse-card.featured {
+    border-color: var(--color-secondary-300);
+    box-shadow: var(--shadow-secondary);
+  }
+
+  .verse-image-link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .verse-image-container {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+
+  .verse-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-300) var(--ease-out);
+  }
+
+  .verse-image-link:hover .verse-image {
+    transform: scale(1.05);
+  }
+
+  .verse-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(16, 185, 129, 0.8), rgba(59, 130, 246, 0.8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--duration-300) var(--ease-out);
+  }
+
+  .verse-image-link:hover .verse-image-overlay {
+    opacity: 1;
+  }
+
+  .read-icon {
+    width: 48px;
+    height: 48px;
+    color: white;
+  }
+
+  .verse-content {
+    padding: var(--space-6);
+  }
+
+  .verse-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .verse-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    font-family: var(--font-family-code);
+  }
+
+  .featured-badge {
+    background: linear-gradient(45deg, var(--color-secondary-500), var(--color-secondary-600));
+    color: white;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+  }
+
+  .verse-title {
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .verse-link {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color var(--duration-200) var(--ease-out);
+  }
+
+  .verse-link:hover {
+    color: var(--color-secondary-600);
+  }
+
+  .verse-description {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-6);
+    font-style: italic;
+  }
+
+  .verse-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .verse-tag {
+    font-size: var(--text-xs);
+    color: var(--color-secondary-700);
+    background: var(--color-secondary-100);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all var(--duration-200) var(--ease-out);
+  }
+
+  .dark .verse-tag {
+    background: var(--color-secondary-900);
+    color: var(--color-secondary-300);
+  }
+
+  .verse-tag-more {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    background: var(--color-bg-tertiary);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+  }
+
+  .read-verse-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-secondary-600);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+    transition: all var(--duration-200) var(--ease-out);
+  }
+
+  .read-verse-link:hover {
+    color: var(--color-secondary-700);
+    transform: translateX(4px);
+  }
+
+  .read-verse-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--duration-200) var(--ease-out);
+  }
+
+  .read-verse-link:hover .read-verse-icon {
+    transform: translateX(2px);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: var(--space-20);
+    color: var(--color-text-secondary);
+  }
+
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-6);
+    color: var(--color-text-tertiary);
+  }
+
+  .empty-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* CTA Section */
+  .verses-cta-section {
+    padding: var(--space-20) var(--space-8);
+    background: linear-gradient(135deg, 
+      var(--color-secondary-50), 
+      var(--color-accent-50)
+    );
+  }
+
+  .dark .verses-cta-section {
+    background: linear-gradient(135deg, 
+      var(--color-secondary-950), 
+      var(--color-accent-950)
+    );
+  }
+
+  .cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: var(--space-12);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    margin-top: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .verses-stats {
+      gap: var(--space-8);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-lg);
+    }
+
+    .verses-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .verse-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .verses-stats {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+  }
+</style> 

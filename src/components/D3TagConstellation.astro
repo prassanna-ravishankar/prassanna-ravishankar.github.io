@@ -1,0 +1,526 @@
+---
+export interface Props {
+  tags: Array<{
+    name: string;
+    count: number;
+    posts: Array<{
+      title: string;
+      url: string;
+      description: string;
+    }>;
+  }>;
+}
+
+const { tags } = Astro.props;
+---
+
+<div class="tag-constellation-container">
+  <div class="constellation-header">
+    <h2 class="heading-section">Knowledge Constellation</h2>
+    <p class="text-body">
+      Explore the interconnected universe of AI engineering topics. Click on nodes to discover related articles and insights.
+    </p>
+  </div>
+  
+  <div class="constellation-controls">
+    <button id="reset-zoom" class="btn btn-ghost btn-sm">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      Reset View
+    </button>
+    <div class="view-controls">
+      <label class="control-label">
+        <input type="checkbox" id="show-connections" checked>
+        <span>Show Connections</span>
+      </label>
+      <label class="control-label">
+        <input type="checkbox" id="group-by-frequency" checked>
+        <span>Group by Frequency</span>
+      </label>
+    </div>
+  </div>
+  
+  <div id="constellation-viz" class="constellation-viz"></div>
+  
+  <div id="node-info" class="node-info hidden">
+    <div class="node-info-content">
+      <h3 id="node-title" class="node-title"></h3>
+      <p id="node-count" class="node-count"></p>
+      <div id="node-posts" class="node-posts"></div>
+      <button id="close-info" class="close-btn">&times;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Import D3 from CDN
+const script = document.createElement('script');
+script.src = 'https://d3js.org/d3.v7.min.js';
+script.onload = initConstellation;
+document.head.appendChild(script);
+
+function initConstellation() {
+  const tags = JSON.parse(document.currentScript.getAttribute('data-tags'));
+  
+  if (!tags || tags.length === 0) return;
+
+  const container = document.getElementById('constellation-viz');
+  const width = container.clientWidth;
+  const height = Math.max(500, Math.min(800, width * 0.6));
+
+  // Clear any existing visualization
+  d3.select(container).selectAll('*').remove();
+
+  // Create SVG
+  const svg = d3.select(container)
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('viewBox', [0, 0, width, height])
+    .style('max-width', '100%')
+    .style('height', 'auto');
+
+  // Create groups for different layers
+  const linkGroup = svg.append('g').attr('class', 'links');
+  const nodeGroup = svg.append('g').attr('class', 'nodes');
+
+  // Process data
+  const maxCount = Math.max(...tags.map(t => t.count));
+  const minCount = Math.min(...tags.map(t => t.count));
+  
+  // Create nodes with enhanced properties
+  const nodes = tags.map((tag, i) => ({
+    id: tag.name,
+    name: tag.name,
+    count: tag.count,
+    posts: tag.posts,
+    radius: Math.max(8, Math.min(40, 15 + (tag.count / maxCount) * 25)),
+    group: tag.count > maxCount * 0.7 ? 'high' : 
+           tag.count > maxCount * 0.3 ? 'medium' : 'low',
+    x: width / 2 + (Math.random() - 0.5) * 200,
+    y: height / 2 + (Math.random() - 0.5) * 200
+  }));
+
+  // Create links based on semantic similarity (simplified approach)
+  const links = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const similarity = calculateSimilarity(nodes[i], nodes[j]);
+      if (similarity > 0.3) {
+        links.push({
+          source: nodes[i],
+          target: nodes[j],
+          strength: similarity
+        });
+      }
+    }
+  }
+
+  // Color scale
+  const colorScale = d3.scaleOrdinal()
+    .domain(['high', 'medium', 'low'])
+    .range(['#10b981', '#3b82f6', '#f59e0b']);
+
+  // Force simulation
+  const simulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength * 0.3))
+    .force('charge', d3.forceManyBody().strength(-200))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(d => d.radius + 5))
+    .force('x', d3.forceX(width / 2).strength(0.1))
+    .force('y', d3.forceY(height / 2).strength(0.1));
+
+  // Create links
+  const link = linkGroup
+    .selectAll('line')
+    .data(links)
+    .join('line')
+    .attr('class', 'constellation-link')
+    .style('stroke', '#6b7280')
+    .style('stroke-opacity', d => d.strength * 0.6)
+    .style('stroke-width', d => Math.max(1, d.strength * 3));
+
+  // Create nodes
+  const node = nodeGroup
+    .selectAll('g')
+    .data(nodes)
+    .join('g')
+    .attr('class', 'constellation-node')
+    .style('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', dragstarted)
+      .on('drag', dragged)
+      .on('end', dragended));
+
+  // Add circles to nodes
+  node.append('circle')
+    .attr('r', d => d.radius)
+    .style('fill', d => colorScale(d.group))
+    .style('stroke', '#ffffff')
+    .style('stroke-width', 2)
+    .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
+    .on('mouseover', function(event, d) {
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .attr('r', d.radius * 1.2)
+        .style('filter', 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))');
+    })
+    .on('mouseout', function(event, d) {
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .attr('r', d.radius)
+        .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))');
+    })
+    .on('click', function(event, d) {
+      showNodeInfo(d);
+    });
+
+  // Add labels to nodes
+  node.append('text')
+    .text(d => d.name)
+    .style('font-size', d => Math.max(10, Math.min(14, d.radius * 0.6)) + 'px')
+    .style('font-family', 'Inter, sans-serif')
+    .style('font-weight', '600')
+    .style('fill', '#374151')
+    .style('text-anchor', 'middle')
+    .style('dominant-baseline', 'central')
+    .style('pointer-events', 'none')
+    .style('user-select', 'none');
+
+  // Add count labels
+  node.append('text')
+    .text(d => d.count)
+    .attr('dy', d => d.radius * 0.7)
+    .style('font-size', '10px')
+    .style('font-family', 'JetBrains Mono, monospace')
+    .style('fill', '#6b7280')
+    .style('text-anchor', 'middle')
+    .style('pointer-events', 'none')
+    .style('user-select', 'none');
+
+  // Update simulation
+  simulation.on('tick', () => {
+    link
+      .attr('x1', d => d.source.x)
+      .attr('y1', d => d.source.y)
+      .attr('x2', d => d.target.x)
+      .attr('y2', d => d.target.y);
+
+    node
+      .attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+
+  // Controls
+  document.getElementById('reset-zoom').addEventListener('click', () => {
+    simulation.alpha(0.3).restart();
+  });
+
+  document.getElementById('show-connections').addEventListener('change', (e) => {
+    linkGroup.style('opacity', e.target.checked ? 1 : 0);
+  });
+
+  document.getElementById('group-by-frequency').addEventListener('change', (e) => {
+    if (e.target.checked) {
+      simulation.force('x', d3.forceX(d => {
+        return d.group === 'high' ? width * 0.3 : 
+               d.group === 'medium' ? width * 0.5 : width * 0.7;
+      }).strength(0.3));
+    } else {
+      simulation.force('x', d3.forceX(width / 2).strength(0.1));
+    }
+    simulation.alpha(0.3).restart();
+  });
+
+  // Drag functions
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
+  // Calculate similarity between nodes (simplified)
+  function calculateSimilarity(node1, node2) {
+    const words1 = node1.name.toLowerCase().split(/[\s-]+/);
+    const words2 = node2.name.toLowerCase().split(/[\s-]+/);
+    
+    let commonWords = 0;
+    words1.forEach(word => {
+      if (words2.includes(word) && word.length > 2) {
+        commonWords++;
+      }
+    });
+
+    let similarity = commonWords / Math.max(words1.length, words2.length);
+    
+    // Boost similarity for related AI/ML terms
+    const aiTerms = ['ai', 'ml', 'machine', 'learning', 'neural', 'deep', 'model', 'algorithm'];
+    const hasAI1 = words1.some(w => aiTerms.includes(w));
+    const hasAI2 = words2.some(w => aiTerms.includes(w));
+    
+    if (hasAI1 && hasAI2) similarity *= 1.5;
+    
+    return Math.min(1, similarity);
+  }
+
+  // Show node information
+  function showNodeInfo(node) {
+    const infoPanel = document.getElementById('node-info');
+    const title = document.getElementById('node-title');
+    const count = document.getElementById('node-count');
+    const posts = document.getElementById('node-posts');
+
+    title.textContent = node.name;
+    count.textContent = `${node.count} article${node.count > 1 ? 's' : ''}`;
+    
+    posts.innerHTML = node.posts.slice(0, 3).map(post => `
+      <a href="${post.url}" class="node-post-link">
+        <div class="node-post-title">${post.title}</div>
+        <div class="node-post-desc">${post.description}</div>
+      </a>
+    `).join('');
+
+    if (node.posts.length > 3) {
+      posts.innerHTML += `<div class="more-posts">+${node.posts.length - 3} more articles</div>`;
+    }
+
+    infoPanel.classList.remove('hidden');
+  }
+
+  // Close info panel
+  document.getElementById('close-info').addEventListener('click', () => {
+    document.getElementById('node-info').classList.add('hidden');
+  });
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth;
+    const newHeight = Math.max(500, Math.min(800, newWidth * 0.6));
+    
+    svg.attr('width', newWidth).attr('height', newHeight);
+    simulation.force('center', d3.forceCenter(newWidth / 2, newHeight / 2));
+    simulation.alpha(0.3).restart();
+  });
+}
+</script>
+
+<style>
+  .tag-constellation-container {
+    padding: var(--space-16) 0;
+    background: var(--color-bg-secondary);
+  }
+
+  .constellation-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 var(--space-8);
+  }
+
+  .constellation-header .text-body {
+    font-size: var(--text-lg);
+    margin-top: var(--space-4);
+  }
+
+  .constellation-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto var(--space-6);
+    padding: 0 var(--space-8);
+  }
+
+  .view-controls {
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .control-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+
+  .control-label input[type="checkbox"] {
+    accent-color: var(--color-primary-600);
+  }
+
+  .constellation-viz {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--color-border-primary);
+    box-shadow: var(--shadow-base);
+    overflow: hidden;
+  }
+
+  .constellation-link {
+    transition: stroke-opacity 0.3s ease;
+  }
+
+  .constellation-node {
+    transition: all 0.3s ease;
+  }
+
+  .node-info {
+    position: fixed;
+    top: 50%;
+    right: var(--space-8);
+    transform: translateY(-50%);
+    width: 320px;
+    max-height: 70vh;
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    z-index: 1000;
+    overflow: hidden;
+  }
+
+  .node-info.hidden {
+    display: none;
+  }
+
+  .node-info-content {
+    padding: var(--space-6);
+    position: relative;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    background: none;
+    border: none;
+    font-size: var(--text-xl);
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    transition: all var(--duration-200) var(--ease-out);
+  }
+
+  .close-btn:hover {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .node-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-2) 0;
+    padding-right: var(--space-8);
+  }
+
+  .node-count {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4) 0;
+    font-family: var(--font-family-code);
+  }
+
+  .node-posts {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .node-post-link {
+    display: block;
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color var(--duration-200) var(--ease-out);
+    margin-bottom: var(--space-2);
+  }
+
+  .node-post-link:hover {
+    background: var(--color-bg-secondary);
+  }
+
+  .node-post-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+    line-height: var(--leading-tight);
+  }
+
+  .node-post-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .more-posts {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    text-align: center;
+    padding: var(--space-2);
+    font-style: italic;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .constellation-controls {
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: flex-start;
+    }
+
+    .view-controls {
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .node-info {
+      position: fixed;
+      top: auto;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: auto;
+      transform: none;
+      border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+      max-height: 60vh;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .constellation-header {
+      padding: 0 var(--space-4);
+    }
+
+    .constellation-controls {
+      padding: 0 var(--space-4);
+    }
+  }
+</style>
+
+<script type="application/json" data-tags={JSON.stringify(tags)}></script>

@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import TagConstellation from '../../components/TagConstellation.astro';
+import D3TagConstellation from '../../components/D3TagConstellation.astro';
 import SEOBreadcrumbs from '../../components/SEOBreadcrumbs.astro';
 import { getCollection } from 'astro:content';
 
@@ -101,7 +101,7 @@ const breadcrumbs = [
 
     <!-- Tag Constellation Section -->
     <section class="constellation-section">
-      <TagConstellation tags={tagData} />
+      <D3TagConstellation tags={tagData} />
     </section>
 
     <!-- Popular Topics -->
