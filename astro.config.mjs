@@ -5,20 +5,26 @@ import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import partytown from '@astrojs/partytown';
-// Temporarily comment out plugin imports
-// import { remarkImagePaths } from './src/plugins/remark-image-paths.mjs';
-// import { rehypeImageOptimizer } from './src/plugins/rehype-image-optimizer.mjs';
+// Image optimization plugins
+import { remarkImagePaths } from './src/plugins/remark-image-paths.mjs';
+import { rehypeImageOptimizer } from './src/plugins/rehype-image-optimizer.mjs';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://prassanna.io',
   
+  redirects: {
+    '/blog/2019-05-29-pipenv-pyenv': '/blog/pipenv-pyenv',
+    '/ambi-alert': '/projects/ambi-alert',
+    '/blog/ml-fragmentation-redirect': '/blog/ml-fragmentation',
+  },
+  
   integrations: [
     tailwind(),
     mdx({
-      // No custom plugins
-      remarkPlugins: [],
-      rehypePlugins: [],
+      // Image optimization plugins
+      remarkPlugins: [remarkImagePaths],
+      rehypePlugins: [rehypeImageOptimizer],
       extendMarkdownConfig: true,
       smartypants: true,
       gfm: true,
@@ -58,9 +64,9 @@ export default defineConfig({
       theme: 'github-dark',
       wrap: true
     },
-    // No custom plugins
-    remarkPlugins: [],
-    rehypePlugins: [],
+    // Image optimization plugins
+    remarkPlugins: [remarkImagePaths],
+    rehypePlugins: [rehypeImageOptimizer],
   },
   
   // Enable image optimization

@@ -1,7 +1,7 @@
 ---
 title: "Modalkit"
 description: "A powerful Python framework for deploying ML models on Modal with production-ready features."
-pubDate: "2024-07-18"
+pubDate: 2025-07-10
 image: "/images/projects/modalkit.png"
 github: "https://github.com/prassanna-ravishankar/modalkit"
 link: "https://prassanna.io/modalkit"
