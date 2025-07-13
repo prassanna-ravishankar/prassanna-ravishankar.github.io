@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import NotionNav from '../components/NotionNav.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
 
 type Props = {
   entry: CollectionEntry<'blog'>;
@@ -75,6 +76,8 @@ const breadcrumbSchema = {
   modifiedTime={entry.data.updatedDate?.toISOString()}
   tags={entry.data.tags}
 >
+  <!-- Reading Progress Indicator -->
+  <ReadingProgress target="article" />
   <!-- Additional canonical for blog posts -->
   <link slot="head" rel="canonical" href={canonicalURL} />
   

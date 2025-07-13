@@ -1,0 +1,278 @@
+---
+// Reading Progress Indicator Component
+export interface Props {
+  target?: string; // CSS selector for content container
+}
+
+const { target = 'main' } = Astro.props;
+---
+
+<div id="reading-progress" class="reading-progress">
+  <div class="progress-bar"></div>
+  <div class="progress-thumb"></div>
+</div>
+
+<script define:vars={{ target }}>
+  class ReadingProgressIndicator {
+    constructor() {
+      this.progressContainer = document.getElementById('reading-progress');
+      this.progressBar = this.progressContainer?.querySelector('.progress-bar');
+      this.progressThumb = this.progressContainer?.querySelector('.progress-thumb');
+      this.contentElement = document.querySelector(target) || document.body;
+      
+      this.isVisible = false;
+      this.currentProgress = 0;
+      this.animationFrame = null;
+      
+      this.init();
+    }
+    
+    init() {
+      if (!this.progressContainer || !this.progressBar || !this.progressThumb) return;
+      
+      // Throttled scroll handler
+      let ticking = false;
+      const handleScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            this.updateProgress();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+      
+      // Add scroll listener
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      
+      // Add resize listener
+      window.addEventListener('resize', () => this.updateProgress(), { passive: true });
+      
+      // Initial update
+      this.updateProgress();
+      
+      // Intersection observer for auto-hide/show
+      this.setupIntersectionObserver();
+    }
+    
+    updateProgress() {
+      const rect = this.contentElement.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Calculate progress based on content visibility
+      const contentTop = rect.top + scrollTop;
+      const contentHeight = rect.height;
+      const readableHeight = contentHeight - windowHeight;
+      
+      let progress = 0;
+      
+      if (scrollTop > contentTop) {
+        const scrolledInContent = scrollTop - contentTop;
+        progress = Math.min(scrolledInContent / readableHeight, 1);
+      }
+      
+      // Smooth the progress value
+      this.currentProgress = Math.max(0, Math.min(1, progress));
+      
+      // Update visual progress
+      const percentage = this.currentProgress * 100;
+      this.progressBar.style.transform = `scaleX(${this.currentProgress})`;
+      this.progressThumb.style.left = `${percentage}%`;
+      
+      // Show/hide based on scroll position
+      const shouldShow = scrollTop > 100 && this.currentProgress < 0.98;
+      this.toggleVisibility(shouldShow);
+      
+      // Update accessibility
+      this.progressContainer.setAttribute('aria-valuenow', Math.round(percentage));
+      this.progressContainer.setAttribute('aria-valuetext', `${Math.round(percentage)}% read`);
+    }
+    
+    toggleVisibility(show) {
+      if (show && !this.isVisible) {
+        this.isVisible = true;
+        this.progressContainer.classList.add('visible');
+      } else if (!show && this.isVisible) {
+        this.isVisible = false;
+        this.progressContainer.classList.remove('visible');
+      }
+    }
+    
+    setupIntersectionObserver() {
+      // Hide progress when user reaches the end of content
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
+              // Near bottom of content, hide progress
+              this.toggleVisibility(false);
+            }
+          });
+        },
+        { threshold: [0.8] }
+      );
+      
+      // Observe the last element in content
+      const lastElement = this.contentElement.lastElementChild;
+      if (lastElement) {
+        observer.observe(lastElement);
+      }
+    }
+    
+    // Public method to manually set progress (for single-page apps)
+    setProgress(value) {
+      this.currentProgress = Math.max(0, Math.min(1, value));
+      this.updateVisualProgress();
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new ReadingProgressIndicator());
+  } else {
+    new ReadingProgressIndicator();
+  }
+</script>
+
+<style>
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    z-index: 1001;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all var(--duration-300) var(--ease-out);
+    
+    /* Accessibility */
+    role: progressbar;
+    aria-valuemin: 0;
+    aria-valuemax: 100;
+    aria-label: Reading progress indicator;
+  }
+  
+  .reading-progress.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      var(--color-primary-500), 
+      var(--color-secondary-500), 
+      var(--color-accent-500)
+    );
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform var(--duration-200) var(--ease-out);
+    border-radius: 0 2px 2px 0;
+  }
+  
+  .progress-thumb {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent-500);
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(-50%);
+    transition: left var(--duration-200) var(--ease-out);
+    opacity: 0;
+  }
+  
+  .reading-progress.visible .progress-thumb {
+    opacity: 1;
+  }
+  
+  /* Dark mode adjustments */
+  .dark .reading-progress {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .dark .progress-thumb {
+    background: var(--color-accent-400);
+  }
+  
+  /* Hover effects */
+  .reading-progress:hover {
+    height: 6px;
+  }
+  
+  .reading-progress:hover .progress-thumb {
+    width: 12px;
+    height: 12px;
+    top: -3px;
+  }
+  
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .reading-progress {
+      background: rgba(0, 0, 0, 0.8);
+      height: 6px;
+    }
+    
+    .progress-bar {
+      background: #007acc;
+    }
+    
+    .progress-thumb {
+      background: #007acc;
+      border: 2px solid white;
+    }
+  }
+  
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .reading-progress,
+    .progress-bar,
+    .progress-thumb {
+      transition: none;
+    }
+    
+    .reading-progress:hover {
+      height: 4px;
+    }
+    
+    .reading-progress:hover .progress-thumb {
+      width: 8px;
+      height: 8px;
+      top: -2px;
+    }
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .reading-progress {
+      height: 3px;
+    }
+    
+    .progress-thumb {
+      width: 6px;
+      height: 6px;
+      top: -1.5px;
+    }
+    
+    .reading-progress:hover {
+      height: 3px;
+    }
+    
+    .reading-progress:hover .progress-thumb {
+      width: 6px;
+      height: 6px;
+      top: -1.5px;
+    }
+  }
+</style>
