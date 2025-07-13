@@ -41,7 +41,14 @@ const { tags } = Astro.props;
     </div>
   </div>
   
-  <div id="constellation-viz" class="constellation-viz"></div>
+  <div id="constellation-viz" class="constellation-viz">
+    <div id="constellation-loading" class="constellation-loading">
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <span class="loading-text">Mapping knowledge constellation...</span>
+      </div>
+    </div>
+  </div>
   
   <div id="node-info" class="node-info hidden">
     <div class="node-info-content">
@@ -53,21 +60,27 @@ const { tags } = Astro.props;
   </div>
 </div>
 
-<script>
+<script define:vars={{ tags }}>
 // Import D3 from CDN
 const script = document.createElement('script');
 script.src = 'https://d3js.org/d3.v7.min.js';
-script.onload = initConstellation;
+script.onload = () => initConstellation();
 document.head.appendChild(script);
 
 function initConstellation() {
-  const tags = JSON.parse(document.currentScript.getAttribute('data-tags'));
+  // Tags data is now available via define:vars
   
   if (!tags || tags.length === 0) return;
 
   const container = document.getElementById('constellation-viz');
   const width = container.clientWidth;
   const height = Math.max(500, Math.min(800, width * 0.6));
+
+  // Hide loading state
+  const loadingElement = document.getElementById('constellation-loading');
+  if (loadingElement) {
+    loadingElement.style.display = 'none';
+  }
 
   // Clear any existing visualization
   d3.select(container).selectAll('*').remove();
@@ -373,6 +386,57 @@ function initConstellation() {
     border: 1px solid var(--color-border-primary);
     box-shadow: var(--shadow-base);
     overflow: hidden;
+    position: relative;
+    min-height: 500px;
+  }
+
+  .constellation-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-primary);
+    z-index: 10;
+  }
+
+  .loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--color-bg-tertiary);
+    border-top-color: var(--color-primary-600);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .loading-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-medium);
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .spinner {
+      animation: none;
+      border: 3px solid var(--color-primary-600);
+    }
   }
 
   .constellation-link {
@@ -522,5 +586,3 @@ function initConstellation() {
     }
   }
 </style>
-
-<script type="application/json" data-tags={JSON.stringify(tags)}></script>

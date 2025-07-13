@@ -1,0 +1,103 @@
+---
+export interface Props {
+  variant?: 'text' | 'circle' | 'rect' | 'card';
+  width?: string;
+  height?: string;
+  lines?: number;
+  className?: string;
+}
+
+const { 
+  variant = 'rect', 
+  width = '100%', 
+  height = '20px', 
+  lines = 1,
+  className = ''
+} = Astro.props;
+---
+
+{variant === 'text' ? (
+  <div class={`skeleton-container ${className}`}>
+    {Array.from({ length: lines }, (_, i) => (
+      <div 
+        class="skeleton skeleton-text" 
+        style={`width: ${i === lines - 1 ? '70%' : '100%'}; height: ${height};`}
+      ></div>
+    ))}
+  </div>
+) : variant === 'card' ? (
+  <div class={`skeleton-card ${className}`}>
+    <div class="skeleton skeleton-rect" style="width: 100%; height: 200px; border-radius: var(--radius-lg);"></div>
+    <div class="skeleton-card-content">
+      <div class="skeleton skeleton-text" style="width: 80%; height: 24px; margin-bottom: var(--space-3);"></div>
+      <div class="skeleton skeleton-text" style="width: 100%; height: 16px; margin-bottom: var(--space-2);"></div>
+      <div class="skeleton skeleton-text" style="width: 90%; height: 16px; margin-bottom: var(--space-2);"></div>
+      <div class="skeleton skeleton-text" style="width: 60%; height: 16px;"></div>
+    </div>
+  </div>
+) : (
+  <div 
+    class={`skeleton skeleton-${variant} ${className}`}
+    style={`width: ${width}; height: ${height};`}
+  ></div>
+)}
+
+<style>
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-tertiary) 25%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-base);
+  }
+
+  .skeleton-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .skeleton-text {
+    border-radius: var(--radius-sm);
+  }
+
+  .skeleton-circle {
+    border-radius: 50%;
+  }
+
+  .skeleton-rect {
+    border-radius: var(--radius-base);
+  }
+
+  .skeleton-card {
+    padding: var(--space-6);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-2xl);
+  }
+
+  .skeleton-card-content {
+    margin-top: var(--space-4);
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton {
+      animation: none;
+      background: var(--color-bg-tertiary);
+    }
+  }
+</style>

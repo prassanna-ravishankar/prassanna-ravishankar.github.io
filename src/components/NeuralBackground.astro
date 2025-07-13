@@ -3,7 +3,14 @@
 ---
 
 <div id="neural-background" class="absolute inset-0 overflow-hidden">
-  <canvas id="neural-canvas" class="w-full h-full"></canvas>
+  <div id="neural-loading" class="neural-loading">
+    <div class="neural-loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <canvas id="neural-canvas" class="w-full h-full opacity-0"></canvas>
 </div>
 
 <script>
@@ -17,7 +24,15 @@
       
       this.resize();
       this.init();
-      this.animate();
+      
+      // Hide loading and show canvas after initialization
+      setTimeout(() => {
+        const loading = document.getElementById('neural-loading');
+        const canvas = document.getElementById('neural-canvas');
+        if (loading) loading.style.display = 'none';
+        if (canvas) canvas.style.opacity = '1';
+        this.animate();
+      }, 500);
       
       window.addEventListener('resize', () => this.resize());
     }
@@ -145,5 +160,57 @@
   
   #neural-canvas {
     display: block;
+    transition: opacity 0.5s ease;
+  }
+
+  .neural-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .neural-loading-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .neural-loading-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.6);
+    animation: neuralPulse 1.5s ease-in-out infinite;
+  }
+
+  .neural-loading-dots .dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .neural-loading-dots .dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes neuralPulse {
+    0%, 80%, 100% {
+      transform: scale(0.8);
+      opacity: 0.3;
+    }
+    40% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .neural-loading-dots .dot {
+      animation: none;
+      opacity: 0.6;
+    }
+    #neural-canvas {
+      transition: none;
+    }
   }
 </style>
