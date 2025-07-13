@@ -7,6 +7,7 @@ import TechRadar from '../components/TechRadar.astro';
 import PodcastWaveform from '../components/PodcastWaveform.astro';
 import D3TagConstellation from '../components/D3TagConstellation.astro';
 import { getCollection } from 'astro:content';
+import { getStaticPodcastData } from '../utils/podcastRSS.js';
 
 // Get featured projects
 const allProjects = await getCollection('projects');
@@ -42,25 +43,19 @@ const tagData = Array.from(tagMap.values())
   .sort((a, b) => b.count - a.count)
   .slice(0, 15);
 
-// Mock podcast data
-const featuredPodcasts = [
-  {
-    title: "Building AI Agents with Multi-Modal Capabilities",
-    duration: "42:15",
-    description: "Deep dive into creating intelligent agents that can process text, images, and audio simultaneously",
-    url: "/podcast/multimodal-agents",
-    date: "Dec 2024",
-    featured: true
-  },
-  {
-    title: "The Future of MLOps: From Prototypes to Production",
-    duration: "38:22",
-    description: "Best practices for scaling ML models and maintaining them in production environments",
-    url: "/podcast/mlops-future",
-    date: "Nov 2024",
-    featured: false
-  }
-];
+// Real podcast data from RSS feed
+const podcastData = getStaticPodcastData();
+const featuredPodcasts = podcastData.episodes.slice(0, 2).map((episode, index) => ({
+  title: episode.title,
+  duration: episode.duration,
+  description: episode.description,
+  url: episode.link || `#episode-${episode.id}`,
+  audioUrl: episode.audioUrl,
+  episodeNumber: episode.episodeNumber,
+  season: episode.season,
+  date: episode.pubDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  featured: index === 0
+}));
 ---
 
 <Layout 
@@ -224,6 +219,9 @@ const featuredPodcasts = [
             duration={podcast.duration}
             description={podcast.description}
             url={podcast.url}
+            audioUrl={podcast.audioUrl}
+            episodeNumber={podcast.episodeNumber}
+            season={podcast.season}
             date={podcast.date}
             featured={podcast.featured}
           />

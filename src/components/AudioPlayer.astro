@@ -1,0 +1,440 @@
+---
+export interface Props {
+  title: string;
+  audioUrl?: string;
+  duration: string;
+  description?: string;
+  episode?: number;
+  season?: number;
+}
+
+const { title, audioUrl, duration, description, episode, season } = Astro.props;
+const hasAudio = audioUrl && audioUrl.startsWith('http');
+---
+
+<div class="audio-player-container" data-audio-url={audioUrl}>
+  <div class="player-header">
+    <div class="episode-info">
+      {episode && season && (
+        <span class="episode-number">S{season}E{episode}</span>
+      )}
+      <h3 class="episode-title">{title}</h3>
+      <span class="episode-duration">{duration}</span>
+    </div>
+    
+    {hasAudio && (
+      <button class="play-button" id={`play-btn-${episode || 'audio'}`} aria-label={`Play ${title}`}>
+        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg class="pause-icon hidden" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+      </button>
+    )}
+  </div>
+  
+  {description && (
+    <p class="episode-description">{description}</p>
+  )}
+  
+  {hasAudio && (
+    <div class="player-controls">
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+          <div class="progress-handle"></div>
+        </div>
+        <div class="time-display">
+          <span class="current-time">0:00</span>
+          <span class="total-time">{duration}</span>
+        </div>
+      </div>
+      
+      <div class="volume-container">
+        <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <input type="range" class="volume-slider" min="0" max="100" value="100">
+      </div>
+    </div>
+  )}
+  
+  {!hasAudio && (
+    <div class="no-audio-message">
+      <svg class="info-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+      <span>Visit our podcast platforms to listen</span>
+    </div>
+  )}
+  
+  <audio class="audio-element" preload="none">
+    {hasAudio && <source src={audioUrl} type="audio/mpeg" />}
+  </audio>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const players = document.querySelectorAll('.audio-player-container');
+  
+  players.forEach(container => {
+    const audioUrl = container.getAttribute('data-audio-url');
+    if (!audioUrl || !audioUrl.startsWith('http')) return;
+    
+    const audio = container.querySelector('.audio-element');
+    const playBtn = container.querySelector('.play-button');
+    const playIcon = container.querySelector('.play-icon');
+    const pauseIcon = container.querySelector('.pause-icon');
+    const progressBar = container.querySelector('.progress-bar');
+    const progressFill = container.querySelector('.progress-fill');
+    const progressHandle = container.querySelector('.progress-handle');
+    const currentTimeEl = container.querySelector('.current-time');
+    const volumeSlider = container.querySelector('.volume-slider');
+    
+    let isPlaying = false;
+    let currentPlayer = null;
+    
+    // Play/Pause functionality
+    playBtn?.addEventListener('click', () => {
+      // Stop any other playing audio
+      if (currentPlayer && currentPlayer !== audio) {
+        currentPlayer.pause();
+        updatePlayButton(currentPlayer.closest('.audio-player-container'), false);
+      }
+      
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        currentPlayer = null;
+      } else {
+        audio.play().then(() => {
+          isPlaying = true;
+          currentPlayer = audio;
+        }).catch(error => {
+          console.warn('Audio playback failed:', error);
+          showAudioError(container);
+        });
+      }
+      
+      updatePlayButton(container, isPlaying);
+    });
+    
+    // Progress tracking
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${progress}%`;
+        progressHandle.style.left = `${progress}%`;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+      }
+    });
+    
+    // Progress bar click
+    progressBar?.addEventListener('click', (e) => {
+      if (audio.duration) {
+        const rect = progressBar.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const width = rect.width;
+        const clickRatio = clickX / width;
+        audio.currentTime = clickRatio * audio.duration;
+      }
+    });
+    
+    // Volume control
+    volumeSlider?.addEventListener('input', (e) => {
+      audio.volume = e.target.value / 100;
+    });
+    
+    // Audio ended
+    audio.addEventListener('ended', () => {
+      isPlaying = false;
+      currentPlayer = null;
+      updatePlayButton(container, false);
+      progressFill.style.width = '0%';
+      progressHandle.style.left = '0%';
+      currentTimeEl.textContent = '0:00';
+    });
+    
+    // Error handling
+    audio.addEventListener('error', () => {
+      showAudioError(container);
+    });
+  });
+  
+  function updatePlayButton(container, playing) {
+    const playIcon = container.querySelector('.play-icon');
+    const pauseIcon = container.querySelector('.pause-icon');
+    
+    if (playing) {
+      playIcon?.classList.add('hidden');
+      pauseIcon?.classList.remove('hidden');
+    } else {
+      playIcon?.classList.remove('hidden');
+      pauseIcon?.classList.add('hidden');
+    }
+  }
+  
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+  
+  function showAudioError(container) {
+    const controls = container.querySelector('.player-controls');
+    if (controls) {
+      controls.innerHTML = `
+        <div class="audio-error">
+          <span>⚠️ Audio unavailable - Visit podcast platforms to listen</span>
+        </div>
+      `;
+    }
+  }
+});
+</script>
+
+<style>
+  .audio-player-container {
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-4);
+    transition: all var(--duration-300) var(--ease-out);
+  }
+
+  .audio-player-container:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-accent-300);
+  }
+
+  .player-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+
+  .episode-info {
+    flex: 1;
+  }
+
+  .episode-number {
+    font-size: var(--text-xs);
+    color: var(--color-accent-600);
+    background: var(--color-accent-100);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-2);
+    display: inline-block;
+  }
+
+  .dark .episode-number {
+    background: var(--color-accent-900);
+    color: var(--color-accent-300);
+  }
+
+  .episode-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-2) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .episode-duration {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-family: var(--font-family-code);
+  }
+
+  .play-button {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-600);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration-200) var(--ease-out);
+    flex-shrink: 0;
+    margin-left: var(--space-4);
+  }
+
+  .play-button:hover {
+    background: var(--color-accent-700);
+    transform: scale(1.05);
+  }
+
+  .play-button:active {
+    transform: scale(0.95);
+  }
+
+  .play-icon,
+  .pause-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .episode-description {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+  }
+
+  .player-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .progress-bar {
+    position: relative;
+    height: 6px;
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--color-accent-600);
+    border-radius: var(--radius-full);
+    transition: width 0.1s ease;
+  }
+
+  .progress-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: var(--color-accent-600);
+    border: 2px solid white;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-base);
+    opacity: 0;
+    transition: opacity var(--duration-200) var(--ease-out);
+  }
+
+  .progress-bar:hover .progress-handle {
+    opacity: 1;
+  }
+
+  .time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    font-family: var(--font-family-code);
+  }
+
+  .volume-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .volume-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-secondary);
+  }
+
+  .volume-slider {
+    flex: 1;
+    max-width: 100px;
+    height: 4px;
+    background: var(--color-bg-tertiary);
+    outline: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+  }
+
+  .volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent-600);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+  }
+
+  .volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent-600);
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+  }
+
+  .no-audio-message,
+  .audio-error {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--color-warning-50);
+    border: 1px solid var(--color-warning-200);
+    border-radius: var(--radius-lg);
+    color: var(--color-warning-800);
+    font-size: var(--text-sm);
+  }
+
+  .dark .no-audio-message,
+  .dark .audio-error {
+    background: var(--color-warning-950);
+    border-color: var(--color-warning-800);
+    color: var(--color-warning-200);
+  }
+
+  .info-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .player-header {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .play-button {
+      align-self: flex-start;
+      margin-left: 0;
+    }
+
+    .volume-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .volume-slider {
+      max-width: 150px;
+    }
+  }
+</style>

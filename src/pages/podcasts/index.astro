@@ -3,13 +3,14 @@ import Layout from '../../layouts/Layout.astro';
 import SEOBreadcrumbs from '../../components/SEOBreadcrumbs.astro';
 import PodcastWaveform from '../../components/PodcastWaveform.astro';
 import { Image } from 'astro:assets';
-import { podcasts } from '../../data/podcasts.js';
-import { getCollection } from 'astro:content';
+import { getStaticPodcastData } from '../../utils/podcastRSS.js';
 
-// Get podcast episodes
-const allEpisodes = await getCollection('podcasts');
-const sortedEpisodes = allEpisodes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const latestEpisodes = sortedEpisodes.slice(0, 6);
+// Get real podcast data from RSS feed
+const podcastData = getStaticPodcastData();
+const { show, episodes, totalEpisodes, categories } = podcastData;
+
+// Get latest episodes for display
+const latestEpisodes = episodes.slice(0, 6);
 
 // Breadcrumbs for SEO
 const breadcrumbs = [
@@ -26,20 +27,22 @@ const formatDate = (date: Date) => {
   });
 };
 
-// Mock featured podcast data for display
+// Real featured podcast data from RSS
 const featuredShows = [
   {
-    title: "Feed Forward",
-    description: "Exploring the intersection of AI, technology, and society with thought leaders and innovators.",
-    hosts: ["Prassanna Ravishankar"],
-    episodeCount: allEpisodes.filter(ep => ep.slug.startsWith('feed-forward')).length,
-    latestEpisode: sortedEpisodes.find(ep => ep.slug.startsWith('feed-forward')),
-    topics: ["AI", "Technology", "Future", "Innovation"],
+    title: show.title,
+    description: show.description,
+    hosts: [show.author],
+    episodeCount: totalEpisodes,
+    latestEpisode: episodes[0],
+    topics: categories,
     platforms: [
-      { name: "Spotify", url: "#" },
-      { name: "Apple Podcasts", url: "#" },
-      { name: "Google Podcasts", url: "#" }
-    ]
+      { name: "Spotify", url: "https://open.spotify.com/show/your-show-id" },
+      { name: "Apple Podcasts", url: "https://podcasts.apple.com/podcast/your-podcast-id" },
+      { name: "Google Podcasts", url: "https://podcasts.google.com/feed/your-feed-url" },
+      { name: "Anchor", url: "https://anchor.fm/s/fd2c69bc/podcast/rss" }
+    ],
+    rssUrl: "https://anchor.fm/s/fd2c69bc/podcast/rss"
   }
 ];
 ---
@@ -74,12 +77,12 @@ const featuredShows = [
             <span class="stat-label">Shows</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">{allEpisodes.length}</span>
+            <span class="stat-number">{totalEpisodes}</span>
             <span class="stat-label">Episodes</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">{Math.round(allEpisodes.reduce((acc, ep) => acc + (ep.body?.length || 2000), 0) / 1000)}</span>
-            <span class="stat-label">K Words</span>
+            <span class="stat-number">{categories.length}</span>
+            <span class="stat-label">Topics</span>
           </div>
         </div>
       </div>
@@ -157,11 +160,14 @@ const featuredShows = [
         <div class="episodes-grid">
           {latestEpisodes.map((episode, index) => (
             <PodcastWaveform
-              title={episode.data.title}
-              duration={episode.data.duration || "30:00"}
-              description={episode.data.description}
-              url={`/podcasts/${episode.slug}`}
-              date={formatDate(episode.data.pubDate)}
+              title={episode.title}
+              duration={episode.duration}
+              description={episode.description}
+              url={episode.link || `#episode-${episode.id}`}
+              audioUrl={episode.audioUrl}
+              episodeNumber={episode.episodeNumber}
+              season={episode.season}
+              date={formatDate(episode.pubDate)}
               featured={index === 0}
             />
           ))}

@@ -6,14 +6,21 @@ export interface Props {
   url: string;
   date: string;
   featured?: boolean;
+  audioUrl?: string;
+  episodeNumber?: number;
+  season?: number;
 }
 
-const { title, duration, description, url, date, featured } = Astro.props;
+const { title, duration, description, url, date, featured, audioUrl, episodeNumber, season } = Astro.props;
+const hasAudio = audioUrl && audioUrl.startsWith('http');
 ---
 
 <div class="podcast-waveform-container" data-featured={featured}>
   <div class="podcast-info">
     <div class="episode-meta">
+      {episodeNumber && season && (
+        <span class="episode-number">S{season}E{episodeNumber}</span>
+      )}
       <span class="episode-date">{date}</span>
       <span class="episode-duration">{duration}</span>
       {featured && <span class="featured-badge">Featured</span>}
@@ -29,14 +36,22 @@ const { title, duration, description, url, date, featured } = Astro.props;
   <div class="waveform-container">
     <canvas class="waveform-canvas" width="400" height="80"></canvas>
     <div class="waveform-controls">
-      <button class="play-btn" data-url={url}>
-        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-        <svg class="pause-icon hidden" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </svg>
-      </button>
+      {hasAudio ? (
+        <button class="play-btn" data-audio-url={audioUrl}>
+          <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg class="pause-icon hidden" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+      ) : (
+        <div class="play-btn disabled">
+          <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </div>
+      )}
       
       <div class="progress-container">
         <div class="progress-bar">
@@ -74,6 +89,21 @@ const { title, duration, description, url, date, featured } = Astro.props;
       Share
     </button>
   </div>
+  
+  {hasAudio && (
+    <audio class="audio-element" preload="none">
+      <source src={audioUrl} type="audio/mpeg" />
+    </audio>
+  )}
+  
+  {!hasAudio && (
+    <div class="no-audio-message">
+      <svg class="info-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+      <span>Visit podcast platforms to listen</span>
+    </div>
+  )}
 </div>
 
 <script>
@@ -89,12 +119,14 @@ const { title, duration, description, url, date, featured } = Astro.props;
       this.currentTimeEl = container.querySelector('.current-time');
       this.volumeSlider = container.querySelector('.volume-slider');
       this.shareBtn = container.querySelector('.share-btn');
+      this.audioElement = container.querySelector('.audio-element');
       
       this.isPlaying = false;
       this.currentTime = 0;
-      this.duration = this.parseDuration(container.dataset.duration || '0:00');
+      this.duration = 0;
       this.volume = 0.7;
       this.waveformData = this.generateWaveformData();
+      this.hasRealAudio = this.audioElement && this.playBtn?.dataset.audioUrl;
       
       this.colors = {
         waveform: '#3b82f6',
@@ -111,8 +143,56 @@ const { title, duration, description, url, date, featured } = Astro.props;
       this.setupEventListeners();
       this.updateColors();
       
+      // Setup audio if available
+      if (this.hasRealAudio) {
+        this.setupAudio();
+      } else {
+        // Parse duration from display text for visual-only mode
+        const durationText = this.container.querySelector('.episode-duration')?.textContent || '0:00';
+        this.duration = this.parseDuration(durationText);
+      }
+      
       // Animate waveform on load
       this.animateWaveformLoad();
+    }
+    
+    setupAudio() {
+      this.audioElement.volume = this.volume;
+      
+      // Audio event listeners
+      this.audioElement.addEventListener('loadedmetadata', () => {
+        this.duration = this.audioElement.duration;
+        this.container.querySelector('.total-time').textContent = this.formatTime(this.duration);
+      });
+      
+      this.audioElement.addEventListener('timeupdate', () => {
+        this.currentTime = this.audioElement.currentTime;
+        this.updateProgress();
+        this.drawWaveform();
+      });
+      
+      this.audioElement.addEventListener('ended', () => {
+        this.isPlaying = false;
+        this.updatePlayButton();
+        this.currentTime = 0;
+        this.updateProgress();
+        this.drawWaveform();
+      });
+      
+      this.audioElement.addEventListener('error', () => {
+        this.showError();
+      });
+    }
+    
+    showError() {
+      const controls = this.container.querySelector('.waveform-controls');
+      if (controls) {
+        controls.innerHTML = `
+          <div class="audio-error">
+            <span>⚠️ Audio unavailable - Visit podcast platforms to listen</span>
+          </div>
+        `;
+      }
     }
     
     updateColors() {
@@ -238,8 +318,11 @@ const { title, duration, description, url, date, featured } = Astro.props;
       this.progressBar.addEventListener('click', (e) => this.handleProgressClick(e));
       
       // Volume control
-      this.volumeSlider.addEventListener('input', (e) => {
+      this.volumeSlider?.addEventListener('input', (e) => {
         this.volume = parseFloat(e.target.value);
+        if (this.hasRealAudio) {
+          this.audioElement.volume = this.volume;
+        }
       });
       
       // Share button
@@ -254,29 +337,53 @@ const { title, duration, description, url, date, featured } = Astro.props;
     }
     
     togglePlayback() {
+      if (this.playBtn.classList.contains('disabled')) return;
+      
       this.isPlaying = !this.isPlaying;
       
+      if (this.hasRealAudio) {
+        if (this.isPlaying) {
+          this.audioElement.play().catch(() => {
+            this.isPlaying = false;
+            this.showError();
+          });
+        } else {
+          this.audioElement.pause();
+        }
+      } else {
+        // Simulated playback for visual-only mode
+        if (this.isPlaying) {
+          this.startSimulatedPlayback();
+        } else {
+          this.stopSimulatedPlayback();
+        }
+      }
+      
+      this.updatePlayButton();
+    }
+    
+    updatePlayButton() {
       const playIcon = this.playBtn.querySelector('.play-icon');
       const pauseIcon = this.playBtn.querySelector('.pause-icon');
       
       if (this.isPlaying) {
-        playIcon.classList.add('hidden');
-        pauseIcon.classList.remove('hidden');
-        this.startPlayback();
+        playIcon?.classList.add('hidden');
+        pauseIcon?.classList.remove('hidden');
       } else {
-        playIcon.classList.remove('hidden');
-        pauseIcon.classList.add('hidden');
-        this.stopPlayback();
+        playIcon?.classList.remove('hidden');
+        pauseIcon?.classList.add('hidden');
       }
     }
     
-    startPlayback() {
+    startSimulatedPlayback() {
       this.playbackInterval = setInterval(() => {
         this.currentTime += 0.1;
         
         if (this.currentTime >= this.duration) {
           this.currentTime = this.duration;
-          this.togglePlayback();
+          this.isPlaying = false;
+          this.updatePlayButton();
+          clearInterval(this.playbackInterval);
           return;
         }
         
@@ -285,7 +392,7 @@ const { title, duration, description, url, date, featured } = Astro.props;
       }, 100);
     }
     
-    stopPlayback() {
+    stopSimulatedPlayback() {
       if (this.playbackInterval) {
         clearInterval(this.playbackInterval);
       }
@@ -304,9 +411,13 @@ const { title, duration, description, url, date, featured } = Astro.props;
       const x = e.clientX - rect.left;
       const progress = x / rect.width;
       
-      this.currentTime = progress * this.duration;
-      this.updateProgress();
-      this.drawWaveform();
+      if (this.hasRealAudio) {
+        this.audioElement.currentTime = progress * this.duration;
+      } else {
+        this.currentTime = progress * this.duration;
+        this.updateProgress();
+        this.drawWaveform();
+      }
     }
     
     handleProgressClick(e) {
@@ -314,9 +425,13 @@ const { title, duration, description, url, date, featured } = Astro.props;
       const x = e.clientX - rect.left;
       const progress = x / rect.width;
       
-      this.currentTime = progress * this.duration;
-      this.updateProgress();
-      this.drawWaveform();
+      if (this.hasRealAudio) {
+        this.audioElement.currentTime = progress * this.duration;
+      } else {
+        this.currentTime = progress * this.duration;
+        this.updateProgress();
+        this.drawWaveform();
+      }
     }
     
     handleShare() {
@@ -534,6 +649,17 @@ const { title, duration, description, url, date, featured } = Astro.props;
     box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
   }
   
+  .play-btn.disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  .play-btn.disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
   .play-icon, .pause-icon {
     width: 1.25rem;
     height: 1.25rem;
@@ -681,6 +807,48 @@ const { title, duration, description, url, date, featured } = Astro.props;
   .toast-notification.show {
     transform: translateY(0);
     opacity: 1;
+  }
+  
+  .episode-number {
+    font-size: 0.75rem;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-right: 0.5rem;
+  }
+  
+  .dark .episode-number {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+  }
+  
+  .no-audio-message,
+  .audio-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    border-radius: 8px;
+    color: #92400e;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+  }
+  
+  .dark .no-audio-message,
+  .dark .audio-error {
+    background: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.3);
+    color: #fbbf24;
+  }
+  
+  .info-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
   }
   
   /* Responsive adjustments */
