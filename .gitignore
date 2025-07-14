@@ -92,3 +92,5 @@ sw.*
 
 # Astro
 .astro/
+
+/.specstory
