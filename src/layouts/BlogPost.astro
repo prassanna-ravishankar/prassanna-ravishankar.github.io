@@ -199,45 +199,33 @@ const breadcrumbSchema = {
       }
     });
     
-    // Find all images in the blog content
-    const images = document.querySelectorAll('.prose img');
+    // Find all images in the blog content that aren't already wrapped
+    const images = document.querySelectorAll('.prose img:not([data-processed])');
     
     images.forEach(img => {
-      // Create a figure element
-      const figure = document.createElement('figure');
-      figure.className = 'my-6';
-      
-      // Clone the image
-      const newImg = img.cloneNode(true);
-      
-      // Add width and height attributes if they don't exist
-      if (!newImg.hasAttribute('width')) {
-        newImg.setAttribute('width', '800');
+      // Skip if image is already in a figure element
+      if (img.closest('figure')) {
+        img.setAttribute('data-processed', 'true');
+        return;
       }
       
-      if (!newImg.hasAttribute('height')) {
-        newImg.setAttribute('height', '600');
+      // Add width and height attributes if they don't exist
+      if (!img.hasAttribute('width')) {
+        img.setAttribute('width', '800');
+      }
+      
+      if (!img.hasAttribute('height')) {
+        img.setAttribute('height', '600');
       }
       
       // Add loading="lazy" attribute
-      newImg.setAttribute('loading', 'lazy');
+      img.setAttribute('loading', 'lazy');
       
       // Add class for styling
-      newImg.className = 'w-full h-auto rounded-md';
+      img.className = 'w-full h-auto rounded-md';
       
-      // Add the image to the figure
-      figure.appendChild(newImg);
-      
-      // Add figcaption if alt text exists
-      if (img.alt) {
-        const figcaption = document.createElement('figcaption');
-        figcaption.className = 'text-center text-sm text-gray-600 dark:text-gray-400 mt-2';
-        figcaption.textContent = img.alt;
-        figure.appendChild(figcaption);
-      }
-      
-      // Replace the original image with the figure
-      img.parentNode.replaceChild(figure, img);
+      // Mark as processed
+      img.setAttribute('data-processed', 'true');
     });
   });
 </script> 
