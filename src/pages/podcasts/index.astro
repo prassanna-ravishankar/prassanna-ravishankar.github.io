@@ -1,11 +1,30 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import PodcastCard from '../../components/PodcastCard.astro';
 import { podcasts } from '../../data/podcasts.js';
+
+// Get all podcast episodes
+const episodes = await getCollection('podcasts', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Sort episodes by date (newest first)
+const sortedEpisodes = episodes.sort(
+  (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
+);
+
+// Get latest episodes for description
+const latestEpisodes = sortedEpisodes.slice(0, 3);
+
+// SEO-optimized meta description
+const podcastsDescription = `Listen to ${episodes.length} podcast episodes across ${podcasts.length} shows by Prassanna Ravishankar. Discussions on AI, technology, startups, and machine learning. Latest episodes: ${latestEpisodes.map(e => e.data.title).join(', ')}.`;
 ---
 
-<Layout title="Podcasts | Prassanna Ravishankar" description="Podcasts hosted by Prassanna Ravishankar on technology, AI, and startups">
+<Layout 
+  title="Podcasts | Prassanna Ravishankar" 
+  description={podcastsDescription}
+>
   <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
       <header class="mb-12 text-center">

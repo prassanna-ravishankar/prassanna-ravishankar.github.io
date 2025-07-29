@@ -13,13 +13,18 @@ const verses = await getCollection('verses', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-// Sort verses by date
-const sortedVerses = verses.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// Sort verses by date (newest first)
+const sortedVerses = verses.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// SEO-optimized meta description
+const versesDescription = `Explore ${verses.length} philosophical verses and poetry by Prassanna Ravishankar. Contemplations on technology, existence, and the human condition. Latest verses: ${sortedVerses.slice(0, 2).map(v => v.data.title).join(' and ')}.`;
 ---
 
 <Layout 
   title="Verses | Prassanna Ravishankar" 
-  description="A collection of verses exploring philosophy, life, and the human experience through poetry."
+  description={versesDescription}
 >
   <div class="container mx-auto py-12 px-4">
     <header class="max-w-3xl mx-auto mb-12 text-center">

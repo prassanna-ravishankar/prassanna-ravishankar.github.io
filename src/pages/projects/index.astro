@@ -7,18 +7,22 @@ const projects = await getCollection('projects', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-// Sort projects: featured first, then by date
-const sortedProjects = projects.sort((a, b) => {
-  // First sort by featured status
-  if (a.data.featured && !b.data.featured) return -1;
-  if (!a.data.featured && b.data.featured) return 1;
-  
-  // Then sort by date
-  return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
-});
+// Sort projects by date (newest first)
+const sortedProjects = projects.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Featured projects
+const featuredProjects = sortedProjects.filter(project => project.data.featured);
+
+// SEO-optimized meta description
+const projectsDescription = `Discover ${projects.length} machine learning and software engineering projects by Prassanna Ravishankar. Open-source tools for MLOps, AI development, and productivity including featured projects like ${featuredProjects.slice(0, 2).map(p => p.data.title).join(' and ')}.`;
 ---
 
-<Layout title="Projects | Prassanna Ravishankar">
+<Layout 
+  title="Projects | Prassanna Ravishankar" 
+  description={projectsDescription}
+>
   <div class="container mx-auto py-12 px-4">
     <h1 class="text-4xl font-bold mb-4">Projects</h1>
     <p class="text-gray-600 dark:text-gray-400 mb-8">
