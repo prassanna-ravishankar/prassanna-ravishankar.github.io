@@ -1,78 +1,253 @@
+/* Import elegant fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom base styles can go here */
+/* Elegant base styles */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
   body {
-    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+    @apply bg-white text-neutral-700 dark:bg-neutral-950 dark:text-neutral-300;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Clean heading hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle focus states */
+  a:focus, button:focus, input:focus, textarea:focus, select:focus {
+    @apply outline-none ring-2 ring-accent-500 ring-offset-2 ring-offset-white dark:ring-offset-neutral-950;
+  }
+
+  /* Smooth transitions */
+  * {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
   }
 }
 
-/* Custom component styles can go here */
+/* Elegant component styles */
 @layer components {
   .container {
     @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Style the details element itself as a box */
+  /* Clean prose container */
+  .prose-elegant {
+    @apply prose prose-neutral max-w-none;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Minimal details/summary styling */
   .prose details {
-    @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 my-5;
+    @apply bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg p-4 my-4;
   }
 
-  /* Style the summary (the clickable part) */
   .prose summary {
-    @apply font-semibold cursor-pointer;
+    @apply font-medium cursor-pointer text-neutral-800 dark:text-neutral-200 hover:text-accent-600 dark:hover:text-accent-400;
+    transition: color 0.2s ease-in-out;
   }
 
-  /* Ensure code inside details/summary looks correct within prose */
-  /* Override typography plugin vars specifically for code inside details */
+  /* Clean code styling inside details */
   .prose details code,
   .prose summary code {
-    /* Set the CSS variables used by @tailwindcss/typography */
-    /* We set BOTH code-bg and pre-bg because the plugin seems to incorrectly use pre-bg here */
-    --tw-prose-code-bg: theme('colors.gray.100 / 90%');
-    --tw-prose-pre-bg: theme('colors.gray.100 / 90%'); /* Use inline code background */
-    --tw-prose-code: theme('colors.gray.800');
-    /* Add back essential visual styles if needed */
-    padding: 0.2em 0.4em;
-    border-radius: theme('borderRadius.md');
-    font-size: 0.875em;
-    font-weight: 500;
+    --tw-prose-code-bg: theme('colors.neutral.100');
+    --tw-prose-pre-bg: theme('colors.neutral.100');
+    --tw-prose-code: theme('colors.neutral.800');
+    @apply px-1.5 py-0.5 rounded text-sm font-medium border border-neutral-200;
   }
 
-  /* Dark mode override for code inside details */
   .dark .prose details code,
   .dark .prose summary code {
-    --tw-prose-code-bg: theme('colors.gray.700 / 50%');
-    --tw-prose-pre-bg: theme('colors.gray.700 / 50%'); /* Use inline code background */
-    --tw-prose-code: theme('colors.gray.100');
+    --tw-prose-code-bg: theme('colors.neutral.800');
+    --tw-prose-pre-bg: theme('colors.neutral.800');
+    --tw-prose-code: theme('colors.neutral.200');
+    @apply border-neutral-600;
   }
 
-  /* Custom styles for "Imagine..." / "What if..." callouts */
+  /* Minimal callout blocks */
   .prose blockquote,
   .prose-invert blockquote {
-    @apply bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 dark:border-blue-400 px-4 py-3 my-6 rounded-r-md shadow-sm;
+    @apply bg-neutral-50 dark:bg-neutral-900 border-l-4 border-neutral-300 dark:border-neutral-600 px-4 py-3 my-6 rounded-r-md;
   }
 
   .prose blockquote p:first-of-type::before,
   .prose-invert blockquote p:first-of-type::before {
-    @apply content-none; /* Remove default quote styling from prose plugin */
+    @apply content-none;
   }
 
   .prose blockquote p:last-of-type::after,
   .prose-invert blockquote p:last-of-type::after {
-    @apply content-none; /* Remove default quote styling from prose plugin */
+    @apply content-none;
   }
 
   .prose blockquote strong em,
   .prose-invert blockquote strong em {
-    @apply text-blue-700 dark:text-blue-300 not-italic font-semibold;
+    @apply text-neutral-800 dark:text-neutral-200 not-italic font-semibold;
   }
 
   .prose blockquote p,
   .prose-invert blockquote p {
-    @apply text-base;
+    @apply text-base leading-relaxed mb-0;
+  }
+
+  /* Elegant card styling */
+  .card-elegant {
+    @apply bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 p-6 hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors duration-200;
+  }
+
+  /* Clean button styling */
+  .btn-primary {
+    @apply bg-accent-600 hover:bg-accent-700 text-white font-medium px-4 py-2 rounded-md transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-medium px-4 py-2 rounded-md border border-neutral-300 dark:border-neutral-600 transition-colors duration-200;
+  }
+
+  /* Minimal tag styling */
+  .tag-elegant {
+    @apply bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 px-2 py-1 rounded-md text-sm font-medium border border-neutral-200 dark:border-neutral-700;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .tag-elegant:hover {
+    @apply bg-neutral-200 dark:bg-neutral-700;
+  }
+
+  /* Clean link styling */
+  .link-elegant {
+    @apply text-accent-600 dark:text-accent-400 font-medium hover:text-accent-700 dark:hover:text-accent-300 transition-colors duration-200;
+  }
+
+  /* Minimal image containers */
+  .image-elegant {
+    @apply relative overflow-hidden rounded-lg;
+  }
+
+  .image-elegant img {
+    @apply transition-transform duration-300;
+  }
+
+  .image-elegant:hover img {
+    @apply transform scale-[1.02];
+  }
+
+  /* Clean reading experience */
+  .reading-elegant {
+    @apply max-w-4xl mx-auto;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: theme('colors.neutral.600');
+  }
+
+  .reading-elegant h1 {
+    @apply text-3xl md:text-4xl font-semibold text-neutral-900 dark:text-neutral-100 mb-6 leading-tight;
+  }
+
+  .reading-elegant h2 {
+    @apply text-2xl md:text-3xl font-semibold text-neutral-800 dark:text-neutral-200 mb-4 mt-8 leading-tight;
+  }
+
+  .reading-elegant h3 {
+    @apply text-xl md:text-2xl font-semibold text-neutral-800 dark:text-neutral-200 mb-3 mt-6 leading-tight;
+  }
+
+  .reading-elegant p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .reading-elegant ul, .reading-elegant ol {
+    @apply mb-4 pl-6;
+  }
+
+  .reading-elegant li {
+    @apply mb-1 leading-relaxed;
+  }
+
+  /* Clean code blocks */
+  .code-elegant {
+    @apply bg-neutral-900 text-neutral-100 p-4 rounded-lg border border-neutral-800 overflow-x-auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .code-elegant code {
+    @apply bg-transparent text-neutral-100 border-none p-0;
+  }
+
+  /* Minimal navigation */
+  .nav-elegant {
+    @apply text-neutral-600 dark:text-neutral-400 hover:text-accent-600 dark:hover:text-accent-400 font-medium transition-colors duration-200;
+  }
+
+  /* Clean section dividers */
+  .divider-elegant {
+    @apply my-8 border-t border-neutral-200 dark:border-neutral-800;
+  }
+
+  /* Minimal form elements */
+  .input-elegant {
+    @apply w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200;
+  }
+
+  .input-elegant:focus {
+    @apply shadow-sm;
+  }
+
+  /* Clean loading states */
+  .loading-elegant {
+    @apply bg-neutral-200 dark:bg-neutral-700 animate-pulse rounded-md;
+  }
+
+  /* Minimal scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100 dark:bg-neutral-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400 dark:bg-neutral-600;
+  }
+}
+
+/* Elegant utilities */
+@layer utilities {
+  .text-elegant {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .bg-elegant {
+    @apply bg-white dark:bg-neutral-950;
+  }
+
+  .border-elegant {
+    @apply border-neutral-200 dark:border-neutral-800;
+  }
+
+  .shadow-elegant {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   }
 }
