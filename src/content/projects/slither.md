@@ -4,7 +4,7 @@ description: "A Random Forest library for semantic segmentation with local exper
 pubDate: 2017-02-01
 tags: ["C++", "Python", "Machine Learning", "Computer Vision", "Random Forest"]
 github: "https://github.com/prassanna-ravishankar/slither"
-featured: true
+featured: false
 image: "/images/projects/slither.webp"
 ---
 
