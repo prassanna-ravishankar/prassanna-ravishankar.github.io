@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 
 // Get all projects that are not drafts
 const projects = await getCollection('projects', ({ data }) => {
@@ -17,11 +18,47 @@ const featuredProjects = sortedProjects.filter(project => project.data.featured)
 
 // SEO-optimized meta description
 const projectsDescription = `Discover ${projects.length} machine learning and software engineering projects by Prassanna Ravishankar. Open-source tools for MLOps, AI development, and productivity including featured projects like ${featuredProjects.slice(0, 2).map(p => p.data.title).join(' and ')}.`;
+
+// Projects-specific structured data
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Projects by Prassanna Ravishankar",
+  "description": projectsDescription,
+  "url": "https://prassanna.io/projects/",
+  "author": {
+    "@type": "Person",
+    "name": "Prassanna Ravishankar",
+    "url": "https://prassanna.io",
+    "sameAs": [
+      "https://github.com/prassanna-ravishankar",
+      "https://linkedin.com/in/prassanna-ravishankar",
+      "https://x.com/thenomadiccoder"
+    ]
+  },
+  "mainEntity": sortedProjects.slice(0, 10).map(project => ({
+    "@type": "SoftwareApplication",
+    "name": project.data.title,
+    "description": project.data.description,
+    "url": `https://prassanna.io/projects/${project.slug}/`,
+    "dateCreated": project.data.pubDate.toISOString(),
+    "dateModified": project.data.updatedDate?.toISOString() || project.data.pubDate.toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": "Prassanna Ravishankar"
+    },
+    "keywords": project.data.tags?.join(', ') || '',
+    "image": project.data.image ? `https://prassanna.io${project.data.image}` : "https://prassanna.io/images/profile.jpg",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cross-platform"
+  }))
+};
 ---
 
 <Layout 
-  title="Projects | Prassanna Ravishankar" 
+  title="Projects - Prassanna Ravishankar" 
   description={projectsDescription}
+  structuredData={structuredData}
 >
   <div class="container mx-auto py-12 px-4">
     <h1 class="text-4xl font-bold mb-4">Projects</h1>
@@ -35,9 +72,12 @@ const projectsDescription = `Discover ${projects.length} machine learning and so
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full transition-transform hover:translate-y-[-5px] duration-300">
             <div class="aspect-video">
               {project.data.image ? (
-                <img 
+                <Image 
                   src={project.data.image} 
                   alt={project.data.title}
+                  width={400}
+                  height={225}
+                  loading="lazy"
                   class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
                 />
               ) : (

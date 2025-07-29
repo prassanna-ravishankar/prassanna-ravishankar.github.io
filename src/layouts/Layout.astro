@@ -165,6 +165,56 @@ const articleSchema = article ? {
       });
     </script>
     
+    <!-- Fix Partytown iframe accessibility issues -->
+    <script>
+      // Wait for Partytown iframe to be created and add required attributes
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1 && node.tagName === 'IFRAME' && 
+                node.src && node.src.includes('partytown')) {
+              // Add required accessibility attributes
+              if (!node.hasAttribute('title')) {
+                node.setAttribute('title', 'Analytics iframe (hidden)');
+              }
+              if (!node.hasAttribute('aria-hidden')) {
+                node.setAttribute('aria-hidden', 'true');
+              }
+              // Ensure loading attribute is set
+              if (!node.hasAttribute('loading')) {
+                node.setAttribute('loading', 'lazy');
+              }
+            }
+          });
+        });
+      });
+      
+      // Start observing
+      observer.observe(document.body, { 
+        childList: true, 
+        subtree: true 
+      });
+      
+      // Also check existing iframes in case they're already present
+      document.addEventListener('DOMContentLoaded', () => {
+        const existingIframes = document.querySelectorAll('iframe[src*="partytown"]');
+        existingIframes.forEach(iframe => {
+          if (!iframe.hasAttribute('title')) {
+            iframe.setAttribute('title', 'Analytics iframe (hidden)');
+          }
+          if (!iframe.hasAttribute('aria-hidden')) {
+            iframe.setAttribute('aria-hidden', 'true');
+          }
+          if (!iframe.hasAttribute('loading')) {
+            iframe.setAttribute('loading', 'lazy');
+          }
+        });
+        
+        // Stop observing after a reasonable time
+        setTimeout(() => observer.disconnect(), 5000);
+      });
+    </script>
+    
     <!-- Allow additional head content -->
     <slot name="head" />
   </head>

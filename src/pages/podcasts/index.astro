@@ -19,11 +19,43 @@ const latestEpisodes = sortedEpisodes.slice(0, 3);
 
 // SEO-optimized meta description
 const podcastsDescription = `Listen to ${episodes.length} podcast episodes across ${podcasts.length} shows by Prassanna Ravishankar. Discussions on AI, technology, startups, and machine learning. Latest episodes: ${latestEpisodes.map(e => e.data.title).join(', ')}.`;
+
+// Podcasts-specific structured data
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Podcasts by Prassanna Ravishankar", 
+  "description": podcastsDescription,
+  "url": "https://prassanna.io/podcasts/",
+  "author": {
+    "@type": "Person",
+    "name": "Prassanna Ravishankar",
+    "url": "https://prassanna.io",
+    "sameAs": [
+      "https://github.com/prassanna-ravishankar",
+      "https://linkedin.com/in/prassanna-ravishankar", 
+      "https://x.com/thenomadiccoder"
+    ]
+  },
+  "mainEntity": podcasts.map(podcast => ({
+    "@type": "PodcastSeries",
+    "name": podcast.title,
+    "description": podcast.description,
+    "url": `https://prassanna.io/podcasts/${podcast.slug}/`,
+    "author": {
+      "@type": "Person", 
+      "name": "Prassanna Ravishankar"
+    },
+    "genre": "Technology",
+    "image": podcast.imageUrl || "https://prassanna.io/images/profile.jpg"
+  }))
+};
 ---
 
 <Layout 
-  title="Podcasts | Prassanna Ravishankar" 
+  title="Podcasts - Prassanna Ravishankar" 
   description={podcastsDescription}
+  structuredData={structuredData}
 >
   <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">

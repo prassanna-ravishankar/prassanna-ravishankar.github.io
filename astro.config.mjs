@@ -70,6 +70,10 @@ export default defineConfig({
     partytown({
       config: {
         forward: ["dataLayer.push"],
+        // Add required iframe attributes for accessibility compliance
+        sandboxParent: 'body',
+        // Configure iframe attributes
+        lib: "/~partytown/",
       },
     }),
   ],
