@@ -25,8 +25,21 @@ const {
   author = "Prassanna Ravishankar"
 } = Astro.props;
 
-// Ensure canonical URL always uses prassanna.io (non-www)
-const canonicalURL = new URL(Astro.url.pathname, 'https://prassanna.io').toString();
+// Ensure canonical URL always uses prassanna.io (non-www) with consistent trailing slashes
+let canonicalPath = Astro.url.pathname;
+// Normalize trailing slash behavior - always add trailing slash for directories
+if (!canonicalPath.endsWith('/') && !canonicalPath.includes('.')) {
+  canonicalPath += '/';
+}
+const canonicalURL = new URL(canonicalPath, 'https://prassanna.io').toString();
+
+// Check if this is a query parameter URL and set noindex
+const hasQueryParams = Astro.url.search !== '';
+const isRedirectPage = Astro.url.pathname.includes('/ambi-alert') || 
+                      Astro.url.pathname.includes('/blog/2019-05-29-pipenv-pyenv') ||
+                      Astro.url.pathname.includes('/blog/ml-fragmentation-redirect') ||
+                      Astro.url.pathname.includes('/blog/ml-fragmentation-2') ||
+                      Astro.url.pathname.includes('/blog/full-stack-ml-3');
 
 // Generate structured data for website
 const websiteSchema = {
@@ -85,7 +98,7 @@ const articleSchema = article ? {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3b82f6" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={hasQueryParams || isRedirectPage ? "noindex, nofollow" : "index, follow"} />
     <meta name="author" content={author} />
     
     <!-- Preload critical resources -->

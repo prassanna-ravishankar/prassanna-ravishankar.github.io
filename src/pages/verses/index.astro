@@ -2,6 +2,13 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
+// Handle query parameters - redirect to clean URL if present
+if (Astro.url.search) {
+  // Use 301 redirect for SEO benefits, ensuring trailing slash consistency
+  return Astro.redirect('/verses/', 301);
+}
+
+// Get all verses that are not drafts
 const verses = await getCollection('verses', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });

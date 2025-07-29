@@ -13,6 +13,9 @@ import { rehypeImageOptimizer } from './src/plugins/rehype-image-optimizer.mjs';
 export default defineConfig({
   site: 'https://prassanna.io',
   
+  // Force trailing slashes for consistency (prevents duplicate content)
+  trailingSlash: 'always',
+  
   redirects: {
     '/blog/2019-05-29-pipenv-pyenv': '/blog/pipenv-pyenv',
     '/ambi-alert': '/projects/ambi-alert',
@@ -36,15 +39,25 @@ export default defineConfig({
       filter: (page) => {
         // Exclude URLs with query parameters
         if (page.includes('?')) return false;
+        
+        // Exclude all redirect pages - these should never be in sitemap
+        if (page.includes('/ambi-alert/')) return false;
+        if (page.includes('/blog/2019-05-29-pipenv-pyenv/')) return false;
+        if (page.includes('/blog/ml-fragmentation-redirect/')) return false;
+        if (page.includes('/blog/ml-fragmentation-2/')) return false;
+        if (page.includes('/blog/full-stack-ml-3/')) return false;
+        
         // Exclude old date-based patterns
         if (page.match(/\/blog\/\d{4}-\d{2}-\d{2}-/)) return false;
-        // Exclude redirect pages
-        if (page.includes('redirect') || page.includes('/ambi-alert/')) return false;
-        // Exclude non-existent podcast episodes
+        
+        // Exclude partytown and other technical directories
+        if (page.includes('~partytown')) return false;
+        if (page.includes('/_astro/')) return false;
+        
+        // Exclude non-existent podcast episodes (if any)
         if (page.includes('/podcasts/ml-engineering-challenges') || 
             page.includes('/podcasts/deep-learning-frameworks')) return false;
-        // Exclude other problematic patterns
-        if (page.includes('~partytown')) return false;
+            
         return true;
       },
       customPages: [

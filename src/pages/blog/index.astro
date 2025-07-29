@@ -27,6 +27,7 @@ const formatDate = (date: Date) => {
 
 // Handle query parameters - redirect to clean URL if present
 if (Astro.url.search) {
+  // Use 301 redirect for SEO benefits, ensuring trailing slash consistency
   return Astro.redirect('/blog/', 301);
 }
 ---

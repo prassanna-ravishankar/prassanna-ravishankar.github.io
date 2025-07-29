@@ -15,6 +15,7 @@ Astro.response.headers.set('Location', to);
   <head>
     <meta charset="utf-8">
     <title>Redirecting...</title>
+    <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="refresh" content={`0; url=${to}`}>
     <link rel="canonical" href={to}>
   </head>
