@@ -37,6 +37,9 @@ export default defineConfig({
     }), 
     sitemap({
       filter: (page) => {
+        // Exclude URLs with .md or .md/ (prevents source file leaks)
+        if (page.match(/\.md\/?$/)) return false;
+        
         // Exclude URLs with query parameters
         if (page.includes('?')) return false;
         
