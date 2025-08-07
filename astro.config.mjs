@@ -27,9 +27,6 @@ export default defineConfig({
   integrations: [
     tailwind(),
     mdx({
-      // Image optimization plugins
-      remarkPlugins: [remarkImagePaths],
-      rehypePlugins: [rehypeImageOptimizer],
       extendMarkdownConfig: true,
       smartypants: true,
       gfm: true,
