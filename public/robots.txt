@@ -11,11 +11,6 @@ Disallow: /~partytown/
 # Block query parameter URLs
 Disallow: /*?*
 
-# Block URLs without trailing slashes to prevent duplicate content
-# (These will auto-redirect to trailing slash versions)
-Disallow: /blog
-Disallow: /projects
-Disallow: /verses
-Disallow: /podcasts
+# Allow base paths; canonicalization handled by redirects and rel=canonical
 
 Sitemap: https://prassanna.io/sitemap-index.xml 
