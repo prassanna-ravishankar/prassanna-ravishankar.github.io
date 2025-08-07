@@ -12,6 +12,7 @@ export interface Props {
   modifiedTime?: string;
   tags?: string[];
   author?: string;
+  structuredData?: unknown;
 }
 
 const { 
@@ -22,7 +23,8 @@ const {
   publishedTime,
   modifiedTime,
   tags = [],
-  author = "Prassanna Ravishankar"
+  author = "Prassanna Ravishankar",
+  structuredData
 } = Astro.props;
 
 // Ensure canonical URL always uses prassanna.io (non-www) with consistent trailing slashes
@@ -118,7 +120,7 @@ const articleSchema = article ? {
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:image" content={new URL(image, Astro.url).toString()} />
     <meta property="og:site_name" content="Prassanna Ravishankar" />
     <meta property="og:locale" content="en_US" />
     
@@ -132,7 +134,7 @@ const articleSchema = article ? {
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta property="twitter:image" content={new URL(image, Astro.url).toString()} />
     <meta property="twitter:site" content="@thenomadiccoder" />
     <meta property="twitter:creator" content="@thenomadiccoder" />
 
@@ -147,6 +149,7 @@ const articleSchema = article ? {
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
 
     <!-- Google Analytics -->
     <script

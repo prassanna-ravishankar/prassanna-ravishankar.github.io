@@ -30,7 +30,6 @@ const estimateReadingTime = (text: string) => {
 };
 
 // Get content for reading time estimation
-const content = await entry.render();
 const readingTime = estimateReadingTime(entry.body);
 
 // Make Image component available to MDX content
@@ -75,8 +74,7 @@ const breadcrumbSchema = {
   modifiedTime={entry.data.updatedDate?.toISOString()}
   tags={entry.data.tags}
 >
-  <!-- Additional canonical for blog posts -->
-  <link slot="head" rel="canonical" href={canonicalURL} />
+  <!-- Canonical handled by Layout -->
   
   <!-- Breadcrumb structured data -->
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
