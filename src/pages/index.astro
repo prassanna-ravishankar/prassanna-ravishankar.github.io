@@ -191,8 +191,10 @@ const latestEpisodes = podcastEpisodes
           <div>
             <h3 class="text-xl font-medium mb-6 text-gray-800 dark:text-gray-200">Latest Episodes</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {latestEpisodes.map(episode => (
-                <a href={`/podcasts/${episode.id.split('/')[1]}`} class="group">
+              {latestEpisodes.map(episode => {
+                const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
+                return (
+                <a href={`/podcasts/${episodeSlug}`} class="group">
                   <article class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
                     <div class="flex items-center gap-3 mb-3">
                       <span class="text-sm text-gray-500 dark:text-gray-400">
@@ -215,7 +217,8 @@ const latestEpisodes = podcastEpisodes
                     </p>
                   </article>
                 </a>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

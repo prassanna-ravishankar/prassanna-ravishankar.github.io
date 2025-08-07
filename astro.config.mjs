@@ -43,8 +43,8 @@ export default defineConfig({
         // Exclude URLs with query parameters
         if (page.includes('?')) return false;
         
-        // Exclude all redirect pages - these should never be in sitemap
-        if (page.includes('/ambi-alert/')) return false;
+        // Exclude legacy redirect source only; keep real project page indexed
+        if (/^\/ambi-alert\/?$/.test(page)) return false;
         if (page.includes('/blog/2019-05-29-pipenv-pyenv/')) return false;
         if (page.includes('/blog/ml-fragmentation-redirect/')) return false;
         if (page.includes('/blog/ml-fragmentation-2/')) return false;
