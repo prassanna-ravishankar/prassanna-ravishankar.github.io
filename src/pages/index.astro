@@ -24,21 +24,21 @@ const podcastEpisodes = await getCollection('podcasts', ({ data }) => {
 const allContent = [
   ...verses.map(item => ({
     type: 'verse',
-    slug: `/verses/${item.slug}`,
+    slug: `/verses/${item.slug}/`,
     title: item.data.title,
     description: item.data.description || '',
     pubDate: item.data.pubDate,
   })),
   ...projects.map(item => ({
     type: 'project',
-    slug: `/projects/${item.slug}`,
+    slug: `/projects/${item.slug}/`,
     title: item.data.title,
     description: item.data.description || '',
     pubDate: item.data.pubDate,
   })),
   ...blogPosts.map(item => ({
     type: 'blog',
-    slug: `/blog/${item.slug}`,
+    slug: `/blog/${item.slug}/`,
     title: item.data.title,
     description: item.data.description || '',
     pubDate: item.data.pubDate,
@@ -194,7 +194,7 @@ const latestEpisodes = podcastEpisodes
               {latestEpisodes.map(episode => {
                 const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
                 return (
-                <a href={`/podcasts/${episodeSlug}`} class="group">
+                <a href={`/podcasts/${episodeSlug}/`} class="group">
                   <article class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
                     <div class="flex items-center gap-3 mb-3">
                       <span class="text-sm text-gray-500 dark:text-gray-400">
