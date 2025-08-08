@@ -9,10 +9,8 @@ import { podcasts } from '../../data/podcasts.js';
 export async function getStaticPaths() {
   // Get all podcast episodes
   const allEpisodes = await getCollection('podcasts');
-  console.log('All episodes:', allEpisodes.map(e => e.id));
   
   const podcastShows = podcasts.filter(show => show.slug);
-  console.log('Shows with slugs:', podcastShows.map(s => s.slug));
   
   // Create paths for both shows and episodes
   const paths = [];
@@ -21,13 +19,10 @@ export async function getStaticPaths() {
   for (const show of podcastShows) {
     // Filter episodes for this show by checking their directory path
     const showEpisodes = allEpisodes.filter(episode => {
-      console.log(`Checking episode ${episode.id} for show ${show.slug}`);
       return episode.id.startsWith(`${show.slug}/`);
     }).sort(
       (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
     );
-
-    console.log(`Found ${showEpisodes.length} episodes for ${show.slug}:`, showEpisodes.map(e => e.id));
 
     paths.push({
       params: { slug: show.slug },
@@ -40,9 +35,8 @@ export async function getStaticPaths() {
 
     // Add paths for this show's episodes
     for (const episode of showEpisodes) {
-      // Get just the episode name without the show prefix and remove .md extension
-      const episodeSlug = episode.id.split('/')[1].replace(/\.md$/, '');
-      console.log(`Adding episode path for ${episodeSlug} from ${episode.id}`);
+      // Get filename without extension
+      const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
       paths.push({
         params: { slug: episodeSlug },
         props: { 
@@ -53,8 +47,6 @@ export async function getStaticPaths() {
       });
     }
   }
-  
-  console.log('Final paths:', paths.map(p => ({ slug: p.params.slug, type: p.props.type })));
   return paths;
 }
 
@@ -211,10 +203,10 @@ if (type === 'episode' && entry) {
             <h2 class="text-2xl font-bold mb-6">Episodes</h2>
             <div class="space-y-6">
               {episodes?.map(episode => {
-                const episodeSlug = episode.id.split('/').slice(1).join('/').replace(/\.md$/, '');
+                const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
                 return (
                   <a 
-                    href={`/podcasts/${episodeSlug}`}
+                    href={`/podcasts/${episodeSlug}/`}
                     class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   >
                     <div class="flex flex-wrap items-center gap-2 mb-2">

@@ -15,10 +15,10 @@ export function rehypeImageOptimizer() {
       
       if (!src) return;
       
-      // Create a new Image node
+      // Create an optimized img node (stay within HTML for Markdown)
       const imageNode = {
         type: 'element',
-        tagName: 'Image',
+        tagName: 'img',
         properties: {
           ...node.properties,
           width: node.properties.width || 800,
