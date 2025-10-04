@@ -10,7 +10,7 @@ draft: false
 
 ## The Rising Babel of AI Agents (A Ranty Introduction)
 
-![Intro](/images/blog/agent-frameworks/intro.webp)
+![AI agent frameworks proliferating like JavaScript frameworks, showing the fragmented landscape of agent development tooling](/images/blog/agent-frameworks/intro.webp)
 
 If you thought the LLM tooling boom was wild, welcome to the **agent framework free-for-all**. In 2023 it was "which model or prompt library to use?" – now in 2025 it's "which *agent* framework will orchestrate those models?" We're seeing a proliferation of agent SDKs and toolkits that feels eerily like the Javascript framework wars of the 2010s. Each promises to turn raw LLMs into autonomous task-solvers, and each has its own philosophy on how to do it. The result? A fragmented landscape of Agent Development Kits, orchestrators, and DIY hacks – all trying to define how AI agents should think, act, and even talk to each other. 
 
@@ -22,7 +22,7 @@ In this post, I'll **compare the leading frameworks for building AI agents** –
 
 ## The Agent Arsenal
 
-![Agent Arsenal](/images/blog/agent-frameworks/agent-arsenal.webp)
+![Comparison of leading AI agent frameworks including PydanticAI, OpenAI, Google ADK, and AWS Bedrock](/images/blog/agent-frameworks/agent-arsenal.webp)
 
 ### Pydantic for AI Agents – Type-Safety in a Chaotic World  
 
@@ -219,7 +219,7 @@ To sum up, AWS's Multi-Agent Orchestrator is **powerful but somewhat closed**. I
 ---
 
 ## Beyond Frameworks – Emerging Trends and Paradigms  
-![Beyond Frameworks](/images/blog/agent-frameworks/beyond-frameworks.webp)
+![Multi-agent systems and future trends in AI agent communication protocols beyond single-framework architectures](/images/blog/agent-frameworks/beyond-frameworks.webp)
 
 Even as these frameworks compete, several cross-cutting **trends** are shaping the future of AI agents:
 
@@ -236,7 +236,7 @@ All these trends point to a future where **agents are first-class actors in soft
 ---
 
 ## A Forward-Looking Conclusion (Opinionated as Charged)  
-![Conclusion](/images/blog/agent-frameworks/conclusion.webp)
+![Summary of AI agent framework landscape showing the trade-offs between simplicity, power, and vendor lock-in](/images/blog/agent-frameworks/conclusion.webp)
 
 We're in the early days of a potential paradigm shift. Today's AI agents are somewhat gimmicky – fun auto-GPT demos, customer support bots that are a notch above chatbots. But the **trajectory** is clear: we are adding an *agent layer* on top of the AI models. And that layer could be as disruptive as the move from on-prem software to the cloud, or from monolith to microservices. Why? Because it **changes who/what writes and executes code.** Agents blur the line between software and operator – they *are* software that *operates* other software. Once matured, an agent can spin up new services on the fly, negotiate APIs, and potentially improve itself. This is software eating software.
 

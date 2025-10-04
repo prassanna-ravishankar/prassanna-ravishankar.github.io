@@ -80,9 +80,59 @@ const social = {
   email: 'prassanna.ravishankar@gmail.com',
   website: 'https://prassanna.io',
 }
+
+// Person schema for SEO
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": data.name,
+  "jobTitle": data.title,
+  "description": data.description,
+  "url": data.links.website,
+  "email": social.email,
+  "sameAs": [
+    social.github,
+    social.linkedin,
+    social.twitter,
+    social.website
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": data.experience[0].company,
+    "location": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": data.experience[0].location
+      }
+    }
+  },
+  "knowsAbout": [
+    ...data.skills.programming,
+    ...data.skills.frameworks,
+    ...data.skills.tools,
+    "Machine Learning",
+    "MLOps",
+    "Deep Learning",
+    "AI Engineering"
+  ],
+  "alumniOf": data.education.map(edu => ({
+    "@type": "EducationalOrganization",
+    "name": edu.institution,
+    "location": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": edu.location
+      }
+    }
+  }))
+};
 ---
 
 <Layout title={`About | ${data.name}`} description={data.description}>
+  <!-- Person structured data -->
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
       <div class="mb-12">

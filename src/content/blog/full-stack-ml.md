@@ -38,13 +38,13 @@ The new full stack developer beyond 2015 started looking like this
 - Can communicate with both [relational](https://www.mysql.com/) and [NoSQL](https://www.mongodb.com/nosql-explained) **databases**
 - Can spin up **infrastructure** to deploy a website using a cloud provider like AWS or more recently using a service like [Vercel](https://vercel.com/) or [Amplify](https://aws.amazon.com/amplify/) or [Netlify](https://www.netlify.com/).
 
-![Full stack](/images/blog/full-stack-ml/fullstack.png)
+![Full stack web developer skills including frontend with HTML5/CSS3/JavaScript, backend with Node.js, databases with SQL/NoSQL, and cloud infrastructure deployment](/images/blog/full-stack-ml/fullstack.png)
 
 ## A little ML history
 
 Lets laterally shift to talk about Machine Learning. Machine Learning, unlike popular knowledge, is old - it is a very old field, older than the web itself.  It was coined in 1959 in a paper titled [Some Studies in Machine Learning Using the Game of Checkers](http://people.csail.mit.edu/brooks/idocs/Samuel.pdf). 
 
-![history_of_ml](/images/blog/full-stack-ml/history_of_ml.png)
+![Machine learning history timeline from 1959 with early algorithms, through neural networks in 1960s, handcrafted features era, to deep learning in 2012 with AlexNet](/images/blog/full-stack-ml/history_of_ml.png)
 
 ### Phase 1: Algorithms and Hardware
 
@@ -60,7 +60,7 @@ While the neural network slowed down, "machine learning" as a term started gaini
 
 It all started in 2012. Three essential ingredients were in place. One - A large scale dataset was created by Fei-Fei Li and Co. called [ImageNet](https://image-net.org/static_files/papers/imagenet_cvpr09.pdf) in 2009. Two - ConvNet's patent had lapsed in 2007, and future iterations of Convolutional networks could be invented permissibly. Three - Gaming really picked up with amazing games like [Crysis](https://en.wikipedia.org/wiki/Crysis_(video_game)) and [Skyrim](https://en.wikipedia.org/wiki/The_Elder_Scrolls_V:_Skyrim) requiring demanding GPU cards. What happened as a result was the organic combination of these raw materials. AlexNet came into being, which can essentially be summarized as follows - "Let's take a convolutional network and make it deeper because now we have more compute, and let's train it on a supermassive dataset, because now we have ImageNet". They achieved amazing results on ImageNet and ushered in a new generation - which took a while to pick up because of the cost of compute. What this new deep learning generation achieved was the ability to scale the performance of one's model to large data. 
 
-![Handcrafted](/images/blog/full-stack-ml/handcrafted-vs-ml.png)
+![Handcrafted feature extraction with HOG, SIFT, and LBP versus end-to-end deep learning neural networks that scale with data](/images/blog/full-stack-ml/handcrafted-vs-ml.png)
 
 In parallel, in the rest of the computing world, several things were happening
 
@@ -83,7 +83,7 @@ Tangentially, a lot of the machine learning is now happening on IOT devices (suc
 
 ### The skill set
 
-![full stack ML](/images/blog/full-stack-ml/ml-fullstack.png)
+![Full stack ML engineer skills spanning data ingestion with SQL/BigQuery, exploration with EDA tools, PyTorch model training, optimization with quantization, and deployment with Docker/FastAPI on cloud infrastructure](/images/blog/full-stack-ml/ml-fullstack.png)
 
 Today's **full stack ML engineer** works across the stack, and can work from ideation all the way till deployment. In today's complex cloud infrastructure world, this means getting down and dirty with the cloud and distributed compute. Let me walk you through the layers (libraries/frameworks linked are representative examples)
 

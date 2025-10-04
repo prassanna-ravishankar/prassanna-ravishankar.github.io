@@ -36,28 +36,28 @@ export default defineConfig({
       filter: (page) => {
         // Exclude URLs with .md or .md/ (prevents source file leaks)
         if (page.match(/\.md\/?$/)) return false;
-        
+
         // Exclude URLs with query parameters
         if (page.includes('?')) return false;
-        
+
         // Exclude legacy redirect source only; keep real project page indexed
         if (/^\/ambi-alert\/?$/.test(page)) return false;
         if (page.includes('/blog/2019-05-29-pipenv-pyenv/')) return false;
         if (page.includes('/blog/ml-fragmentation-redirect/')) return false;
         if (page.includes('/blog/ml-fragmentation-2/')) return false;
         if (page.includes('/blog/full-stack-ml-3/')) return false;
-        
+
         // Exclude old date-based patterns
         if (page.match(/\/blog\/\d{4}-\d{2}-\d{2}-/)) return false;
-        
+
         // Exclude partytown and other technical directories
         if (page.includes('~partytown')) return false;
         if (page.includes('/_astro/')) return false;
-        
+
         // Exclude non-existent podcast episodes (if any)
-        if (page.includes('/podcasts/ml-engineering-challenges') || 
+        if (page.includes('/podcasts/ml-engineering-challenges') ||
             page.includes('/podcasts/deep-learning-frameworks')) return false;
-            
+
         return true;
       },
       customPages: [
@@ -65,7 +65,41 @@ export default defineConfig({
         'https://prassanna.io/podcasts/',
         'https://prassanna.io/projects/',
         'https://prassanna.io/verses/',
-      ]
+      ],
+      // Add lastmod, changefreq, and priority for better SEO
+      serialize(item) {
+        // Determine priority and changefreq based on URL pattern
+        let priority = 0.5;
+        let changefreq = 'monthly';
+
+        if (item.url === 'https://prassanna.io/') {
+          priority = 1.0;
+          changefreq = 'weekly';
+        } else if (item.url.includes('/blog/')) {
+          priority = item.url.endsWith('/blog/') ? 0.9 : 0.8;
+          changefreq = item.url.endsWith('/blog/') ? 'weekly' : 'monthly';
+        } else if (item.url.includes('/podcasts/')) {
+          priority = item.url.endsWith('/podcasts/') ? 0.9 : 0.7;
+          changefreq = 'monthly';
+        } else if (item.url.includes('/projects/')) {
+          priority = item.url.endsWith('/projects/') ? 0.8 : 0.7;
+          changefreq = 'monthly';
+        } else if (item.url.includes('/about')) {
+          priority = 0.9;
+          changefreq = 'monthly';
+        } else if (item.url.includes('/tags/')) {
+          priority = 0.6;
+          changefreq = 'weekly';
+        }
+
+        return {
+          ...item,
+          changefreq,
+          priority,
+          // Add lastmod as current date (in production, you'd use actual file modification dates)
+          lastmod: new Date().toISOString(),
+        };
+      }
     }),
     partytown({
       config: {

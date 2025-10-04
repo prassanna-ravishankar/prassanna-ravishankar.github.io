@@ -14,7 +14,7 @@ draft: false
 
 ## MLOps Is More Than Model Deployment
 
-![MLOps Beyond Model Development](/images/blog/invest-mlops/mlops-beyond-model-development.webp)
+![Comprehensive MLOps lifecycle diagram showing data pipelines, training infrastructure, model deployment, monitoring, and automation workflows](/images/blog/invest-mlops/mlops-beyond-model-development.webp)
 
 Let's start by clarifying what MLOps actually means. **MLOps** isn't just "DevOps for ML models" or pushing models to production. Instead, it's the DevOps principles of toil prioritisation, CI/CD,  Observability and Monitoring applied across the Machine learning lifecycle. It's a broad discipline focused on optimizing the *entire* ML workflow:
 
@@ -30,7 +30,7 @@ In short, MLOps is about making the entire ML lifecycle faster, more efficient, 
 
 ## Early Stage: Share the Load and Stay Flexible
 
-![Early Stage MLOps](/images/blog/invest-mlops/early-stage.jpeg)
+![Early-stage startup team with ML engineers sharing MLOps workload, prioritizing flexibility and rapid iteration over complex infrastructure](/images/blog/invest-mlops/early-stage.jpeg)
 
 In the very early days of a startup, you likely don't have the luxury of dedicated MLOps engineers. And that's okay! Early on, **machine learning engineers (MLEs) and software engineers should share the workload of model building, data engineering, and deployment.** It's common at this stage for the same person to train the model *and* set up a simple API or pipeline to serve it. [This all-hands-on-deck approach keeps process overhead low and speed high](https://medium.com/@jasoncorso/observations-on-mlops-a-fragmented-mosaic-of-mismatched-expectations-3488685ec0b6#:~:text=general%2C%20I%20have%20observed%20that,a%20state%20of%20constant%20change) (there's little to no "red tape"). You're closer to the metal, iterating directly on models and data without a lot of ceremony.
 
@@ -44,7 +44,7 @@ Instead, **prioritize developer experience with lightweight tools.** Make it eas
 
 ## When to Bring in Dedicated MLOps: After Product Validation
 
-![Product Validation](/images/blog/invest-mlops/product-validation.webp)
+![Post-Series A startup scaling ML operations with dedicated MLOps engineers formalizing workflows and automating deployment pipelines](/images/blog/invest-mlops/product-validation.webp)
 
 How do you know when it's time to get serious about MLOps? A good rule of thumb: **wait until you have a small herd of ML models or a larger ML team (say 5–10 MLEs) before hiring dedicated MLOps engineers or building out a complex infrastructure.** Often, this inflection point comes post-Series A, when the company has users, funding, and a mandate to scale. At that stage, the "move fast and break things" approach to ML can start breaking the wrong things (like customer trust, or the on-call engineer's sleep schedule).
 
@@ -56,7 +56,7 @@ At this point, investing in MLOps will pay off in developer productivity and rel
 
 ## Be Surgical with Tooling and Infrastructure
 
-![Surgical Additions](/images/blog/invest-mlops/surgical-additions.webp)
+![Incremental MLOps tooling adoption showing targeted solutions for deployment automation, experiment tracking, and serverless model serving](/images/blog/invest-mlops/surgical-additions.webp)
 
 When you do start adding MLOps tools and infrastructure, **take a surgical approach.** Rather than adopting a giant platform that claims to do everything, add tools incrementally that solve specific pain points – ideally, tools that can tackle *multiple* issues at once. Think of it like upgrading parts on a car one by one, not replacing the whole engine while you're still tuning it.
 
@@ -68,7 +68,7 @@ Another surgical strike might be using a single tool to cover experiment trackin
 
 ## Make Data a First-Class Citizen
 
-![Data Stack](/images/blog/invest-mlops/data_stack.jpg)
+![Modern data stack architecture decoupling execution, orchestration, and registry with tools like Apache Beam, Dagster, and model registries](/images/blog/invest-mlops/data_stack.jpg)
 
 No matter how fancy your models, they're only as good as the data feeding them. MLOps must put serious emphasis on data pipelines and data infrastructure. This is one area where startups often learn hard lessons, so here are some key principles:
 
@@ -81,7 +81,7 @@ No matter how fancy your models, they're only as good as the data feeding them. 
 
 ## MLOps and ML Engineering: Blurring the Lines
 
-![MLOps and ML Engineering](/images/blog/invest-mlops/mlops-ml-engineering.webp)
+![Collaborative workflow showing MLOps engineers and ML engineers working together on research code, infrastructure, and model optimization](/images/blog/invest-mlops/mlops-ml-engineering.webp)
 
 As you invest more in MLOps, you'll notice the line between an "ML engineer" and an "MLOps engineer" can get pretty blurry. And that's a good thing. In practice, a strong MLOps engineer will dive into research or model code, and an ML engineer will contribute to tooling when needed. **MLOps isn't a siloed DevOps team pushing buttons from afar; they're in the codebase alongside data scientists.** In fact, they often make small tweaks to model code that have huge downstream benefits.
 
@@ -93,7 +93,7 @@ The takeaway: **MLOps engineers must be comfortable working in the "research" co
 
 ## LLMOps: Hype and Reality
 
-![LLMOps Hype](/images/blog/invest-mlops/llmops-hype.jpeg)
+![LLMOps observability stack with tracing, prompt monitoring, and dataset distillation workflows for large language model applications](/images/blog/invest-mlops/llmops-hype.jpeg)
 
 Everywhere you turn, there's talk of "LLMOps" – tooling and practices specifically for Large Language Models. Yes, working with LLMs (like GPT-3/GPT-4 and similar) introduces new challenges (huge models, prompt management, etc.), but don't let the hype confuse you. [The core principles remain MLOps 101](https://github.com/tensorchord/Awesome-LLMOps): version your models and data, automate what you can, and monitor everything. The biggest *new* emphasis in LLMOps is on **observability and tracing** of model behavior. Think of it as adding extra logging around your model's decisions, much like you'd use Grafana or other observability tools for traditional services.
 
@@ -105,7 +105,7 @@ In short, the real value behind the LLMOps buzz is better visibility into these 
 
 ## Don't Bet on One Platform – Invest in Glue
 
-![Glue](/images/blog/invest-mlops/glue.jpeg)
+![Integration layer connecting fragmented ML tools through APIs, webhooks, and standardized interfaces to avoid vendor lock-in](/images/blog/invest-mlops/glue.jpeg)
 
 The landscape of ML tools is **highly fragmented**. There's no single platform that does everything your team needs (despite what some vendor marketing might claim). You'll likely end up using a mix of cloud services, open-source tools, and custom scripts to cover all stages of the ML lifecycle. This is normal – in fact, it can be a strength if you embrace it. Rather than hoping one "MLOps platform" will magically solve all problems, invest in the **glue** that holds your ecosystem together.
 
@@ -117,7 +117,7 @@ Crucially, focusing on glue guards against vendor lock-in. If you've built clean
 
 ## Keep Your Eyes on the Prize: Product Impact
 
-![Product Impact](/images/blog/invest-mlops/product-impact.jpeg)
+![Dashboard showing ML model metrics aligned with business KPIs like user engagement, revenue per user, and click-through rates](/images/blog/invest-mlops/product-impact.jpeg)
 
 Finally, remember why you're investing in MLOps in the first place: to drive business and product value from machine learning. It's easy to get caught up in tools and tech, but **successful MLOps teams also define clear evaluation frameworks and metrics that align with product goals.** This means working with product managers and data scientists to decide what success looks like for your models *in the real world*.
 
@@ -129,7 +129,7 @@ By keeping metrics tied to product value, MLOps engineers become partners in the
 
 ## Conclusion: Evolve Your MLOps Step by Step
 
-![JPEG Image](/images/blog/invest-mlops/JPEG image.jpeg)
+![MLOps evolution continuum from lean manual processes to automated infrastructure, scaling incrementally with team needs and product maturity](/images/blog/invest-mlops/JPEG image.jpeg)
 
 For a startup founder or tech lead, the guiding principle should be to **evolve your MLOps incrementally alongside your team's needs.** Start lean and flexible when you're in exploration mode. As you gain traction, layer in more structure and automation to turbocharge your ML efforts (without suffocating them). Think of MLOps investment not as a one-time decision, but as a continuum:
 

@@ -168,7 +168,7 @@ In LLMOps, teams consistently follow this pattern: prototype with expensive prop
 ## Your Action Plan: The Nimble Scaffold
 
 
-![Your stack needs to align beautifully together](/images/blog/nimble-ml-infra/nimbleness-scaffold.webp)
+![ML infrastructure scaffold showing progression from modular project structure to containerization, experiment tracking, data versioning, and orchestrated pipelines](/images/blog/nimble-ml-infra/nimbleness-scaffold.webp)
 
 
 

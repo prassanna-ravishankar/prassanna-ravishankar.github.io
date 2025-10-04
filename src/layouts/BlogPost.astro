@@ -111,13 +111,14 @@ const breadcrumbSchema = {
       <!-- Hero image if available -->
       {entry.data.heroImage && (
         <div class="mb-8">
-          <Image 
-            src={entry.data.heroImage} 
+          <Image
+            src={entry.data.heroImage}
             alt={entry.data.title}
             width={1200}
             height={630}
             class="w-full h-auto rounded-lg shadow-md aspect-video object-cover"
             loading="eager"
+            fetchpriority="high"
           />
         </div>
       )}

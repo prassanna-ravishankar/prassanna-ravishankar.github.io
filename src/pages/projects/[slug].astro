@@ -31,9 +31,9 @@ const { Content } = await project.render();
       <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         {project.data.image && (
           <div class="w-full aspect-video">
-            <img 
-              src={project.data.image} 
-              alt={project.data.title}
+            <img
+              src={project.data.image}
+              alt={`${project.data.title} - ${project.data.description}`}
               class="w-full h-full object-cover"
             />
           </div>

@@ -51,7 +51,7 @@ Tensorflow isn't. Tensorflow aims to "own" your ecosystem and experience and ask
 
 The problem can only be explained with my own life experience. I was a web designer back in my university days, up until 2011. My world was HTML4, CSS2 and the good old [JQuery](https://jquery.com/). In the subsequent years, HTML5 became a thing, CSS3 happened, and [nodejs](https://nodejs.org/en/) took over. I wanted to make a website in 2015 and **I did not know where to start**! I had a tough time getting to know how JS can be used in the backend, why everything now needed to be "served" from `localhost` during dev. And then React, Angular - what was all that about? SCSS and SASS - I was having a headache. 
 
-![The ML stack](/images/blog/ml-fragmentation/stack.png)
+![Fragmented machine learning stack with multiple frameworks including PyTorch, TensorFlow, Keras, MLflow, Kubeflow creating complexity for ML engineers](/images/blog/ml-fragmentation/stack.png)
 
 Likewise, we want Machine learning **to be easy to the new user, and the returning rusty user.** We don't want to alienate a community because of the [surprising poverty of many choices](https://www.thehedgescompany.com/the-surprising-poverty-of-too-many-choices/#:~:text=Having%20too%20many%20choices%20is,satisfied%20with%20our%20eventual%20decision.). There shouldn't be a researcher double thinking one's contribution due to some framework choice. We noticed, for example the growth of [Yolo](https://github.com/WongKinYiu/yolov7) ever since it was translated into [pytorch](https://github.com/eriklindernoren/PyTorch-YOLOv3) from [darknet](https://pjreddie.com/darknet/). It took the community nearly 4 years to extend Yolo, only because it simply didn't exist in their framework of choice. As a community **we don't want citations to be affected by our choice of frameworks**.
 
@@ -224,7 +224,7 @@ webalyzer(model)
 
 and Viola!
 
-![TorchWebio](/images/blog/ml-fragmentation/torchwebio.png)
+![TorchWebio web UI interface for PyTorch model deployment showing simple one-line deployment with image classification and object detection support](/images/blog/ml-fragmentation/torchwebio.png)
 
 ## Conclusion
 

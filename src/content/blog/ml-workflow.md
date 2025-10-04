@@ -54,7 +54,7 @@ Even when training completes successfully, our evaluation methods give us false 
 
 The solution isn't better hardware or faster GPUs. It's treating ML development like the engineering discipline it should be. I propose a three-phase approach that shifts validation left and makes every compute cycle count:
 
-![ML Development Phases](/images/blog/ml-workflow/ml-development-phases.webp)
+![ML development workflow showing Pre-Flight validation with data checks, In-Flight monitoring with real-time debugging, and Post-Flight analysis with model evaluation](/images/blog/ml-workflow/ml-development-phases.webp)
 
 ### Phase 1: Pre-Flight Protocol (Before You Waste Money)
 

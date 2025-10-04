@@ -16,7 +16,7 @@ This evolving landscape has spurred innovation in how we approach machine learni
 
 ## **Breaking Free: The Imperative of Cloud-Agnosticism in ML Training**
 
-![Cloud Agnosticism in ML Training](/images/blog/ml-training-infra/cloud-agnosticism.webp)
+![Diagram illustrating cloud-agnostic ML training architecture allowing seamless workload migration across AWS, Azure, GCP, and on-premise environments](/images/blog/ml-training-infra/cloud-agnosticism.webp)
 
 Cloud-agnostic machine learning training refers to the ability to design and deploy machine learning workflows that are not bound to a specific cloud provider. Instead, these applications, services, or processes can operate seamlessly across various cloud platforms or even on-premises environments. This approach offers the significant advantage of avoiding vendor lock-in, allowing organizations the freedom to choose and switch between cloud providers based on their specific needs and to [leverage the unique strengths of each platform](https://www.weka.io/learn/glossary/cloud-storage/cloud-agnostic/). By embracing cloud agnosticism, businesses can enhance their flexibility and adaptability in a rapidly evolving technological landscape.
 
@@ -34,7 +34,7 @@ The pursuit of cloud agnosticism reflects a fundamental desire for risk mitigati
 
 ## **Riding the Wave: Leveraging Spot Instances for Cost-Effective Training**
 
-![Spot Instances for ML Training](/images/blog/ml-training-infra/spot-instances.webp)
+![Cost comparison showing spot instances offering 70-90% savings over on-demand instances for ML training workloads with fault-tolerant checkpointing](/images/blog/ml-training-infra/spot-instances.webp)
 
 Spot instances represent a compelling avenue for achieving significant cost savings in machine learning training. These are essentially spare compute capacity offered by cloud providers at prices [considerably lower than their on-demand counterparts](https://www.tierpoint.com/blog/spot-instances/). The economic advantage is substantial, making them an attractive option for workloads where cost sensitivity is paramount. However, this cost-effectiveness comes with a caveat: spot instances can be interrupted with minimal notice when the cloud provider requires the capacity back. This inherent transience necessitates careful consideration and strategic integration into machine learning training workflows.
 
@@ -48,7 +48,7 @@ The effective utilization of spot instances hinges on accepting their inherent t
 
 ## **The Enduring Role of On-Premise Infrastructure in Modern ML**
 
-![On-Premise ML Infrastructure](/images/blog/ml-training-infra/on-premise.webp)
+![Hybrid ML infrastructure deployment combining on-premise GPU clusters for sensitive data with cloud resources for scalable training workloads](/images/blog/ml-training-infra/on-premise.webp)
 
 Despite the widespread adoption of cloud computing, on-premise infrastructure continues to hold relevance in the [modern landscape of machine learning training](https://zeet.co/blog/the-multi-cloud-ml-advantage-why-your-ai-needs-a-multi-cloud-approach). Some organizations maintain a preference for keeping sensitive artificial intelligence workloads and the associated data within their own data centers. Several factors contribute to the continued significance of on-premise solutions, including stringent data sensitivity requirements, the need to adhere to specific regulatory compliance frameworks, and the presence of [substantial existing investments in on-premise hardware](https://www.gen8i.com/artificial-intelligence-is-mastering-a-wider-variety-of-jobs-2/). Data sovereignty regulations, for instance, may necessitate that certain types of data remain within specific geographical boundaries, a requirement that can be more easily managed with on-premise infrastructure.
 
@@ -64,7 +64,7 @@ The decision between adopting cloud or on-premise infrastructure for machine lea
 
 ## **Unlocking Performance: The Strategic Use of Heterogeneous Hardware**
 
-![Heterogeneous Hardware in ML](/images/blog/ml-training-infra/heterogeneous-hardware.webp)
+![Heterogeneous ML training infrastructure utilizing CPUs for data preprocessing, GPUs for model training, and TPUs for specialized TensorFlow workloads](/images/blog/ml-training-infra/heterogeneous-hardware.webp)
 
 Modern machine learning training can significantly benefit from the strategic utilization of heterogeneous hardware, which involves employing a mix of different types of processors such as Central Processing Units (CPUs), Graphics Processing Units (GPUs), and [Tensor Processing Units (TPUs)](https://www.weka.io/learn/glossary/cloud-storage/cloud-agnostic/). Each type of hardware possesses unique architectural strengths that make it particularly well-suited for specific aspects of machine learning workloads. GPUs, with their massively parallel processing capabilities, excel at the intensive matrix operations that form the core of training deep learning models. CPUs, on the other hand, are more adept at handling general-purpose tasks, including data preprocessing, control flow, and other sequential operations. TPUs, developed by Google, are specialized accelerators designed specifically to accelerate TensorFlow workloads, offering significant performance improvements for certain types of machine learning tasks. [AMD's ROCm model](https://www.reddit.com/r/Amd/comments/act7me/deep_learningai_with_amd_gpus/) also aims to provide a hardware-agnostic approach, supporting CPUs, NVIDIA GPUs, and AMD GPUs within heterogeneous systems. By strategically assigning different parts of the machine learning pipeline to the most appropriate type of hardware, practitioners can achieve substantial gains in training performance and overall efficiency.
 
@@ -78,7 +78,7 @@ The strategic employment of heterogeneous hardware is paramount for maximizing b
 
 ## **Scaling Horizons: Mastering Distributed Training Techniques**
 
-![Distributed Training in ML](/images/blog/ml-training-infra/distributed-training.webp)
+![Distributed ML training architecture showing data parallelism across multiple GPU nodes with gradient synchronization and model parallelism for large models](/images/blog/ml-training-infra/distributed-training.webp)
 
 As machine learning models and datasets continue to grow in size and complexity, the need for distributed training techniques has become increasingly critical. Distributed training involves leveraging multiple compute resources to accelerate the training process, enabling practitioners to tackle challenges that would be infeasible on a single machine. Two primary approaches to distributed machine learning training are data parallelism and model parallelism. In data parallelism, the training dataset is divided into multiple subsets, and each worker (a compute node or device) trains a copy of the entire model on its assigned subset of the data. After each training step, the gradients computed by the different workers are aggregated to update the global model. This approach is particularly effective when the model fits within the memory of a single device, but the dataset is too large to be processed efficiently by one machine. Model parallelism, on the other hand, becomes necessary when the model itself is too large to fit into the memory of a single compute resource. In this approach, different parts of the model are assigned to different workers, and each worker is responsible for training its specific portion of the model. Communication between the workers is then required to coordinate the forward and backward passes of the training process.
 
@@ -92,7 +92,7 @@ Distributed training has become an indispensable technique for scaling machine l
 
 ## **The New Frontier: Exploring Emerging GPU Cloud Providers**
 
-![Emerging GPU Cloud Providers](/images/blog/ml-training-infra/gpu-cloud-providers.webp)
+![Comparison of emerging GPU cloud providers RunPod and CoreWeave offering cost-effective H100/H200 GPU access versus traditional cloud platforms](/images/blog/ml-training-infra/gpu-cloud-providers.webp)
 
 The landscape of cloud computing for machine learning training is rapidly evolving, with the emergence of new-tier GPU cloud providers like RunPod and CoreWeave. These companies are establishing themselves as significant players in the market, offering [specialized infrastructure specifically tailored](https://www.youtube.com/watch?v=VjfoLNKgo3A) for the demanding needs of artificial intelligence and machine learning workloads. Often, their primary focus is on providing access to high-performance NVIDIA GPUs, including the latest and most powerful architectures such as the H100 and H200, which are essential for training cutting-edge models. CoreWeave, for example, was among the first cloud providers to make NVIDIA's GB200 NVL72-based instances generally available and was also an [early adopter of high-performance infrastructure](https://www.wheresyoured.at/core-incompetency/) featuring NVIDIA's H100, H200, and GH200 GPUs.
 
@@ -108,7 +108,7 @@ The emergence of these new-tier GPU cloud providers has a significant impact on 
 
 ## **Challenging the Narrative: Alternative Perspectives on ML Infrastructure**
 
-![Alternative Perspectives on ML Infrastructure](/images/blog/ml-training-infra/alternative-perspectives.webp)
+![Comparison of ML infrastructure approaches: Skypilot's cloud-agnostic orchestration versus vendor-specific managed MLOps platforms and IaC tools](/images/blog/ml-training-infra/alternative-perspectives.webp)
 
 [Skypilot has emerged as a significant project](https://www.youtube.com/watch?v=rgQxO54hN8Q) in the discourse surrounding modern machine learning training infrastructure. Its core contribution lies in its ambition to drastically simplify and reduce the cost of running AI on the cloud by providing a unified interface for managing workloads across a diverse range of cloud providers, including AWS, Azure, GCP, and even newer players like RunPod and CoreWeave, as well as on-premise Kubernetes clusters. Supporting [over 16 different clouds and Kubernetes environments](https://docs.skypilot.co/), Skypilot aims to abstract away the often-complex intricacies of cloud infrastructure. Its key features include automatic cloud selection based on both cost and the availability of resources, managed spot instances with automated recovery mechanisms to handle preemptions, and the ability to easily scale distributed training tasks. By intelligently identifying the cheapest and most readily available infrastructure, Skypilot seeks to optimize resource utilization and minimize expenses. Furthermore, it is designed to support a variety of machine learning workloads, such as AI model training (on both GPUs and TPUs), model serving, and CPU-intensive batch processing jobs, with the goal of requiring minimal to no code changes for existing machine learning projects.
 
@@ -124,7 +124,7 @@ Discussions within the machine learning community also highlight the practical c
 
 ## **Navigating the Future: Key Challenges and Evolving Trends**
 
-![Future of ML Infrastructure](/images/blog/ml-training-infra/future-trends.webp)
+![Future ML infrastructure trends including AutoML, serverless training, edge computing, federated learning, and quantum machine learning](/images/blog/ml-training-infra/future-trends.webp)
 
 The evolution of machine learning training infrastructure is marked by several significant challenges that continue to drive innovation in the field. [Cost management remains a paramount concern](https://circleci.com/blog/top-7-challenges-of-ml-model-development/), as the increasing scale and complexity of machine learning models lead to escalating training expenses. The sheer computational resources required for training state-of-the-art models can be financially prohibitive for many organizations. Scalability is another critical challenge, as infrastructure must be able to efficiently handle ever-growing datasets and model sizes without creating performance bottlenecks. Ensuring ease of use is also a persistent goal, as simplifying the complexities of machine learning infrastructure is essential for making advanced artificial intelligence accessible to a wider range of practitioners. [Effective data management](https://digitalcloud.training/top-10-challenges-of-ai-in-cloud-computing), encompassing data quality, availability, security, and portability across diverse environments, remains a significant hurdle. The desire to avoid vendor lock-in while still leveraging the best services offered by individual cloud providers presents a delicate balancing act. Furthermore, the effective utilization and optimization of heterogeneous hardware, including CPUs, GPUs, and TPUs, continue to pose technical complexities. Finally, the [seamless integration of infrastructure with the broader Machine Learning Operations (MLOps) lifecycle](https://neptune.ai/blog/machine-learning-model-management), encompassing data preparation, model deployment, and ongoing monitoring, is crucial for streamlining the entire machine learning workflow.
 
@@ -136,7 +136,7 @@ The trajectory of machine learning training infrastructure is clearly driven by 
 
 ## **Conclusion: Charting a Course in the Modern ML Infrastructure Landscape**
 
-![Conclusion: Modern ML Infrastructure](/images/blog/ml-training-infra/conclusion.webp)
+![Modern ML infrastructure landscape combining cloud-agnostic tools, spot instances, heterogeneous hardware, and distributed training for cost-effective AI](/images/blog/ml-training-infra/conclusion.webp)
 
 The modern landscape of machine learning training infrastructure is characterized by a dynamic interplay of technological advancements and evolving needs. Cloud agnosticism offers the promise of flexibility and cost optimization, though managing data across diverse environments remains a significant challenge. Spot instances provide a powerful mechanism for achieving substantial cost savings, provided that workflows are designed to accommodate their transient nature. On-premise infrastructure continues to hold relevance for organizations with specific data security or investment considerations, and cloud-agnostic tools are facilitating hybrid deployment strategies. The strategic utilization of heterogeneous hardware, coupled with advancements in MLOps platforms, unlocks significant performance gains. Mastering distributed training techniques is essential for tackling large-scale machine learning challenges, and cloud-agnostic solutions are making this capability more accessible. The emergence of new-tier GPU cloud providers like RunPod and CoreWeave is disrupting the market by offering specialized, high-performance, and often more cost-effective resources. Tools like Skypilot are simplifying multi-cloud management, although alternative approaches cater to different needs and preferences.
 

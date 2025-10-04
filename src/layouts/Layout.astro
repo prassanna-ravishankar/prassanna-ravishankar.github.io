@@ -99,9 +99,13 @@ const articleSchema = article ? {
     <meta name="robots" content={hasQueryParams || isRedirectPage ? "noindex, nofollow" : "index, follow"} />
     <meta name="author" content={author} />
     
+    <!-- DNS Prefetch & Preconnect for external resources -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
     <!-- Preload critical resources -->
     <link rel="preload" href="/favicon.svg" as="image" />
-    <link rel="preload" href="/images/profile.jpg" as="image" />
+    <link rel="preload" href="/images/profile.jpg" as="image" fetchpriority="high" />
     
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />

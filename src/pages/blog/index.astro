@@ -21,7 +21,46 @@ const sortedPosts = posts.sort(
 
 // Get unique tags for the tag cloud
 const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
-const shuffledTags = allTags.sort(() => Math.random() - 0.5).slice(0, 10); // Random 10 tags
+
+// SEO-optimized tag prioritization based on DataForSEO keyword research
+// Prioritize high-value, low-competition keywords that align with content
+const tagPriority = {
+  // High search volume + low difficulty keywords (from DataForSEO analysis)
+  'Machine Learning Infrastructure': 100,
+  'ML Infrastructure': 95,
+  'MLOps': 90,
+  'machine learning': 85,
+  'ML Engineering': 80,
+  'AI Agents': 75,
+  'Deep Learning': 70,
+  'Training Infrastructure': 65,
+  'ML Training': 60,
+  'Model Deployment': 55,
+  'AI Engineering': 50,
+  'Agent Frameworks': 45,
+  'LLMOps': 40,
+  'Cloud infrastructure': 35,
+  'DevOps': 30,
+};
+
+// Sort tags by priority, then by frequency in posts
+const tagFrequency = allTags.reduce((acc, tag) => {
+  acc[tag] = posts.filter(post => post.data.tags?.includes(tag)).length;
+  return acc;
+}, {});
+
+const prioritizedTags = allTags.sort((a, b) => {
+  const priorityA = tagPriority[a] || 0;
+  const priorityB = tagPriority[b] || 0;
+
+  // First sort by priority
+  if (priorityA !== priorityB) {
+    return priorityB - priorityA;
+  }
+
+  // Then by frequency (most used tags first)
+  return tagFrequency[b] - tagFrequency[a];
+}).slice(0, 10);
 
 // Get latest posts for description
 const latestPosts = sortedPosts.slice(0, 3);
@@ -80,7 +119,7 @@ const structuredData = {
     <section class="mb-12">
       <h2 class="text-2xl font-semibold mb-4 text-center">Popular Topics</h2>
       <div class="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
-        {shuffledTags.map(tag => (
+        {prioritizedTags.map(tag => (
             <a 
               href={`/tags/${encodeURIComponent(tag)}/`}
             class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200 transition-colors"

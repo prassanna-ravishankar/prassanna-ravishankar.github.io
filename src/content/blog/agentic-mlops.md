@@ -20,7 +20,7 @@ Let me walk you through this thought experiment and see where it takes us.
 
 ## My MLOps Frustrations (Maybe Yours Too?)
 
-![Symphony of Chaos: Orchestrating ML](/images/blog/agentic-mlops/symphony-of-chaos.webp)
+![Chaotic ML development workflow showing fragmented tools, manual handoffs, and disconnected systems requiring human coordination](/images/blog/agentic-mlops/symphony-of-chaos.webp)
 *Model development is a symphony of chaos—can agents become the conductors?*
 
 Before diving into the "what if" scenario, let me share what triggered this thought experiment. Maybe you'll recognize these pain points:
@@ -37,7 +37,7 @@ This [technical debt compounds](https://cloud.google.com/architecture/mlops-cont
 
 ## Thought Experiment: What Would Agent-Driven MLOps Look Like?
 
-![Agentic MLOps Stack](/images/blog/agentic-mlops/agentic-mlops-stack.webp)
+![Layered MLOps architecture with specialized AI agents orchestrating data quality, model training, deployment, and monitoring tools through MCP protocol](/images/blog/agentic-mlops/agentic-mlops-stack.webp)
 *Imagine a future where agents orchestrate every layer of the MLOps stack.*
 
 Let's imagine we could build specialized **AI agents** that interact with your existing MLOps tools through standardized protocols like MCP. What would that dream team look like?
@@ -58,7 +58,7 @@ Here's my vision for **the future of automated MLOps with intelligent tool-calli
 
 ## Phase 1: What If Data Management Was Completely Tool-Integrated?
 
-![Data: The Smart Fuel Station](/images/blog/agentic-mlops/data-smart-fuel-station.webp)
+![Data Guardian Agent monitoring data pipelines with automated quality checks, drift detection, and synthetic data generation capabilities](/images/blog/agentic-mlops/data-smart-fuel-station.webp)
 *Data is the fuel—can agents keep it clean, fresh, and always flowing?*
 
 Imagine your **Data Guardian Agent** continuously monitoring your data pipelines through intelligent tool calling:
@@ -92,7 +92,7 @@ async def autonomous_data_monitoring():
 
 ## Phase 2: What If Model Development Was Fully Tool-Orchestrated?
 
-![Tireless Researcher: The Human Cost of MLOps](/images/blog/agentic-mlops/tireless-researcher.webp)
+![Engineer working late debugging ML models manually checking logs, experiments, and alerts across multiple disconnected MLOps platforms](/images/blog/agentic-mlops/tireless-researcher.webp)
 *Late nights, manual checks, and endless debugging—MLOps can feel like a tireless research marathon.*
 
 Here's where the thought experiment gets really exciting. **What if your Architect Agent could orchestrate experiments across your entire ML tool stack?**
@@ -128,7 +128,7 @@ Google's [AmoebaNet discovery](https://ojs.aaai.org/index.php/AAAI/article/view/
 
 ## Phase 3: What If Production Was Fully Autonomous Through Tool Integration?
 
-![Deployment: The Self-Healing System](/images/blog/agentic-mlops/deployment-self-healing-system.webp)
+![Deployment Agent performing automated canary deployments with health checks, performance monitoring, and autonomous rollback capabilities](/images/blog/agentic-mlops/deployment-self-healing-system.webp)
 *Imagine deployments that heal themselves—agents watching, fixing, and rolling back before you even notice.*
 
 This is where the vision gets wild. **What if your production environment was orchestrated by agents that seamlessly integrate with your entire infrastructure stack?**
@@ -187,7 +187,7 @@ async def autonomous_model_deployment(model_uri: str):
 
 ## The Human-Agent Superpower: What If We Became ML Strategists?
 
-![Human-Agent System](/images/blog/agentic-mlops/human-agent-system.webp)
+![Collaborative workflow showing ML strategist directing AI agents for execution, with humans focusing on strategic decisions and agents handling tool orchestration](/images/blog/agentic-mlops/human-agent-system.webp)
 *The real superpower: humans and agents working together, each amplifying the other's strengths.*
 
 Here's where I think the real magic happens: **What if the combination of human intuition and agent automation gave us ML superpowers?**
@@ -239,7 +239,7 @@ It's basic, but it proves the concept: **AI agents can already start orchestrati
 
 ## The Wild Conclusion: What If This Changes Everything?
 
-![The Future of Agentic MLOps](/images/blog/agentic-mlops/the-future.webp)
+![Vision of autonomous MLOps ecosystem with seamless agent coordination across entire ML stack enabling continuous improvement and zero-friction deployments](/images/blog/agentic-mlops/the-future.webp)
 *The future of MLOps: seamless, autonomous, and more creative than we can imagine.*
 
 Here's the thought that keeps me up at night: **What if fully automated MLOps through intelligent tool orchestration isn't just about efficiency—what if it completely changes what's possible with machine learning?**

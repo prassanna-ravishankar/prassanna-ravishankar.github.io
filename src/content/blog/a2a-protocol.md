@@ -12,7 +12,7 @@ We've all seen the explosion of powerful AI agents. The catch? Most of them are 
 
 **Agent2Agent (A2A) protocol** was built to solve.
 
-![A2A Protocol Overview](/images/blog/a2a-protocol/a2a-protocol.webp)
+![Diagram showing the Agent2Agent (A2A) protocol architecture with agents discovering and communicating through standardized HTTP/JSON interfaces](/images/blog/a2a-protocol/a2a-protocol.webp)
 
 Think of A2A as [a universal translator for AI](https://www.bluebash.co/blog/google-a2a-protocol-redefines-ai-ecosystems/). It's an open standard that lets different agents—no matter who built them—[discover each other, securely swap info, and work together](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/). This isn't just a niche tool; it's a foundational blueprint for a future where AI collaborates.
 
@@ -22,7 +22,7 @@ Originally a Google project, A2A is now [managed by the Linux Foundation](https:
 
 A2A is designed to [turn AI from a "single-player" game into a "multiplayer" one](https://kodekloud.com/blog/agent2agent-a2a-protocol-a-friendly-guide-to-the-future-of-ai-communication/). It's built on familiar, developer-friendly principles: it [uses standard web tech like HTTP and JSON, prioritizes enterprise-grade security](https://www.trevorlasn.com/blog/agent-2-agent-protocol-a2a) with things like OAuth, and is built to handle the kind of long-running, complex tasks we see in the real world.
 
-![Agent Ecosystem](/images/blog/a2a-protocol/agent-ecosystem.webp)
+![Ecosystem view showing multiple AI agents from different vendors (Google, AWS, Microsoft) communicating through the A2A protocol standard](/images/blog/a2a-protocol/agent-ecosystem.webp)
 
 Crucially, A2A lets agents [work together without having to reveal their internal code or proprietary data](https://github.com/a2aproject/A2A). A finance agent can give a risk score without sharing the secret algorithm used to calculate it.
 
@@ -30,7 +30,7 @@ Crucially, A2A lets agents [work together without having to reveal their interna
 
 You might have heard of Anthropic's Model Context Protocol (MCP). They aren't competitors; [they're teammates](https://www.tmasolutions.com/insights/agent2agent-a2a-protocol-opening-a-new-era-for-autonomous-ai-agents-interaction). Here's a simple way to think about it:
 
-![MCP vs A2A Protocol Comparison](/images/blog/a2a-protocol/mcp-vs-a2a.webp)
+![Comparison table showing MCP for agent-to-tool communication versus A2A for agent-to-agent collaboration, highlighting their complementary roles](/images/blog/a2a-protocol/mcp-vs-a2a.webp)
 
 **[If MCP is how an agent uses a tool (like an API), A2A is how a team of agents talk to each other while they work on a project](https://securityboulevard.com/2025/04/what-is-the-a2a-agent2agent-protocol-and-how-it-works/).** You'll likely use both.
 
@@ -113,19 +113,19 @@ if __name__ == "__main__":
 
 A2A is more than just a protocol; it's the foundation for a new, automated economy. As the ecosystem matures, four key areas will define the future for developers and businesses.
 
-![The Road Ahead](/images/blog/a2a-protocol/road-ahead.webp)
+![Roadmap visualization showing the four pillars of the agent economy: optimization, authentication, monetization, and orchestration](/images/blog/a2a-protocol/road-ahead.webp)
 
 ### **1. Agent Optimization (AO)**
 
 Just as we have SEO to make websites discoverable to search engines, we're about to see the rise of **[Agent Optimization (AO)](https://www.mariehaynes.com/googles-agent2agent-protocol-will-radically-change-the-web/)**. This will be the discipline of making your agent discoverable, trustworthy, and appealing to *other agents*. A [well-crafted Agent Card will be your new homepage](https://huggingface.co/blog/tsadoq/agent2agent-and-mcp-tutorial), clearly advertising your agent's skills and reliability to a global network of automated collaborators.
 
-![Agent Optimization](/images/blog/a2a-protocol/agent-optimisation.webp)
+![Illustration of Agent Optimization (AO) showing well-designed Agent Cards with clear capabilities, reputation scores, and discoverability features](/images/blog/a2a-protocol/agent-optimisation.webp)
 
 ### **2. Agent Auth and Authz**
 
 Security is paramount. In a world where agents transact and share data, we need robust ways to manage identity. This is where **Authentication (Auth)** and **Authorization (Authz)** come in. [Authentication is about proving an agent is who it says it is](https://www.googlecloudcommunity.com/gc/Community-Blogs/Understanding-A2A-The-Protocol-for-Agent-Collaboration/ba-p/906323), often using standards like OAuth 2.0 and JWTs. [Authorization is about defining what an authenticated agent is *allowed to do*](https://www.protocols.io/view/a2a-protocol-g4ehbytb7). The A2A protocol is [built with these enterprise-grade security concepts at its core](https://towardsdatascience.com/inside-googles-agent2agent-a2a-protocol-teaching-ai-agents-to-talk-to-each-other/), ensuring that collaboration happens within a framework of trust.
 
-![Agent Authentication](/images/blog/a2a-protocol/agent-auth.webp)
+![Diagram showing agent authentication flow using OAuth 2.0 and JWT tokens, with secure handshake between agents before data exchange](/images/blog/a2a-protocol/agent-auth.webp)
 
 This is where my library, [**phlow**](https://github.com/prassanna-ravishankar/phlow), comes in. phlow is the JWT authentication foundation for the A2A Protocol ecosystem. It enables AI agents to securely authenticate with each other while maintaining full compatibility with A2A standards for discovery, capabilities, and communication. It simplifies securing your agents with features like RS256 signed tokens and native support for Agent Cards, letting you focus on building great agent capabilities.
 
@@ -133,7 +133,7 @@ This is where my library, [**phlow**](https://github.com/prassanna-ravishankar/p
 
 How do you make money from an AI agent? Several models are emerging:
 
-![Agent Monetization](/images/blog/a2a-protocol/agent-monetisation.webp)
+![Overview of agent monetization models including subscription-based, usage-based, and outcome-based pricing strategies for AI agents](/images/blog/a2a-protocol/agent-monetisation.webp)
 
 * **[Subscription-Based](https://medium.com/aimonks/10-profitable-ai-agent-business-models-to-launch-in-2025-3bad38ae4bc9):** The classic SaaS model. Users pay a recurring fee for access to your agent's capabilities.
 * **[Usage-Based](https://www.getlago.com/blog/ai-agent-monetization):** Customers pay for what they consume, whether it's per API call, task completed, or tokens processed. This is great for aligning cost with value.
@@ -145,7 +145,7 @@ The most successful strategies will likely be [hybrids, blending predictable sub
 
 While A2A provides the communication rails, you still need an engine to drive the train. **[Agent Orchestration is the art and science of defining, managing, and observing the complex workflows](https://re-cinq.com/blog/agents-in-dialogue-part-3-a2a)** between multiple agents. An orchestrator acts as [the "project manager," delegating tasks, handling conditional logic, and synthesizing results](https://fractal.ai/blog/orchestrating-heterogeneous-and-distributed-multi-agent-systems-using-agent-to-agent-a2a-protocol).
 
-![Agent Orchestration](/images/blog/a2a-protocol/agent-orchestration.webp)
+![Workflow diagram showing an orchestrator agent coordinating multiple specialized agents, managing task delegation, and aggregating results](/images/blog/a2a-protocol/agent-orchestration.webp)
 
 ## **Get Started!**
 
