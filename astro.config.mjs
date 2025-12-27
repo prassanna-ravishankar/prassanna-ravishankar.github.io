@@ -58,6 +58,25 @@ export default defineConfig({
         if (page.includes('/podcasts/ml-engineering-challenges') ||
             page.includes('/podcasts/deep-learning-frameworks')) return false;
 
+        // Only include valid series tag pages (6 series)
+        // Valid series: Machine Learning, MLOps, AI Agents, Python, Startups, Productivity
+        if (page.includes('/tags/')) {
+          const validSeriesPatterns = [
+            '/tags/Machine%20Learning/',
+            '/tags/MLOps/',
+            '/tags/AI%20Agents/',
+            '/tags/Python/',
+            '/tags/Startups/',
+            '/tags/Productivity/',
+            '/tags/', // Allow the index page
+          ];
+          // Check if it's the index or a valid series page
+          const isValidTagPage = validSeriesPatterns.some(pattern =>
+            page.endsWith(pattern) || page === 'https://prassanna.io/tags/'
+          );
+          if (!isValidTagPage) return false;
+        }
+
         return true;
       },
       customPages: [
@@ -88,7 +107,8 @@ export default defineConfig({
           priority = 0.9;
           changefreq = 'monthly';
         } else if (item.url.includes('/tags/')) {
-          priority = 0.6;
+          // Series pages get higher priority (only 6 of them now)
+          priority = item.url.endsWith('/tags/') ? 0.7 : 0.8;
           changefreq = 'weekly';
         }
 

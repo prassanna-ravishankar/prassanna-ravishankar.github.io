@@ -3,7 +3,8 @@ title: "Stop Training and Praying"
 description: "Master efficient ML development with the Pre-Flight, In-Flight, Post-Flight framework. Learn how to catch bugs before expensive training runs, monitor training in real-time, and evaluate models beyond vanity metrics. Stop wasting millions on failed ML experiments."
 pubDate: 2025-07-23
 heroImage: "/images/blog/ml-workflow/hero.webp"
-tags: ["Machine Learning", "MLOps", "ML Training", "Model Development", "Data Pipeline", "ML Engineering", "GPU Training", "Model Evaluation", "ML Workflow", "Training Optimization", "ML Infrastructure", "Data Quality", "Model Debugging", "ML Best Practices", "Compute Efficiency"]
+series: ["Machine Learning", "MLOps"]
+topics: ["GPU Training", "Model Evaluation", "Data Quality"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

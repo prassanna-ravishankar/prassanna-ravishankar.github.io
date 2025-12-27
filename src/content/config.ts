@@ -1,5 +1,15 @@
 import { defineCollection, z } from 'astro:content';
 
+// Valid series tags (high-level categories that get indexed)
+export const validSeries = [
+  'Machine Learning',
+  'MLOps',
+  'AI Agents',
+  'Python',
+  'Startups',
+  'Productivity',
+] as const;
+
 // Define the schema for blog posts
 const blogCollection = defineCollection({
   type: 'content',
@@ -9,8 +19,10 @@ const blogCollection = defineCollection({
     pubDate: z.date(),
     updatedDate: z.date().optional(),
     heroImage: z.string().optional(),
-    tags: z.array(z.string()).default([]),
+    series: z.array(z.enum(validSeries)).default([]),
+    topics: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    author: z.string().optional(),
   }),
 });
 

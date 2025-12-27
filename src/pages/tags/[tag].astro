@@ -1,22 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { validSeries } from '../../content/config';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog', ({ data }) => {
     return import.meta.env.PROD ? !data.draft : true;
   });
-  
-  // Create a set of unique tags
-  const uniqueTags = [...new Set(allPosts.flatMap((post) => post.data.tags || []))];
-  
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) => 
-      post.data.tags?.includes(tag)
+
+  // Only generate pages for valid series tags (not topics)
+  return validSeries.map((series) => {
+    const filteredPosts = allPosts.filter((post) =>
+      post.data.series?.includes(series)
     );
     return {
-      params: { tag },
-      props: { posts: filteredPosts, tag },
+      params: { tag: series },
+      props: { posts: filteredPosts, tag: series },
     };
   });
 }
@@ -37,13 +36,13 @@ const formatDate = (date: Date) => {
   });
 };
 
-// Generate schema for tag page
-const tagSchema = {
+// Generate schema for series page
+const seriesSchema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": `Posts tagged "${tag}"`,
-  "description": `All blog posts tagged with ${tag} by Prassanna Ravishankar`,
-  "url": `https://prassanna.io/tags/${tag}/`,
+  "name": `${tag} Articles`,
+  "description": `All blog posts in the ${tag} series by Prassanna Ravishankar`,
+  "url": `https://prassanna.io/tags/${encodeURIComponent(tag)}/`,
   "mainEntity": {
     "@type": "ItemList",
     "numberOfItems": sortedPosts.length,
@@ -66,13 +65,13 @@ const tagSchema = {
 };
 ---
 
-<Layout 
-  title={`Posts tagged "${tag}" | Prassanna Ravishankar`}
-  description={`All blog posts tagged with ${tag}. Explore ${sortedPosts.length} articles on ${tag} by Prassanna Ravishankar.`}
+<Layout
+  title={`${tag} Articles | Prassanna Ravishankar`}
+  description={`Explore ${sortedPosts.length} articles on ${tag}. Deep dives into ${tag.toLowerCase()} by Prassanna Ravishankar.`}
 >
-  <!-- Tag page structured data -->
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(tagSchema)} />
-  
+  <!-- Series page structured data -->
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(seriesSchema)} />
+
   <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
       <!-- Breadcrumb navigation -->
@@ -96,7 +95,7 @@ const tagSchema = {
           </li>
           <li>
             <span class="text-gray-700 dark:text-gray-300" aria-current="page">
-              Tag: {tag}
+              {tag}
             </span>
           </li>
         </ol>
@@ -105,10 +104,10 @@ const tagSchema = {
       <!-- Header -->
       <header class="mb-12 text-center">
         <h1 class="text-4xl font-bold mb-4">
-          Posts tagged <span class="text-blue-600 dark:text-blue-400">"{tag}"</span>
+          <span class="text-blue-600 dark:text-blue-400">{tag}</span>
         </h1>
         <p class="text-xl text-gray-600 dark:text-gray-400">
-          {sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'} found
+          {sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'}
         </p>
       </header>
 
@@ -119,8 +118,8 @@ const tagSchema = {
             <div class="p-6">
               <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
                 <h2 class="text-2xl font-bold">
-                  <a 
-                    href={`/blog/${post.slug}/`} 
+                  <a
+                    href={`/blog/${post.slug}/`}
                     class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                   >
                     {post.data.title}
@@ -130,30 +129,42 @@ const tagSchema = {
                   {formatDate(post.data.pubDate)}
                 </time>
               </div>
-              
+
               <p class="text-gray-600 dark:text-gray-300 mb-4">
                 {post.data.description}
               </p>
-              
-              {post.data.tags && post.data.tags.length > 0 && (
-                <div class="flex flex-wrap gap-2 mb-4">
-                  {post.data.tags.map((postTag) => (
+
+              <!-- Series tags (clickable) -->
+              {post.data.series && post.data.series.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-2">
+                  {post.data.series.map((seriesTag) => (
                     <a
-                      href={`/tags/${postTag}/`}
-                      class={`px-2 py-1 rounded text-sm transition-colors ${
-                        postTag === tag 
-                          ? 'bg-blue-600 text-white' 
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      href={`/tags/${encodeURIComponent(seriesTag)}/`}
+                      class={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                        seriesTag === tag
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
                       }`}
                     >
-                      {postTag}
+                      {seriesTag}
                     </a>
                   ))}
                 </div>
               )}
-              
-              <a 
-                href={`/blog/${post.slug}/`} 
+
+              <!-- Topic tags (display only, not clickable) -->
+              {post.data.topics && post.data.topics.length > 0 && (
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                  {post.data.topics.slice(0, 4).map((topic) => (
+                    <span class="px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <a
+                href={`/blog/${post.slug}/`}
                 class="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
               >
                 Read more
@@ -168,8 +179,8 @@ const tagSchema = {
 
       <!-- Back to blog link -->
       <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
-        <a 
-          href="/blog/" 
+        <a
+          href="/blog/"
           class="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -180,4 +191,4 @@ const tagSchema = {
       </div>
     </div>
   </div>
-</Layout> 
+</Layout>

@@ -3,7 +3,8 @@ title: "Ambient AI: Building Torale from Complexity to Simplicity"
 description: "The evolution from overengineered web scrapers to grounded search APIs, and what it takes to make information truly ambient. A technical journey through V1's failure, Gemini's unlock, and shipping a production monitoring platform."
 pubDate: 2025-11-17
 heroImage: "/images/blog/ambient-ai-torale/hero.webp"
-tags: ["AI", "Agents", "LLMs", "Torale", "Grounded Search", "Gemini", "Claude Code", "Product Development", "Ambient AI", "Monitoring", "Building in Public", "Machine Learning"]
+series: ["AI Agents", "Productivity"]
+topics: ["Torale", "Gemini", "Claude Code", "Grounded Search"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

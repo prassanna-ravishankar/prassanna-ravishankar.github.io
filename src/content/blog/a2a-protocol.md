@@ -3,7 +3,8 @@ title: "A Builders's Guide to the Agent2Agent (A2A) Protocol: The Universal Lang
 description: "Master the Agent2Agent (A2A) Protocol! Learn how Google's open standard enables secure AI agent communication, discover vs MCP differences, explore authentication, monetization, and orchestration. Complete Python examples included."
 pubDate: 2025-07-04
 heroImage: "/images/blog/a2a-protocol/hero.webp"
-tags: ["Agent2Agent", "A2A Protocol", "AI Agents", "Agent Communication", "Agent Interoperability", "Google", "Linux Foundation", "MCP", "Multi-Agent Systems", "Agent Authentication", "Agent Monetization", "Agent Orchestration", "AI Collaboration", "Enterprise AI", "Protocol Development", "Python", "Agent Discovery", "OAuth", "JWT", "phlow"]
+series: ["AI Agents"]
+topics: ["A2A Protocol", "MCP", "OAuth", "JWT", "phlow"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

@@ -3,7 +3,8 @@ title: "Building Tech Products for India: A First-Principles Playbook"
 description: "Explore why building tech for India means rethinking everything from the ground up—addressing local habits, scale, price sensitivity, and cultural diversity with first-principles design."
 pubDate: 2025-03-23
 heroImage: "/images/blog/building-for-india/hero-image.webp"
-tags: ["Tech in India", "First Principles Thinking", "Product Localization", "Digital India", "AI in India"]
+series: ["Startups"]
+topics: ["India", "Product Localization", "Digital India"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

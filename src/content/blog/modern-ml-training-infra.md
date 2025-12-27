@@ -3,7 +3,8 @@ title: "Navigating the Modern Landscape of Machine Learning Training Infrastruct
 description: "A comprehensive overview of modern ML training infrastructure, covering cloud agnosticism, spot instances, on-premise solutions, heterogeneous hardware, distributed training, and emerging GPU cloud providers."
 pubDate: 2025-03-31
 heroImage: "/images/blog/ml-training-infra/hero.webp"
-tags: ["Machine Learning Infrastructure", "ML Training Infrastructure", "Cloud Agnostic ML", "Spot Training ML", "On-Premise ML Training", "Heterogeneous Hardware ML", "Distributed Training ML", "GPU Cloud Providers", "Skypilot", "AI Infrastructure", "MLOps", "Cloud Computing for ML", "Cost-Effective ML Training", "Scalable ML Infrastructure", "Modern ML Training"]
+series: ["Machine Learning", "MLOps"]
+topics: ["Skypilot", "Distributed Training", "GPU Cloud"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

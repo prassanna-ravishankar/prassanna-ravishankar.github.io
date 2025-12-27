@@ -3,7 +3,8 @@ title: "30 Days of Claude Code: How I Became More Productive and Worse at Progra
 description: "A month-long experiment with Claude Code that replaced Instagram reels with AI-powered coding sessions. How I shipped more projects than ever before while paradoxically becoming worse at programming from scratch."
 pubDate: 2025-07-25
 heroImage: "/images/blog/reflections-claude-code/hero.webp"
-tags: ["AI", "Claude Code", "Programming", "Productivity", "AI Tools", "Development", "Workflow", "Code Generation", "AI-Assisted Programming", "Software Development", "GitHub", "Machine Learning", "Developer Experience", "Automation"]
+series: ["Productivity"]
+topics: ["Claude Code", "GitHub", "AI Tools"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

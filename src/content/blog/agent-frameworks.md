@@ -3,7 +3,8 @@ title: "Agents Assemble: The New Fragmentation in AI Agent Frameworks"
 description: "Dive into the AI agent framework wars! Compare OpenAI, Google ADK, AWS Bedrock, Smol Agents. Explore multi-agent systems & future trends. Expert analysis."
 pubDate: 2025-04-10
 heroImage: "/images/blog/agent-frameworks/hero.webp"
-tags: ["AI Agents", "Agent Frameworks", "LLMs", "OpenAI", "Google ADK", "AWS Bedrock", "Smol Agents", "Multi-Agent Systems"]
+series: ["AI Agents"]
+topics: ["OpenAI", "Google ADK", "AWS Bedrock", "Smol Agents", "LLMs"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

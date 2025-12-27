@@ -65,14 +65,14 @@ const breadcrumbSchema = {
 };
 ---
 
-<Layout 
-  title={`${entry.data.title} | Prassanna Ravishankar`} 
-  description={entry.data.description} 
+<Layout
+  title={`${entry.data.title} | Prassanna Ravishankar`}
+  description={entry.data.description}
   image={entry.data.heroImage}
   article={true}
   publishedTime={entry.data.pubDate.toISOString()}
   modifiedTime={entry.data.updatedDate?.toISOString()}
-  tags={entry.data.tags}
+  tags={[...(entry.data.series || []), ...(entry.data.topics || [])]}
 >
   <!-- Canonical handled by Layout -->
   
@@ -143,11 +143,26 @@ const breadcrumbSchema = {
           </span>
         </div>
         
-        {entry.data.tags && entry.data.tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
-            {entry.data.tags.map(tag => (
-              <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm">
-                {tag}
+        {/* Series tags (clickable) */}
+        {entry.data.series && entry.data.series.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-2">
+            {entry.data.series.map(series => (
+              <a
+                href={`/tags/${encodeURIComponent(series)}/`}
+                class="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+              >
+                {series}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Topic tags (display only, not clickable) */}
+        {entry.data.topics && entry.data.topics.length > 0 && (
+          <div class="flex flex-wrap gap-1.5">
+            {entry.data.topics.map(topic => (
+              <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded text-xs">
+                {topic}
               </span>
             ))}
           </div>

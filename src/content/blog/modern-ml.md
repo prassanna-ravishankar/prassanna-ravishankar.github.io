@@ -3,7 +3,8 @@ title: "Modern ML Cookiecutter Template"
 description: "From dependency hell to device confusion - I built a modality-aware cookiecutter template that gets you from idea to training in minutes, not hours. Here's why modern ML projects need modern tooling."
 pubDate: 2025-07-28
 heroImage: "/images/blog/modern-ml/hero.webp"
-tags: ["Machine Learning", "Cookiecutter", "Python", "Tooling", "Developer Experience", "MLOps", "uv", "Polars", "LitServe", "Speech", "Vision", "NLP"]
+series: ["Machine Learning", "Python"]
+topics: ["uv", "Polars", "LitServe", "Cookiecutter"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

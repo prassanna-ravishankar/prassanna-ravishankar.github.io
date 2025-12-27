@@ -2,10 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
+import { validSeries } from '../../content/config';
 
 // Handle query parameters - redirect to clean URL if present
 if (Astro.url.search) {
-  // Use 301 redirect for SEO benefits, ensuring trailing slash consistency
   return Astro.redirect('/blog/', 301);
 }
 
@@ -19,48 +19,18 @@ const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-// Get unique tags for the tag cloud
-const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
+// Count posts per series for display
+const seriesCounts: Record<string, number> = {};
+validSeries.forEach(series => {
+  seriesCounts[series] = posts.filter(post =>
+    post.data.series?.includes(series)
+  ).length;
+});
 
-// SEO-optimized tag prioritization based on DataForSEO keyword research
-// Prioritize high-value, low-competition keywords that align with content
-const tagPriority = {
-  // High search volume + low difficulty keywords (from DataForSEO analysis)
-  'Machine Learning Infrastructure': 100,
-  'ML Infrastructure': 95,
-  'MLOps': 90,
-  'machine learning': 85,
-  'ML Engineering': 80,
-  'AI Agents': 75,
-  'Deep Learning': 70,
-  'Training Infrastructure': 65,
-  'ML Training': 60,
-  'Model Deployment': 55,
-  'AI Engineering': 50,
-  'Agent Frameworks': 45,
-  'LLMOps': 40,
-  'Cloud infrastructure': 35,
-  'DevOps': 30,
-};
-
-// Sort tags by priority, then by frequency in posts
-const tagFrequency = allTags.reduce((acc, tag) => {
-  acc[tag] = posts.filter(post => post.data.tags?.includes(tag)).length;
-  return acc;
-}, {});
-
-const prioritizedTags = allTags.sort((a, b) => {
-  const priorityA = tagPriority[a] || 0;
-  const priorityB = tagPriority[b] || 0;
-
-  // First sort by priority
-  if (priorityA !== priorityB) {
-    return priorityB - priorityA;
-  }
-
-  // Then by frequency (most used tags first)
-  return tagFrequency[b] - tagFrequency[a];
-}).slice(0, 10);
+// Sort series by count (descending)
+const sortedSeries = Object.entries(seriesCounts)
+  .filter(([, count]) => count > 0)
+  .sort(([, countA], [, countB]) => countB - countA);
 
 // Get latest posts for description
 const latestPosts = sortedPosts.slice(0, 3);
@@ -96,35 +66,36 @@ const structuredData = {
       "@type": "Person",
       "name": "Prassanna Ravishankar"
     },
-    "keywords": post.data.tags?.join(', ') || '',
+    "keywords": [...(post.data.series || []), ...(post.data.topics || [])].join(', '),
     "image": post.data.heroImage ? `https://prassanna.io${post.data.heroImage}` : "https://prassanna.io/images/profile.jpg"
   }))
 };
 ---
 
-<Layout 
-  title="Technical Blog - Prassanna Ravishankar" 
+<Layout
+  title="Technical Blog - Prassanna Ravishankar"
   description={blogDescription}
   structuredData={structuredData}
 >
   <main class="container mx-auto px-4 py-8">
     <h1 class="text-4xl font-bold mb-8 text-center">Blog</h1>
-    
+
     <p class="text-lg mb-8 text-center text-gray-600 max-w-3xl mx-auto">
-      Technical insights on machine learning, MLOps, AI engineering, and software development. 
+      Technical insights on machine learning, MLOps, AI engineering, and software development.
       Sharing practical experiences and deep dives into the latest trends in tech.
     </p>
 
-    <!-- Tag Cloud -->
+    <!-- Series Cloud -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4 text-center">Popular Topics</h2>
-      <div class="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
-        {prioritizedTags.map(tag => (
-            <a 
-              href={`/tags/${encodeURIComponent(tag)}/`}
-            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200 transition-colors"
+      <h2 class="text-2xl font-semibold mb-4 text-center">Browse by Series</h2>
+      <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+        {sortedSeries.map(([series, count]) => (
+          <a
+            href={`/tags/${encodeURIComponent(series)}/`}
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
           >
-            {tag}
+            {series}
+            <span class="ml-1 opacity-70">({count})</span>
           </a>
         ))}
       </div>
@@ -134,10 +105,10 @@ const structuredData = {
     <section class="max-w-6xl mx-auto">
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {sortedPosts.map((post) => (
-          <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
             {post.data.heroImage && (
-              <Image 
-                src={post.data.heroImage} 
+              <Image
+                src={post.data.heroImage}
                 alt={post.data.title}
                 width={400}
                 height={192}
@@ -148,16 +119,16 @@ const structuredData = {
             <div class="p-6">
               <header class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">
-                  <a 
+                  <a
                     href={`/blog/${post.slug}/`}
-                    class="text-gray-900 hover:text-blue-600 transition-colors"
+                    class="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                   >
                     {post.data.title}
                   </a>
                 </h2>
-                <time 
+                <time
                   datetime={post.data.pubDate.toISOString()}
-                  class="text-sm text-gray-500"
+                  class="text-sm text-gray-500 dark:text-gray-400"
                 >
                   {post.data.pubDate.toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -166,24 +137,39 @@ const structuredData = {
                   })}
                 </time>
               </header>
-              
-              <p class="text-gray-600 mb-4 line-clamp-3">
+
+              <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
                 {post.data.description}
               </p>
-              
-              {post.data.tags && (
+
+              {/* Series tags (clickable) */}
+              {post.data.series && post.data.series.length > 0 && (
+                <div class="flex flex-wrap gap-1.5 mb-2">
+                  {post.data.series.map(series => (
+                    <a
+                      href={`/tags/${encodeURIComponent(series)}/`}
+                      class="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-xs rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+                    >
+                      {series}
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {/* Topic tags (display only) */}
+              {post.data.topics && post.data.topics.length > 0 && (
                 <div class="flex flex-wrap gap-1 mb-4">
-                  {post.data.tags.slice(0, 3).map(tag => (
-                    <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
-                      {tag}
+                  {post.data.topics.slice(0, 3).map(topic => (
+                    <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded">
+                      {topic}
                     </span>
                   ))}
                 </div>
               )}
-              
-              <a 
+
+              <a
                 href={`/blog/${post.slug}/`}
-                class="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm"
               >
                 Read more →
               </a>
@@ -193,4 +179,4 @@ const structuredData = {
       </div>
     </section>
   </main>
-</Layout> 
+</Layout>

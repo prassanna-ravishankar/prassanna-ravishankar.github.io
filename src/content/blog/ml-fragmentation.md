@@ -3,7 +3,8 @@ title: "Machine learning ain't Javascript"
 description: "Problems in the ML ecosystem. Fragmentation in machine learning, that keeps preventing the stack from growing higher. How I took a stab at the issue."
 pubDate: 2022-10-07
 heroImage: "/images/blog/ml-fragmentation/ecosystem.webp"
-tags: ["Machine Learning", "PyTorch", "Ecosystem", "Fragmentation", "ML frameworks"]
+series: ["Machine Learning"]
+topics: ["PyTorch", "Ecosystem Fragmentation"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

@@ -3,7 +3,8 @@ title: "What If AI Agents Could Fix MLOps Forever? A Thought Experiment"
 description: "A wild 2 AM thought experiment: What if AI agents could orchestrate your entire MLOps stack through MCP? From data drift to deployment, explore the future of autonomous ML operations."
 pubDate: 2025-07-14
 heroImage: "/images/blog/agentic-mlops/hero.webp"
-tags: ["AI Agents", "MLOps", "MCP", "Automation", "Tool Integration", "Machine Learning", "DevOps", "ClearML", "MLflow", "Kubernetes", "Thought Experiment"]
+series: ["AI Agents", "MLOps"]
+topics: ["MCP", "ClearML", "MLflow", "Kubernetes"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

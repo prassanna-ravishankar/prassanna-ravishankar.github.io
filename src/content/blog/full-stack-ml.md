@@ -3,7 +3,8 @@ title: "The Emergence of the full stack ML engineer"
 description: "The history of Full stack, Machine learning which results in the mergence of the ML full stack engineer"
 pubDate: 2022-10-15
 heroImage: "/images/blog/full-stack-ml/plumber.png"
-tags: ["Machine Learning", "Ecosystem", "Full stack", "ML frameworks", "Cloud infrastructure"]
+series: ["Machine Learning"]
+topics: ["Full Stack", "Cloud Infrastructure"]
 author: "Prassanna Ravishankar"
 draft: false
 ---
