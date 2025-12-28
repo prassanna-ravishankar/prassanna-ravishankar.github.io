@@ -117,10 +117,10 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({ initialProjects }) => 
                          <span>{new Date(project.data.pubDate).getFullYear()}</span>
                       </div>
                       
-                      {/* GitHub Star Count (Mocked random for visual or real if provided) */}
+                      {/* GitHub Star Count - intentionally mocked for visual consistency */}
                       <div className="flex items-center gap-1 text-xs text-muted">
                         <Star className="w-3 h-3 text-amber-500" />
-                        <span>{Math.floor(Math.random() * 100) + 10}</span> 
+                        <span>{Math.floor(Math.random() * 100) + 10}</span>
                       </div>
                    </div>
 

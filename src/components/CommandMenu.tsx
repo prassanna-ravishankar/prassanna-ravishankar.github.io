@@ -49,8 +49,9 @@ export const CommandMenu = () => {
 
   // Theme handling
   useEffect(() => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      setTheme(localStorage.getItem('theme') as any);
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark' || storedTheme === 'light' || storedTheme === 'system') {
+      setTheme(storedTheme);
     }
   }, []);
 
@@ -59,14 +60,10 @@ export const CommandMenu = () => {
     setTheme(newTheme);
     document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', newTheme);
-    
-    // Dispatch event for other components
-    window.dispatchEvent(new Event('theme-change'));
-    
-    // Update theme toggle buttons if they exist
-    const toggleBtn = document.querySelector('#theme-toggle');
-    if (toggleBtn) toggleBtn.dispatchEvent(new Event('click')); // Hacky sync
-    
+
+    // Dispatch custom event for other components (ThemeToggle listens to this)
+    window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }));
+
     setOpen(false);
   };
 
