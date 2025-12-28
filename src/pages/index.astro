@@ -74,7 +74,7 @@ const latestEpisodes = podcastEpisodes
         <!-- Text Content -->
         <FadeIn client:visible direction="up" className="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1">
           <div class="space-y-4">
-            <h2 class="text-accent font-serif tracking-widest text-sm uppercase italic opacity-80">ML Engineer & Researcher</h2>
+            <h2 class="text-accent font-serif tracking-widest text-sm uppercase italic opacity-80">Agent & ML Infrastructure</h2>
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-main">
               Prassanna
               <br />
@@ -85,7 +85,7 @@ const latestEpisodes = podcastEpisodes
           <p class="text-xl md:text-2xl text-muted font-light max-w-2xl mx-auto lg:mx-0">
             Architecting infrastructure for the <span class="text-main font-medium">Agentic Web</span>. 
             <br class="hidden md:block" />
-            Simplifying the convergence of Code, AI, and Protocols.
+            Synthesizing Systems, Intelligence, and the Poetic.
           </p>
 
           <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
@@ -93,7 +93,7 @@ const latestEpisodes = podcastEpisodes
               View Protocols
             </Button>
             <Button href="/verses/" variant="secondary" class="font-serif italic">
-              Read Verses
+              Code & Verse
             </Button>
           </div>
         </FadeIn>
@@ -132,43 +132,58 @@ const latestEpisodes = podcastEpisodes
     </div>
   </section>
 
-  <!-- Latest Content -->
+  <!-- Latest Content (The Synthesis) -->
   <section class="max-w-7xl mx-auto px-4 py-24 space-y-32">
     <div class="space-y-12">
       <div class="flex items-end justify-between border-b border-subtle/10 pb-4">
-        <h2 class="text-3xl font-display font-medium text-main">Latest Signals</h2>
-        <a href="/blog" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">VIEW ALL &rarr;</a>
+        <div class="space-y-1">
+          <h2 class="text-3xl font-display font-medium text-main">Latest Syntheses</h2>
+          <p class="text-sm text-muted font-mono tracking-tight">Systems // Intelligence // Poetics</p>
+        </div>
+        <a href="/blog" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">STREAM ALL &rarr;</a>
       </div>
 
       <StaggerContainer client:visible className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {latestContent.map((item, index) => (
-          <StaggerItem>
-            <Card href={item.slug} class="h-full p-6 flex flex-col items-start">
-                <div class="flex items-center gap-3 mb-4 text-xs font-mono text-muted relative z-10">
-                   <span class="uppercase tracking-wider text-primary">
-                    {item.type}
-                   </span>
-                   <span>//</span>
-                   <time>
-                    {new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                   </time>
-                </div>
+        {latestContent.map((item, index) => {
+          // Unique styling based on type
+          const isVerse = item.type === 'verse';
+          const isProject = item.type === 'project';
+          const accentClass = isVerse ? 'text-accent' : (isProject ? 'text-primary' : 'text-primary-light');
+          const typeLabel = isVerse ? 'Poetic' : (isProject ? 'System' : 'Signal');
+          
+          return (
+            <StaggerItem>
+              <Card href={item.slug} class="h-full p-8 flex flex-col items-start border-subtle/10 hover:border-primary/20">
+                  <div class="flex items-center justify-between w-full mb-6">
+                    <div class={`flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] ${accentClass}`}>
+                       <span class="w-2 h-2 rounded-full bg-current animate-pulse-slow"></span>
+                       {typeLabel}
+                    </div>
+                    <time class="text-[10px] font-mono text-muted uppercase">
+                      {new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                    </time>
+                  </div>
 
-                <h3 class="text-xl font-bold text-main group-hover:text-primary transition-colors mb-3 leading-tight relative z-10">
-                  {item.title}
-                </h3>
-                
-                <p class="text-muted text-sm leading-relaxed mb-4 line-clamp-3 relative z-10">
-                  {item.description}
-                </p>
+                  <h3 class={`text-xl font-bold text-main group-hover:text-primary transition-colors mb-4 leading-tight relative z-10 ${isVerse ? 'font-serif italic' : 'font-display'}`}>
+                    {item.title}
+                  </h3>
+                  
+                  <p class="text-muted text-sm leading-relaxed mb-8 line-clamp-3 relative z-10 font-light">
+                    {item.description}
+                  </p>
 
-                <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-subtle/5 group-hover:border-primary/20 transition-colors relative z-10">
-                   <span class="text-xs font-mono text-muted group-hover:text-primary transition-colors">read_more()</span>
-                   <svg class="w-4 h-4 text-gray-600 group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                </div>
-            </Card>
-          </StaggerItem>
-        ))}
+                  <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-subtle/5 group-hover:border-primary/10 transition-colors relative z-10">
+                     <span class="text-[10px] font-mono text-muted uppercase tracking-widest group-hover:text-primary transition-colors">
+                        {isProject ? 'analyze_protocol()' : (isVerse ? 'explore_verse()' : 'read_signal()')}
+                     </span>
+                     <svg class={`w-4 h-4 transition-all group-hover:translate-x-1 ${accentClass}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                     </svg>
+                  </div>
+              </Card>
+            </StaggerItem>
+          );
+        })}
       </StaggerContainer>
     </div>
 

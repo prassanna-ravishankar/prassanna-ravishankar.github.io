@@ -100,11 +100,12 @@ export const CommandMenu = () => {
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               className="w-full max-w-xl relative z-50"
             >
-              <Command className="w-full bg-surface border border-subtle/10 rounded-xl shadow-2xl overflow-hidden text-main">
+              <Command loop className="w-full bg-surface border border-subtle/10 rounded-xl shadow-2xl overflow-hidden text-main">
                 <div className="flex items-center border-b border-subtle/10 px-4">
                   <Search className="w-5 h-5 text-muted mr-3" />
-                  <Command.Input 
-                    placeholder="Type a command or search..." 
+                  <Command.Input
+                    autoFocus
+                    placeholder="Type a command or search..."
                     className="w-full bg-transparent py-4 text-lg outline-none placeholder:text-muted"
                   />
                   <div className="flex items-center gap-1">
