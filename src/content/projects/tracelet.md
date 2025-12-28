@@ -4,6 +4,7 @@ description: "An automagic PyTorch metric exporter that seamlessly integrates wi
 pubDate: 2024-12-13
 tags: ["python", "pytorch", "machine learning", "metrics", "mlops"]
 github: "https://github.com/prassanna-ravishankar/tracelet"
+link: "https://prassanna.io/tracelet/"
 image: "/images/projects/tracelet.webp"
 featured: false
 ---

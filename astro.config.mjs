@@ -17,11 +17,26 @@ export default defineConfig({
   trailingSlash: 'always',
   
   redirects: {
-    '/blog/2019-05-29-pipenv-pyenv': '/blog/pipenv-pyenv',
-    '/ambi-alert': '/projects/ambi-alert',
-    '/blog/ml-fragmentation-redirect': '/blog/ml-fragmentation',
-    '/blog/ml-fragmentation-2': '/blog/ml-fragmentation',
-    '/blog/full-stack-ml-3': '/blog/full-stack-ml',
+    // Legacy blog URL redirects
+    '/blog/2019-05-29-pipenv-pyenv': '/blog/pipenv-pyenv/',
+    '/blog/ml-fragmentation-redirect': '/blog/ml-fragmentation/',
+    '/blog/ml-fragmentation-2': '/blog/ml-fragmentation/',
+    '/blog/full-stack-ml-3': '/blog/full-stack-ml/',
+    '/blog/2022-10-15-full-stack-ml': '/blog/full-stack-ml/',
+    '/blog/pyenv-and-pipenv-for-the-perfect-python-environment': '/blog/pipenv-pyenv/',
+    '/blog/future-tech-framework': '/blog/future-tech-framework/',
+
+    // Legacy project redirects (ambi-alert is now torale)
+    '/ambi-alert': '/projects/torale/',
+    '/projects/ambi-alert': '/projects/torale/',
+
+    // Old tag pages redirect to tags index
+    '/tags/Digital%20India': '/tags/',
+    '/tags/Building%20in%20Public': '/tags/',
+    '/tags/Product%20Localization': '/tags/',
+    '/tags/ML%20Training%20Infrastructure': '/tags/',
+    '/tags/Experiments': '/tags/',
+    '/tags/Agent%20Orchestration': '/tags/',
   },
   
   integrations: [
@@ -40,12 +55,15 @@ export default defineConfig({
         // Exclude URLs with query parameters
         if (page.includes('?')) return false;
 
-        // Exclude legacy redirect source only; keep real project page indexed
+        // Exclude legacy redirect sources from sitemap
         if (/^\/ambi-alert\/?$/.test(page)) return false;
-        if (page.includes('/blog/2019-05-29-pipenv-pyenv/')) return false;
-        if (page.includes('/blog/ml-fragmentation-redirect/')) return false;
-        if (page.includes('/blog/ml-fragmentation-2/')) return false;
-        if (page.includes('/blog/full-stack-ml-3/')) return false;
+        if (page.includes('/projects/ambi-alert')) return false;
+        if (page.includes('/blog/2019-05-29-pipenv-pyenv')) return false;
+        if (page.includes('/blog/ml-fragmentation-redirect')) return false;
+        if (page.includes('/blog/ml-fragmentation-2')) return false;
+        if (page.includes('/blog/full-stack-ml-3')) return false;
+        if (page.includes('/blog/2022-10-15-full-stack-ml')) return false;
+        if (page.includes('/blog/pyenv-and-pipenv-for-the-perfect-python-environment')) return false;
 
         // Exclude old date-based patterns
         if (page.match(/\/blog\/\d{4}-\d{2}-\d{2}-/)) return false;

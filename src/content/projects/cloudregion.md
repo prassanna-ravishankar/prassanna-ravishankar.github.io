@@ -4,7 +4,7 @@ description: "A lightweight Python library for canonical cloud region mapping ac
 featured: false
 image: "/images/projects/cloudregion.png"
 github: "https://github.com/prassanna-ravishankar/cloudregion"
-link: "https://prassanna.io/cloudregion"
+link: "https://prassanna.io/cloudregion/"
 tags: ["python", "cloud", "AWS", "Azure", "GCP", "infrastructure", "devops"]
 pubDate: 2025-07-01
 draft: false
