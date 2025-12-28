@@ -92,7 +92,7 @@ const structuredData = {
         {sortedSeries.map(([series, count]) => (
           <a
             href={`/tags/${encodeURIComponent(series)}/`}
-            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+            class="px-4 py-2 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 rounded-full text-sm font-medium hover:bg-teal-200 dark:hover:bg-teal-800 transition-colors"
           >
             {series}
             <span class="ml-1 opacity-70">({count})</span>
@@ -105,7 +105,7 @@ const structuredData = {
     <section class="max-w-6xl mx-auto">
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {sortedPosts.map((post) => (
-          <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <article class="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
             {post.data.heroImage && (
               <Image
                 src={post.data.heroImage}
@@ -121,7 +121,7 @@ const structuredData = {
                 <h2 class="text-xl font-semibold mb-2">
                   <a
                     href={`/blog/${post.slug}/`}
-                    class="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    class="text-gray-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
                   >
                     {post.data.title}
                   </a>
@@ -148,7 +148,7 @@ const structuredData = {
                   {post.data.series.map(series => (
                     <a
                       href={`/tags/${encodeURIComponent(series)}/`}
-                      class="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-xs rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+                      class="px-2 py-0.5 bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 text-xs rounded-full hover:bg-teal-200 dark:hover:bg-teal-800 transition-colors"
                     >
                       {series}
                     </a>
@@ -169,7 +169,7 @@ const structuredData = {
 
               <a
                 href={`/blog/${post.slug}/`}
-                class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm"
+                class="text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 font-medium text-sm"
               >
                 Read more →
               </a>

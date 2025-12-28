@@ -20,7 +20,7 @@ const { Content } = await project.render();
   <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
       <div class="mb-8">
-        <a href="/projects" class="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center">
+        <a href="/projects" class="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
@@ -28,7 +28,7 @@ const { Content } = await project.render();
         </a>
       </div>
       
-      <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+      <article class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
         {project.data.image && (
           <div class="w-full aspect-video">
             <img
@@ -53,7 +53,7 @@ const { Content } = await project.render();
               </div>
               
               {project.data.featured && (
-                <span class="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-medium px-2 py-0.5 rounded">
+                <span class="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 text-xs font-medium px-2 py-0.5 rounded">
                   Featured
                 </span>
               )}
@@ -91,7 +91,7 @@ const { Content } = await project.render();
                   href={project.data.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
+                  class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
                 >
                   <span>View Project</span>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

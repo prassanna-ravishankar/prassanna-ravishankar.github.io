@@ -7,10 +7,8 @@ const data = {
   title: 'Machine Learning Engineer',
   description: `Solving problems using machine learning across the {data, modelling, infrastructure} stack.`,
   links: {
-    website: 'https://prassanna.io',
     github: 'https://github.com/prassanna-ravishankar',
     linkedin: 'https://www.linkedin.com/in/prassanna-ravishankar',
-    email: 'mailto:me@prassanna.io'
   },
   experience: [
     {
@@ -46,13 +44,25 @@ const data = {
       location: 'Belfast, U.K.',
       achievements: [
         'Developed a Focus of Attention system for retail using 3D geometry and depth estimation.',
-        'Built a defect classification prototype in 48 hours, later piloted by a major electrical company.'
+        'Built a defect classification prototype in 48 hours, later piloted by a major electrical company.',
+        'Introduced a benchmark-driven-development research philosophy with Grafana analytics.'
+      ]
+    },
+    {
+      company: 'Altran (Acquired by Capgemini)',
+      role: 'Image Processing Consultant @ HP',
+      duration: 'Mar 2017 – Sep 2019',
+      location: 'Barcelona, Spain',
+      achievements: [
+        'Supported the creation of a Python-based middleware for large format printers.',
+        'Implemented sensor-based calibration routines for large format and 3D printers.',
+        'Built internal tools to identify and fix calibration bugs, halving debugging time for R&D.'
       ]
     }
   ],
   skills: {
     programming: ['Python', 'Terraform', 'C++'],
-    frameworks: ['PyTorch', 'Temporal', 'Scikit-Learn', 'SageMaker', 'Lightning', 'FastAPI', 'Streamlit', 'Hugging Face', 'LangChain', 'ONNX'],
+    frameworks: ['PyTorch', 'Temporal', 'Scikit-Learn', 'SageMaker', 'Dask', 'FastAPI', 'Streamlit', 'Plotly/Dash', 'LangChain', 'ONNX'],
     tools: ['Docker', 'AWS', 'NVIDIA', 'Git', 'Dagster/Airflow', 'GCP', 'Apache Beam', 'Kubernetes', 'Grafana']
   },
   education: [
@@ -69,6 +79,13 @@ const data = {
       duration: 'Sep 2011 – Sep 2012',
       location: 'Sheffield, U.K.',
       details: 'Worked on face recognition, traffic analysis, and FPGA-based cryptography.'
+    },
+    {
+      institution: 'Manipal Institute of Technology',
+      degree: 'B.E. in Electronics and Communication',
+      duration: 'Aug 2007 – May 2011',
+      location: 'Manipal, India',
+      details: 'Internships at FH Westkueste, Germany (2011) and mdirect, Tunisia (2009).'
     }
   ]
 };
@@ -77,7 +94,6 @@ const social = {
   github: 'https://github.com/prassanna-ravishankar',
   linkedin: 'https://www.linkedin.com/in/prassanna-ravishankar/',
   twitter: 'https://twitter.com/prassannarse',
-  email: 'prassanna.ravishankar@gmail.com',
   website: 'https://prassanna.io',
 }
 
@@ -88,8 +104,7 @@ const personSchema = {
   "name": data.name,
   "jobTitle": data.title,
   "description": data.description,
-  "url": data.links.website,
-  "email": social.email,
+  "url": social.website,
   "sameAs": [
     social.github,
     social.linkedin,
@@ -133,142 +148,208 @@ const personSchema = {
 <Layout title={`About | ${data.name}`} description={data.description}>
   <!-- Person structured data -->
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(personSchema)} />
-  <div class="container mx-auto py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-12">
-        <h1 class="text-4xl font-bold mb-4">{data.name}</h1>
-        <h2 class="text-2xl text-gray-700 dark:text-gray-300 mb-6">{data.title}</h2>
-        <p class="text-lg mb-8">{data.description}</p>
-        
-        <div class="flex flex-wrap gap-4">
-          <a 
-            href={data.links.github} 
-            target="_blank" 
+
+  <!-- Hero Section -->
+  <section class="relative py-20 px-4 overflow-hidden">
+    <!-- Background gradient orbs -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-teal-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-tr from-purple-400/15 to-teal-400/15 rounded-full blur-3xl"></div>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+      <div class="text-center mb-12">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4">
+          <span class="text-teal-600 dark:text-teal-400">Hello,</span> I'm Prassanna
+        </h1>
+        <p class="text-2xl text-gray-600 dark:text-gray-400 font-light mb-6">{data.title}</p>
+
+        <!-- Gradient divider -->
+        <div class="h-1 w-32 bg-gradient-to-r from-teal-500 via-purple-400 to-teal-600 rounded-full mx-auto mb-8"></div>
+
+        <p class="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          {data.description}
+        </p>
+
+        <!-- Social Links -->
+        <div class="flex justify-center gap-4 mt-8">
+          <a
+            href={data.links.github}
+            target="_blank"
             rel="noopener noreferrer"
-            class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
+            class="group flex items-center gap-2 px-5 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
-            GitHub
+            <span class="font-medium">GitHub</span>
           </a>
-          
-          <a 
-            href={data.links.linkedin} 
-            target="_blank" 
+
+          <a
+            href={data.links.linkedin}
+            target="_blank"
             rel="noopener noreferrer"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
+            class="group flex items-center gap-2 px-5 py-2.5 bg-[#0077B5] text-white rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
             </svg>
-            LinkedIn
-          </a>
-          
-          <a 
-            href={data.links.website} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Website
-          </a>
-          
-          <a 
-            href={data.links.email} 
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Email
+            <span class="font-medium">LinkedIn</span>
           </a>
         </div>
       </div>
-      
-      <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-6 pb-2 border-b">Experience</h2>
-        
-        <div class="space-y-8">
-          {data.experience.map(job => (
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div class="flex flex-col md:flex-row md:justify-between mb-2">
-                <h3 class="text-xl font-semibold">{job.role}</h3>
-                <span class="text-gray-600 dark:text-gray-400">{job.duration}</span>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="py-16 px-4 bg-gray-50 dark:bg-slate-800/50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-2 text-center">Experience</h2>
+      <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Building ML systems at scale</p>
+
+      <div class="relative">
+        <!-- Timeline line -->
+        <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-teal-500 via-purple-400 to-teal-600 hidden md:block"></div>
+
+        <div class="space-y-12">
+          {data.experience.map((job, index) => (
+            <div class={`relative flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+              <!-- Timeline dot -->
+              <div class="absolute left-0 md:left-1/2 w-4 h-4 bg-teal-500 rounded-full transform md:-translate-x-1/2 -translate-x-1/2 hidden md:block ring-4 ring-white dark:ring-slate-900"></div>
+
+              <!-- Card -->
+              <div class={`w-full md:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-slate-700">
+                  <div class="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 class="text-xl font-bold text-gray-900 dark:text-white">{job.role}</h3>
+                      <p class="text-teal-600 dark:text-teal-400 font-medium">{job.company}</p>
+                    </div>
+                    <span class="text-xs px-3 py-1 bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 rounded-full whitespace-nowrap">
+                      {job.duration.split('–')[0].trim()}
+                    </span>
+                  </div>
+
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{job.location}</p>
+
+                  <ul class="space-y-2">
+                    {job.achievements.slice(0, 3).map(achievement => (
+                      <li class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                        <span class="text-teal-500 mt-1">•</span>
+                        <span>{achievement}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              
-              <div class="mb-4">
-                <span class="font-medium">{job.company}</span>
-                <span class="text-gray-600 dark:text-gray-400"> • {job.location}</span>
-              </div>
-              
-              <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                {job.achievements.map(achievement => (
-                  <li>{achievement}</li>
-                ))}
-              </ul>
             </div>
           ))}
         </div>
-      </section>
-      
-      <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-6 pb-2 border-b">Skills</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Programming</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-2 text-center">Skills & Tools</h2>
+      <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Technologies I work with daily</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Programming -->
+        <div class="group relative bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-700 transition-all duration-300">
+          <div class="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative">
+            <div class="w-12 h-12 bg-teal-100 dark:bg-teal-900/40 rounded-xl flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold mb-4">Programming</h3>
             <div class="flex flex-wrap gap-2">
               {data.skills.programming.map(skill => (
-                <span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">{skill}</span>
-              ))}
-            </div>
-          </div>
-          
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Frameworks</h3>
-            <div class="flex flex-wrap gap-2">
-              {data.skills.frameworks.map(skill => (
-                <span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">{skill}</span>
-              ))}
-            </div>
-          </div>
-          
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Tools</h3>
-            <div class="flex flex-wrap gap-2">
-              {data.skills.tools.map(skill => (
-                <span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">{skill}</span>
+                <span class="px-3 py-1.5 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">{skill}</span>
               ))}
             </div>
           </div>
         </div>
-      </section>
-      
-      <section>
-        <h2 class="text-2xl font-bold mb-6 pb-2 border-b">Education</h2>
-        
-        <div class="space-y-6">
-          {data.education.map(edu => (
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div class="flex flex-col md:flex-row md:justify-between mb-2">
-                <h3 class="text-xl font-semibold">{edu.degree}</h3>
-                <span class="text-gray-600 dark:text-gray-400">{edu.duration}</span>
-              </div>
-              
-              <div class="mb-4">
-                <span class="font-medium">{edu.institution}</span>
-                <span class="text-gray-600 dark:text-gray-400"> • {edu.location}</span>
-              </div>
-              
-              <p class="text-gray-700 dark:text-gray-300">{edu.details}</p>
+
+        <!-- Frameworks -->
+        <div class="group relative bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-300">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-teal-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative">
+            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/40 rounded-xl flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
             </div>
-          ))}
+            <h3 class="text-lg font-bold mb-4">Frameworks</h3>
+            <div class="flex flex-wrap gap-2">
+              {data.skills.frameworks.slice(0, 6).map(skill => (
+                <span class="px-3 py-1.5 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">{skill}</span>
+              ))}
+              {data.skills.frameworks.length > 6 && (
+                <span class="px-3 py-1.5 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-lg text-sm font-medium">+{data.skills.frameworks.length - 6} more</span>
+              )}
+            </div>
+          </div>
         </div>
-      </section>
+
+        <!-- Tools -->
+        <div class="group relative bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 hover:border-teal-300 dark:hover:border-teal-700 transition-all duration-300">
+          <div class="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative">
+            <div class="w-12 h-12 bg-teal-100 dark:bg-teal-900/40 rounded-xl flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold mb-4">Tools</h3>
+            <div class="flex flex-wrap gap-2">
+              {data.skills.tools.slice(0, 6).map(skill => (
+                <span class="px-3 py-1.5 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">{skill}</span>
+              ))}
+              {data.skills.tools.length > 6 && (
+                <span class="px-3 py-1.5 bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 rounded-lg text-sm font-medium">+{data.skills.tools.length - 6} more</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="py-16 px-4 bg-gray-50 dark:bg-slate-800/50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-2 text-center">Education</h2>
+      <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Academic background</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {data.education.map((edu, index) => (
+          <div class="relative bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 overflow-hidden">
+            <!-- Decorative corner gradient -->
+            <div class={`absolute top-0 right-0 w-24 h-24 ${index === 0 ? 'bg-gradient-to-bl from-teal-500/10' : 'bg-gradient-to-bl from-purple-500/10'}`}></div>
+
+            <div class="relative">
+              <div class="flex items-center gap-3 mb-3">
+                <div class={`w-10 h-10 ${index === 0 ? 'bg-teal-100 dark:bg-teal-900/40' : 'bg-purple-100 dark:bg-purple-900/40'} rounded-lg flex items-center justify-center`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" class={`h-5 w-5 ${index === 0 ? 'text-teal-600 dark:text-teal-400' : 'text-purple-600 dark:text-purple-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                  </svg>
+                </div>
+                <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-400 rounded-full">{edu.duration}</span>
+              </div>
+
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{edu.degree}</h3>
+              <p class={`${index === 0 ? 'text-teal-600 dark:text-teal-400' : 'text-purple-600 dark:text-purple-400'} font-medium mb-1`}>{edu.institution}</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">{edu.location}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-300">{edu.details}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 </Layout>

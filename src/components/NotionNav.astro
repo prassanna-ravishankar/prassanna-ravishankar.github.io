@@ -29,7 +29,7 @@
 <style>
   .notion-nav-container {
     position: sticky;
-    top: 0;
+    top: 80px; /* Account for fixed nav */
     display: flex;
     align-items: center;
     background: white;
@@ -108,7 +108,7 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initNotionNav() {
     // Elements
     const navContainer = document.querySelector('.notion-nav-container');
     const nav = document.querySelector('.notion-style-nav');
@@ -316,5 +316,11 @@
       }
     `;
     document.head.appendChild(style);
-  });
+  }
+
+  // Run on initial page load
+  document.addEventListener('DOMContentLoaded', initNotionNav);
+
+  // Run after view transitions (for Astro's View Transitions)
+  document.addEventListener('astro:page-load', initNotionNav);
 </script> 
