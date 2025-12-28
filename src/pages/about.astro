@@ -2,21 +2,22 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
+import TechTimelineWrapper from '../components/TechTimelineWrapper.astro';
+import TechStackWrapper from '../components/TechStackWrapper.astro';
+
 const data = {
   name: 'Prassanna Ravishankar',
   title: 'Machine Learning Engineer',
   description: `Solving problems using machine learning across the {data, modelling, infrastructure} stack.`,
   links: {
-    website: 'https://prassanna.io',
     github: 'https://github.com/prassanna-ravishankar',
     linkedin: 'https://www.linkedin.com/in/prassanna-ravishankar',
-    email: 'mailto:me@prassanna.io'
   },
   experience: [
     {
       company: 'Papercup AI',
       role: 'Principal MLOps Engineer + Platforms Team Lead',
-      duration: 'Jan 2023 – Present',
+      duration: 'Jan 2023 - Present',
       location: 'London, U.K.',
       achievements: [
         'Designed and led the ML cloud training stack from scratch with ClearML and Skypilot, scaling compute from 16 to 50 GPUs.',
@@ -30,7 +31,7 @@ const data = {
     {
       company: 'Zenith AI (Acquired by Opentrons)',
       role: 'Senior Machine Learning Engineer',
-      duration: 'Oct 2020 – Jan 2023',
+      duration: 'Oct 2020 - Jan 2023',
       location: 'Belfast, U.K.',
       achievements: [
         'Founding engineering team member, company acquired after 9 months.',
@@ -42,33 +43,52 @@ const data = {
     {
       company: 'AnyVision (Now Oosto)',
       role: 'Applied Computer Vision Researcher',
-      duration: 'Sep 2019 – Oct 2020',
+      duration: 'Sep 2019 - Oct 2020',
       location: 'Belfast, U.K.',
       achievements: [
         'Developed a Focus of Attention system for retail using 3D geometry and depth estimation.',
-        'Built a defect classification prototype in 48 hours, later piloted by a major electrical company.'
+        'Built a defect classification prototype in 48 hours, later piloted by a major electrical company.',
+        'Introduced a benchmark-driven-development research philosophy with Grafana analytics.'
+      ]
+    },
+    {
+      company: 'Altran (Acquired by Capgemini)',
+      role: 'Image Processing Consultant @ HP',
+      duration: 'Mar 2017 - Sep 2019',
+      location: 'Barcelona, Spain',
+      achievements: [
+        'Supported the creation of a Python-based middleware for large format printers.',
+        'Implemented sensor-based calibration routines for large format and 3D printers.',
+        'Built internal tools to identify and fix calibration bugs, halving debugging time for R&D.'
       ]
     }
   ],
   skills: {
-    programming: ['Python', 'Terraform', 'C++'],
-    frameworks: ['PyTorch', 'Temporal', 'Scikit-Learn', 'SageMaker', 'Lightning', 'FastAPI', 'Streamlit', 'Hugging Face', 'LangChain', 'ONNX'],
-    tools: ['Docker', 'AWS', 'NVIDIA', 'Git', 'Dagster/Airflow', 'GCP', 'Apache Beam', 'Kubernetes', 'Grafana']
+    programming: ['Python', 'Terraform'],
+    frameworks: ['PyTorch', 'Temporal', 'FastAPI', 'LangChain', 'Agent SDKs', 'OpenTelemetry', 'MCP', 'ONNX'],
+    tools: ['Kubernetes', 'Docker', 'SkyPilot', 'AWS/GCP', 'Training Job Orchestration', 'Apache Beam', 'Dagster/Airflow']
   },
   education: [
     {
       institution: 'Computer Vision Center',
       degree: 'PhD Student and Teaching Assistant',
-      duration: 'May 2013 – Feb 2017',
+      duration: 'May 2013 - Feb 2017',
       location: 'Barcelona, Spain',
       details: 'Implemented Slither, a random forest framework for semantic segmentation using C++ and Python.'
     },
     {
       institution: 'University of Sheffield',
       degree: 'MSc. Computer Vision',
-      duration: 'Sep 2011 – Sep 2012',
+      duration: 'Sep 2011 - Sep 2012',
       location: 'Sheffield, U.K.',
       details: 'Worked on face recognition, traffic analysis, and FPGA-based cryptography.'
+    },
+    {
+      institution: 'Manipal Institute of Technology',
+      degree: 'B.E. in Electronics and Communication',
+      duration: 'Aug 2007 - May 2011',
+      location: 'Manipal, India',
+      details: 'Internships at FH Westkueste, Germany (2011) and mdirect, Tunisia (2009).'
     }
   ]
 };
@@ -77,7 +97,6 @@ const social = {
   github: 'https://github.com/prassanna-ravishankar',
   linkedin: 'https://www.linkedin.com/in/prassanna-ravishankar/',
   twitter: 'https://twitter.com/prassannarse',
-  email: 'prassanna.ravishankar@gmail.com',
   website: 'https://prassanna.io',
 }
 
@@ -88,8 +107,7 @@ const personSchema = {
   "name": data.name,
   "jobTitle": data.title,
   "description": data.description,
-  "url": data.links.website,
-  "email": social.email,
+  "url": social.website,
   "sameAs": [
     social.github,
     social.linkedin,
@@ -130,145 +148,122 @@ const personSchema = {
 };
 ---
 
-<Layout title={`About | ${data.name}`} description={data.description}>
+  <Layout title={`About | ${data.name}`} description={data.description}>
   <!-- Person structured data -->
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(personSchema)} />
-  <div class="container mx-auto py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-12">
-        <h1 class="text-4xl font-bold mb-4">{data.name}</h1>
-        <h2 class="text-2xl text-gray-700 dark:text-gray-300 mb-6">{data.title}</h2>
-        <p class="text-lg mb-8">{data.description}</p>
-        
-        <div class="flex flex-wrap gap-4">
-          <a 
-            href={data.links.github} 
-            target="_blank" 
+
+  <!-- Hero Section -->
+  <section class="relative py-20 px-4 overflow-hidden">
+    <!-- Background glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] animate-pulse-slow"></div>
+
+    <div class="max-w-4xl mx-auto relative z-10 animate-fade-in-up">
+      <div class="text-center mb-12">
+        <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 text-main tracking-tight">
+          <span class="text-primary-light">Hello,</span> I'm Prassanna
+        </h1>
+        <p class="text-2xl text-muted font-light mb-6">{data.title}</p>
+
+        <!-- Divider -->
+        <div class="h-1 w-24 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"></div>
+
+        <p class="text-xl text-main/80 max-w-2xl mx-auto leading-relaxed font-light">
+          {data.description}
+        </p>
+
+        <!-- Social Links -->
+        <div class="flex justify-center gap-4 mt-8">
+          <a
+            href={data.links.github}
+            target="_blank"
             rel="noopener noreferrer"
-            class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
+            class="group flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white border border-border rounded-full hover:bg-zinc-800 hover:border-zinc-600 hover:scale-105 transition-all duration-300"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
-            GitHub
+            <span class="font-medium">GitHub</span>
           </a>
-          
-          <a 
-            href={data.links.linkedin} 
-            target="_blank" 
+
+          <a
+            href={data.links.linkedin}
+            target="_blank"
             rel="noopener noreferrer"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
+            class="group flex items-center gap-2 px-6 py-3 bg-[#0077B5] text-white rounded-full hover:bg-[#006396] hover:scale-105 transition-all duration-300 shadow-lg"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
             </svg>
-            LinkedIn
-          </a>
-          
-          <a 
-            href={data.links.website} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Website
-          </a>
-          
-          <a 
-            href={data.links.email} 
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Email
+            <span class="font-medium">LinkedIn</span>
           </a>
         </div>
       </div>
-      
-      <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-6 pb-2 border-b">Experience</h2>
+    </div>
+  </section>
+
+  <!-- Main Content Split -->
+  <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+    
+    <!-- Left Column: Intro & Skills (Sticky) -->
+    <div class="lg:col-span-4 space-y-12">
+      <div class="lg:sticky lg:top-32 space-y-12">
         
-        <div class="space-y-8">
-          {data.experience.map(job => (
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div class="flex flex-col md:flex-row md:justify-between mb-2">
-                <h3 class="text-xl font-semibold">{job.role}</h3>
-                <span class="text-gray-600 dark:text-gray-400">{job.duration}</span>
-              </div>
-              
-              <div class="mb-4">
-                <span class="font-medium">{job.company}</span>
-                <span class="text-gray-600 dark:text-gray-400"> • {job.location}</span>
-              </div>
-              
-              <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                {job.achievements.map(achievement => (
-                  <li>{achievement}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-      
-      <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-6 pb-2 border-b">Skills</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Programming</h3>
-            <div class="flex flex-wrap gap-2">
-              {data.skills.programming.map(skill => (
-                <span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">{skill}</span>
-              ))}
-            </div>
-          </div>
+        <!-- About Text -->
+        <section>
+          <h2 class="text-2xl font-bold text-main mb-6 flex items-center gap-2">
+            <span class="text-primary">01.</span> About
+          </h2>
+          <p class="text-muted leading-relaxed mb-6">
+            I am a Machine Learning Engineer focused on the intersection of infrastructure, data, and modelling. 
+            My work revolves around building robust systems that enable the "Agentic Web," where AI agents can reliably operate, communicate, and execute complex workflows.
+          </p>
+          <p class="text-muted leading-relaxed">
+            Currently, I'm simplifying the unification of Code and AI, designing protocols that allow agents to be more than just chat bots.
+          </p>
+        </section>
+
+        <!-- Skills Compact -->
+        <section>
+          <h2 class="text-2xl font-bold text-main mb-6 flex items-center gap-2">
+            <span class="text-primary">02.</span> Stack
+          </h2>
           
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Frameworks</h3>
-            <div class="flex flex-wrap gap-2">
-              {data.skills.frameworks.map(skill => (
-                <span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">{skill}</span>
-              ))}
-            </div>
-          </div>
-          
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Tools</h3>
-            <div class="flex flex-wrap gap-2">
-              {data.skills.tools.map(skill => (
-                <span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">{skill}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+          <TechStackWrapper skills={data.skills} />
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Right Column: Timeline & Education -->
+    <div class="lg:col-span-8 space-y-20">
       
+      <!-- Experience Timeline -->
       <section>
-        <h2 class="text-2xl font-bold mb-6 pb-2 border-b">Education</h2>
-        
-        <div class="space-y-6">
-          {data.education.map(edu => (
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div class="flex flex-col md:flex-row md:justify-between mb-2">
-                <h3 class="text-xl font-semibold">{edu.degree}</h3>
-                <span class="text-gray-600 dark:text-gray-400">{edu.duration}</span>
+        <h2 class="text-3xl font-display font-bold text-main mb-8 flex items-center gap-3">
+          <span class="text-primary">03.</span> Experience
+        </h2>
+        <TechTimelineWrapper experiences={data.experience} />
+      </section>
+
+      <!-- Education Grid -->
+      <section>
+        <h2 class="text-3xl font-display font-bold text-main mb-8 flex items-center gap-3">
+          <span class="text-primary">04.</span> Education
+        </h2>
+        <div class="grid grid-cols-1 gap-6">
+          {data.education.map((edu) => (
+            <div class="p-6 rounded-2xl border border-subtle/10 bg-subtle/5 hover:bg-subtle/10 transition-colors">
+              <div class="flex flex-col md:flex-row justify-between mb-2">
+                <h3 class="text-lg font-bold text-main">{edu.degree}</h3>
+                <span class="text-sm font-mono text-muted">{edu.duration}</span>
               </div>
-              
-              <div class="mb-4">
-                <span class="font-medium">{edu.institution}</span>
-                <span class="text-gray-600 dark:text-gray-400"> • {edu.location}</span>
-              </div>
-              
-              <p class="text-gray-700 dark:text-gray-300">{edu.details}</p>
+              <p class="text-primary font-medium mb-2">{edu.institution}</p>
+              <p class="text-sm text-muted">{edu.details}</p>
             </div>
           ))}
         </div>
       </section>
+
     </div>
   </div>
 </Layout>

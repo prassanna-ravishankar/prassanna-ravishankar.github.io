@@ -1,7 +1,9 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CommandMenuWrapper from '../components/CommandMenuWrapper.astro';
 
 export interface Props {
   title: string;
@@ -18,7 +20,7 @@ export interface Props {
 const { 
   title, 
   description = "Prassanna Ravishankar's personal website - ML Engineer, Researcher, and Poetry Enthusiast", 
-  image = "/images/profile.webp",
+  image = "/tarot.webp",
   article = false,
   publishedTime,
   modifiedTime,
@@ -95,7 +97,44 @@ const articleSchema = article ? {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#3b82f6" />
+    <meta name="theme-color" content="#1A1614" />
+
+    <!-- Theme Initialization -->
+    <script is:inline>
+      (function() {
+        const getTheme = () => {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+          }
+          return 'light';
+        };
+
+        const theme = getTheme();
+        
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        // Update theme-color meta tag
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        if (themeColor) {
+          themeColor.setAttribute('content', theme === 'dark' ? '#1A1614' : '#FDFBF7');
+        }
+      })();
+    </script>
+
+    <!-- Google Fonts: Lora (serif) + Manrope (sans) + JetBrains Mono (mono) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+    <!-- View Transitions -->
+    <ClientRouter />
     <meta name="robots" content={hasQueryParams || isRedirectPage ? "noindex, nofollow" : "index, follow"} />
     <meta name="author" content={author} />
     
@@ -105,7 +144,7 @@ const articleSchema = article ? {
 
     <!-- Preload critical resources -->
     <link rel="preload" href="/favicon.svg" as="image" />
-    <link rel="preload" href="/images/profile.webp" as="image" fetchpriority="high" />
+    <link rel="preload" href="/tarot.webp" as="image" fetchpriority="high" />
     
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -224,10 +263,11 @@ const articleSchema = article ? {
   <body>
     <div class="flex flex-col min-h-screen">
       <Header />
-      <main class="flex-grow">
+      <main class="flex-grow pt-20">
         <slot />
       </main>
       <Footer />
+      <CommandMenuWrapper />
     </div>
   </body>
-</html> 
+</html>

@@ -1,9 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
-  <style>
-    path { fill: #000; }
-    @media (prefers-color-scheme: dark) {
-      path { fill: #fff; }
-    }
-  </style>
-  <path d="M64 16C37.49 16 16 37.49 16 64s21.49 48 48 48 48-21.49 48-48S90.51 16 64 16zm0 8c22.09 0 40 17.91 40 40s-17.91 40-40 40-40-17.91-40-40 17.91-40 40-40zm0 12c-15.46 0-28 12.54-28 28s12.54 28 28 28 28-12.54 28-28-12.54-28-28-28zm0 8c11.03 0 20 8.97 20 20s-8.97 20-20 20-20-8.97-20-20 8.97-20 20-20zm0 8c-6.63 0-12 5.37-12 12s5.37 12 12 12 12-5.37 12-12-5.37-12-12-12z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- Background Squircle -->
+  <rect width="128" height="128" rx="32" fill="url(#brandGradient)" />
+  
+  <!-- Improved "P" Path with distinct leg -->
+  <path 
+    d="M48 32V96M48 32H75C88 32 96 40 96 52C96 64 88 72 75 72H48" 
+    stroke="white" 
+    stroke-width="14" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+  />
+  
+  <!-- Signal Detail -->
+  <circle cx="75" cy="52" r="7" fill="#D98034" />
+
+  <defs>
+    <linearGradient id="brandGradient" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2FA898" />
+      <stop offset="1" stop-color="#1D7366" />
+    </linearGradient>
+  </defs>
 </svg>

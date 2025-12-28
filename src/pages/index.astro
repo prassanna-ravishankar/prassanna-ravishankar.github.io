@@ -2,6 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import { FadeIn, StaggerContainer, StaggerItem } from '../components/ui/FadeIn.tsx';
+import ProtocolGridWrapper from '../components/ProtocolGridWrapper.astro';
 
 // Fetch content from all collections
 const verses = await getCollection('verses', ({ data }) => {
@@ -56,174 +60,181 @@ const latestEpisodes = podcastEpisodes
   .slice(0, 3); // Show latest 3 episodes
 ---
 
-<Layout title="Prassanna Ravishankar - ML Engineer, Researcher, and Verse Writer">
+<Layout title="Prassanna Ravishankar - ML Engineer & Researcher">
   <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center py-16 px-4">
-    <div class="max-w-5xl mx-auto">
-      <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-        <div class="md:w-1/2 space-y-6">
-          <h1 class="text-4xl md:text-6xl font-bold leading-tight">
-            <span class="text-blue-600 dark:text-blue-400">Prassanna</span> Ravishankar
-          </h1>
-          
-          <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-light">
-            ML Engineer. Researcher. Verse Writer.
-          </p>
-          
-          <div class="h-0.5 w-20 bg-blue-600 dark:bg-blue-400 my-8"></div>
-          
-          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-            I specialize in machine learning engineering and research, with a focus on making ML systems more efficient and accessible. When I'm not coding or researching, I write verses that explore musings and philosophy, and host podcasts discussing technology and its philosophical implications.
-          </p>
-          
-          <div class="flex gap-6 pt-4">
-            <a href="/projects" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-medium">
-              Projects
-            </a>
-            <a href="/verses" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-medium">
-              Verses
-            </a>
-            <a href="/podcasts" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-medium">
-              Podcasts
-            </a>
-            <a href="/blog" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-medium">
-              Blog
-            </a>
-          </div>
-          
-        </div>
+  <section class="min-h-screen relative flex items-center justify-center overflow-hidden py-20 px-4">
+    <!-- Background Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow"></div>
+
+    <ProtocolGridWrapper />
+
+    <div class="max-w-7xl mx-auto w-full relative z-10">
+      <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-20">
         
-        <div class="md:w-1/2 mt-8 md:mt-0">
-          <div class="relative">
-            <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-purple-600/20 rounded-2xl transform translate-x-4 translate-y-4"></div>
-            <Image
-              src="/images/profile.webp"
-              alt="Prassanna Ravishankar"
-              width={500}
-              height={500}
-              class="rounded-2xl shadow-xl w-full max-w-md mx-auto relative z-10"
-              loading="eager"
-              fetchpriority="high"
-            />
+        <!-- Text Content -->
+        <FadeIn client:visible direction="up" className="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1">
+          <div class="space-y-4">
+            <h2 class="text-accent font-serif tracking-widest text-sm uppercase italic opacity-80">Agent & ML Infrastructure</h2>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-main">
+              Prassanna
+              <br />
+              <span class="text-primary">Ravishankar</span>
+            </h1>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Divider -->
-  <div class="max-w-5xl mx-auto px-4">
-    <div class="h-px w-full bg-gray-200 dark:bg-gray-700"></div>
-  </div>
+          <p class="text-xl md:text-2xl text-muted font-light max-w-2xl mx-auto lg:mx-0">
+            Architecting infrastructure for the <span class="text-main font-medium">Agentic Web</span>. 
+            <br class="hidden md:block" />
+            Synthesizing Systems, Intelligence, and the Poetic.
+          </p>
 
-  <!-- Latest Content -->
-  <section class="py-16 px-4">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-2xl font-medium mb-12 inline-block border-b-2 border-blue-600 dark:border-blue-400 pb-2">Mind & Machine</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {latestContent.map(item => (
-          <a href={item.slug} class="group">
-            <article class="space-y-3">
-              <div class="flex items-center gap-2">
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  {new Date(item.pubDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
-                </p>
-                <span class={`text-xs px-2 py-1 rounded-full ${
-                  item.type === 'podcast' 
-                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
-                } capitalize`}>
-                  {item.type}
-                </span>
-              </div>
-              <h3 class="text-xl font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                {item.title}
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400">
-                {item.description}
-              </p>
-              {item.type === 'podcast' && (
-                <div class="flex items-center text-blue-600 dark:text-blue-400 text-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                  </svg>
-                  Listen to episode
-                </div>
-              )}
-            </article>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-  
-  <!-- Divider -->
-  <div class="max-w-5xl mx-auto px-4">
-    <div class="h-px w-full bg-gray-200 dark:bg-gray-700"></div>
-  </div>
-
-  <!-- Podcasts Section -->
-  <section class="py-16 px-4">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-2xl font-medium mb-12 inline-block border-b-2 border-blue-600 dark:border-blue-400 pb-2">Podcasts</h2>
-      
-      <div class="space-y-12">
-        <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 rounded-2xl p-8">
-          <div class="max-w-3xl">
-            <h3 class="text-2xl font-medium mb-4">Explore my podcast conversations</h3>
-            <p class="text-gray-600 dark:text-gray-400 text-lg mb-6">
-              Join me for discussions on machine learning, technology, and philosophical musings with industry experts and thought leaders.
-            </p>
-            <a href="/podcasts" class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors group">
-              Browse all episodes
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
+          <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+            <Button href="/projects/" variant="primary">
+              View Protocols
+            </Button>
+            <Button href="/verses/" variant="secondary" class="font-serif italic">
+              Code & Verse
+            </Button>
           </div>
-        </div>
+        </FadeIn>
 
-        {latestEpisodes.length > 0 && (
-          <div>
-            <h3 class="text-xl font-medium mb-6 text-gray-800 dark:text-gray-200">Latest Episodes</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {latestEpisodes.map(episode => {
-                const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
-                return (
-                <a href={`/podcasts/${episodeSlug}/`} class="group">
-                  <article class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex items-center gap-3 mb-3">
-                      <span class="text-sm text-gray-500 dark:text-gray-400">
-                        {new Date(episode.data.pubDate).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric'
-                        })}
-                      </span>
-                      {episode.data.duration && (
-                        <span class="text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                          {episode.data.duration}
-                        </span>
-                      )}
-                    </div>
-                    <h4 class="text-lg font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-2">
-                      {episode.data.title}
-                    </h4>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
-                      {episode.data.description}
-                    </p>
-                  </article>
-                </a>
-                );
-              })}
+        <!-- Profile Picture Hero -->
+        <FadeIn client:visible direction="left" delay={0.2} className="lg:w-1/2 flex justify-center order-1 lg:order-2">
+          <div class="relative w-80 h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]">
+            <!-- Decorative Rings -->
+            <div class="absolute inset-0 border border-dashed border-primary/20 rounded-full animate-spin-slow" style="animation-duration: 30s"></div>
+            <div class="absolute inset-4 border border-dotted border-accent/30 rounded-full animate-spin-slow" style="animation-duration: 20s; animation-direction: reverse"></div>
+            
+            <!-- Profile Image Container -->
+            <div class="absolute inset-8 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl shadow-primary/20 animate-float bg-surface">
+               <Image
+                src="/tarot.webp"
+                alt="Prassanna Ravishankar"
+                width={500}
+                height={500}
+                class="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </div>
+            
+            <!-- Tech Floating Elements -->
+            <div class="absolute top-[10%] right-[10%] p-3 bg-surface border border-subtle/10 rounded-xl shadow-xl animate-float" style="animation-delay: 1s">
+              <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            </div>
+            <div class="absolute bottom-[20%] left-[5%] p-3 bg-surface border border-subtle/10 rounded-xl shadow-xl animate-float" style="animation-delay: 2s">
+              <span class="text-xs font-serif italic text-muted">The Signal</span>
             </div>
           </div>
-        )}
+        </FadeIn>
+
       </div>
     </div>
+  </section>
+
+  <!-- Latest Content (The Synthesis) -->
+  <section class="max-w-7xl mx-auto px-4 py-24 space-y-32">
+    <div class="space-y-12">
+      <div class="flex items-end justify-between border-b border-subtle/10 pb-4">
+        <div class="space-y-1">
+          <h2 class="text-3xl font-display font-medium text-main">Latest Syntheses</h2>
+          <p class="text-sm text-muted font-mono tracking-tight">Systems // Intelligence // Poetics</p>
+        </div>
+        <a href="/blog" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">STREAM ALL &rarr;</a>
+      </div>
+
+      <StaggerContainer client:visible className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {latestContent.map((item, index) => {
+          // Unique styling based on type
+          const isVerse = item.type === 'verse';
+          const isProject = item.type === 'project';
+          const accentClass = isVerse ? 'text-accent' : (isProject ? 'text-primary' : 'text-primary-light');
+          const typeLabel = isVerse ? 'Poetic' : (isProject ? 'System' : 'Signal');
+          
+          return (
+            <StaggerItem>
+              <Card href={item.slug} class="h-full p-8 flex flex-col items-start border-subtle/10 hover:border-primary/20">
+                  <div class="flex items-center justify-between w-full mb-6">
+                    <div class={`flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] ${accentClass}`}>
+                       <span class="w-2 h-2 rounded-full bg-current animate-pulse-slow"></span>
+                       {typeLabel}
+                    </div>
+                    <time class="text-[10px] font-mono text-muted uppercase">
+                      {new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                    </time>
+                  </div>
+
+                  <h3 class={`text-xl font-bold text-main group-hover:text-primary transition-colors mb-4 leading-tight relative z-10 ${isVerse ? 'font-serif italic' : 'font-display'}`}>
+                    {item.title}
+                  </h3>
+                  
+                  <p class="text-muted text-sm leading-relaxed mb-8 line-clamp-3 relative z-10 font-light">
+                    {item.description}
+                  </p>
+
+                  <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-subtle/5 group-hover:border-primary/10 transition-colors relative z-10">
+                     <span class="text-[10px] font-mono text-muted uppercase tracking-widest group-hover:text-primary transition-colors">
+                        {isProject ? 'analyze_protocol()' : (isVerse ? 'explore_verse()' : 'read_signal()')}
+                     </span>
+                     <svg class={`w-4 h-4 transition-all group-hover:translate-x-1 ${accentClass}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                     </svg>
+                  </div>
+              </Card>
+            </StaggerItem>
+          );
+        })}
+      </StaggerContainer>
+    </div>
+
+    <!-- Podcasts -->
+    <div class="space-y-12">
+      <div class="flex items-end justify-between border-b border-subtle/10 pb-4">
+        <h2 class="text-3xl font-display font-medium text-main">Conversations</h2>
+        <a href="/podcasts" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
+      </div>
+
+      <FadeIn client:visible direction="up" className="rounded-2xl bg-surface border border-subtle/10 overflow-hidden relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent"></div>
+        
+        <div class="grid lg:grid-cols-2 gap-8 relative z-10">
+          <div class="p-10 flex flex-col justify-center">
+            <h3 class="text-4xl font-display font-bold text-main mb-4">The Signal & The Silence</h3>
+            <p class="text-muted text-lg leading-relaxed mb-8 max-w-md">
+              Decoding the signals of tomorrow. From neural networks to philosophical voids.
+            </p>
+            <div>
+               <Button href="/podcasts" variant="primary">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                Listen to Episodes
+              </Button>
+            </div>
+          </div>
+          
+          <div class="bg-black/20 p-6 border-l border-subtle/10 overflow-y-auto max-h-[500px]">
+             <div class="space-y-4">
+              {latestEpisodes.map((episode, index) => {
+                 const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
+                 return (
+                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 rounded-xl hover:bg-subtle/5 transition-colors border border-transparent hover:border-subtle/10">
+                    <span class="font-mono text-gray-600 group-hover:text-primary transition-colors">0{index + 1}</span>
+                    <div class="flex-grow">
+                      <h4 class="text-main font-medium group-hover:text-primary transition-colors mb-1">{episode.data.title}</h4>
+                      <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                         <span>{episode.data.duration}</span>
+                      </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-subtle/5 flex items-center justify-center group-hover:bg-primary group-hover:text-main transition-all text-muted">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                    </div>
+                  </a>
+                 );
+              })}
+             </div>
+          </div>
+        </div>
+      </FadeIn>
+    </div>
+
   </section>
 </Layout>

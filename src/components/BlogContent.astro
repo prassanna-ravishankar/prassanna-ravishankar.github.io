@@ -41,7 +41,7 @@ const { content } = Astro.props;
       // Add figcaption if alt text exists
       if (img.alt) {
         const figcaption = document.createElement('figcaption');
-        figcaption.className = 'text-center text-sm text-gray-600 dark:text-gray-400 mt-2';
+        figcaption.className = 'text-center text-sm text-gray-600 dark:text-muted mt-2';
         figcaption.textContent = img.alt;
         figure.appendChild(figcaption);
       }

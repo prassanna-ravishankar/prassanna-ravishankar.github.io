@@ -1,0 +1,7 @@
+---
+import { TechTimeline } from './TechTimeline';
+
+const { experiences } = Astro.props;
+---
+
+<TechTimeline client:visible experiences={experiences} />

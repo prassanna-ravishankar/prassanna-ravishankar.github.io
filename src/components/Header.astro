@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from '../components/ThemeToggle.astro';
+
 // Navigation links
 const navItems = [
   { name: 'Home', url: '/' },
@@ -13,52 +15,64 @@ const navItems = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-white dark:bg-gray-900 shadow-sm">
-  <div class="container mx-auto py-4">
-    <nav class="flex items-center justify-between">
-      <a href="/" class="text-xl font-bold">Prassanna Ravishankar</a>
-      
-      <!-- Mobile menu button -->
-      <button id="menu-toggle" class="md:hidden p-2" aria-label="Toggle menu">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      
-      <!-- Desktop navigation -->
-      <div class="hidden md:flex space-x-6">
-        {navItems.map(item => (
-          <a 
-            href={item.url} 
-            class={`hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${
-              currentPath === item.url || 
-              (item.url !== '/' && currentPath.startsWith(item.url)) 
-                ? 'text-blue-600 dark:text-blue-400 font-medium' 
-                : 'text-gray-700 dark:text-gray-300'
-            }`}
-          >
-            {item.name}
-          </a>
-        ))}
+<header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto">
+  <nav class="bg-surface/80 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-accent/30">
+    <div class="flex items-center justify-between gap-8">
+      <a href="/" class="text-lg font-semibold font-serif whitespace-nowrap text-main hover:text-accent transition-colors">Prassanna Ravishankar</a>
+
+      <!-- Mobile Controls (Theme + Menu) -->
+      <div class="md:hidden flex items-center gap-2 -mr-2">
+        <ThemeToggle />
+        <button id="menu-toggle" class="p-2 rounded-full hover:bg-subtle/10 text-main transition-colors" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
       </div>
-    </nav>
-    
-    <!-- Mobile navigation -->
-    <div id="mobile-menu" class="md:hidden hidden mt-4 pb-2">
-      <div class="flex flex-col space-y-3">
-        {navItems.map(item => (
-          <a 
-            href={item.url} 
-            class={`hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${
-              currentPath === item.url || 
-              (item.url !== '/' && currentPath.startsWith(item.url)) 
-                ? 'text-blue-600 dark:text-blue-400 font-medium' 
-                : 'text-gray-700 dark:text-gray-300'
-            }`}
-          >
-            {item.name}
-          </a>
-        ))}
+
+      <!-- Desktop navigation -->
+      <div class="hidden md:flex items-center gap-1">
+        {navItems.map(item => {
+          const isActive = currentPath === item.url || (item.url !== '/' && currentPath.startsWith(item.url));
+          return (
+            <a
+              href={item.url}
+              class={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                isActive
+                  ? 'text-accent bg-subtle/5 border border-accent/20'
+                  : 'text-muted hover:text-accent hover:bg-subtle/5'
+              }`}
+            >
+              {item.name}
+            </a>
+          );
+        })}
+        <div class="pl-2 border-l border-subtle/10 ml-2">
+          <ThemeToggle />
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile navigation dropdown -->
+  <div id="mobile-menu" class="md:hidden hidden mt-2">
+    <div class="bg-surface/95 backdrop-blur-md rounded-2xl px-4 py-3 shadow-lg border border-accent/30">
+      <div class="flex flex-col gap-1">
+        {navItems.map(item => {
+          const isActive = currentPath === item.url || (item.url !== '/' && currentPath.startsWith(item.url));
+          return (
+            <a
+              href={item.url}
+              class={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                isActive
+                  ? 'text-accent bg-subtle/5 border border-accent/20'
+                  : 'text-muted hover:text-accent hover:bg-subtle/5'
+              }`}
+            >
+              {item.name}
+            </a>
+          );
+        })}
       </div>
     </div>
   </div>
@@ -66,12 +80,19 @@ const currentPath = Astro.url.pathname;
 
 <script>
   // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  }
-</script> 
+  // Wrap in astro:page-load for View Transitions compatibility
+  document.addEventListener('astro:page-load', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (menuToggle && mobileMenu) {
+      // Clean up potential old listeners if any (though unlikely with fresh DOM)
+      const newToggle = menuToggle.cloneNode(true);
+      menuToggle.parentNode.replaceChild(newToggle, menuToggle);
+      
+      newToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>

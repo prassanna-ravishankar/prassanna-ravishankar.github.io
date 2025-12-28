@@ -29,22 +29,16 @@
 <style>
   .notion-nav-container {
     position: sticky;
-    top: 0;
+    top: 80px; /* Account for fixed nav */
     display: flex;
     align-items: center;
-    background: white;
-    border-bottom: 1px solid #eaeaea;
+    background-color: rgb(var(--color-background) / 0.95);
+    border-bottom: 1px solid rgb(var(--color-subtle) / 0.1);
     padding: 12px 0;
     z-index: 40;
     margin-bottom: 32px;
     max-width: 100%;
     backdrop-filter: blur(8px);
-    background-color: rgba(255, 255, 255, 0.9);
-  }
-
-  :global(.dark) .notion-nav-container {
-    background-color: rgba(26, 26, 26, 0.9);
-    border-bottom: 1px solid #333;
   }
 
   .notion-style-nav {
@@ -63,8 +57,9 @@
   }
 
   .nav-arrow {
-    background: white;
-    border: 1px solid #eaeaea;
+    background: rgb(var(--color-subtle) / 0.05);
+    border: 1px solid rgb(var(--color-subtle) / 0.1);
+    color: rgb(var(--color-text-muted));
     border-radius: 50%;
     width: 28px;
     height: 28px;
@@ -75,25 +70,12 @@
     z-index: 2;
     transition: all 0.2s ease;
     margin: 0 12px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-
-  :global(.dark) .nav-arrow {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: #fff;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   }
 
   .nav-arrow:hover {
-    background: #f5f5f5;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  :global(.dark) .nav-arrow:hover {
-    background: #2a2a2a;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    background: rgb(var(--color-subtle) / 0.1);
+    color: rgb(var(--color-text-main));
+    border-color: rgb(var(--color-primary) / 0.5);
   }
 
   @media (max-width: 640px) {
@@ -108,39 +90,28 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initNotionNav() {
     // Elements
     const navContainer = document.querySelector('.notion-nav-container');
     const nav = document.querySelector('.notion-style-nav');
     const leftArrow = document.querySelector('.nav-arrow-left');
     const rightArrow = document.querySelector('.nav-arrow-right');
     
-    if (!nav || !leftArrow || !rightArrow) return;
+    if (!navContainer || !nav || !leftArrow || !rightArrow) return;
+    
+    // Clear existing nav items to prevent duplicates on soft reload
+    nav.innerHTML = '';
     
     // Find all headings from the blog post content - only h2 and h3
     const headingElements = Array.from(document.querySelectorAll('.prose h2, .prose h3'));
     
     if (headingElements.length === 0) {
       // Hide the navigation if there are no headings
-      navContainer.style.display = 'none';
+      (navContainer as HTMLElement).style.display = 'none';
       return;
+    } else {
+      (navContainer as HTMLElement).style.display = 'flex';
     }
-    
-    // Add IDs to headings if they don't have them
-    headingElements.forEach((heading, index) => {
-      if (!heading.id) {
-        const headingText = heading.textContent;
-        heading.id = headingText
-          .toLowerCase()
-          .replace(/[^\w\s]/g, '')
-          .replace(/\s+/g, '-');
-        
-        // Add a number if ID already exists
-        if (document.getElementById(heading.id) !== heading) {
-          heading.id = `${heading.id}-${index}`;
-        }
-      }
-    });
     
     // Create navigation links
     headingElements.forEach(heading => {
@@ -162,9 +133,12 @@
         
         const targetElement = document.getElementById(heading.id);
         if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+          const navHeight = 140; // Approx height of both nav bars
+          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
           });
           
           // Update URL hash without jumping
@@ -201,13 +175,13 @@
     
     // Update active link on scroll
     const updateActiveLink = () => {
-      const scrollPosition = window.scrollY + 120; // offset for nav
+      const scrollPosition = window.scrollY + 150; // offset for nav
       
       // Find the current heading based on scroll position
       let currentHeading = null;
       
       for (let i = headingElements.length - 1; i >= 0; i--) {
-        const element = headingElements[i];
+        const element = headingElements[i] as HTMLElement;
         if (element.offsetTop <= scrollPosition) {
           currentHeading = element;
           break;
@@ -246,75 +220,72 @@
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
         setTimeout(() => {
-          targetElement.scrollIntoView({
+          const navHeight = 140;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+          window.scrollTo({
+            top: targetPosition,
             behavior: 'smooth'
           });
         }, 300);
       }
     }
     
-    // Add styles for links
-    const style = document.createElement('style');
-    style.textContent = `
-      .notion-style-nav a {
-        padding: 6px 12px;
-        margin-right: 8px;
-        color: #555;
-        font-size: 14px;
-        font-weight: 500;
-        text-decoration: none;
-        border-radius: 6px;
-        transition: all 0.2s;
-        border: 1px solid transparent;
-      }
-      
-      .dark .notion-style-nav a {
-        color: #aaa;
-      }
-      
-      .notion-style-nav a:hover {
-        background: #f0f0f0;
-        color: #000;
-      }
-      
-      .dark .notion-style-nav a:hover {
-        background: #2a2a2a;
-        color: #fff;
-      }
-      
-      .notion-style-nav a.active {
-        background: #f0f0f0;
-        color: #000;
-        border: 1px solid #e0e0e0;
-        font-weight: 600;
-      }
-      
-      .dark .notion-style-nav a.active {
-        background: #2a2a2a;
-        color: #fff;
-        border: 1px solid #3a3a3a;
-      }
-      
-      .notion-style-nav a.subheading {
-        color: #777;
-        font-size: 13px;
-        font-weight: 400;
-        padding-left: 16px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: 6px center;
-        background-size: 8px;
-      }
-      
-      .dark .notion-style-nav a.subheading {
-        color: #888;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
-      }
-      
-      .semi-transparent {
-        opacity: 0.5;
-      }
-    `;
-    document.head.appendChild(style);
-  });
-</script> 
+    // Add dynamic styles that adapt to theme
+    const styleId = 'notion-nav-dynamic-styles';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        .notion-style-nav a {
+          padding: 6px 12px;
+          margin-right: 8px;
+          color: rgb(var(--color-text-muted));
+          font-size: 14px;
+          font-weight: 500;
+          text-decoration: none;
+          border-radius: 6px;
+          transition: all 0.2s;
+          border: 1px solid transparent;
+        }
+        
+        .notion-style-nav a:hover {
+          background: rgb(var(--color-subtle) / 0.05);
+          color: rgb(var(--color-text-main));
+        }
+        
+        .notion-style-nav a.active {
+          background: rgb(var(--color-primary) / 0.1);
+          color: rgb(var(--color-primary));
+          border: 1px solid rgb(var(--color-primary) / 0.2);
+          font-weight: 600;
+        }
+        
+        .notion-style-nav a.subheading {
+          font-size: 13px;
+          font-weight: 400;
+          padding-left: 20px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: 6px center;
+          background-size: 10px;
+        }
+
+        .dark .notion-style-nav a.subheading {
+           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+        
+        .semi-transparent {
+          opacity: 0.3;
+          pointer-events: none;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  // Run on initial page load
+  document.addEventListener('DOMContentLoaded', initNotionNav);
+
+  // Run after view transitions (for Astro's View Transitions)
+  document.addEventListener('astro:page-load', initNotionNav);
+</script>
