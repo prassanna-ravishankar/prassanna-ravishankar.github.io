@@ -32,19 +32,13 @@
     top: 80px; /* Account for fixed nav */
     display: flex;
     align-items: center;
-    background: white;
-    border-bottom: 1px solid #eaeaea;
+    background-color: rgba(26, 22, 20, 0.95); /* surface color #1A1614 with opacity */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding: 12px 0;
     z-index: 40;
     margin-bottom: 32px;
     max-width: 100%;
     backdrop-filter: blur(8px);
-    background-color: rgba(255, 255, 255, 0.9);
-  }
-
-  :global(.dark) .notion-nav-container {
-    background-color: rgba(26, 26, 26, 0.9);
-    border-bottom: 1px solid #333;
   }
 
   .notion-style-nav {
@@ -63,8 +57,9 @@
   }
 
   .nav-arrow {
-    background: white;
-    border: 1px solid #eaeaea;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #9ca3af; /* gray-400 */
     border-radius: 50%;
     width: 28px;
     height: 28px;
@@ -75,25 +70,12 @@
     z-index: 2;
     transition: all 0.2s ease;
     margin: 0 12px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-
-  :global(.dark) .nav-arrow {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: #fff;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   }
 
   .nav-arrow:hover {
-    background: #f5f5f5;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  :global(.dark) .nav-arrow:hover {
-    background: #2a2a2a;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(47, 168, 152, 0.5); /* primary/50 */
   }
 
   @media (max-width: 640px) {
@@ -253,13 +235,13 @@
       }
     }
     
-    // Add styles for links
+    // Add styles for links - Updated for Modern Earthy Dark Theme
     const style = document.createElement('style');
     style.textContent = `
       .notion-style-nav a {
         padding: 6px 12px;
         margin-right: 8px;
-        color: #555;
+        color: #9ca3af; /* gray-400 */
         font-size: 14px;
         font-weight: 500;
         text-decoration: none;
@@ -268,47 +250,28 @@
         border: 1px solid transparent;
       }
       
-      .dark .notion-style-nav a {
-        color: #aaa;
-      }
-      
       .notion-style-nav a:hover {
-        background: #f0f0f0;
-        color: #000;
-      }
-      
-      .dark .notion-style-nav a:hover {
-        background: #2a2a2a;
+        background: rgba(255, 255, 255, 0.05);
         color: #fff;
       }
       
       .notion-style-nav a.active {
-        background: #f0f0f0;
-        color: #000;
-        border: 1px solid #e0e0e0;
+        background: rgba(47, 168, 152, 0.1); /* primary/10 */
+        color: #2FA898; /* primary */
+        border: 1px solid rgba(47, 168, 152, 0.2);
         font-weight: 600;
       }
       
-      .dark .notion-style-nav a.active {
-        background: #2a2a2a;
-        color: #fff;
-        border: 1px solid #3a3a3a;
-      }
-      
       .notion-style-nav a.subheading {
-        color: #777;
+        color: #6b7280; /* gray-500 */
         font-size: 13px;
         font-weight: 400;
         padding-left: 16px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+        /* Updated chevron to use gray color */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: 6px center;
         background-size: 8px;
-      }
-      
-      .dark .notion-style-nav a.subheading {
-        color: #888;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
       }
       
       .semi-transparent {
@@ -323,4 +286,4 @@
 
   // Run after view transitions (for Astro's View Transitions)
   document.addEventListener('astro:page-load', initNotionNav);
-</script> 
+</script>

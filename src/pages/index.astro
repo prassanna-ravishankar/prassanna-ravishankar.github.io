@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
 
 // Fetch content from all collections
 const verses = await getCollection('verses', ({ data }) => {
@@ -60,7 +62,7 @@ const latestEpisodes = podcastEpisodes
   <!-- Hero Section -->
   <section class="min-h-screen relative flex items-center justify-center overflow-hidden py-20 px-4">
     <!-- Background Glow -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow"></div>
 
     <div class="max-w-7xl mx-auto w-full relative z-10">
       <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-20">
@@ -68,25 +70,25 @@ const latestEpisodes = podcastEpisodes
         <!-- Text Content -->
         <div class="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1 animate-fade-in-up">
           <div class="space-y-4">
-            <h2 class="text-primary-light font-mono tracking-widest text-sm uppercase">ML Engineer // Researcher</h2>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-white">
+            <h2 class="text-accent font-serif tracking-widest text-sm uppercase italic opacity-80">ML Engineer & Researcher</h2>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-gray-100">
               Prassanna
               <br />
-              <span class="text-zinc-500">Ravishankar</span>
+              <span class="text-primary">Ravishankar</span>
             </h1>
           </div>
 
-          <p class="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto lg:mx-0">
+          <p class="text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto lg:mx-0">
             Building intelligent systems at the edge of possibility.
           </p>
 
           <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
-            <a href="/projects/" class="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 transition-all hover:scale-105">
+            <Button href="/projects/" variant="primary">
               View Work
-            </a>
-            <a href="/verses/" class="px-8 py-3 bg-zinc-900 text-zinc-300 border border-zinc-700 font-semibold rounded-full hover:bg-zinc-800 hover:text-white transition-all hover:scale-105">
+            </Button>
+            <Button href="/verses/" variant="secondary" class="font-serif italic">
               Read Verses
-            </a>
+            </Button>
           </div>
         </div>
 
@@ -94,13 +96,13 @@ const latestEpisodes = podcastEpisodes
         <div class="lg:w-1/2 flex justify-center order-1 lg:order-2 animate-fade-in">
           <div class="relative w-80 h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]">
             <!-- Decorative Rings -->
-            <div class="absolute inset-0 border border-zinc-800 rounded-full animate-spin-slow" style="animation-duration: 20s"></div>
-            <div class="absolute inset-4 border border-zinc-800 rounded-full animate-spin-slow" style="animation-duration: 15s; animation-direction: reverse"></div>
+            <div class="absolute inset-0 border border-dashed border-primary/20 rounded-full animate-spin-slow" style="animation-duration: 30s"></div>
+            <div class="absolute inset-4 border border-dotted border-accent/30 rounded-full animate-spin-slow" style="animation-duration: 20s; animation-direction: reverse"></div>
             
             <!-- Profile Image Container -->
-            <div class="absolute inset-8 rounded-full overflow-hidden border-2 border-zinc-800/50 shadow-2xl shadow-primary/20 animate-float bg-zinc-900">
+            <div class="absolute inset-8 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl shadow-primary/20 animate-float bg-surface">
                <Image
-                src="/images/profile.webp"
+                src="/tarot.webp"
                 alt="Prassanna Ravishankar"
                 width={500}
                 height={500}
@@ -111,11 +113,11 @@ const latestEpisodes = podcastEpisodes
             </div>
             
             <!-- Tech Floating Elements -->
-            <div class="absolute top-[10%] right-[10%] p-3 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl animate-float" style="animation-delay: 1s">
-              <svg class="w-6 h-6 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            <div class="absolute top-[10%] right-[10%] p-3 bg-surface border border-white/10 rounded-xl shadow-xl animate-float" style="animation-delay: 1s">
+              <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
             </div>
-            <div class="absolute bottom-[20%] left-[5%] p-3 bg-black border border-zinc-800 rounded-xl shadow-xl animate-float" style="animation-delay: 2s">
-              <span class="text-xs font-mono text-zinc-400">Neural Nets</span>
+            <div class="absolute bottom-[20%] left-[5%] p-3 bg-surface border border-white/10 rounded-xl shadow-xl animate-float" style="animation-delay: 2s">
+              <span class="text-xs font-serif italic text-gray-400">The Signal</span>
             </div>
           </div>
         </div>
@@ -127,19 +129,16 @@ const latestEpisodes = podcastEpisodes
   <!-- Latest Content -->
   <section class="max-w-7xl mx-auto px-4 py-24 space-y-32">
     <div class="space-y-12">
-      <div class="flex items-end justify-between border-b border-zinc-800 pb-4">
-        <h2 class="text-3xl font-display font-medium text-white">Latest Signals</h2>
-        <a href="/blog" class="hidden md:block text-zinc-400 hover:text-white transition-colors text-sm font-mono tracking-widest">VIEW ALL &rarr;</a>
+      <div class="flex items-end justify-between border-b border-white/10 pb-4">
+        <h2 class="text-3xl font-display font-medium text-gray-100">Latest Signals</h2>
+        <a href="/blog" class="hidden md:block text-gray-500 hover:text-white transition-colors text-sm font-mono tracking-widest">VIEW ALL &rarr;</a>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {latestContent.map((item, index) => (
-          <a href={item.slug} class="group block h-full">
-            <article class="modern-card p-6 h-full flex flex-col items-start relative overflow-hidden">
-               <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-500"></div>
-
-              <div class="flex items-center gap-3 mb-4 text-xs font-mono text-zinc-500">
-                 <span class="uppercase tracking-wider text-primary-light">
+          <Card href={item.slug} class="h-full p-6 flex flex-col items-start">
+              <div class="flex items-center gap-3 mb-4 text-xs font-mono text-gray-500 relative z-10">
+                 <span class="uppercase tracking-wider text-primary">
                   {item.type}
                  </span>
                  <span>//</span>
@@ -148,62 +147,61 @@ const latestEpisodes = podcastEpisodes
                  </time>
               </div>
 
-              <h3 class="text-xl font-bold text-zinc-100 group-hover:text-primary-light transition-colors mb-3 leading-tight">
+              <h3 class="text-xl font-bold text-gray-100 group-hover:text-primary transition-colors mb-3 leading-tight relative z-10">
                 {item.title}
               </h3>
               
-              <p class="text-zinc-400 text-sm leading-relaxed mb-4 line-clamp-3">
+              <p class="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3 relative z-10">
                 {item.description}
               </p>
 
-              <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-zinc-800/50 group-hover:border-primary/20 transition-colors">
-                 <span class="text-xs font-mono text-zinc-500 group-hover:text-primary-light transition-colors">read_more()</span>
-                 <svg class="w-4 h-4 text-zinc-600 group-hover:text-primary-light group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-white/5 group-hover:border-primary/20 transition-colors relative z-10">
+                 <span class="text-xs font-mono text-gray-500 group-hover:text-primary transition-colors">read_more()</span>
+                 <svg class="w-4 h-4 text-gray-600 group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </div>
-            </article>
-          </a>
+          </Card>
         ))}
       </div>
     </div>
 
     <!-- Podcasts -->
     <div class="space-y-12">
-      <div class="flex items-end justify-between border-b border-zinc-800 pb-4">
-        <h2 class="text-3xl font-display font-medium text-white">Conversations</h2>
-        <a href="/podcasts" class="hidden md:block text-zinc-400 hover:text-white transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
+      <div class="flex items-end justify-between border-b border-white/10 pb-4">
+        <h2 class="text-3xl font-display font-medium text-gray-100">Conversations</h2>
+        <a href="/podcasts" class="hidden md:block text-gray-500 hover:text-white transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
       </div>
 
-      <div class="rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden relative">
+      <div class="rounded-2xl bg-surface border border-white/10 overflow-hidden relative">
         <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent"></div>
         
         <div class="grid lg:grid-cols-2 gap-8 relative z-10">
           <div class="p-10 flex flex-col justify-center">
             <h3 class="text-4xl font-display font-bold text-white mb-4">The Signal & The Silence</h3>
-            <p class="text-zinc-400 text-lg leading-relaxed mb-8 max-w-md">
+            <p class="text-gray-400 text-lg leading-relaxed mb-8 max-w-md">
               Decoding the signals of tomorrow. From neural networks to philosophical voids.
             </p>
             <div>
-               <a href="/podcasts" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors shadow-lg shadow-primary/20">
+               <Button href="/podcasts" variant="primary">
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
                 Listen to Episodes
-              </a>
+              </Button>
             </div>
           </div>
           
-          <div class="bg-black/50 p-6 border-l border-zinc-800 overflow-y-auto max-h-[500px]">
+          <div class="bg-black/20 p-6 border-l border-white/10 overflow-y-auto max-h-[500px]">
              <div class="space-y-4">
               {latestEpisodes.map((episode, index) => {
                  const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
                  return (
-                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 rounded-xl hover:bg-zinc-800/50 transition-colors border border-transparent hover:border-zinc-700">
-                    <span class="font-mono text-zinc-600 group-hover:text-primary-light transition-colors">0{index + 1}</span>
+                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
+                    <span class="font-mono text-gray-600 group-hover:text-primary transition-colors">0{index + 1}</span>
                     <div class="flex-grow">
-                      <h4 class="text-white font-medium group-hover:text-primary-light transition-colors mb-1">{episode.data.title}</h4>
-                      <div class="flex items-center gap-3 text-xs text-zinc-500 font-mono">
+                      <h4 class="text-white font-medium group-hover:text-primary transition-colors mb-1">{episode.data.title}</h4>
+                      <div class="flex items-center gap-3 text-xs text-gray-500 font-mono">
                          <span>{episode.data.duration}</span>
                       </div>
                     </div>
-                    <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all text-zinc-400">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all text-gray-500">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
                     </div>
                   </a>

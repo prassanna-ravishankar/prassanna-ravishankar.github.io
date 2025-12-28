@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
 
 // Get all projects that are not drafts
 const projects = await getCollection('projects', ({ data }) => {
@@ -61,66 +63,64 @@ const structuredData = {
   structuredData={structuredData}
 >
   <div class="container mx-auto py-12 px-4">
-    <h1 class="text-4xl font-bold mb-4">Projects</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">
+    <h1 class="text-4xl font-bold mb-4 text-gray-100">Projects</h1>
+    <p class="text-gray-400 mb-8">
       A showcase of my work in machine learning, software engineering, and research.
     </p>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {sortedProjects.map(project => (
-        <a href={`/projects/${project.slug}/`} class="group">
-          <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full transition-transform hover:translate-y-[-5px] duration-300">
-            <div class="aspect-video">
+        <Card href={`/projects/${project.slug}/`} class="flex flex-col h-full">
+            <div class="aspect-video relative">
               {project.data.image ? (
+                <>
+                <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10"></div>
                 <Image
                   src={project.data.image}
                   alt={`${project.data.title} - ${project.data.description}`}
                   width={400}
                   height={225}
                   loading="lazy"
-                  class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
+                  class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300 "
                 />
+                </>
               ) : (
-                <div class="w-full h-full bg-gradient-to-br from-teal-500 to-purple-600 flex flex-col items-center justify-center p-4 text-white">
+                <div class="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex flex-col items-center justify-center p-4 text-gray-200">
                   <span class="text-lg font-semibold text-center mb-2">{project.data.title}</span>
                   {project.data.tags && project.data.tags.length > 0 && (
-                    <span class="text-sm opacity-75">{project.data.tags[0]}</span>
+                    <span class="text-sm opacity-75 text-primary">{project.data.tags[0]}</span>
                   )}
                 </div>
               )}
             </div>
             
-            <div class="p-6 flex-grow">
-              <h2 class="text-xl font-bold mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+            <div class="p-6 flex-grow relative z-10">
+              <h2 class="text-xl font-bold mb-2 text-gray-100 group-hover:text-primary transition-colors flex items-center gap-2">
                 {project.data.title}
                 
                 {project.data.featured && (
-                  <span class="ml-2 bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 text-xs font-medium px-2 py-0.5 rounded">
-                    Featured
-                  </span>
+                  <Badge variant="primary">Featured</Badge>
                 )}
               </h2>
               
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
+              <p class="text-gray-400 mb-4 line-clamp-3">
                 {project.data.description}
               </p>
               
               {project.data.tags && project.data.tags.length > 0 && (
                 <div class="flex flex-wrap gap-2 mb-4">
                   {project.data.tags.map(tag => (
-                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs">
-                      {tag}
-                    </span>
+                    <Badge variant="default">{tag}</Badge>
                   ))}
                 </div>
               )}
             </div>
             
-            <div class="px-6 pb-6 mt-auto">
+            <div class="px-6 pb-6 mt-auto relative z-10">
               <div class="flex gap-4">
                 {project.data.github && (
                   <span 
-                    class="text-gray-600 dark:text-gray-400 inline-flex items-center"
+                    class="text-gray-500 hover:text-white transition-colors inline-flex items-center"
                     onClick={(e) => {
                       e.preventDefault();
                       window.open(project.data.github, '_blank');
@@ -133,7 +133,7 @@ const structuredData = {
                   </span>
                 )}
                 
-                <span class="text-teal-600 dark:text-teal-400 inline-flex items-center">
+                <span class="text-primary hover:text-primary/80 transition-colors inline-flex items-center">
                   View Details
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -141,15 +141,14 @@ const structuredData = {
                 </span>
               </div>
             </div>
-          </div>
-        </a>
+        </Card>
       ))}
     </div>
     
     {sortedProjects.length === 0 && (
       <div class="text-center py-12">
-        <p class="text-gray-600 dark:text-gray-400">No projects found. Check back soon!</p>
+        <p class="text-gray-400">No projects found. Check back soon!</p>
       </div>
     )}
   </div>
-</Layout> 
+</Layout>

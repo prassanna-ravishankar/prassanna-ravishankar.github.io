@@ -19,7 +19,7 @@ export interface Props {
 const { 
   title, 
   description = "Prassanna Ravishankar's personal website - ML Engineer, Researcher, and Poetry Enthusiast", 
-  image = "/images/profile.webp",
+  image = "/tarot.webp",
   article = false,
   publishedTime,
   modifiedTime,
@@ -96,7 +96,7 @@ const articleSchema = article ? {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#26123a" />
+    <meta name="theme-color" content="#1A1614" />
 
     <!-- Google Fonts: Lora (serif) + Inter (sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -114,7 +114,7 @@ const articleSchema = article ? {
 
     <!-- Preload critical resources -->
     <link rel="preload" href="/favicon.svg" as="image" />
-    <link rel="preload" href="/images/profile.webp" as="image" fetchpriority="high" />
+    <link rel="preload" href="/tarot.webp" as="image" fetchpriority="high" />
     
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -239,4 +239,4 @@ const articleSchema = article ? {
       <Footer />
     </div>
   </body>
-</html> 
+</html>

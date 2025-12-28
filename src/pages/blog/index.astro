@@ -78,24 +78,24 @@ const structuredData = {
   structuredData={structuredData}
 >
   <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Blog</h1>
+    <h1 class="text-4xl font-bold mb-8 text-center text-gray-100">Blog</h1>
 
-    <p class="text-lg mb-8 text-center text-gray-600 max-w-3xl mx-auto">
+    <p class="text-lg mb-8 text-center text-gray-400 max-w-3xl mx-auto">
       Technical insights on machine learning, MLOps, AI engineering, and software development.
       Sharing practical experiences and deep dives into the latest trends in tech.
     </p>
 
     <!-- Series Cloud -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4 text-center">Browse by Series</h2>
+      <h2 class="text-2xl font-semibold mb-4 text-center text-gray-200">Browse by Series</h2>
       <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
         {sortedSeries.map(([series, count]) => (
           <a
             href={`/tags/${encodeURIComponent(series)}/`}
-            class="px-4 py-2 bg-mystic-900 border border-gold-600/30 text-gold-400 rounded-full text-sm font-medium hover:bg-gold-900/20 hover:text-gold-300 transition-colors"
+            class="px-4 py-2 bg-surface border border-accent/30 text-accent rounded-full text-sm font-medium hover:bg-accent/10 hover:text-accent transition-colors"
           >
             {series}
-            <span class="ml-1 opacity-70 text-mystic-400">({count})</span>
+            <span class="ml-1 opacity-70 text-gray-500">({count})</span>
           </a>
         ))}
       </div>
@@ -105,7 +105,7 @@ const structuredData = {
     <section class="max-w-6xl mx-auto">
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {sortedPosts.map((post) => (
-          <article class="bg-mystic-900 rounded-sm border border-gold-600/20 hover:border-gold-500/50 hover:shadow-[0_0_15px_rgba(212,175,55,0.1)] transition-all duration-300 group">
+          <article class="bg-surface rounded-sm border border-accent/20 hover:border-accent/50 hover:shadow-[0_0_15px_rgba(217,128,52,0.1)] transition-all duration-300 group">
             {post.data.heroImage && (
               <Image
                 src={post.data.heroImage}
@@ -121,14 +121,14 @@ const structuredData = {
                 <h2 class="text-xl font-semibold mb-2">
                   <a
                     href={`/blog/${post.slug}/`}
-                    class="text-gold-100 font-serif hover:text-gold-300 transition-colors"
+                    class="text-gray-100 font-serif hover:text-accent transition-colors"
                   >
                     {post.data.title}
                   </a>
                 </h2>
                 <time
                   datetime={post.data.pubDate.toISOString()}
-                  class="text-sm text-mystic-400 font-mono"
+                  class="text-sm text-gray-500 font-mono"
                 >
                   {post.data.pubDate.toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -138,7 +138,7 @@ const structuredData = {
                 </time>
               </header>
 
-              <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+              <p class="text-gray-400 mb-4 line-clamp-3">
                 {post.data.description}
               </p>
 
@@ -148,7 +148,7 @@ const structuredData = {
                   {post.data.series.map(series => (
                     <a
                       href={`/tags/${encodeURIComponent(series)}/`}
-                      class="px-2 py-0.5 bg-mystic-800 border border-gold-900/30 text-gold-400 text-xs rounded hover:bg-mystic-700 transition-colors"
+                      class="px-2 py-0.5 bg-white/5 border border-accent/30 text-accent text-xs rounded hover:bg-white/10 transition-colors"
                     >
                       {series}
                     </a>
@@ -160,7 +160,7 @@ const structuredData = {
               {post.data.topics && post.data.topics.length > 0 && (
                 <div class="flex flex-wrap gap-1 mb-4">
                   {post.data.topics.slice(0, 3).map(topic => (
-                    <span class="px-2 py-0.5 bg-mystic-950 border border-mystic-700 text-mystic-300 text-xs rounded">
+                    <span class="px-2 py-0.5 bg-black/20 border border-white/10 text-gray-400 text-xs rounded">
                       {topic}
                     </span>
                   ))}
@@ -169,7 +169,7 @@ const structuredData = {
 
               <a
                 href={`/blog/${post.slug}/`}
-                class="text-gold-400 hover:text-gold-300 font-medium text-sm hover:underline decoration-crimson-500 underline-offset-4"
+                class="text-accent hover:text-accent/80 font-medium text-sm hover:underline decoration-accent underline-offset-4"
               >
                 Read more →
               </a>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  href?: string;
+  class?: string;
+  hoverEffect?: boolean;
+  as?: string;
+}
+
+const { href, class: className = "", hoverEffect = true, as = "div" } = Astro.props;
+
+const Element = href ? "a" : as;
+
+const baseStyles = "block bg-surface border border-white/5 rounded-2xl overflow-hidden relative transition-all duration-500";
+const hoverStyles = hoverEffect ? "hover:border-primary/30 hover:shadow-[0_0_30px_rgba(47,168,152,0.1)] group" : "";
+---
+
+<Element href={href} class:list={[baseStyles, hoverStyles, className]}>
+  {hoverEffect && (
+    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-500 pointer-events-none"></div>
+  )}
+  <slot />
+</Element>

@@ -24,67 +24,72 @@ interface Props {
 const { title, description, cohost, imageUrl, topics, latestEpisode, platforms, slug } = Astro.props;
 ---
 
-<article class="bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<article class="bg-surface rounded-2xl overflow-hidden shadow-lg border border-white/5 hover:border-primary/30 transition-all duration-300">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="relative md:col-span-1">
       {imageUrl ? (
-        <div class="aspect-square">
+        <div class="aspect-square relative group">
+          <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10"></div>
           <Image 
             src={imageUrl} 
             alt={`Cover image for ${title}`}
             width={400}
             height={400}
-            class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none"
+            class="w-full h-full object-cover md:rounded-l-2xl transition-transform duration-700 group-hover:scale-105 "
           />
         </div>
       ) : (
-        <div class="aspect-square bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-          <span class="text-gray-500 dark:text-gray-400">No cover image</span>
+        <div class="aspect-square bg-white/5 flex items-center justify-center">
+          <span class="text-gray-500">No cover image</span>
         </div>
       )}
     </div>
     
-    <div class="p-4 md:col-span-2">
-      <h2 class="text-xl font-bold mb-2 line-clamp-2">
-        <a href={`/podcasts/${slug}/`} class="hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
+    <div class="p-6 md:col-span-2 flex flex-col justify-center">
+      <h2 class="text-2xl font-bold mb-3">
+        <a href={`/podcasts/${slug}/`} class="text-gray-100 hover:text-primary transition-colors">
           {title}
         </a>
       </h2>
       
       {latestEpisode && (
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Latest: {latestEpisode}</p>
+        <div class="flex items-center gap-2 mb-4">
+           <span class="text-xs font-mono text-primary uppercase tracking-wider">Latest Episode</span>
+           <span class="text-gray-400 text-sm">{latestEpisode}</span>
+        </div>
       )}
       
-      <p class="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">{description}</p>
+      <p class="text-gray-400 mb-6 leading-relaxed line-clamp-3">{description}</p>
       
       {cohost && (
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Co-hosted with {cohost}</p>
+        <p class="text-sm text-gray-500 mb-4 font-mono">Co-hosted with <span class="text-gray-300">{cohost}</span></p>
       )}
       
       {topics && topics.length > 0 && (
-        <div class="mb-4">
-          <p class="text-sm font-medium mb-2">Topics:</p>
+        <div class="mb-6">
           <div class="flex flex-wrap gap-2">
             {topics.map(topic => (
-              <span class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-xs">{topic}</span>
+              <span class="bg-white/5 border border-white/10 text-gray-400 px-2 py-1 rounded text-xs font-mono">{topic}</span>
             ))}
           </div>
         </div>
       )}
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-        <p class="text-gray-600 dark:text-gray-400 text-sm mb-2 md:mb-0">Available on:</p>
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-auto border-t border-white/5 pt-4">
+        <p class="text-gray-500 text-sm mb-3 md:mb-0 uppercase tracking-widest font-mono text-xs">Listen on</p>
         <div class="flex flex-wrap gap-2">
           {platforms.map(platform => (
             <a 
               href={platform.url} 
               target="_blank" 
               rel="noopener noreferrer"
-              class={`${platform.color} text-white px-3 py-1 rounded-full transition-colors inline-flex items-center text-sm`}
+              class={`bg-surface border border-white/10 hover:border-primary/50 text-gray-300 hover:text-white px-4 py-2 rounded-full transition-all inline-flex items-center text-sm gap-2 group`}
               aria-label={`Listen on ${platform.name}`}
               title={`Listen on ${platform.name}`}
             >
-              <PlatformIcon platform={platform.icon} />
+              <span class="group-hover:text-primary transition-colors">
+                 <PlatformIcon platform={platform.icon} />
+              </span>
               {platform.name}
             </a>
           ))}
@@ -92,4 +97,4 @@ const { title, description, cohost, imageUrl, topics, latestEpisode, platforms, 
       </div>
     </div>
   </div>
-</article> 
+</article>

@@ -12,16 +12,16 @@ export default {
         display: ['Lora', 'serif'], // Restored serif for nice mixing
       },
       colors: {
-        background: '#09090b', // Zinc 950
-        surface: '#18181b', // Zinc 900
+        background: '#1A1614', // Deep Warm Dark
+        surface: '#26201D', // Lighter Warm Dark
         primary: {
-          DEFAULT: '#6366f1', // Indigo 500
-          hover: '#4f46e5', // Indigo 600
-          light: '#818cf8', // Indigo 400
+          DEFAULT: '#2FA898', // Tarot Teal
+          hover: '#25897A',
+          light: '#5DD4C4',
         },
         accent: {
-          DEFAULT: '#0ea5e9', // Sky 500
-          hover: '#0284c7', // Sky 600
+          DEFAULT: '#D98034', // Rat Amber
+          hover: '#B56525',
         }
       },
       animation: {
@@ -55,7 +55,7 @@ export default {
         },
       },
       backgroundImage: {
-        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg)',
+        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, #2FA898 0deg, #D98034 180deg, #5DD4C4 360deg)',
       }
     },
   },
