@@ -6,7 +6,7 @@ heroImage: "/images/blog/death-of-code/hero.webp"
 series: ["AI Agents"]
 topics: ["Claude Code", "Cursor", "Windsurf", "Vibe Coding", "Future of Programming"]
 author: "Prassanna Ravishankar"
-draft: true
+draft: false
 ---
 
 ## The Historical Accident of Syntax
