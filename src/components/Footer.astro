@@ -9,11 +9,11 @@ const socialLinks = [
 ];
 ---
 
-<footer class="bg-gray-50 dark:bg-slate-800 py-12 mt-12">
+<footer class="bg-mystic-900/50 border-t border-gold-600/20 py-12 mt-12 bg-pattern-grid">
   <div class="container mx-auto">
     <div class="flex flex-col items-center text-center">
       <!-- "Let's Connect" heading in serif -->
-      <h3 class="text-2xl font-serif font-medium mb-8 text-gray-800 dark:text-gray-200">Let's Connect</h3>
+      <h3 class="text-2xl font-serif font-medium mb-8 text-gold-100">Let's Connect</h3>
 
       <!-- Larger centered social icons -->
       <div class="flex justify-center space-x-6 mb-8">
@@ -22,7 +22,7 @@ const socialLinks = [
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-500 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+            class="text-mystic-300 hover:text-gold-400 transition-colors"
             aria-label={link.name}
           >
             {link.icon === 'github' && (
@@ -45,7 +45,7 @@ const socialLinks = [
       </div>
 
       <!-- Copyright -->
-      <p class="text-gray-500 dark:text-gray-400 text-sm">
+      <p class="text-mystic-400 text-sm">
         &copy; {currentYear} Prassanna Ravishankar. All rights reserved.
       </p>
     </div>

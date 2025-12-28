@@ -56,215 +56,164 @@ const latestEpisodes = podcastEpisodes
   .slice(0, 3); // Show latest 3 episodes
 ---
 
-<Layout title="Prassanna Ravishankar - ML Engineer, Researcher, and Verse Writer">
+<Layout title="Prassanna Ravishankar - ML Engineer & Researcher">
   <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center py-16 px-4 -mt-20 pt-20">
-    <div class="max-w-5xl mx-auto">
-      <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-        <div class="md:w-1/2 space-y-6">
-          <h1 class="text-5xl md:text-7xl font-bold leading-tight">
-            <span class="text-teal-600 dark:text-teal-400">Prassanna</span> Ravishankar
-          </h1>
+  <section class="min-h-screen relative flex items-center justify-center overflow-hidden py-20 px-4">
+    <!-- Background Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow"></div>
 
-          <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-light">
-            ML Engineer. Researcher. Verse Writer.
-          </p>
-
-          <!-- Gradient divider -->
-          <div class="h-1 w-24 bg-gradient-to-r from-teal-500 via-purple-400 to-teal-600 rounded-full my-8"></div>
-
-          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-            I specialize in machine learning engineering and research, with a focus on making ML systems more efficient and accessible. When I'm not coding or researching, I write verses that explore musings and philosophy, and host podcasts discussing technology and its philosophical implications.
-          </p>
-
-          <div class="flex gap-6 pt-4">
-            <a href="/projects/" class="text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors font-medium">
-              Projects
-            </a>
-            <a href="/verses/" class="text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors font-medium">
-              Verses
-            </a>
-            <a href="/podcasts/" class="text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors font-medium">
-              Podcasts
-            </a>
-            <a href="/blog/" class="text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors font-medium">
-              Blog
-            </a>
+    <div class="max-w-7xl mx-auto w-full relative z-10">
+      <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-20">
+        
+        <!-- Text Content -->
+        <div class="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1 animate-fade-in-up">
+          <div class="space-y-4">
+            <h2 class="text-primary-light font-mono tracking-widest text-sm uppercase">ML Engineer // Researcher</h2>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-white">
+              Prassanna
+              <br />
+              <span class="text-zinc-500">Ravishankar</span>
+            </h1>
           </div>
 
+          <p class="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto lg:mx-0">
+            Building intelligent systems at the edge of possibility.
+          </p>
+
+          <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+            <a href="/projects/" class="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 transition-all hover:scale-105">
+              View Work
+            </a>
+            <a href="/verses/" class="px-8 py-3 bg-zinc-900 text-zinc-300 border border-zinc-700 font-semibold rounded-full hover:bg-zinc-800 hover:text-white transition-all hover:scale-105">
+              Read Verses
+            </a>
+          </div>
         </div>
 
-        <div class="md:w-1/2 mt-8 md:mt-0">
-          <div class="relative">
-            <!-- Blurred colorful orb for depth -->
-            <div class="absolute -inset-8 bg-gradient-to-tr from-teal-400/30 via-purple-400/20 to-teal-600/30 rounded-full blur-3xl"></div>
-
-            <!-- Decorative offset background -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-teal-600/20 to-purple-600/20 rounded-2xl transform translate-x-4 translate-y-4"></div>
-
-            <!-- Profile image with blob clip-path -->
-            <div class="relative z-10">
-              <Image
+        <!-- Profile Picture Hero -->
+        <div class="lg:w-1/2 flex justify-center order-1 lg:order-2 animate-fade-in">
+          <div class="relative w-80 h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]">
+            <!-- Decorative Rings -->
+            <div class="absolute inset-0 border border-zinc-800 rounded-full animate-spin-slow" style="animation-duration: 20s"></div>
+            <div class="absolute inset-4 border border-zinc-800 rounded-full animate-spin-slow" style="animation-duration: 15s; animation-direction: reverse"></div>
+            
+            <!-- Profile Image Container -->
+            <div class="absolute inset-8 rounded-full overflow-hidden border-2 border-zinc-800/50 shadow-2xl shadow-primary/20 animate-float bg-zinc-900">
+               <Image
                 src="/images/profile.webp"
                 alt="Prassanna Ravishankar"
                 width={500}
                 height={500}
-                class="w-full max-w-md mx-auto shadow-xl rounded-2xl"
-                style="clip-path: url(#blob-clip);"
+                class="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
                 loading="eager"
                 fetchpriority="high"
               />
             </div>
+            
+            <!-- Tech Floating Elements -->
+            <div class="absolute top-[10%] right-[10%] p-3 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl animate-float" style="animation-delay: 1s">
+              <svg class="w-6 h-6 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </div>
+            <div class="absolute bottom-[20%] left-[5%] p-3 bg-black border border-zinc-800 rounded-xl shadow-xl animate-float" style="animation-delay: 2s">
+              <span class="text-xs font-mono text-zinc-400">Neural Nets</span>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Divider -->
-  <div class="max-w-5xl mx-auto px-4">
-    <div class="h-px w-full bg-gray-200 dark:bg-slate-700"></div>
-  </div>
+  <!-- Latest Content -->
+  <section class="max-w-7xl mx-auto px-4 py-24 space-y-32">
+    <div class="space-y-12">
+      <div class="flex items-end justify-between border-b border-zinc-800 pb-4">
+        <h2 class="text-3xl font-display font-medium text-white">Latest Signals</h2>
+        <a href="/blog" class="hidden md:block text-zinc-400 hover:text-white transition-colors text-sm font-mono tracking-widest">VIEW ALL &rarr;</a>
+      </div>
 
-  <!-- Latest Content - Mind & Machine -->
-  <section class="py-16 px-4">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-medium mb-12 inline-block border-b-2 border-teal-600 dark:border-teal-400 pb-2">Mind & Machine</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {latestContent.map((item, index) => (
-          <a href={item.slug} class={`group block ${index === 0 ? 'md:col-span-2 lg:col-span-1' : ''}`}>
-            <article class="h-full bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg space-y-3">
-              <div class="flex items-center gap-2">
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  {new Date(item.pubDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
-                </p>
-                <span class={`text-xs px-2 py-0.5 rounded-full border ${
-                  item.type === 'podcast'
-                    ? 'border-teal-300 dark:border-teal-700 text-teal-600 dark:text-teal-300'
-                    : 'border-gray-300 dark:border-slate-600 text-gray-600 dark:text-gray-300'
-                } capitalize`}>
+          <a href={item.slug} class="group block h-full">
+            <article class="modern-card p-6 h-full flex flex-col items-start relative overflow-hidden">
+               <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-500"></div>
+
+              <div class="flex items-center gap-3 mb-4 text-xs font-mono text-zinc-500">
+                 <span class="uppercase tracking-wider text-primary-light">
                   {item.type}
-                </span>
+                 </span>
+                 <span>//</span>
+                 <time>
+                  {new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                 </time>
               </div>
-              <h3 class="text-xl font-medium group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+
+              <h3 class="text-xl font-bold text-zinc-100 group-hover:text-primary-light transition-colors mb-3 leading-tight">
                 {item.title}
               </h3>
-              <p class="text-gray-600 dark:text-gray-400">
+              
+              <p class="text-zinc-400 text-sm leading-relaxed mb-4 line-clamp-3">
                 {item.description}
               </p>
-              {item.type === 'podcast' && (
-                <div class="flex items-center text-teal-600 dark:text-teal-400 text-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                  </svg>
-                  Listen to episode
-                </div>
-              )}
+
+              <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-zinc-800/50 group-hover:border-primary/20 transition-colors">
+                 <span class="text-xs font-mono text-zinc-500 group-hover:text-primary-light transition-colors">read_more()</span>
+                 <svg class="w-4 h-4 text-zinc-600 group-hover:text-primary-light group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </div>
             </article>
           </a>
         ))}
       </div>
     </div>
-  </section>
 
-  <!-- Divider -->
-  <div class="max-w-5xl mx-auto px-4">
-    <div class="h-px w-full bg-gray-200 dark:bg-slate-700"></div>
-  </div>
+    <!-- Podcasts -->
+    <div class="space-y-12">
+      <div class="flex items-end justify-between border-b border-zinc-800 pb-4">
+        <h2 class="text-3xl font-display font-medium text-white">Conversations</h2>
+        <a href="/podcasts" class="hidden md:block text-zinc-400 hover:text-white transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
+      </div>
 
-  <!-- Podcasts Section - Media Player Look -->
-  <section class="py-16 px-4">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-medium mb-12 inline-block border-b-2 border-teal-600 dark:border-teal-400 pb-2">Podcasts</h2>
-
-      <div class="space-y-12">
-        <!-- Main podcast showcase with dark background -->
-        <div class="relative bg-slate-900 rounded-2xl p-8 overflow-hidden">
-          <!-- Static waveform SVG background -->
-          <div class="absolute inset-0 opacity-10">
-            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 200">
-              <path d="M0,100 Q30,60 60,100 T120,100 T180,100 T240,100 T300,100 T360,100 T420,100 T480,100 T540,100 T600,100 T660,100 T720,100 T780,100 T840,100 T900,100 T960,100 T1020,100 T1080,100 T1140,100 T1200,100"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    fill="none"
-                    class="text-teal-400"/>
-              <path d="M0,100 Q30,140 60,100 T120,100 T180,100 T240,100 T300,100 T360,100 T420,100 T480,100 T540,100 T600,100 T660,100 T720,100 T780,100 T840,100 T900,100 T960,100 T1020,100 T1080,100 T1140,100 T1200,100"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    fill="none"
-                    class="text-purple-400"
-                    opacity="0.5"/>
-            </svg>
-          </div>
-
-          <div class="relative z-10 max-w-3xl">
-            <h3 class="text-2xl font-medium mb-4 text-white">Explore my podcast conversations</h3>
-            <p class="text-gray-300 text-lg mb-6">
-              Join me for discussions on machine learning, technology, and philosophical musings with industry experts and thought leaders.
+      <div class="rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent"></div>
+        
+        <div class="grid lg:grid-cols-2 gap-8 relative z-10">
+          <div class="p-10 flex flex-col justify-center">
+            <h3 class="text-4xl font-display font-bold text-white mb-4">The Signal & The Silence</h3>
+            <p class="text-zinc-400 text-lg leading-relaxed mb-8 max-w-md">
+              Decoding the signals of tomorrow. From neural networks to philosophical voids.
             </p>
-            <a href="/podcasts" class="inline-flex items-center px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors group">
-              Browse all episodes
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Episodes as playlist tracks -->
-        {latestEpisodes.length > 0 && (
-          <div>
-            <h3 class="text-xl font-medium mb-6 text-gray-800 dark:text-gray-200">Latest Episodes</h3>
-            <div class="space-y-3">
-              {latestEpisodes.map((episode, index) => {
-                const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
-                return (
-                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg border border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-                    <!-- Track number -->
-                    <span class="text-2xl font-mono text-gray-300 dark:text-slate-600 w-8">{String(index + 1).padStart(2, '0')}</span>
-
-                    <!-- Track info -->
-                    <div class="flex-grow min-w-0">
-                      <h4 class="font-medium text-gray-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 truncate transition-colors">
-                        {episode.data.title}
-                      </h4>
-                      <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-                        {episode.data.description}
-                      </p>
-                    </div>
-
-                    <!-- Duration badge -->
-                    {episode.data.duration && (
-                      <span class="text-xs text-gray-400 dark:text-gray-500 font-mono shrink-0">
-                        {episode.data.duration}
-                      </span>
-                    )}
-
-                    <!-- Play icon -->
-                    <svg class="w-8 h-8 text-teal-600 dark:text-teal-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                    </svg>
-                  </a>
-                );
-              })}
+            <div>
+               <a href="/podcasts" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors shadow-lg shadow-primary/20">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                Listen to Episodes
+              </a>
             </div>
           </div>
-        )}
+          
+          <div class="bg-black/50 p-6 border-l border-zinc-800 overflow-y-auto max-h-[500px]">
+             <div class="space-y-4">
+              {latestEpisodes.map((episode, index) => {
+                 const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
+                 return (
+                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 rounded-xl hover:bg-zinc-800/50 transition-colors border border-transparent hover:border-zinc-700">
+                    <span class="font-mono text-zinc-600 group-hover:text-primary-light transition-colors">0{index + 1}</span>
+                    <div class="flex-grow">
+                      <h4 class="text-white font-medium group-hover:text-primary-light transition-colors mb-1">{episode.data.title}</h4>
+                      <div class="flex items-center gap-3 text-xs text-zinc-500 font-mono">
+                         <span>{episode.data.duration}</span>
+                      </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all text-zinc-400">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                    </div>
+                  </a>
+                 );
+              })}
+             </div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- SVG clip-path definition for blob shape -->
-  <svg class="hidden" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <clipPath id="blob-clip" clipPathUnits="objectBoundingBox">
-        <path d="M0.5,0.02 C0.75,0.02,0.95,0.2,0.98,0.45 C1.0,0.7,0.85,0.95,0.55,0.98 C0.25,1.0,0.05,0.8,0.02,0.55 C0.0,0.3,0.2,0.02,0.5,0.02" />
-      </clipPath>
-    </defs>
-  </svg>
+  </section>
 </Layout>

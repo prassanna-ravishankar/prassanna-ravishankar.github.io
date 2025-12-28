@@ -14,12 +14,12 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto">
-  <nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-gray-200/50 dark:border-slate-700/50">
+  <nav class="bg-mystic-900/80 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-gold-600/30">
     <div class="flex items-center justify-between gap-8">
       <a href="/" class="text-lg font-semibold font-serif whitespace-nowrap">Prassanna Ravishankar</a>
 
       <!-- Mobile menu button -->
-      <button id="menu-toggle" class="md:hidden p-2 -mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle menu">
+      <button id="menu-toggle" class="md:hidden p-2 -mr-2 rounded-full hover:bg-mystic-800 text-gold-100 transition-colors" aria-label="Toggle menu">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -34,8 +34,8 @@ const currentPath = Astro.url.pathname;
               href={item.url}
               class={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? 'text-teal-700 dark:text-teal-300 bg-teal-100 dark:bg-teal-900/40'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-gray-100 dark:hover:bg-slate-800'
+                  ? 'text-gold-400 bg-mystic-800 border border-gold-600/20'
+                  : 'text-mystic-200 hover:text-gold-300 hover:bg-mystic-800'
               }`}
             >
               {item.name}
@@ -48,7 +48,7 @@ const currentPath = Astro.url.pathname;
 
   <!-- Mobile navigation dropdown -->
   <div id="mobile-menu" class="md:hidden hidden mt-2">
-    <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl px-4 py-3 shadow-lg border border-gray-200/50 dark:border-slate-700/50">
+    <div class="bg-mystic-900/95 backdrop-blur-md rounded-2xl px-4 py-3 shadow-lg border border-gold-600/30">
       <div class="flex flex-col gap-1">
         {navItems.map(item => {
           const isActive = currentPath === item.url || (item.url !== '/' && currentPath.startsWith(item.url));
@@ -57,8 +57,8 @@ const currentPath = Astro.url.pathname;
               href={item.url}
               class={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? 'text-teal-700 dark:text-teal-300 bg-teal-100 dark:bg-teal-900/40'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-gray-100 dark:hover:bg-slate-800'
+                  ? 'text-gold-400 bg-mystic-800 border border-gold-600/20'
+                  : 'text-mystic-200 hover:text-gold-300 hover:bg-mystic-800'
               }`}
             >
               {item.name}
