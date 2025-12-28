@@ -63,8 +63,8 @@ const structuredData = {
   structuredData={structuredData}
 >
   <div class="container mx-auto py-12 px-4">
-    <h1 class="text-4xl font-bold mb-4 text-gray-100">Projects</h1>
-    <p class="text-gray-400 mb-8">
+    <h1 class="text-4xl font-bold mb-4 text-main">Projects</h1>
+    <p class="text-muted mb-8">
       A showcase of my work in machine learning, software engineering, and research.
     </p>
     
@@ -85,7 +85,7 @@ const structuredData = {
                 />
                 </>
               ) : (
-                <div class="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex flex-col items-center justify-center p-4 text-gray-200">
+                <div class="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex flex-col items-center justify-center p-4 text-main/90">
                   <span class="text-lg font-semibold text-center mb-2">{project.data.title}</span>
                   {project.data.tags && project.data.tags.length > 0 && (
                     <span class="text-sm opacity-75 text-primary">{project.data.tags[0]}</span>
@@ -95,7 +95,7 @@ const structuredData = {
             </div>
             
             <div class="p-6 flex-grow relative z-10">
-              <h2 class="text-xl font-bold mb-2 text-gray-100 group-hover:text-primary transition-colors flex items-center gap-2">
+              <h2 class="text-xl font-bold mb-2 text-main group-hover:text-primary transition-colors flex items-center gap-2">
                 {project.data.title}
                 
                 {project.data.featured && (
@@ -103,7 +103,7 @@ const structuredData = {
                 )}
               </h2>
               
-              <p class="text-gray-400 mb-4 line-clamp-3">
+              <p class="text-muted mb-4 line-clamp-3">
                 {project.data.description}
               </p>
               
@@ -120,7 +120,7 @@ const structuredData = {
               <div class="flex gap-4">
                 {project.data.github && (
                   <span 
-                    class="text-gray-500 hover:text-white transition-colors inline-flex items-center"
+                    class="text-muted hover:text-main transition-colors inline-flex items-center"
                     onClick={(e) => {
                       e.preventDefault();
                       window.open(project.data.github, '_blank');
@@ -147,7 +147,7 @@ const structuredData = {
     
     {sortedProjects.length === 0 && (
       <div class="text-center py-12">
-        <p class="text-gray-400">No projects found. Check back soon!</p>
+        <p class="text-muted">No projects found. Check back soon!</p>
       </div>
     )}
   </div>

@@ -13,7 +13,7 @@ const socialLinks = [
   <div class="container mx-auto">
     <div class="flex flex-col items-center text-center">
       <!-- "Let's Connect" heading in serif -->
-      <h3 class="text-2xl font-serif font-medium mb-8 text-gray-100">Let's Connect</h3>
+      <h3 class="text-2xl font-serif font-medium mb-8 text-main">Let's Connect</h3>
 
       <!-- Larger centered social icons -->
       <div class="flex justify-center space-x-6 mb-8">
@@ -22,7 +22,7 @@ const socialLinks = [
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-400 hover:text-accent transition-colors"
+            class="text-muted hover:text-accent transition-colors"
             aria-label={link.name}
           >
             {link.icon === 'github' && (
@@ -45,7 +45,7 @@ const socialLinks = [
       </div>
 
       <!-- Copyright -->
-      <p class="text-gray-500 text-sm">
+      <p class="text-muted text-sm">
         &copy; {currentYear} Prassanna Ravishankar. All rights reserved.
       </p>
     </div>

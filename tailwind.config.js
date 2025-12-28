@@ -12,17 +12,21 @@ export default {
         display: ['Lora', 'serif'], // Restored serif for nice mixing
       },
       colors: {
-        background: '#1A1614', // Deep Warm Dark
-        surface: '#26201D', // Lighter Warm Dark
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
         primary: {
-          DEFAULT: '#2FA898', // Tarot Teal
-          hover: '#25897A',
-          light: '#5DD4C4',
+          DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
+          hover: 'rgb(var(--color-primary-hover) / <alpha-value>)',
+          light: 'rgb(var(--color-primary-light) / <alpha-value>)',
         },
         accent: {
-          DEFAULT: '#D98034', // Rat Amber
-          hover: '#B56525',
-        }
+          DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
+          hover: 'rgb(var(--color-accent-hover) / <alpha-value>)',
+        },
+        main: 'rgb(var(--color-text-main) / <alpha-value>)',
+        muted: 'rgb(var(--color-text-muted) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        subtle: 'rgb(var(--color-subtle) / <alpha-value>)',
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-out forwards',

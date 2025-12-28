@@ -71,14 +71,14 @@ const latestEpisodes = podcastEpisodes
         <div class="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1 animate-fade-in-up">
           <div class="space-y-4">
             <h2 class="text-accent font-serif tracking-widest text-sm uppercase italic opacity-80">ML Engineer & Researcher</h2>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-gray-100">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-main">
               Prassanna
               <br />
               <span class="text-primary">Ravishankar</span>
             </h1>
           </div>
 
-          <p class="text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto lg:mx-0">
+          <p class="text-xl md:text-2xl text-muted font-light max-w-2xl mx-auto lg:mx-0">
             Building intelligent systems at the edge of possibility.
           </p>
 
@@ -113,11 +113,11 @@ const latestEpisodes = podcastEpisodes
             </div>
             
             <!-- Tech Floating Elements -->
-            <div class="absolute top-[10%] right-[10%] p-3 bg-surface border border-white/10 rounded-xl shadow-xl animate-float" style="animation-delay: 1s">
+            <div class="absolute top-[10%] right-[10%] p-3 bg-surface border border-subtle/10 rounded-xl shadow-xl animate-float" style="animation-delay: 1s">
               <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
             </div>
-            <div class="absolute bottom-[20%] left-[5%] p-3 bg-surface border border-white/10 rounded-xl shadow-xl animate-float" style="animation-delay: 2s">
-              <span class="text-xs font-serif italic text-gray-400">The Signal</span>
+            <div class="absolute bottom-[20%] left-[5%] p-3 bg-surface border border-subtle/10 rounded-xl shadow-xl animate-float" style="animation-delay: 2s">
+              <span class="text-xs font-serif italic text-muted">The Signal</span>
             </div>
           </div>
         </div>
@@ -129,15 +129,15 @@ const latestEpisodes = podcastEpisodes
   <!-- Latest Content -->
   <section class="max-w-7xl mx-auto px-4 py-24 space-y-32">
     <div class="space-y-12">
-      <div class="flex items-end justify-between border-b border-white/10 pb-4">
-        <h2 class="text-3xl font-display font-medium text-gray-100">Latest Signals</h2>
-        <a href="/blog" class="hidden md:block text-gray-500 hover:text-white transition-colors text-sm font-mono tracking-widest">VIEW ALL &rarr;</a>
+      <div class="flex items-end justify-between border-b border-subtle/10 pb-4">
+        <h2 class="text-3xl font-display font-medium text-main">Latest Signals</h2>
+        <a href="/blog" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">VIEW ALL &rarr;</a>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {latestContent.map((item, index) => (
           <Card href={item.slug} class="h-full p-6 flex flex-col items-start">
-              <div class="flex items-center gap-3 mb-4 text-xs font-mono text-gray-500 relative z-10">
+              <div class="flex items-center gap-3 mb-4 text-xs font-mono text-muted relative z-10">
                  <span class="uppercase tracking-wider text-primary">
                   {item.type}
                  </span>
@@ -147,16 +147,16 @@ const latestEpisodes = podcastEpisodes
                  </time>
               </div>
 
-              <h3 class="text-xl font-bold text-gray-100 group-hover:text-primary transition-colors mb-3 leading-tight relative z-10">
+              <h3 class="text-xl font-bold text-main group-hover:text-primary transition-colors mb-3 leading-tight relative z-10">
                 {item.title}
               </h3>
               
-              <p class="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3 relative z-10">
+              <p class="text-muted text-sm leading-relaxed mb-4 line-clamp-3 relative z-10">
                 {item.description}
               </p>
 
-              <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-white/5 group-hover:border-primary/20 transition-colors relative z-10">
-                 <span class="text-xs font-mono text-gray-500 group-hover:text-primary transition-colors">read_more()</span>
+              <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-subtle/5 group-hover:border-primary/20 transition-colors relative z-10">
+                 <span class="text-xs font-mono text-muted group-hover:text-primary transition-colors">read_more()</span>
                  <svg class="w-4 h-4 text-gray-600 group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </div>
           </Card>
@@ -166,18 +166,18 @@ const latestEpisodes = podcastEpisodes
 
     <!-- Podcasts -->
     <div class="space-y-12">
-      <div class="flex items-end justify-between border-b border-white/10 pb-4">
-        <h2 class="text-3xl font-display font-medium text-gray-100">Conversations</h2>
-        <a href="/podcasts" class="hidden md:block text-gray-500 hover:text-white transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
+      <div class="flex items-end justify-between border-b border-subtle/10 pb-4">
+        <h2 class="text-3xl font-display font-medium text-main">Conversations</h2>
+        <a href="/podcasts" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
       </div>
 
-      <div class="rounded-2xl bg-surface border border-white/10 overflow-hidden relative">
+      <div class="rounded-2xl bg-surface border border-subtle/10 overflow-hidden relative">
         <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent"></div>
         
         <div class="grid lg:grid-cols-2 gap-8 relative z-10">
           <div class="p-10 flex flex-col justify-center">
-            <h3 class="text-4xl font-display font-bold text-white mb-4">The Signal & The Silence</h3>
-            <p class="text-gray-400 text-lg leading-relaxed mb-8 max-w-md">
+            <h3 class="text-4xl font-display font-bold text-main mb-4">The Signal & The Silence</h3>
+            <p class="text-muted text-lg leading-relaxed mb-8 max-w-md">
               Decoding the signals of tomorrow. From neural networks to philosophical voids.
             </p>
             <div>
@@ -188,20 +188,20 @@ const latestEpisodes = podcastEpisodes
             </div>
           </div>
           
-          <div class="bg-black/20 p-6 border-l border-white/10 overflow-y-auto max-h-[500px]">
+          <div class="bg-black/20 p-6 border-l border-subtle/10 overflow-y-auto max-h-[500px]">
              <div class="space-y-4">
               {latestEpisodes.map((episode, index) => {
                  const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
                  return (
-                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
+                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 rounded-xl hover:bg-subtle/5 transition-colors border border-transparent hover:border-subtle/10">
                     <span class="font-mono text-gray-600 group-hover:text-primary transition-colors">0{index + 1}</span>
                     <div class="flex-grow">
-                      <h4 class="text-white font-medium group-hover:text-primary transition-colors mb-1">{episode.data.title}</h4>
-                      <div class="flex items-center gap-3 text-xs text-gray-500 font-mono">
+                      <h4 class="text-main font-medium group-hover:text-primary transition-colors mb-1">{episode.data.title}</h4>
+                      <div class="flex items-center gap-3 text-xs text-muted font-mono">
                          <span>{episode.data.duration}</span>
                       </div>
                     </div>
-                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all text-gray-500">
+                    <div class="w-8 h-8 rounded-full bg-subtle/5 flex items-center justify-center group-hover:bg-primary group-hover:text-main transition-all text-muted">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
                     </div>
                   </a>

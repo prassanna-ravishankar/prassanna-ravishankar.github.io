@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from '../components/ThemeToggle.astro';
+
 // Navigation links
 const navItems = [
   { name: 'Home', url: '/' },
@@ -16,14 +18,17 @@ const currentPath = Astro.url.pathname;
 <header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto">
   <nav class="bg-surface/80 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-accent/30">
     <div class="flex items-center justify-between gap-8">
-      <a href="/" class="text-lg font-semibold font-serif whitespace-nowrap text-gray-100 hover:text-accent transition-colors">Prassanna Ravishankar</a>
+      <a href="/" class="text-lg font-semibold font-serif whitespace-nowrap text-main hover:text-accent transition-colors">Prassanna Ravishankar</a>
 
-      <!-- Mobile menu button -->
-      <button id="menu-toggle" class="md:hidden p-2 -mr-2 rounded-full hover:bg-white/10 text-gray-100 transition-colors" aria-label="Toggle menu">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+      <!-- Mobile Controls (Theme + Menu) -->
+      <div class="md:hidden flex items-center gap-2 -mr-2">
+        <ThemeToggle />
+        <button id="menu-toggle" class="p-2 rounded-full hover:bg-subtle/10 text-main transition-colors" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
 
       <!-- Desktop navigation -->
       <div class="hidden md:flex items-center gap-1">
@@ -34,14 +39,17 @@ const currentPath = Astro.url.pathname;
               href={item.url}
               class={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? 'text-accent bg-white/5 border border-accent/20'
-                  : 'text-gray-400 hover:text-accent hover:bg-white/5'
+                  ? 'text-accent bg-subtle/5 border border-accent/20'
+                  : 'text-muted hover:text-accent hover:bg-subtle/5'
               }`}
             >
               {item.name}
             </a>
           );
         })}
+        <div class="pl-2 border-l border-subtle/10 ml-2">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   </nav>
@@ -57,8 +65,8 @@ const currentPath = Astro.url.pathname;
               href={item.url}
               class={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? 'text-accent bg-white/5 border border-accent/20'
-                  : 'text-gray-400 hover:text-accent hover:bg-white/5'
+                  ? 'text-accent bg-subtle/5 border border-accent/20'
+                  : 'text-muted hover:text-accent hover:bg-subtle/5'
               }`}
             >
               {item.name}
@@ -72,12 +80,19 @@ const currentPath = Astro.url.pathname;
 
 <script>
   // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
+  // Wrap in astro:page-load for View Transitions compatibility
+  document.addEventListener('astro:page-load', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  }
+    if (menuToggle && mobileMenu) {
+      // Clean up potential old listeners if any (though unlikely with fresh DOM)
+      const newToggle = menuToggle.cloneNode(true);
+      menuToggle.parentNode.replaceChild(newToggle, menuToggle);
+      
+      newToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
 </script>

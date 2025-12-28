@@ -83,7 +83,7 @@ const breadcrumbSchema = {
   <article class="container mx-auto py-12 px-4">
     <div class="max-w-3xl mx-auto">
       <!-- Breadcrumb navigation -->
-      <nav class="text-sm text-gray-500 mb-8 font-mono" aria-label="Breadcrumb">
+      <nav class="text-sm text-muted mb-8 font-mono" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2">
           <li>
             <a href="/" class="hover:text-primary transition-colors">Home</a>
@@ -94,7 +94,7 @@ const breadcrumbSchema = {
           </li>
           <li>/</li>
           <li>
-            <span class="text-gray-300" aria-current="page">
+            <span class="text-main/80" aria-current="page">
               {entry.data.title}
             </span>
           </li>
@@ -110,7 +110,7 @@ const breadcrumbSchema = {
             alt={entry.data.title}
             width={1200}
             height={630}
-            class="w-full h-auto rounded-xl shadow-2xl border border-white/5 bg-surface grayscale group-hover:grayscale-0 transition-all duration-700"
+            class="w-full h-auto rounded-xl shadow-2xl border border-subtle/5 bg-surface transition-all duration-700"
             loading="eager"
             fetchpriority="high"
           />
@@ -118,10 +118,10 @@ const breadcrumbSchema = {
       )}
       
       <!-- Post header -->
-      <header class="mb-12 border-b border-white/10 pb-8">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-100 font-display leading-tight">{entry.data.title}</h1>
+      <header class="mb-12 border-b border-subtle/10 pb-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-main font-display leading-tight">{entry.data.title}</h1>
         
-        <div class="flex flex-wrap items-center text-gray-400 gap-6 text-sm font-mono uppercase tracking-wider">
+        <div class="flex flex-wrap items-center text-muted gap-6 text-sm font-mono uppercase tracking-wider">
           <time class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             {formatDate(entry.data.pubDate)}
@@ -151,7 +151,7 @@ const breadcrumbSchema = {
       <NotionNav />
       
       <!-- Post content -->
-      <div class="prose prose-lg prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-headings:text-gray-100 prose-p:text-gray-300 prose-a:text-primary prose-a:no-underline prose-a:border-b prose-a:border-primary/50 hover:prose-a:border-primary prose-code:text-accent prose-pre:bg-surface prose-pre:border prose-pre:border-white/5 prose-blockquote:border-l-primary prose-li:text-gray-300 prose-strong:text-white prose-img:rounded-xl">
+      <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-headings:text-main prose-p:text-main/80 prose-a:text-primary prose-a:no-underline prose-a:border-b prose-a:border-primary/50 hover:prose-a:border-primary prose-code:text-accent prose-pre:bg-surface prose-pre:border prose-pre:border-subtle/5 prose-blockquote:border-l-primary prose-img:rounded-xl">
         <Content components={components} />
       </div>
       
@@ -159,9 +159,9 @@ const breadcrumbSchema = {
       <RelatedPosts currentPost={entry} />
       
       <!-- Back to blog link -->
-      <div class="mt-16 pt-8 border-t border-white/10">
-        <a href="/blog" class="group inline-flex items-center text-gray-400 hover:text-white transition-colors">
-          <span class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center mr-3 group-hover:bg-primary group-hover:text-white transition-colors border border-white/10">
+      <div class="mt-16 pt-8 border-t border-subtle/10">
+        <a href="/blog" class="group inline-flex items-center text-muted hover:text-main transition-colors">
+          <span class="w-8 h-8 rounded-full bg-subtle/5 flex items-center justify-center mr-3 group-hover:bg-primary group-hover:text-main transition-colors border border-subtle/10">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>

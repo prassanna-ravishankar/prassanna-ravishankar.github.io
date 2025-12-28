@@ -32,8 +32,8 @@ const versesDescription = `Explore ${verses.length} philosophical verses and poe
      
     <div class="container mx-auto relative z-10 max-w-4xl">
       <header class="text-center mb-20 space-y-4 animate-fade-in-down">
-        <h1 class="text-6xl font-display font-bold text-white tracking-tight">Verses</h1>
-        <p class="text-xl text-gray-400 font-light">
+        <h1 class="text-6xl font-display font-bold text-main tracking-tight">Verses</h1>
+        <p class="text-xl text-muted font-light">
           Observations on the human machine.
         </p>
       </header>
@@ -53,7 +53,7 @@ const versesDescription = `Explore ${verses.length} philosophical verses and poe
             )}
             
             <div class="p-8 md:w-2/3 flex flex-col justify-center relative z-10">
-              <div class="flex items-center gap-3 mb-3 text-xs font-mono text-gray-500 uppercase tracking-wider">
+              <div class="flex items-center gap-3 mb-3 text-xs font-mono text-muted uppercase tracking-wider">
                 <time datetime={verse.data.pubDate.toISOString()}>
                   {new Date(verse.data.pubDate).toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -61,20 +61,20 @@ const versesDescription = `Explore ${verses.length} philosophical verses and poe
                     day: 'numeric'
                   })}
                 </time>
-                <div class="h-px w-8 bg-white/10"></div>
+                <div class="h-px w-8 bg-subtle/10"></div>
               </div>
 
               <h2 class="text-2xl font-display font-bold mb-3">
                 <a 
                   href={`/verses/${verse.slug}/`} 
-                  class="text-white group-hover:text-primary transition-colors"
+                  class="text-main group-hover:text-primary transition-colors"
                 >
                   {verse.data.title}
                 </a>
               </h2>
               
               {verse.data.description && (
-                <p class="text-gray-400 leading-relaxed mb-6 font-light">
+                <p class="text-muted leading-relaxed mb-6 font-light">
                   {verse.data.description}
                 </p>
               )}

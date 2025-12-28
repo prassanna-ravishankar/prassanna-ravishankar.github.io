@@ -3,9 +3,47 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light Mode (Default) */
+    --color-background: 253 251 247; /* #FDFBF7 - Warm Paper */
+    --color-surface: 242 239 233;     /* #F2EFE9 - Slightly Darker Warm */
+    
+    --color-primary: 35 140 125;      /* #238C7D - Strong Teal */
+    --color-primary-hover: 29 115 102; /* #1D7366 */
+    --color-primary-light: 77 191 176; /* #4DBFB0 */
+    
+    --color-accent: 197 109 36;       /* #C56D24 - Burnt Orange */
+    --color-accent-hover: 163 90 30;   /* #A35A1E */
+    
+    --color-text-main: 26 22 20;      /* #1A1614 - Almost Black */
+    --color-text-muted: 82 76 72;     /* #524C48 - Warm Dark Gray */
+    --color-border: 228 228 231;      /* zinc-200 */
+    
+    --color-subtle: 0 0 0;            /* Black for glass/subtle effects on light bg */
+  }
+
+  .dark {
+    /* Dark Mode */
+    --color-background: 26 22 20;     /* #1A1614 */
+    --color-surface: 38 32 29;        /* #26201D */
+    
+    --color-primary: 47 168 152;      /* #2FA898 */
+    --color-primary-hover: 37 137 122; /* #25897A */
+    --color-primary-light: 93 212 196; /* #5DD4C4 */
+    
+    --color-accent: 217 128 52;       /* #D98034 */
+    --color-accent-hover: 181 101 37;  /* #B56525 */
+    
+    --color-text-main: 244 244 245;   /* zinc-100 */
+    --color-text-muted: 161 161 170;  /* zinc-400 */
+    --color-border: 39 39 42;         /* zinc-800 */
+    
+    --color-subtle: 255 255 255;      /* White for glass/subtle effects on dark bg */
+  }
+
   html {
     scroll-behavior: smooth;
-    @apply antialiased text-zinc-100 bg-background;
+    @apply antialiased bg-background text-main;
   }
 
   body {
@@ -15,15 +53,25 @@
 
 @layer utilities {
   .modern-card {
-    @apply bg-surface border border-zinc-800 rounded-xl transition-all duration-300;
+    @apply bg-surface border border-border rounded-xl transition-all duration-300;
   }
 
   .modern-card:hover {
-    @apply border-zinc-700 bg-zinc-900/80 transform -translate-y-1 shadow-2xl shadow-primary/10;
+    @apply border-accent/20 transform -translate-y-1 shadow-2xl shadow-primary/10;
+  }
+  
+  /* Dark mode specific override for modern-card hover to keep the glowy feel */
+  .dark .modern-card:hover {
+     background-color: rgb(24 24 27 / 0.8); /* zinc-900/80 equivalent */
   }
 
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-light via-accent to-primary-light background-animate;
+  }
+
+  /* Global prose overrides for our semantic theme */
+  .prose {
+    @apply prose-strong:text-main prose-th:text-main prose-td:text-main/90 prose-headings:text-main prose-p:text-main/90;
   }
 
   .background-animate {

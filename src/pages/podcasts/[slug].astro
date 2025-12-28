@@ -125,7 +125,7 @@ if (type === 'episode' && entry) {
 
     {type === 'show' ? (
       <>
-        <div class="bg-surface rounded-2xl shadow-xl overflow-hidden mb-8 border border-white/5">
+        <div class="bg-surface rounded-2xl shadow-xl overflow-hidden mb-8 border border-subtle/5">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
             <div class="md:col-span-1">
               {show.imageUrl ? (
@@ -138,28 +138,28 @@ if (type === 'episode' && entry) {
                   />
                 </div>
               ) : (
-                <div class="w-full aspect-square bg-white/5 rounded-lg flex items-center justify-center border border-white/10">
-                  <span class="text-gray-500">No cover image</span>
+                <div class="w-full aspect-square bg-subtle/5 rounded-lg flex items-center justify-center border border-subtle/10">
+                  <span class="text-muted">No cover image</span>
                 </div>
               )}
             </div>
             
             <div class="md:col-span-2">
-              <h1 class="text-3xl font-bold mb-4 text-gray-100">{show.title}</h1>
-              <p class="text-gray-300 mb-6 leading-relaxed">{show.description}</p>
+              <h1 class="text-3xl font-bold mb-4 text-main">{show.title}</h1>
+              <p class="text-main/80 mb-6 leading-relaxed">{show.description}</p>
               
               {show.cohost && (
-                <p class="text-gray-400 mb-4 font-mono text-sm">
-                  Co-hosted with <span class="text-gray-300">{show.cohost}</span>
+                <p class="text-muted mb-4 font-mono text-sm">
+                  Co-hosted with <span class="text-main/80">{show.cohost}</span>
                 </p>
               )}
               
               {show.topics && show.topics.length > 0 && (
                 <div class="mb-6">
-                  <h2 class="text-lg font-semibold mb-3 text-gray-200">Topics</h2>
+                  <h2 class="text-lg font-semibold mb-3 text-main/90">Topics</h2>
                   <div class="flex flex-wrap gap-2">
                     {show.topics.map(topic => (
-                      <span class="bg-white/5 border border-white/10 text-gray-400 px-3 py-1 rounded text-sm font-mono">
+                      <span class="bg-subtle/5 border border-subtle/10 text-muted px-3 py-1 rounded text-sm font-mono">
                         {topic}
                       </span>
                     ))}
@@ -169,7 +169,7 @@ if (type === 'episode' && entry) {
               
               {show.platforms && show.platforms.length > 0 && (
                 <div>
-                  <h2 class="text-lg font-semibold mb-3 text-gray-200">Listen on</h2>
+                  <h2 class="text-lg font-semibold mb-3 text-main/90">Listen on</h2>
                   <div class="flex flex-wrap gap-2">
                     {show.platforms.map(platform => (
                       <a 
@@ -201,16 +201,16 @@ if (type === 'episode' && entry) {
         </div>
 
         {/* Episodes Section */}
-        <div class="bg-surface rounded-2xl shadow-xl overflow-hidden border border-white/5">
+        <div class="bg-surface rounded-2xl shadow-xl overflow-hidden border border-subtle/5">
           <div class="p-8">
-            <h2 class="text-2xl font-bold mb-6 text-gray-100">Episodes</h2>
+            <h2 class="text-2xl font-bold mb-6 text-main">Episodes</h2>
             <div class="space-y-6">
               {episodes?.map(episode => {
                 const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
                 return (
                   <a 
                     href={`/podcasts/${episodeSlug}/`}
-                    class="block p-4 hover:bg-white/5 rounded-xl transition-all border border-transparent hover:border-white/10 group"
+                    class="block p-4 hover:bg-subtle/5 rounded-xl transition-all border border-transparent hover:border-subtle/10 group"
                   >
                     <div class="flex flex-wrap items-center gap-2 mb-2">
                       {episode.data.season && episode.data.episodeNumber && (
@@ -219,22 +219,22 @@ if (type === 'episode' && entry) {
                         </span>
                       )}
                       
-                      <span class="text-gray-500 text-sm font-mono">
+                      <span class="text-muted text-sm font-mono">
                         {formatDate(episode.data.pubDate)}
                       </span>
                       
                       {episode.data.duration && (
-                        <span class="text-gray-500 text-sm font-mono">
+                        <span class="text-muted text-sm font-mono">
                           • {episode.data.duration}
                         </span>
                       )}
                     </div>
                     
-                    <h3 class="text-xl font-semibold mb-2 text-gray-100 group-hover:text-primary transition-colors">
+                    <h3 class="text-xl font-semibold mb-2 text-main group-hover:text-primary transition-colors">
                       {episode.data.title}
                     </h3>
                     
-                    <p class="text-gray-400 line-clamp-2">
+                    <p class="text-muted line-clamp-2">
                       {episode.data.description}
                     </p>
                   </a>
@@ -245,7 +245,7 @@ if (type === 'episode' && entry) {
         </div>
       </>
     ) : (
-      <div class="bg-surface rounded-2xl shadow-xl overflow-hidden border border-white/5">
+      <div class="bg-surface rounded-2xl shadow-xl overflow-hidden border border-subtle/5">
         <div class="md:flex">
           <div class="md:w-1/3">
             {entry.data.coverImage ? (
@@ -257,8 +257,8 @@ if (type === 'episode' && entry) {
                 class="w-full h-64 md:h-full object-cover"
               />
             ) : (
-              <div class="w-full h-64 md:h-full bg-white/5 flex items-center justify-center border-r border-white/10">
-                <span class="text-gray-500">No cover image</span>
+              <div class="w-full h-64 md:h-full bg-subtle/5 flex items-center justify-center border-r border-subtle/10">
+                <span class="text-muted">No cover image</span>
               </div>
             )}
           </div>
@@ -271,23 +271,23 @@ if (type === 'episode' && entry) {
                 </span>
               )}
               
-              <span class="text-gray-400 text-sm font-mono">
+              <span class="text-muted text-sm font-mono">
                 {formatDate(entry.data.pubDate)}
               </span>
               
               {entry.data.duration && (
-                <span class="text-gray-400 text-sm font-mono">
+                <span class="text-muted text-sm font-mono">
                   • {entry.data.duration}
                 </span>
               )}
             </div>
             
-            <h1 class="text-3xl font-bold mb-4 text-gray-100">{entry.data.title}</h1>
-            <p class="text-gray-300 mb-8 leading-relaxed">{entry.data.description}</p>
+            <h1 class="text-3xl font-bold mb-4 text-main">{entry.data.title}</h1>
+            <p class="text-main/80 mb-8 leading-relaxed">{entry.data.description}</p>
             
             {entry.data.audioFile && (
-              <div class="mb-8 p-4 bg-white/5 rounded-xl border border-white/10">
-                <h2 class="text-sm font-mono text-gray-400 mb-3 uppercase tracking-wider">Listen Now</h2>
+              <div class="mb-8 p-4 bg-subtle/5 rounded-xl border border-subtle/10">
+                <h2 class="text-sm font-mono text-muted mb-3 uppercase tracking-wider">Listen Now</h2>
                 <audio controls class="w-full">
                   <source src={entry.data.audioFile} type="audio/mpeg">
                   Your browser does not support the audio element.
@@ -297,7 +297,7 @@ if (type === 'episode' && entry) {
             
             {entry.data.externalLinks && Object.keys(entry.data.externalLinks).length > 0 && (
               <div class="mb-8">
-                <h2 class="text-lg font-semibold mb-3 text-gray-200">Listen on</h2>
+                <h2 class="text-lg font-semibold mb-3 text-main/90">Listen on</h2>
                 <div class="flex flex-wrap gap-2">
                   {Object.entries(entry.data.externalLinks).map(([platform, url]) => (
                     <a 
@@ -319,10 +319,10 @@ if (type === 'episode' && entry) {
             
             {entry.data.guests && entry.data.guests.length > 0 && (
               <div class="mb-6">
-                <h2 class="text-lg font-semibold mb-3 text-gray-200">Guests</h2>
+                <h2 class="text-lg font-semibold mb-3 text-main/90">Guests</h2>
                 <ul class="space-y-2">
                   {entry.data.guests.map(guest => (
-                    <li class="text-gray-300 flex items-center gap-2">
+                    <li class="text-main/80 flex items-center gap-2">
                        <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
                        {guest}
                     </li>
@@ -333,10 +333,10 @@ if (type === 'episode' && entry) {
             
             {entry.data.tags && entry.data.tags.length > 0 && (
               <div>
-                <h2 class="text-lg font-semibold mb-3 text-gray-200">Topics</h2>
+                <h2 class="text-lg font-semibold mb-3 text-main/90">Topics</h2>
                 <div class="flex flex-wrap gap-2">
                   {entry.data.tags.map(tag => (
-                    <span class="bg-white/5 border border-white/10 text-gray-400 px-3 py-1 rounded text-sm font-mono">
+                    <span class="bg-subtle/5 border border-subtle/10 text-muted px-3 py-1 rounded text-sm font-mono">
                       {tag}
                     </span>
                   ))}
@@ -346,9 +346,9 @@ if (type === 'episode' && entry) {
           </div>
         </div>
         
-        <div class="p-8 border-t border-white/5">
-          <h2 class="text-2xl font-bold mb-6 text-gray-100">Show Notes</h2>
-          <div class="prose prose-invert max-w-none prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:text-gray-100 prose-p:text-gray-300 prose-li:text-gray-300">
+        <div class="p-8 border-t border-subtle/5">
+          <h2 class="text-2xl font-bold mb-6 text-main">Show Notes</h2>
+          <div class="prose prose-invert max-w-none prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:text-main prose-p:text-main/80 prose-li:text-main/80">
             <Content />
           </div>
         </div>

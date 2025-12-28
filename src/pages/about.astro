@@ -156,15 +156,15 @@ const personSchema = {
 
     <div class="max-w-4xl mx-auto relative z-10 animate-fade-in-up">
       <div class="text-center mb-12">
-        <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 text-white tracking-tight">
+        <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 text-main tracking-tight">
           <span class="text-primary-light">Hello,</span> I'm Prassanna
         </h1>
-        <p class="text-2xl text-zinc-400 font-light mb-6">{data.title}</p>
+        <p class="text-2xl text-muted font-light mb-6">{data.title}</p>
 
         <!-- Divider -->
         <div class="h-1 w-24 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"></div>
 
-        <p class="text-xl text-zinc-300 max-w-2xl mx-auto leading-relaxed font-light">
+        <p class="text-xl text-main/80 max-w-2xl mx-auto leading-relaxed font-light">
           {data.description}
         </p>
 
@@ -174,7 +174,7 @@ const personSchema = {
             href={data.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            class="group flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white border border-zinc-700 rounded-full hover:bg-zinc-800 hover:border-zinc-600 hover:scale-105 transition-all duration-300"
+            class="group flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white border border-border rounded-full hover:bg-zinc-800 hover:border-zinc-600 hover:scale-105 transition-all duration-300"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -201,20 +201,20 @@ const personSchema = {
   <!-- Experience Section -->
   <section class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-display font-medium text-white mb-2 text-center">Experience</h2>
-      <p class="text-zinc-500 text-center mb-12 font-mono">Building ML systems at scale</p>
+      <h2 class="text-3xl font-display font-medium text-main mb-2 text-center">Experience</h2>
+      <p class="text-muted text-center mb-12 font-mono">Building ML systems at scale</p>
 
       <div class="relative">
         <div class="space-y-6">
           {data.experience.map((job, index) => (
-            <div class="modern-card p-8 hover:bg-zinc-900/40">
+            <div class="modern-card p-8 hover:bg-subtle/10">
               <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4 gap-2">
                 <div>
-                  <h3 class="text-xl font-bold text-white mb-1">{job.role}</h3>
+                  <h3 class="text-xl font-bold text-main mb-1">{job.role}</h3>
                   <p class="text-primary-light font-medium">{job.company}</p>
                 </div>
-                <div class="flex items-center gap-3 text-xs text-zinc-500 font-mono">
-                  <span class="bg-zinc-800 px-3 py-1 rounded-full text-zinc-300 whitespace-nowrap border border-zinc-700">
+                <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                  <span class="bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full text-main/80 whitespace-nowrap border border-border">
                     {job.duration}
                   </span>
                   <span class="hidden md:inline">•</span>
@@ -224,7 +224,7 @@ const personSchema = {
 
               <ul class="space-y-3">
                 {job.achievements.map(achievement => (
-                  <li class="flex items-start gap-3 text-zinc-400 leading-relaxed">
+                  <li class="flex items-start gap-3 text-muted leading-relaxed">
                     <span class="text-primary mt-1.5 text-xs">◆</span>
                     <span>{achievement}</span>
                   </li>
@@ -240,8 +240,8 @@ const personSchema = {
   <!-- Skills Section -->
   <section class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-display font-medium text-white mb-2 text-center">Skills & Tools</h2>
-      <p class="text-zinc-500 text-center mb-12 font-mono">Core technical stack</p>
+      <h2 class="text-3xl font-display font-medium text-main mb-2 text-center">Skills & Tools</h2>
+      <p class="text-muted text-center mb-12 font-mono">Core technical stack</p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Programming -->
@@ -251,10 +251,10 @@ const personSchema = {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-white mb-4">Programming</h3>
+          <h3 class="text-lg font-bold text-main mb-4">Programming</h3>
           <div class="flex flex-wrap gap-2">
             {data.skills.programming.map(skill => (
-              <span class="px-3 py-1 bg-zinc-800 border border-zinc-700 text-zinc-300 rounded text-sm">{skill}</span>
+              <span class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border text-main/80 rounded text-sm">{skill}</span>
             ))}
           </div>
         </div>
@@ -266,10 +266,10 @@ const personSchema = {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-white mb-4">Frameworks</h3>
+          <h3 class="text-lg font-bold text-main mb-4">Frameworks</h3>
           <div class="flex flex-wrap gap-2">
             {data.skills.frameworks.map(skill => (
-              <span class="px-3 py-1 bg-zinc-800 border border-zinc-700 text-zinc-300 rounded text-sm">{skill}</span>
+              <span class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border text-main/80 rounded text-sm">{skill}</span>
             ))}
           </div>
         </div>
@@ -281,10 +281,10 @@ const personSchema = {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
               </svg>
             </div>
-            <h3 class="text-lg font-bold text-white mb-4">Tools</h3>
+            <h3 class="text-lg font-bold text-main mb-4">Tools</h3>
             <div class="flex flex-wrap gap-2">
               {data.skills.tools.map(skill => (
-                <span class="px-3 py-1 bg-zinc-800 border border-zinc-700 text-zinc-300 rounded text-sm">{skill}</span>
+                <span class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border text-main/80 rounded text-sm">{skill}</span>
               ))}
             </div>
           </div>
@@ -296,16 +296,16 @@ const personSchema = {
   <!-- Education Section -->
   <section class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-display font-medium text-white mb-2 text-center">Education</h2>
-      <p class="text-zinc-500 text-center mb-12 font-mono">Academic background</p>
+      <h2 class="text-3xl font-display font-medium text-main mb-2 text-center">Education</h2>
+      <p class="text-muted text-center mb-12 font-mono">Academic background</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data.education.map((edu, index) => (
           <div class="modern-card p-8">
-            <h3 class="text-lg font-bold text-white mb-1">{edu.degree}</h3>
+            <h3 class="text-lg font-bold text-main mb-1">{edu.degree}</h3>
             <p class="text-primary-light font-medium mb-1">{edu.institution}</p>
-            <p class="text-sm text-zinc-500 mb-4">{edu.location} • {edu.duration}</p>
-            <p class="text-sm text-zinc-400 leading-relaxed border-l-2 border-zinc-700 pl-3">{edu.details}</p>
+            <p class="text-sm text-muted mb-4">{edu.location} • {edu.duration}</p>
+            <p class="text-sm text-muted leading-relaxed border-l-2 border-border pl-3">{edu.details}</p>
           </div>
         ))}
       </div>
