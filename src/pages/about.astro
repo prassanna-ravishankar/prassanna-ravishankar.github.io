@@ -2,6 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
+import TechTimelineWrapper from '../components/TechTimelineWrapper.astro';
+import TechStackWrapper from '../components/TechStackWrapper.astro';
+
 const data = {
   name: 'Prassanna Ravishankar',
   title: 'Machine Learning Engineer',
@@ -14,7 +17,7 @@ const data = {
     {
       company: 'Papercup AI',
       role: 'Principal MLOps Engineer + Platforms Team Lead',
-      duration: 'Jan 2023 – Present',
+      duration: 'Jan 2023 - Present',
       location: 'London, U.K.',
       achievements: [
         'Designed and led the ML cloud training stack from scratch with ClearML and Skypilot, scaling compute from 16 to 50 GPUs.',
@@ -28,7 +31,7 @@ const data = {
     {
       company: 'Zenith AI (Acquired by Opentrons)',
       role: 'Senior Machine Learning Engineer',
-      duration: 'Oct 2020 – Jan 2023',
+      duration: 'Oct 2020 - Jan 2023',
       location: 'Belfast, U.K.',
       achievements: [
         'Founding engineering team member, company acquired after 9 months.',
@@ -40,7 +43,7 @@ const data = {
     {
       company: 'AnyVision (Now Oosto)',
       role: 'Applied Computer Vision Researcher',
-      duration: 'Sep 2019 – Oct 2020',
+      duration: 'Sep 2019 - Oct 2020',
       location: 'Belfast, U.K.',
       achievements: [
         'Developed a Focus of Attention system for retail using 3D geometry and depth estimation.',
@@ -51,7 +54,7 @@ const data = {
     {
       company: 'Altran (Acquired by Capgemini)',
       role: 'Image Processing Consultant @ HP',
-      duration: 'Mar 2017 – Sep 2019',
+      duration: 'Mar 2017 - Sep 2019',
       location: 'Barcelona, Spain',
       achievements: [
         'Supported the creation of a Python-based middleware for large format printers.',
@@ -61,29 +64,29 @@ const data = {
     }
   ],
   skills: {
-    programming: ['Python', 'Terraform', 'C++'],
-    frameworks: ['PyTorch', 'Temporal', 'Scikit-Learn', 'SageMaker', 'Dask', 'FastAPI', 'Streamlit', 'Plotly/Dash', 'LangChain', 'ONNX'],
-    tools: ['Docker', 'AWS', 'NVIDIA', 'Git', 'Dagster/Airflow', 'GCP', 'Apache Beam', 'Kubernetes', 'Grafana']
+    programming: ['Python', 'Terraform'],
+    frameworks: ['PyTorch', 'Temporal', 'FastAPI', 'LangChain', 'Agent SDKs', 'OpenTelemetry', 'MCP', 'ONNX'],
+    tools: ['Kubernetes', 'Docker', 'SkyPilot', 'AWS/GCP', 'Training Job Orchestration', 'Apache Beam', 'Dagster/Airflow']
   },
   education: [
     {
       institution: 'Computer Vision Center',
       degree: 'PhD Student and Teaching Assistant',
-      duration: 'May 2013 – Feb 2017',
+      duration: 'May 2013 - Feb 2017',
       location: 'Barcelona, Spain',
       details: 'Implemented Slither, a random forest framework for semantic segmentation using C++ and Python.'
     },
     {
       institution: 'University of Sheffield',
       degree: 'MSc. Computer Vision',
-      duration: 'Sep 2011 – Sep 2012',
+      duration: 'Sep 2011 - Sep 2012',
       location: 'Sheffield, U.K.',
       details: 'Worked on face recognition, traffic analysis, and FPGA-based cryptography.'
     },
     {
       institution: 'Manipal Institute of Technology',
       degree: 'B.E. in Electronics and Communication',
-      duration: 'Aug 2007 – May 2011',
+      duration: 'Aug 2007 - May 2011',
       location: 'Manipal, India',
       details: 'Internships at FH Westkueste, Germany (2011) and mdirect, Tunisia (2009).'
     }
@@ -198,117 +201,69 @@ const personSchema = {
     </div>
   </section>
 
-  <!-- Experience Section -->
-  <section class="py-16 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-display font-medium text-main mb-2 text-center">Experience</h2>
-      <p class="text-muted text-center mb-12 font-mono">Building ML systems at scale</p>
+  <!-- Main Content Split -->
+  <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+    
+    <!-- Left Column: Intro & Skills (Sticky) -->
+    <div class="lg:col-span-4 space-y-12">
+      <div class="lg:sticky lg:top-32 space-y-12">
+        
+        <!-- About Text -->
+        <section>
+          <h2 class="text-2xl font-bold text-main mb-6 flex items-center gap-2">
+            <span class="text-primary">01.</span> About
+          </h2>
+          <p class="text-muted leading-relaxed mb-6">
+            I am a Machine Learning Engineer focused on the intersection of infrastructure, data, and modelling. 
+            My work revolves around building robust systems that enable the "Agentic Web," where AI agents can reliably operate, communicate, and execute complex workflows.
+          </p>
+          <p class="text-muted leading-relaxed">
+            Currently, I'm simplifying the unification of Code and AI, designing protocols that allow agents to be more than just chat bots.
+          </p>
+        </section>
 
-      <div class="relative">
-        <div class="space-y-6">
-          {data.experience.map((job, index) => (
-            <div class="modern-card p-8 hover:bg-subtle/10">
-              <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4 gap-2">
-                <div>
-                  <h3 class="text-xl font-bold text-main mb-1">{job.role}</h3>
-                  <p class="text-primary-light font-medium">{job.company}</p>
-                </div>
-                <div class="flex items-center gap-3 text-xs text-muted font-mono">
-                  <span class="bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full text-main/80 whitespace-nowrap border border-border">
-                    {job.duration}
-                  </span>
-                  <span class="hidden md:inline">•</span>
-                  <span class="hidden md:inline">{job.location}</span>
-                </div>
+        <!-- Skills Compact -->
+        <section>
+          <h2 class="text-2xl font-bold text-main mb-6 flex items-center gap-2">
+            <span class="text-primary">02.</span> Stack
+          </h2>
+          
+          <TechStackWrapper skills={data.skills} />
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Right Column: Timeline & Education -->
+    <div class="lg:col-span-8 space-y-20">
+      
+      <!-- Experience Timeline -->
+      <section>
+        <h2 class="text-3xl font-display font-bold text-main mb-8 flex items-center gap-3">
+          <span class="text-primary">03.</span> Experience
+        </h2>
+        <TechTimelineWrapper experiences={data.experience} />
+      </section>
+
+      <!-- Education Grid -->
+      <section>
+        <h2 class="text-3xl font-display font-bold text-main mb-8 flex items-center gap-3">
+          <span class="text-primary">04.</span> Education
+        </h2>
+        <div class="grid grid-cols-1 gap-6">
+          {data.education.map((edu) => (
+            <div class="p-6 rounded-2xl border border-subtle/10 bg-subtle/5 hover:bg-subtle/10 transition-colors">
+              <div class="flex flex-col md:flex-row justify-between mb-2">
+                <h3 class="text-lg font-bold text-main">{edu.degree}</h3>
+                <span class="text-sm font-mono text-muted">{edu.duration}</span>
               </div>
-
-              <ul class="space-y-3">
-                {job.achievements.map(achievement => (
-                  <li class="flex items-start gap-3 text-muted leading-relaxed">
-                    <span class="text-primary mt-1.5 text-xs">◆</span>
-                    <span>{achievement}</span>
-                  </li>
-                ))}
-              </ul>
+              <p class="text-primary font-medium mb-2">{edu.institution}</p>
+              <p class="text-sm text-muted">{edu.details}</p>
             </div>
           ))}
         </div>
-      </div>
+      </section>
+
     </div>
-  </section>
-
-  <!-- Skills Section -->
-  <section class="py-16 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-display font-medium text-main mb-2 text-center">Skills & Tools</h2>
-      <p class="text-muted text-center mb-12 font-mono">Core technical stack</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Programming -->
-        <div class="modern-card p-6">
-          <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary-light">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-main mb-4">Programming</h3>
-          <div class="flex flex-wrap gap-2">
-            {data.skills.programming.map(skill => (
-              <span class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border text-main/80 rounded text-sm">{skill}</span>
-            ))}
-          </div>
-        </div>
-
-        <!-- Frameworks -->
-        <div class="modern-card p-6">
-          <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center mb-4 text-accent">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-main mb-4">Frameworks</h3>
-          <div class="flex flex-wrap gap-2">
-            {data.skills.frameworks.map(skill => (
-              <span class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border text-main/80 rounded text-sm">{skill}</span>
-            ))}
-          </div>
-        </div>
-
-        <!-- Tools -->
-        <div class="modern-card p-6">
-          <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary-light">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              </svg>
-            </div>
-            <h3 class="text-lg font-bold text-main mb-4">Tools</h3>
-            <div class="flex flex-wrap gap-2">
-              {data.skills.tools.map(skill => (
-                <span class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border text-main/80 rounded text-sm">{skill}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Education Section -->
-  <section class="py-16 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-display font-medium text-main mb-2 text-center">Education</h2>
-      <p class="text-muted text-center mb-12 font-mono">Academic background</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {data.education.map((edu, index) => (
-          <div class="modern-card p-8">
-            <h3 class="text-lg font-bold text-main mb-1">{edu.degree}</h3>
-            <p class="text-primary-light font-medium mb-1">{edu.institution}</p>
-            <p class="text-sm text-muted mb-4">{edu.location} • {edu.duration}</p>
-            <p class="text-sm text-muted leading-relaxed border-l-2 border-border pl-3">{edu.details}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  </div>
 </Layout>

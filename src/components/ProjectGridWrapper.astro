@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import { ProjectGrid } from './ProjectGrid';
+
+const projects = await getCollection('projects', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Sort by date
+const sortedProjects = projects.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<ProjectGrid client:load initialProjects={sortedProjects} />

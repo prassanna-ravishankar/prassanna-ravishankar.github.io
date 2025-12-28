@@ -3,6 +3,7 @@ import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CommandMenuWrapper from '../components/CommandMenuWrapper.astro';
 
 export interface Props {
   title: string;
@@ -266,6 +267,7 @@ const articleSchema = article ? {
         <slot />
       </main>
       <Footer />
+      <CommandMenuWrapper />
     </div>
   </body>
 </html>

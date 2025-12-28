@@ -4,6 +4,8 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
+import { FadeIn, StaggerContainer, StaggerItem } from '../components/ui/FadeIn.tsx';
+import AgentGraphWrapper from '../components/AgentGraphWrapper.astro';
 
 // Fetch content from all collections
 const verses = await getCollection('verses', ({ data }) => {
@@ -64,11 +66,13 @@ const latestEpisodes = podcastEpisodes
     <!-- Background Glow -->
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow"></div>
 
+    <AgentGraphWrapper />
+
     <div class="max-w-7xl mx-auto w-full relative z-10">
       <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-20">
         
         <!-- Text Content -->
-        <div class="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1 animate-fade-in-up">
+        <FadeIn client:visible direction="up" className="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1">
           <div class="space-y-4">
             <h2 class="text-accent font-serif tracking-widest text-sm uppercase italic opacity-80">ML Engineer & Researcher</h2>
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-main">
@@ -79,21 +83,23 @@ const latestEpisodes = podcastEpisodes
           </div>
 
           <p class="text-xl md:text-2xl text-muted font-light max-w-2xl mx-auto lg:mx-0">
-            Building intelligent systems at the edge of possibility.
+            Architecting infrastructure for the <span class="text-main font-medium">Agentic Web</span>. 
+            <br class="hidden md:block" />
+            Simplifying the convergence of Code, AI, and Protocols.
           </p>
 
           <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
             <Button href="/projects/" variant="primary">
-              View Work
+              View Protocols
             </Button>
             <Button href="/verses/" variant="secondary" class="font-serif italic">
               Read Verses
             </Button>
           </div>
-        </div>
+        </FadeIn>
 
         <!-- Profile Picture Hero -->
-        <div class="lg:w-1/2 flex justify-center order-1 lg:order-2 animate-fade-in">
+        <FadeIn client:visible direction="left" delay={0.2} className="lg:w-1/2 flex justify-center order-1 lg:order-2">
           <div class="relative w-80 h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]">
             <!-- Decorative Rings -->
             <div class="absolute inset-0 border border-dashed border-primary/20 rounded-full animate-spin-slow" style="animation-duration: 30s"></div>
@@ -120,7 +126,7 @@ const latestEpisodes = podcastEpisodes
               <span class="text-xs font-serif italic text-muted">The Signal</span>
             </div>
           </div>
-        </div>
+        </FadeIn>
 
       </div>
     </div>
@@ -134,34 +140,36 @@ const latestEpisodes = podcastEpisodes
         <a href="/blog" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">VIEW ALL &rarr;</a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <StaggerContainer client:visible className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {latestContent.map((item, index) => (
-          <Card href={item.slug} class="h-full p-6 flex flex-col items-start">
-              <div class="flex items-center gap-3 mb-4 text-xs font-mono text-muted relative z-10">
-                 <span class="uppercase tracking-wider text-primary">
-                  {item.type}
-                 </span>
-                 <span>//</span>
-                 <time>
-                  {new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                 </time>
-              </div>
+          <StaggerItem>
+            <Card href={item.slug} class="h-full p-6 flex flex-col items-start">
+                <div class="flex items-center gap-3 mb-4 text-xs font-mono text-muted relative z-10">
+                   <span class="uppercase tracking-wider text-primary">
+                    {item.type}
+                   </span>
+                   <span>//</span>
+                   <time>
+                    {new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                   </time>
+                </div>
 
-              <h3 class="text-xl font-bold text-main group-hover:text-primary transition-colors mb-3 leading-tight relative z-10">
-                {item.title}
-              </h3>
-              
-              <p class="text-muted text-sm leading-relaxed mb-4 line-clamp-3 relative z-10">
-                {item.description}
-              </p>
+                <h3 class="text-xl font-bold text-main group-hover:text-primary transition-colors mb-3 leading-tight relative z-10">
+                  {item.title}
+                </h3>
+                
+                <p class="text-muted text-sm leading-relaxed mb-4 line-clamp-3 relative z-10">
+                  {item.description}
+                </p>
 
-              <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-subtle/5 group-hover:border-primary/20 transition-colors relative z-10">
-                 <span class="text-xs font-mono text-muted group-hover:text-primary transition-colors">read_more()</span>
-                 <svg class="w-4 h-4 text-gray-600 group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-              </div>
-          </Card>
+                <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-subtle/5 group-hover:border-primary/20 transition-colors relative z-10">
+                   <span class="text-xs font-mono text-muted group-hover:text-primary transition-colors">read_more()</span>
+                   <svg class="w-4 h-4 text-gray-600 group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </div>
+            </Card>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </div>
 
     <!-- Podcasts -->
@@ -171,7 +179,7 @@ const latestEpisodes = podcastEpisodes
         <a href="/podcasts" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
       </div>
 
-      <div class="rounded-2xl bg-surface border border-subtle/10 overflow-hidden relative">
+      <FadeIn client:visible direction="up" className="rounded-2xl bg-surface border border-subtle/10 overflow-hidden relative">
         <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent"></div>
         
         <div class="grid lg:grid-cols-2 gap-8 relative z-10">
@@ -210,7 +218,7 @@ const latestEpisodes = podcastEpisodes
              </div>
           </div>
         </div>
-      </div>
+      </FadeIn>
     </div>
 
   </section>
