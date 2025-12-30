@@ -26,7 +26,6 @@ export default defineConfig({
     '/blog/full-stack-ml-3': '/blog/full-stack-ml/',
     '/blog/2022-10-15-full-stack-ml': '/blog/full-stack-ml/',
     '/blog/pyenv-and-pipenv-for-the-perfect-python-environment': '/blog/pipenv-pyenv/',
-    '/blog/future-tech-framework': '/blog/future-tech-framework/',
 
     // Legacy project redirects (ambi-alert is now torale)
     '/ambi-alert': '/projects/torale/',
