@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@4hse/astro-llms-txt": "^1.0.4",
     "@astrojs/mdx": "^4.1.0",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/react": "^4.4.2",

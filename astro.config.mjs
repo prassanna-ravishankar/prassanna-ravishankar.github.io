@@ -10,6 +10,7 @@ import { remarkImagePaths } from './src/plugins/remark-image-paths.mjs';
 import { rehypeImageOptimizer } from './src/plugins/rehype-image-optimizer.mjs';
 
 import react from '@astrojs/react';
+import llmsTxt from '@4hse/astro-llms-txt';
 
 // https://astro.build/config
 export default defineConfig({
@@ -144,7 +145,30 @@ export default defineConfig({
       // Configure iframe attributes
       lib: "/~partytown/",
     },
-  }), react()],
+  }), react(), llmsTxt({
+    title: 'Prassanna Ravishankar',
+    description: 'ML Engineer & Startup Builder. Writing about Machine Learning, MLOps, AI Agents, and building products.',
+    docSet: [
+      {
+        title: 'Blog Posts',
+        description: 'Articles about ML, MLOps, AI Agents, and startups',
+        url: '/llms-blog.txt',
+        include: ['blog/**'],
+        mainSelector: 'article',
+      },
+      {
+        title: 'Projects',
+        description: 'Open source projects and tools',
+        url: '/llms-projects.txt',
+        include: ['projects/**'],
+        mainSelector: 'main',
+      },
+    ],
+    optionalLinks: [
+      { label: 'GitHub', url: 'https://github.com/prassanna-ravishankar' },
+      { label: 'LinkedIn', url: 'https://linkedin.com/in/prassannar' },
+    ],
+  })],
   
   markdown: {
     shikiConfig: {
