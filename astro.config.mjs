@@ -32,6 +32,9 @@ export default defineConfig({
     '/ambi-alert': '/projects/torale/',
     '/projects/ambi-alert': '/projects/torale/',
 
+    // Verse redirects
+    '/verses/the-dance-of-the-universe': '/verses/dance-of-the-universe/',
+
     // Old tag pages redirect to tags index
     '/tags/Digital%20India': '/tags/',
     '/tags/Building%20in%20Public': '/tags/',
