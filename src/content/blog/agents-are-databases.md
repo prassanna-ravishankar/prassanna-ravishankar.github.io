@@ -21,9 +21,9 @@ So we give agents memory. And the moment you do that, you've created a database.
 
 Think about it: the agent writes facts to memory, reads them back later, and uses them to make decisions. That's CRUD operations. The agent's memory is "a live, continuously updated database of things it believes about the world" ([InfoWorld](https://www.infoworld.com/article/4101981/ai-memory-is-just-another-database-problem.html)).
 
-Most agent frameworks ship with some kind of memory store—vector DBs, JSON files, Redis caches. But these are often treated as afterthoughts. No schema. No access control. No audit logs. No backup strategy.
+Most agent frameworks ship with some kind of memory store: vector DBs, JSON files, Redis caches. But these are often treated as afterthoughts. No schema. No access control. No audit logs. No backup strategy.
 
-> "We need to start treating [agent memory] as a database — and not just any database, but likely the most dangerous (and potentially powerful) one you own."
+> We need to start treating [agent memory] as a database — and not just any database, but likely the most dangerous (and potentially powerful) one you own.
 > — Matt Asay, InfoWorld
 
 If your agent can write to its own memory, and that memory influences future actions, you have a self-modifying system with persistence. That demands the same rigor as any production database.
@@ -32,17 +32,11 @@ If your agent can write to its own memory, and that memory influences future act
 
 Beyond memory, agents execute sequences of steps. Plan. Execute tool. Check result. Decide next action. Repeat.
 
-That's a workflow. [Some have argued](https://www.linkedin.com/posts/boneys_agents-are-just-workflow-orchestration-in-activity-7279343394449960960-A3nq) that "agents are just workflow orchestration in disguise"—and they're right. An agent doesn't magically solve problems from first principles every time. It strings together known operations in a logical order.
+That's a workflow. [Some have argued](https://www.linkedin.com/posts/boneys_agents-are-just-workflow-orchestration-in-activity-7279343394449960960-A3nq) that "agents are just workflow orchestration in disguise," and they're right. An agent doesn't magically solve problems from first principles every time. It strings together known operations in a logical order.
 
-Here's a concrete example—a data analysis agent workflow:
+Here's a concrete example, a data analysis agent workflow:
 
-```
-1. Plan     → LLM generates analysis approach
-2. Calculate → Tool computes statistics on dataset
-3. Interpret → LLM explains what the numbers mean
-4. Detect   → Tool flags anomalies
-5. Report   → LLM produces final summary
-```
+![Data analysis agent workflow showing five steps: Plan, Calculate, Interpret, Detect, Report](/images/blog/agents-are-databases/workflow-steps.webp)
 
 Each step depends on the previous. This is a DAG. It's what Airflow, Prefect, and Temporal were built for.
 
@@ -56,15 +50,17 @@ Agents have the same problem. If an agent step is "update customer record" and y
 
 The solutions are the same ones we've used for decades:
 
-1. **Idempotency keys** — Each action gets a unique ID; external systems ignore duplicates
-2. **Checkpointing** — Save intermediate state so you can resume, not restart
-3. **Transactional semantics** — Either a step fully succeeds or it's rolled back
+1. **Idempotency keys**: each action gets a unique ID; external systems ignore duplicates
+2. **Checkpointing**: save intermediate state so you can resume, not restart
+3. **Transactional semantics**: either a step fully succeeds or it's rolled back
 
 ![The difference between naive retries and durable execution](/images/blog/agents-are-databases/durability.webp)
 
-Modern agent frameworks are starting to build these in. [Pydantic AI + Prefect](https://www.prefect.io/blog/prefect-pydantic-integration) caches task results automatically—if step 4 fails, steps 1-3 don't re-run. [Pydantic AI + Temporal](https://temporal.io/blog/build-durable-ai-agents-pydantic-ai-and-temporal) wraps agent logic in durable workflows where the history is persisted and replayed on failure.
+Modern agent frameworks are starting to build these in. [Pydantic AI + Prefect](https://www.prefect.io/blog/prefect-pydantic-integration) caches task results automatically. If step 4 fails, steps 1-3 don't re-run. [Pydantic AI + Temporal](https://temporal.io/blog/build-durable-ai-agents-pydantic-ai-and-temporal) wraps agent logic in durable workflows where the history is persisted and replayed on failure.
 
-## Durable Agents with Pydantic AI
+## Durable Agents in Practice
+
+I'm using [Pydantic AI](https://ai.pydantic.dev/) for these examples because it's become my go-to agent framework. It's refreshingly simple: just Python, type hints, and decorators. No DSLs, no YAML configs, no magic. Other frameworks like LangChain or LlamaIndex can probably achieve similar durability patterns, but Pydantic AI's minimal surface area makes it easy to wrap with orchestration tools.
 
 Let me show you what this looks like in practice.
 
@@ -151,29 +147,15 @@ async def main():
     print(result.output)
 ```
 
-That's it. `PrefectAgent` wraps every model request and tool call as a Prefect task. If step 4 fails, steps 1-3 results are cached. On retry, you pick up where you left off—no wasted API calls.
+That's it. `PrefectAgent` wraps every model request and tool call as a Prefect task. If step 4 fails, steps 1-3 results are cached. On retry, you pick up where you left off. No wasted API calls.
 
 The architecture looks like this:
 
-```
-┌─────────────────────────────────────────────────────┐
-│                  Prefect Flow                       │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────┐  │
-│  │  Task:   │  │  Task:   │  │     Task:        │  │
-│  │  LLM     │→ │  Tool    │→ │  LLM (cached if  │  │
-│  │  Call    │  │  Call    │  │  already ran)    │  │
-│  └──────────┘  └──────────┘  └──────────────────┘  │
-│       │             │               │               │
-│       └─────────────┴───────────────┘               │
-│                     ↓                               │
-│             Result Storage                          │
-│         (local FS, S3, etc.)                        │
-└─────────────────────────────────────────────────────┘
-```
+![Prefect flow architecture with task caching and result storage](/images/blog/agents-are-databases/prefect-flow.webp)
 
 ### With Pydantic AI + Temporal (Process-Crash Durable)
 
-Prefect handles task failures. Temporal goes further—it survives **process crashes**. If your worker dies mid-execution, Temporal replays the workflow from its persisted history:
+Prefect handles task failures. Temporal goes further: it survives **process crashes**. If your worker dies mid-execution, Temporal replays the workflow from its persisted history:
 
 ```python
 # durable_agent_temporal.py
@@ -244,7 +226,7 @@ An agent system rests on three pillars:
 | LLM | Compute (reasoning) | Query engine |
 | Persistent State | Memory & checkpoints | The actual database |
 
-The third pillar—persistent state—is where most teams underinvest. They treat it like a scratchpad instead of a proper data system.
+The third pillar, persistent state, is where most teams underinvest. They treat it like a scratchpad instead of a proper data system.
 
 ## What Should You Actually Do?
 
@@ -260,7 +242,7 @@ If you're building agents for production:
 
 5. **Log everything.** An agent's reasoning trace is like a database transaction log. You'll need it for debugging and auditing.
 
-The "agentic AI" future isn't about smarter models—it's about wrapping models in the same durable infrastructure we've built for traditional systems. The teams that figure this out first will build agents that actually work in production.
+The "agentic AI" future isn't about smarter models. It's about wrapping models in the same durable infrastructure we've built for traditional systems. The teams that figure this out first will build agents that actually work in production.
 
 ---
 
