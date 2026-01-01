@@ -6,7 +6,7 @@ heroImage: "/images/blog/agents-are-databases/hero.webp"
 series: ["AI Agents"]
 topics: ["LLMs", "Databases", "Durable Execution", "Pydantic AI", "Temporal", "Prefect"]
 author: "Prassanna Ravishankar"
-draft: true
+draft: false
 ---
 
 Every time I build an agent, I end up solving the same problems I solved building backend systems a decade ago. Persistent state. Retries. Idempotency. Checkpointing. The LLM is new, but the infrastructure around it? That's just databases and workflow engines wearing a trench coat.
