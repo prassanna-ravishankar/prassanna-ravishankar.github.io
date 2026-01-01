@@ -1,96 +1,103 @@
-# Prassanna Ravishankar's Personal Website
+# prassanna.io
 
-This is the source code for my personal website built with [Astro](https://astro.build/).
+Personal website and blog built with Astro, React, and TailwindCSS. Features technical articles on ML/MLOps, project portfolio, podcasts, and poetry.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+npm install          # Install dependencies
+npm run dev          # Start dev server at localhost:4321
+npm run build        # Build to ./dist/
+npm run preview      # Preview production build
 ```
 
-## 🚀 SEO Optimizations (July 2025)
+## Tech Stack
 
-### Performance & Core Web Vitals:
-- **Image Optimization**: Converted 64 PNG files to WebP format (90%+ size reduction)
-- **Sharp Integration**: Enabled Astro's image optimization service
-- **Lazy Loading**: Implemented progressive image loading
+- **Astro 5.x** - Static site generator with content collections
+- **React 19** - Interactive components (command palette, grids, timelines)
+- **TailwindCSS** - Utility-first styling with custom theme
+- **MDX** - Enhanced markdown with embedded components
+- **TypeScript** - Strict type checking
+- **Framer Motion** - Animations
+- **Sharp** - Image optimization (WebP conversion)
 
-### Technical SEO:
-- **Consolidated Redirects**: All URL redirects managed in `astro.config.mjs`
-- **Structured Data**: JSON-LD schema for articles and website
-- **Meta Tags**: Complete OpenGraph, Twitter Cards, and SEO meta tags
-- **Sitemap**: Auto-generated XML sitemap with proper filtering
-- **robots.txt**: Optimized for search engine crawling
-
-### Google Search Console:
-- Fixed redirect issues and 404 errors
-- Improved page load speeds significantly
-- Enhanced mobile Core Web Vitals scores
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-/
-├── public/
-│   ├── images/           # Optimized WebP images
-│   ├── robots.txt
-│   └── favicon.svg
-├── src/
-│   ├── components/       # Reusable Astro components
-│   ├── content/          # Content collections
-│   │   ├── blog/         # Technical articles
-│   │   ├── podcasts/     # Feed Forward & Startup RX episodes
-│   │   ├── projects/     # Portfolio projects
-│   │   └── verses/       # Poetry and philosophy
-│   ├── layouts/          # Page layouts
-│   ├── pages/            # Static pages and dynamic routes
-│   ├── plugins/          # Image optimization plugins
-│   └── styles/           # Global styles
-├── astro.config.mjs      # Astro configuration with redirects
-└── package.json
+src/
+├── components/          # UI components
+│   ├── ui/              # Primitives (Card, Button, Badge, FadeIn)
+│   ├── CommandMenu.tsx  # Cmd+K navigation palette
+│   ├── ProjectGrid.tsx  # Featured projects display
+│   ├── TechStack.tsx    # Skills visualization
+│   └── *.astro          # Astro components + React wrappers
+├── content/             # Content collections
+│   ├── blog/            # Technical articles
+│   ├── projects/        # Portfolio items
+│   ├── podcasts/        # Episode metadata
+│   └── verses/          # Poetry
+├── layouts/             # Page templates
+├── pages/               # Routes
+├── plugins/             # Custom remark/rehype plugins
+└── styles/              # Global CSS + theme variables
 ```
 
-## 🎯 Content Types
+## Content Collections
 
-- **Blog Posts**: Technical articles on ML, AI agents, and software engineering
-- **Podcasts**: Feed Forward and Startup RX episodes
-- **Projects**: Open source tools and personal projects
-- **Verses**: Poetry and philosophical musings
+Four collections defined in `src/content/config.ts` with Zod schemas:
 
-## 🛠 Built With
+| Collection | Description | Key Fields |
+|------------|-------------|------------|
+| **blog** | Technical articles | `series`, `topics`, `draft` |
+| **projects** | Portfolio items | `github`, `link`, `featured` |
+| **podcasts** | Episode metadata | `externalLinks`, `guests`, `duration` |
+| **verses** | Poetry | Minimal schema |
 
-- [Astro](https://astro.build/) - Static site generator with content collections
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [MDX](https://mdxjs.com/) - Enhanced markdown for content authoring
-- [Sharp](https://sharp.pixelplumbing.com/) - High-performance image processing
+Valid blog series: `Machine Learning`, `MLOps`, `AI Agents`, `Python`, `Startups`, `Productivity`
 
-## 📈 Performance Features
+## Key Features
 
-- **WebP Images**: All images converted to WebP format for optimal loading
-- **Lazy Loading**: Progressive image loading for better Core Web Vitals
-- **SEO Optimized**: Complete meta tags, structured data, and sitemap
-- **Mobile First**: Responsive design with dark mode support
+### Command Palette (Cmd+K)
+Site-wide navigation with keyboard shortcuts. Built with [cmdk](https://cmdk.paco.me/).
 
-## 🚦 Commands
+### Dark/Light Theme
+CSS variable-based theming with localStorage persistence. Toggle syncs via custom events.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+### React-in-Astro Pattern
+Interactive components use wrapper pattern:
+```
+ComponentName.tsx        → React component
+ComponentNameWrapper.astro → Fetches data, passes to React
+```
 
----
+### Image Optimization
+- Custom plugins normalize paths and add dimensions
+- All images converted to WebP
+- Lazy loading with CLS prevention
 
-Built with ❤️ by [Prassanna Ravishankar](https://prassanna.io)
+### SEO
+- JSON-LD structured data (Website, Article, Breadcrumb schemas)
+- Auto-generated sitemap with priority rules
+- Canonical URLs with enforced trailing slashes
+- Complete OpenGraph and Twitter Card meta
+
+## Deployment
+
+Automatically deploys to GitHub Pages on push to `main`:
+
+1. GitHub Actions builds with Node 18
+2. Deploys `./dist/` via `actions/deploy-pages@v4`
+3. Custom domain: `prassanna.io` (CNAME in `public/`)
+
+## Configuration Files
+
+| File | Purpose |
+|------|---------|
+| `astro.config.mjs` | Integrations, redirects, sitemap rules |
+| `tailwind.config.js` | Theme extension, custom colors |
+| `src/content/config.ts` | Collection schemas |
+| `CLAUDE.md` | Development guidelines |
+
+## License
+
+MIT
