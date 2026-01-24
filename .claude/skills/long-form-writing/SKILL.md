@@ -55,6 +55,16 @@ Secondary technical details go in parentheses, keeping the main sentence readabl
 
 The parenthetical adds specificity without derailing the sentence's momentum.
 
+### Balanced Punctuation
+
+Em dashes are powerful but overuse reads as an AI writing tell. Balance them with:
+
+- **Parentheses** for asides and clarifications: "the agent (which runs locally) processes requests"
+- **Periods** to break up complexity: "The context fills with code the agent doesn't need. You've traded specialization for visibility."
+- **Colons** to introduce elaboration: "The pattern is clear: every approach is push-based."
+
+A good ratio: no more than 2-3 em dashes per 500 words. When you find yourself reaching for an em dash, consider whether parentheses or a period would work better.
+
 ### Colon-Driven Lists Within Prose
 
 When enumeration is necessary, embed it within paragraphs using colons rather than breaking into bullets:

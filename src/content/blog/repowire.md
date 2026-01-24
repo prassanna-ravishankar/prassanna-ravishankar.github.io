@@ -12,7 +12,7 @@ draft: false
 
 ## The Gap
 
-In [Part 1](/blog/vibe-bottleneck/), I introduced the idea of a context breakout—any mechanism that moves context across repository boundaries—and argued that every existing approach is push-based. You write documentation, persist memory banks, copy summaries into tickets, hoping the context will be useful when someone needs it later. The problem is that push-based context goes stale the moment someone pushes a commit, and when it fails you become the relay: slow, lossy, error-prone.
+In [Part 1](/blog/vibe-bottleneck/), I introduced the idea of a context breakout (any mechanism that moves context across repository boundaries) and argued that every existing approach is push-based. You write documentation, persist memory banks, copy summaries into tickets, hoping the context will be useful when someone needs it later. The problem is that push-based context goes stale the moment someone pushes a commit, and when it fails you become the relay: slow, lossy, error-prone.
 
 What's missing is a pull-based context breakout, where an agent can ask a question when it needs an answer and get a response from the actual source of truth. Not from documentation you wrote last week, but from another agent that's currently looking at the code.
 
@@ -38,13 +38,13 @@ This is what pull-based means in practice: the agent requests context when it ne
 
 Repowire runs as three components that work together to enable cross-repo communication.
 
-A **daemon** runs as a system service on your machine, listening on localhost. It maintains a registry of active Claude sessions—which repos they're in, what tmux panes they're running in, whether they're busy or available—and routes messages between them. When frontend-Claude wants to ask backend-Claude a question, the daemon knows where to send it.
+A **daemon** runs as a system service on your machine, listening on localhost. It maintains a registry of active Claude sessions (which repos they're in, what tmux panes they're running in, whether they're busy or available) and routes messages between them. When frontend-Claude wants to ask backend-Claude a question, the daemon knows where to send it.
 
 **Hooks** integrate with Claude Code's extension points. When you start a Claude session, a hook registers it with the daemon. When Claude finishes responding, another hook captures that response and sends it back to whoever asked. The hooks are how repowire sees into Claude sessions without needing an API that doesn't exist.
 
 An **MCP server** gives Claude the tools it needs to communicate: `ask_peer` to send a query and wait for a response, `list_peers` to see what other sessions are available, `notify_peer` to send fire-and-forget messages, and `broadcast` to announce something to all peers at once.
 
-The result is that Claude sessions become peers in a mesh. Each one remains specialized in its own repo—loading its own CLAUDE.md, understanding its own codebase—but can reach out to others when it needs context that lives elsewhere.
+The result is that Claude sessions become peers in a mesh. Each one remains specialized in its own repo (loading its own CLAUDE.md, understanding its own codebase) but can reach out to others when it needs context that lives elsewhere.
 
 ## Getting Started
 
@@ -92,7 +92,7 @@ There's also a compositional quality that emerges. Once agents can talk to each 
 
 ## Complementary, Not Competing
 
-Repowire doesn't replace push-based context breakouts; it complements them. Memory banks are still useful for persistent project knowledge that doesn't change often—architectural decisions, team conventions, historical context. Documentation still matters for onboarding humans and for context that needs to survive beyond any single session.
+Repowire doesn't replace push-based context breakouts; it complements them. Memory banks are still useful for persistent project knowledge that doesn't change often (architectural decisions, team conventions, historical context). Documentation still matters for onboarding humans and for context that needs to survive beyond any single session.
 
 What repowire provides is a different mode: synchronous, pull-based, live. When you need to know the current state of another repo's code, not what someone wrote down about it last month, you can ask an agent that's actually looking at it. Push-based approaches capture what was true when you wrote it down. Pull-based approaches tell you what's true right now.
 
@@ -100,7 +100,7 @@ The combination is powerful. Use memory banks for the stable context that provid
 
 ## Try It
 
-Repowire is open source, available at [github.com/prassanna-ravishankar/repowire](https://github.com/prassanna-ravishankar/repowire). It's still early—the claudemux backend is production-ready but the multi-machine relay is experimental—but it's been running reliably in my own workflow for a while now.
+Repowire is open source, available at [github.com/prassanna-ravishankar/repowire](https://github.com/prassanna-ravishankar/repowire). It's still early (the claudemux backend is production-ready but the multi-machine relay is experimental) but it's been running reliably in my own workflow for a while now.
 
 If you work across multiple repos and you're tired of being the context relay between your Claude sessions, give it a try. The setup takes a few minutes, and once it's running you might be surprised how natural it feels for agents to just ask each other questions.
 
