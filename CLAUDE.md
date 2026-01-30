@@ -92,6 +92,9 @@ Images in `public/images/` are served statically. Use Astro's `<Image>` componen
 - Canonical URLs always use `prassanna.io` domain
 - Redirects consolidated in `astro.config.mjs`
 - Sitemap filtering excludes legacy URLs and non-indexed tag pages
+- Redirect keys with spaces must use literal spaces, not `%20` — GitHub Pages resolves URL-encoded paths to space-named directories
+- `projectSitemaps()` inline integration in `astro.config.mjs` appends project subsite sitemaps (phlow, modalkit, tracelet, cloudregion) to `sitemap-index.xml` at build time
+- Several GitHub repos deploy docs to subpaths on `prassanna.io` via GitHub Pages (e.g. `/phlow/`, `/modalkit/`, `/tracelet/`, `/cloudregion/`, `/torale/`) — these are separate repos, not part of this build
 
 ### View Transitions
 
