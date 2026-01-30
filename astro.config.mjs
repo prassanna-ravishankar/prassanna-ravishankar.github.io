@@ -11,6 +11,33 @@ import { rehypeImageOptimizer } from './src/plugins/rehype-image-optimizer.mjs';
 
 import react from '@astrojs/react';
 import llmsTxt from '@4hse/astro-llms-txt';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Inline integration to add project subsites to sitemap index
+function projectSitemaps() {
+  const projectSitemapUrls = [
+    'https://prassanna.io/phlow/sitemap.xml',
+    'https://prassanna.io/modalkit/sitemap.xml',
+    'https://prassanna.io/tracelet/sitemap.xml',
+    'https://prassanna.io/cloudregion/sitemap.xml',
+  ];
+  return {
+    name: 'project-sitemaps',
+    hooks: {
+      'astro:build:done': async ({ dir }) => {
+        const indexPath = path.join(dir.pathname, 'sitemap-index.xml');
+        if (!fs.existsSync(indexPath)) return;
+        let content = fs.readFileSync(indexPath, 'utf-8');
+        const entries = projectSitemapUrls
+          .map(url => `<sitemap><loc>${url}</loc></sitemap>`)
+          .join('');
+        content = content.replace('</sitemapindex>', entries + '</sitemapindex>');
+        fs.writeFileSync(indexPath, content);
+      },
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -42,6 +69,16 @@ export default defineConfig({
     '/tags/ML%20Training%20Infrastructure': '/tags/',
     '/tags/Experiments': '/tags/',
     '/tags/Agent%20Orchestration': '/tags/',
+    '/tags/Model%20Deployment': '/tags/',
+    '/tags/ClearML': '/tags/',
+    '/tags/Agent%20Communication': '/tags/',
+    '/tags/Code%20Generation': '/tags/',
+    '/tags/Product%20Development': '/tags/',
+    '/tags/machine%20learning': '/tags/',
+    '/tags/AI-Assisted%20Programming': '/tags/',
+    '/tags/Scalable%20ML%20Infrastructure': '/tags/',
+    '/tags/Cookiecutter': '/tags/',
+    '/tags/Data%20Quality': '/tags/',
   },
   
   integrations: [tailwind(), mdx({
@@ -171,7 +208,7 @@ export default defineConfig({
       { label: 'GitHub', url: 'https://github.com/prassanna-ravishankar' },
       { label: 'LinkedIn', url: 'https://linkedin.com/in/prassannar' },
     ],
-  })],
+  }), projectSitemaps()],
   
   markdown: {
     shikiConfig: {
