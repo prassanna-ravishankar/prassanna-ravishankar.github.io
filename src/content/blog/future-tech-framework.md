@@ -3,7 +3,7 @@ title: "The Great Rewiring: A Product Builder's Guide to the Converging Tech Shi
 description: "Explore six pivotal technological shifts - Autonomous Economy, Radical Abstraction, Modularity & Composability, Ecosystem Dynamics, Ambient Intelligence, and Next-Gen UX - that are converging to reshape our digital future. A strategic framework for product builders."
 pubDate: 2025-04-25
 heroImage: "/images/blog/future-tech-framework/hero.webp"
-series: ["Startups"]
+series: ["Startups", "Futures"]
 topics: ["IoT", "Ambient Intelligence", "Product Strategy"]
 author: "Prassanna Ravishankar"
 draft: false

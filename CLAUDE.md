@@ -33,7 +33,7 @@ Four collections with Zod schemas:
 - **projects**: Portfolio items with optional GitHub/external links
 - **verses**: Poetry with minimal schema
 
-Valid series for blog posts: `Machine Learning`, `MLOps`, `AI Agents`, `Python`, `Startups`, `Productivity`
+Valid series for blog posts: `Machine Learning`, `MLOps`, `AI Agents`, `Python`, `Startups`, `Productivity`, `Futures`
 
 ### Component Patterns
 

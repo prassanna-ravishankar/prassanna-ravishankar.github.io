@@ -8,6 +8,7 @@ export const validSeries = [
   'Python',
   'Startups',
   'Productivity',
+  'Futures',
 ] as const;
 
 // Define the schema for blog posts

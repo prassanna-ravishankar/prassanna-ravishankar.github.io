@@ -28,6 +28,7 @@ const seriesDescriptions: Record<string, string> = {
   'Python': 'Python tooling, environment management, and best practices',
   'Startups': 'Building products, strategy, and startup insights',
   'Productivity': 'Developer workflows, tools, and efficiency',
+  'Futures': 'AI industry structure, geopolitics, and technology trajectories',
 };
 
 // Generate schema for series page
@@ -56,7 +57,7 @@ const seriesSchema = {
 
 <Layout
   title="Blog Series | Prassanna Ravishankar"
-  description={`Browse ${allPosts.length} articles across ${sortedSeries.length} series: Machine Learning, MLOps, AI Agents, Python, Startups, and Productivity.`}
+  description={`Browse ${allPosts.length} articles across ${sortedSeries.length} series: Machine Learning, MLOps, AI Agents, Python, Startups, Productivity, and Futures.`}
 >
   <!-- Series page structured data -->
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(seriesSchema)} />

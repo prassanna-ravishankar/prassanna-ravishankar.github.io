@@ -1,0 +1,14 @@
+---
+import PlotlyChart from './PlotlyChart.tsx';
+
+interface Props {
+  data: any[];
+  layout?: Record<string, any>;
+  config?: Record<string, any>;
+  style?: Record<string, any>;
+}
+
+const { data, layout = {}, config = {}, style } = Astro.props;
+---
+
+<PlotlyChart client:only="react" data={data} layout={layout} config={config} style={style} />

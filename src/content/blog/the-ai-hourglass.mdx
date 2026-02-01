@@ -1,0 +1,277 @@
+---
+title: "The AI Hourglass"
+description: "The AI stack is shaped like an hourglass — wide at energy and applications, pinched at chips and GPUs. But the pinch is shifting. Everyone's watching Nvidia; the real chokepoint is one layer below."
+pubDate: 2026-01-31
+series: ["Futures"]
+topics: ["AI", "Semiconductors", "Geopolitics", "GPUs", "TSMC"]
+author: "Prassanna Ravishankar"
+heroImage: "/images/blog/the-ai-hourglass/hero.webp"
+draft: false
+---
+
+import PlotlyChartWrapper from '../../components/PlotlyChartWrapper.astro';
+
+If you ask most people where power concentrates in artificial intelligence, they'll point to the companies building foundation models (OpenAI, Google, Anthropic) or to Nvidia, whose GPUs underpin nearly every training run on earth. These are the names in the headlines, the companies commanding trillion-dollar valuations and billion-dollar funding rounds.
+
+But the AI industry isn't a single market. It's a vertical stack, five layers deep, and when you examine where concentration actually lives across that stack, a striking shape emerges. It isn't a pyramid. It isn't a funnel. It's an hourglass: wide at the bottom, pinched almost to a point in the middle, and wide again at the top. Understanding that shape, and where it's shifting, reveals more about the future of AI than any benchmark or funding announcement.
+
+## The five layers
+
+The AI stack, from bottom to top, runs through energy, semiconductor fabrication, GPU computing, foundation models, and applications. Each layer feeds the one above it, and each has a radically different competitive structure.
+
+**Energy** is the foundation, and it's the widest part of the glass. Data centers [consumed between 53 and 76 TWh](https://www.deloitte.com/us/en/insights/industry/technology/technology-media-and-telecom-predictions/2025/genai-power-consumption-creates-need-for-more-sustainable-data-centers.html) of electricity in the United States alone in 2024, with AI-specific workloads representing an estimated [20–49% of total data center energy consumption](https://www.pewresearch.org/short-reads/2025/10/24/what-we-know-about-energy-use-at-us-data-centers-amid-the-ai-boom/). The numbers are large but the market is fragmented. Energy is a commodity. Dozens of providers, multiple fuel sources, no single chokepoint. Hyperscalers have committed over [$380 billion in combined capex](https://www.france-epargne.fr/research/en/state-of-ai-entering-2026) through 2025–2026, and projects like Stargate aim to deliver [10 GW of AI compute capacity by 2029](https://openai.com/index/five-new-stargate-sites/). The constraint here is volume and permitting speed, not concentration. Anyone with capital and grid access can play.
+
+**Semiconductor fabrication** is where the glass begins to narrow dramatically. A single company, Taiwan Semiconductor Manufacturing Company, [controls 71% of the global pure-play foundry market](https://www.forbes.com/sites/johnwerner/2026/01/06/tsmc-starts-2026-up-around-100-yoy/) as of Q3 2025, [up from 51% in 2019](https://marklapedus.substack.com/p/tsmc-gains-foundry-share-but-others). Its nearest competitor, Samsung, holds 7–9% and has chronically struggled with yields at advanced nodes. China's SMIC manages [roughly 5% at significantly older process nodes](https://patentpc.com/blog/samsung-vs-tsmc-vs-intel-whos-winning-the-foundry-market-latest-numbers). But TSMC's dominance is reinforced by an even deeper monopoly: ASML, the Dutch company that manufactures the extreme ultraviolet lithography machines essential for sub-7nm production, is the sole supplier on earth. There is no alternative. Every advanced chip, regardless of who designs it, flows through this two-company bottleneck.
+
+**GPU computing** is the tightest point of the hourglass today. Nvidia commands an estimated [80–92% of the AI accelerator market](https://www.deepresearchglobal.com/p/nvidia-swot-analysis), a dominance built on two pillars: raw performance on frontier workloads and the CUDA software ecosystem, a twenty-year accumulation of libraries, tools, and optimized code that makes switching to a competitor a multi-million-dollar engineering effort. AMD's MI300 series offers competitive value for inference but remains a full architectural generation behind on training. The result is something close to monopoly, not because alternatives don't exist, but because the cost of adopting them exceeds the cost of staying.
+
+**Foundation models** are where the glass begins to widen again. Five or more credible players compete on capability: OpenAI (valued at $830 billion), Anthropic ($350 billion), Google's Gemini, Meta's open-source Llama, and DeepSeek, whose R1 model [matched frontier performance](https://news.crunchbase.com/ai/big-funding-trends-charts-eoy-2025/) with [significantly less compute](https://www.earthianai.com/rankings). Competition here is genuine and intensifying across reasoning capability, context length, inference cost, and multimodal coherence. Open-source models are narrowing the gap with commercial ones, and what was state-of-the-art six months ago is increasingly adequate. The moat at this layer is real but contestable, resting on enterprise integration and data flywheels more than on any single technical advantage.
+
+**Applications and agents** form the widest part at the top. The agentic AI market is projected to [grow from $5.25 billion in 2024 to $199 billion by 2034](https://www.landbase.com/blog/agentic-ai-statistics) at a 43.8% CAGR. There are over 300 startups building here, with [79% of organizations reporting some level of agentic AI adoption](https://www.databricks.com/resources/ebook/state-of-ai-agents) and multi-agent systems growing 327% in under four months in late 2025. Barriers to entry are low. The talent to build AI-powered applications is globally distributed. This is where India, [ranked third globally on Stanford's AI Vibrancy Index](https://www.outlookbusiness.com/artificial-intelligence/india-ranks-third-globally-in-most-vibrant-ai-hub-after-us-and-china), and other emerging markets can compete on equal footing.
+
+The shape is unmistakable. Wide at the base, pinched brutally in the middle, wide again at the top. An hourglass.
+
+<div style={{ width: '100%', height: '450px', margin: '2rem 0' }}>
+<PlotlyChartWrapper
+  data={[
+    {
+      x: [20, 70, 75, 45, 30],
+      y: [100, 3, 2, 8, 300],
+      mode: 'markers+text',
+      marker: {
+        size: [15, 71, 92, 35, 8],
+        sizemode: 'diameter',
+        sizeref: 2,
+        sizemin: 6,
+      },
+      text: ['Energy/\nData Centers', 'Substrate/\nChips', 'GPU\nComputing', 'Foundation\nModels', 'Applications/\nAgents'],
+      textposition: 'top center',
+      textfont: { size: 11 },
+      hovertemplate: '<b>%{text}</b><br>Concentration: %{x}<br>Competitors: %{y}<extra></extra>',
+      showlegend: false,
+    }
+  ]}
+  layout={{
+    title: { text: 'AI Stack Concentration by Layer', font: { size: 16 } },
+    xaxis: { title: { text: 'Concentration Score (HHI)' }, range: [5, 85] },
+    yaxis: { title: { text: 'Number of Competitors' }, type: 'log' },
+    annotations: [{
+      text: 'Bubble size = leader market share',
+      xref: 'paper', yref: 'paper',
+      x: 0.5, y: -0.28,
+      showarrow: false,
+      font: { size: 11 },
+    }],
+    margin: { t: 50, b: 100, l: 60, r: 20 },
+  }}
+ />
+</div>
+
+## The pinch everyone's watching
+
+The conventional wisdom is that Nvidia's GPU dominance is the defining chokepoint of the AI era, and for good reason. When a single company controls 85–92% of AI accelerators, every foundation model company, every hyperscaler, every government AI initiative is effectively a Nvidia customer. The CUDA ecosystem compounds this lock-in: most production AI code is optimized for Nvidia hardware, and the cost of porting to alternatives (AMD's ROCm, Intel's oneAPI) is measured in months of engineering and millions of dollars.
+
+But here's what the conventional wisdom misses: the GPU pinch is already loosening.
+
+Every major hyperscaler is now building custom silicon to reduce Nvidia dependence, and the results are no longer experimental. They're in production. Google's seventh-generation TPU (Ironwood) delivers [4x better cost-performance than Nvidia's H100](https://introl.com/blog/google-tpu-v6e-vs-gpu-4x-better-ai-performance-per-dollar-guide) for inference workloads, and leads in 8 of 9 MLPerf training categories. Anthropic trains Claude exclusively on TPUs, using 16,384 chips simultaneously, and Meta is in [advanced negotiations to become a major TPU customer](https://techblog.comsoc.org/2025/12/05/custom-ai-chips-powering-the-next-wave-of-intelligent-computing/), a multi-billion-dollar shift away from Nvidia. Amazon activated Project Rainier in October 2025, deploying [nearly 500,000 Trainium2 chips](https://introl.com/blog/aws-trainium-inferentia-silicon-ecosystem-guide-2025) to train Anthropic's Claude, at roughly half the cost of comparable Nvidia instances. Microsoft [launched Maia 200 in January 2026](https://blogs.microsoft.com/blog/2026/01/26/maia-200-the-ai-accelerator-built-for-inference/), claiming it the most performant first-party silicon from any hyperscaler, with 30% better performance-per-dollar than existing hardware in its fleet. Meta's [MTIA Gen 2 chip reached production deployment](https://ai.meta.com/blog/next-generation-meta-training-inference-accelerator-AI-MTIA/) across 16 regions in under nine months from first silicon.
+
+These aren't roadmap promises. They're deployed infrastructure training and serving the models people use today.
+
+The market trajectory reflects this shift. Nvidia's share is projected to [decline from 92% in 2023 to roughly 75% by 2027](https://www.forbes.com/sites/danielnewman/2025/12/04/the-ai-supercycle-why-the-gpu-vs-xpu-debate-misses-the-forest-for-the-trees/), with custom silicon expected to reach 25% of the AI accelerator market by 2030. The displacement is asymmetric: inference workloads, which will consume 75% of AI compute by 2030 and cost 15x more than training over a model's lifetime, are migrating fastest to custom chips where cost differences are most acute. Research and experimentation remain GPU-dominated due to CUDA's flexibility, but the commodity inference layer (the majority of compute by volume) is fragmenting.
+
+<div style={{ width: '100%', height: '450px', margin: '2rem 0' }}>
+<PlotlyChartWrapper
+  data={[
+    {
+      x: [2023, 2024, 2025, 2026, 2027],
+      y: [92, 88, 85, 80, 75],
+      mode: 'lines+markers',
+      name: 'Nvidia',
+      line: { width: 3 },
+      marker: { size: 8 },
+    },
+    {
+      x: [2023, 2024, 2025, 2026, 2027],
+      y: [3, 6, 10, 15, 18],
+      mode: 'lines+markers',
+      name: 'Custom Silicon (XPUs)',
+      line: { width: 3 },
+      marker: { size: 8 },
+    },
+    {
+      x: [2023, 2024, 2025, 2026, 2027],
+      y: [1, 2, 4, 7, 10],
+      mode: 'lines+markers',
+      name: 'Google TPU',
+      line: { width: 3 },
+      marker: { size: 8 },
+    },
+    {
+      x: [2023, 2024, 2025, 2026, 2027],
+      y: [1, 2, 3, 4, 5],
+      mode: 'lines+markers',
+      name: 'AWS Trainium/Inferentia',
+      line: { width: 3 },
+      marker: { size: 8 },
+    },
+    {
+      x: [2023, 2024, 2025, 2026, 2027],
+      y: [4, 4, 2, 1, 2],
+      mode: 'lines+markers',
+      name: 'Other (AMD, etc.)',
+      line: { width: 3 },
+      marker: { size: 8 },
+    },
+  ]}
+  layout={{
+    title: { text: 'AI Accelerator Market Share (2023–2027)', font: { size: 16 } },
+    xaxis: { title: { text: 'Year' }, dtick: 1 },
+    yaxis: { title: { text: 'Market Share (%)' }, range: [0, 100] },
+    legend: { orientation: 'h', yanchor: 'top', y: -0.2, xanchor: 'center', x: 0.5 },
+    margin: { t: 50, b: 100, l: 60, r: 20 },
+  }}
+ />
+</div>
+
+The custom silicon landscape now includes production chips from every major hyperscaler, each targeting different cost and performance tradeoffs against Nvidia's H100 baseline.
+
+<div style={{ width: '100%', overflowX: 'auto', margin: '2rem 0' }}>
+
+| Chip | Developer | Process | Primary Use | Cost vs H100 | Status |
+|------|-----------|---------|-------------|---------------|--------|
+| Nvidia H100 | Nvidia | 5nm | Training/Inference | Baseline | Production |
+| TPU v7 (Ironwood) | Google | 3nm | Inference (optimized) | -50% | Production |
+| Trainium3 | Amazon | 3nm | Training | -35% | Production |
+| Inferentia2 | Amazon | 3nm | Inference | -45% | Production |
+| Maia 200 | Microsoft | 3nm | Inference | -30% | Production (Jan 2026) |
+| MTIA Gen 2 | Meta | 5nm | Training/Inference | -40% (internal) | Production |
+| Loihi 3 | Intel | 4nm | Edge real-time | -95% (edge) | Pilot |
+
+</div>
+
+Even more telling is the efficiency story. DeepSeek's R1 demonstrated that frontier model performance can be achieved with dramatically less compute, suggesting that raw GPU throughput matters less than architectural efficiency. Neuromorphic chips like Intel's Loihi 3, released in January 2026 with 8 million neurons operating at 1.2 watts, achieve [15 TOPS/W for edge inference](https://business.thepilotnews.com/thepilotnews/article/tokenring-2026-1-19-the-brain-like-revolution-intels-loihi-3-and-the-dawn-of-real-time-neuromorphic-edge-ai), orders of magnitude better than conventional chips. These won't replace GPUs for training large language models, but they capture entirely new application categories that were previously infeasible due to power constraints.
+
+The GPU monopoly isn't collapsing overnight. Nvidia's CUDA ecosystem, its partnership with TSMC for early access to next-generation process nodes, and its proprietary NVLink interconnect technology ensure continued dominance for research and novel workloads. But the picture has shifted from "Nvidia is the only option" to "Nvidia is the best option for some things, and increasingly expensive for others." That's a meaningful change in a market [projected to reach $265 billion by 2035](https://www.futuremarketinsights.com/reports/data-center-gpu-market).
+
+## The pinch nobody's watching
+
+Here's the problem with the GPU displacement story: every single alternative runs through the same funnel.
+
+Google's TPUs are manufactured by TSMC. Amazon's Trainium chips are manufactured by TSMC. Microsoft's Maia 200 is manufactured by TSMC on its 3nm process. Meta's MTIA is manufactured by TSMC. Nvidia's GPUs are manufactured by TSMC. The custom silicon revolution diversifies who designs AI chips. It does nothing to diversify who builds them.
+
+TSMC's 71% foundry market share understates its actual leverage, because its dominance is concentrated at the advanced nodes that matter for AI. At 3nm and below, TSMC's share approaches 100%. Samsung is attempting 2nm production but struggling with yields. SMIC operates at 7nm equivalent, blocked from EUV lithography equipment by export controls. Intel's foundry ambitions remain nascent, with less than 1% foundry market share.
+
+And beneath TSMC sits an even more absolute monopoly. ASML's extreme ultraviolet lithography systems are the only machines on earth capable of producing sub-7nm chips at scale. There is no second source. There is no alternative technology ready for production. Every advanced semiconductor on the planet, whether GPU, TPU, or custom accelerator, depends on equipment from a single Dutch company.
+
+The hourglass isn't loosening. The pinch is migrating downward, from the GPU layer where competition is emerging to the substrate layer where it isn't. As custom silicon fragments the GPU market, the concentration that defined Nvidia's position is being absorbed by TSMC and ASML, which were already dominant and are now becoming more critical. The more successfully the industry diversifies away from Nvidia, the more load-bearing these two nodes become.
+
+This creates a geopolitical vulnerability that is difficult to overstate. TSMC's fabrication facilities sit in Taiwan, within striking distance of mainland China. Research published in 2025 found Taiwan's semiconductor supply chain [particularly vulnerable to a Chinese quarantine scenario before 2027](https://www.sciencedirect.com/science/article/abs/pii/S0308596125000485). A disruption lasting weeks would trigger cascading shortages across all computing sectors. A longer conflict would force rapid but suboptimal diversification to Samsung, SMIC, and emerging alternatives, none of which possess the capability density of TSMC.
+
+The United States, through the CHIPS Act and direct investment in Intel's foundry expansion and Samsung's US fabs, is aggressively incentivizing onshoring. But bringing TSMC-equivalent capacity online domestically requires 5–10 years and tens of billions of dollars, a timeline misaligned with the risk. India is entering semiconductor manufacturing for the first time, with [four fabrication plants approved under the India Semiconductor Mission](https://economictimes.com/tech/technology/india-on-track-to-begin-commercial-semiconductor-chip-production-in-2026-ashwini-vaishnaw/articleshow/127311385.cms) and $90–150 billion in committed investments, targeting the 28–90nm range initially and aiming for 7nm by 2030. This matters geopolitically (it creates a potential second-source manufacturing base aligned with Western interests) but it doesn't solve the advanced-node bottleneck in the near term.
+
+The irony is sharp: the industry's solution to GPU concentration (build custom silicon) increases its dependence on the layer below (TSMC/ASML). The hourglass shifts, but the pinch remains.
+
+## Who controls the stack
+
+The shape of the hourglass determines who holds power, and the answer varies by region in ways that don't map neatly onto the headlines.
+
+<div style={{ width: '100%', height: '500px', margin: '2rem 0' }}>
+<PlotlyChartWrapper
+  data={[
+    {
+      name: 'US',
+      x: ['Energy', 'Substrate/Chips', 'Data Centers & GPUs', 'Models', 'Applications'],
+      y: [35, 45, 40, 60, 50],
+      type: 'bar',
+      text: ['35%', '45%', '40%', '60%', '50%'],
+      textposition: 'inside',
+      textfont: { size: 11 },
+    },
+    {
+      name: 'China',
+      x: ['Energy', 'Substrate/Chips', 'Data Centers & GPUs', 'Models', 'Applications'],
+      y: [25, 15, 30, 20, 15],
+      type: 'bar',
+      text: ['25%', '15%', '30%', '20%', '15%'],
+      textposition: 'inside',
+      textfont: { size: 11 },
+    },
+    {
+      name: 'EU',
+      x: ['Energy', 'Substrate/Chips', 'Data Centers & GPUs', 'Models', 'Applications'],
+      y: [20, 12, 15, 10, 15],
+      type: 'bar',
+      text: ['20%', '12%', '15%', '10%', '15%'],
+      textposition: 'inside',
+      textfont: { size: 11 },
+    },
+    {
+      name: 'Taiwan',
+      x: ['Energy', 'Substrate/Chips', 'Data Centers & GPUs', 'Models', 'Applications'],
+      y: [0, 20, 0, 0, 0],
+      type: 'bar',
+      text: ['', '20%', '', '', ''],
+      textposition: 'inside',
+      textfont: { size: 11 },
+    },
+    {
+      name: 'India',
+      x: ['Energy', 'Substrate/Chips', 'Data Centers & GPUs', 'Models', 'Applications'],
+      y: [5, 3, 8, 5, 10],
+      type: 'bar',
+      text: ['5%', '3%', '8%', '5%', '10%'],
+      textposition: 'inside',
+      textfont: { size: 11 },
+    },
+    {
+      name: 'Rest of World',
+      x: ['Energy', 'Substrate/Chips', 'Data Centers & GPUs', 'Models', 'Applications'],
+      y: [15, 5, 7, 5, 10],
+      type: 'bar',
+      text: ['15%', '5%', '7%', '5%', '10%'],
+      textposition: 'inside',
+      textfont: { size: 11 },
+    },
+  ]}
+  layout={{
+    barmode: 'stack',
+    title: { text: 'Regional Dominance Across the AI Stack', font: { size: 16 } },
+    xaxis: { title: { text: 'AI Stack Layer' } },
+    yaxis: { title: { text: 'Market Share (%)' }, range: [0, 100] },
+    legend: { orientation: 'h', yanchor: 'top', y: -0.15, xanchor: 'center', x: 0.5 },
+    margin: { t: 50, b: 110, l: 60, r: 20 },
+  }}
+ />
+</div>
+
+The United States holds the broadest position across the stack: dominance in foundation models, the majority of GPU capacity, the deepest capital markets (capturing 79%, or $159 billion, of global AI investment in 2025, with the San Francisco Bay Area alone accounting for $122 billion), and expanding energy infrastructure. The one critical gap is semiconductor manufacturing, which sits outside US borders in Taiwan.
+
+China is building toward autonomy at every layer. Its GPU market is growing at 38.5% CAGR (the fastest globally) and Huawei's Ascend chips are increasingly deployed domestically as export controls on Nvidia hardware force self-reliance. SMIC's 7nm-equivalent process, demonstrated in Huawei's Kirin 9030 processor, represents [meaningful if still-lagging capability](https://www.bloomberg.com/news/articles/2025-12-11/china-s-huawei-and-smic-make-progress-with-chips-report-finds). DeepSeek's efficiency breakthroughs suggest China can compete on models even with less compute. The missing link isn't any single layer but the integrated ecosystem needed to serve global enterprises. Chinese models are optimized for Chinese data and users, and adopting them globally requires overcoming trust deficits.
+
+Europe has governance advantages (the AI Act, responsible AI frameworks) and genuine research depth, but lags in scale. The [KPMG AI Index](https://kpmg.com/de/en/home/media/press-releases/2026/01/kpmg-ai-ndex-shows-usa-dominates-the-race-for-artificial-intelligence.html) gives the UK/Ireland 69.2 out of 100 while Southern Europe scores 26.3. Higher electricity prices, slower permitting, and fragmented capital markets across member states limit competitive deployment velocity. Europe is positioned to set the rules, not to lead the race.
+
+India has executed the most dramatic rise in recent rankings, jumping from seventh to third on Stanford's Global AI Vibrancy Index between 2023 and 2024, driven by talent production, a startup ecosystem of nearly 200,000 companies, and aggressive government investment. Microsoft ($17.5 billion), Google ($15 billion), and Amazon ($35 billion) have [announced India-focused commitments](https://www.outlookbusiness.com/artificial-intelligence/india-ranks-third-globally-in-most-vibrant-ai-hub-after-us-and-china). But infrastructure gaps are real: India's absolute capability remains roughly one-quarter that of China and one-tenth that of the US, and the semiconductor manufacturing ambitions, while promising, face first-of-a-kind execution risk.
+
+The competitive moat, ultimately, belongs to whoever controls the most integrated portion of the stack. A country that designs chips but can't fabricate them depends on TSMC. A country that trains models but can't build GPUs depends on Nvidia. A country that builds applications but can't train models depends on OpenAI or Google. The AI stack rewards vertical integration, and the hourglass shape reveals where that integration is most fragile.
+
+## The hourglass by 2027
+
+If the trajectory holds (and several credible scenarios, including the [AI 2027 report](https://ai-2027.com), suggest capability acceleration through automated AI research by mid-2026) the hourglass will continue shifting.
+
+The GPU layer will widen further as custom silicon matures and CUDA's lock-in erodes. Nvidia will remain the largest single player, but something closer to 60–70% share rather than 90%, with TPUs, Trainium, and Maia handling the majority of commodity inference. The substrate layer will remain pinched, possibly more so, as every new chip design adds demand for TSMC's advanced-node capacity and ASML's EUV machines.
+
+The foundation model layer will consolidate to three to five global winners, driven by the compounding dynamics of the largest models attracting the most users, generating the most data, and raising the most capital. Foundation model companies [raised $80 billion in 2025 alone](https://news.crunchbase.com/ai/big-funding-trends-charts-eoy-2025/), representing 40% of global AI funding. Smaller independents will be acquired or will pivot to specialized domains.
+
+The geopolitical fragmentation will solidify into distinct regional stacks: a Western pool using Nvidia GPUs, training in US and allied data centers, deploying OpenAI/Google/Anthropic models; a Chinese pool using Huawei Ascend chips, training domestically, deploying Chinese and open-source models; and an emerging markets pool, increasingly heterogeneous, with growing capacity for sovereign AI. McKinsey research estimates that maintaining separate AI stacks for major regulatory blocs [increases operating costs by 30–50%](https://davegoyal.com/the-geopolitical-ai-fracture-why-your-global-ai-strategy-is-now-impossible/), a tax on fragmentation that every global enterprise will bear.
+
+Through all of this, the substrate pinch persists. TSMC cannot be moved; its advantage rests on decades of accumulated process knowledge, a specialized workforce, and integrated supply chains physically rooted in Taiwan. The CHIPS Act won't deliver TSMC-equivalent US capacity before 2030. India's fabs won't reach advanced nodes before 2032. Samsung's yield problems don't have a scheduled resolution date. The most load-bearing node in the entire AI stack is concentrated in a single company, on a single island, across the strait from the one power most motivated to contest it.
+
+## Why the shape matters
+
+The hourglass is a useful mental model because it clarifies what's signal and what's noise in the AI industry.
+
+When Nvidia reports record earnings, that's the current pinch doing its work, but the pinch is loosening as custom silicon scales. When a new foundation model matches GPT-4 at lower cost, that's competition in the wide upper portion, impressive but expected in a contested layer. When TSMC announces a new process node or ASML ships another EUV machine, that's the structural pinch that nothing else in the stack can route around.
+
+The hourglass also explains why the geopolitical stakes are so high. The wide parts of the stack (energy, applications) are where countries can compete on their own terms. India can build applications. Europe can set policy. China can expand data centers. But the narrow middle is where sovereignty ends and dependence begins. If you can't fabricate advanced chips, your AI strategy runs through someone else's factory. Every nation building an AI stack is, whether they acknowledge it or not, building on top of TSMC.
+
+The industry is spending hundreds of billions to widen the GPU pinch, and it's working. But the load is transferring to the layer below, where the concentration is deeper, the alternatives are fewer, and the geopolitical risk is acute. The hourglass isn't breaking. It's shifting. And the new pinch sits in the most precarious spot on the map.

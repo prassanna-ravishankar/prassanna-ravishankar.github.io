@@ -115,8 +115,8 @@ export default defineConfig({
       if (page.includes('/podcasts/ml-engineering-challenges') ||
           page.includes('/podcasts/deep-learning-frameworks')) return false;
 
-      // Only include valid series tag pages (6 series)
-      // Valid series: Machine Learning, MLOps, AI Agents, Python, Startups, Productivity
+      // Only include valid series tag pages (7 series)
+      // Valid series: Machine Learning, MLOps, AI Agents, Python, Startups, Productivity, Futures
       if (page.includes('/tags/')) {
         const validSeriesPatterns = [
           '/tags/Machine%20Learning/',
@@ -125,6 +125,7 @@ export default defineConfig({
           '/tags/Python/',
           '/tags/Startups/',
           '/tags/Productivity/',
+          '/tags/Futures/',
           '/tags/', // Allow the index page
         ];
         // Check if it's the index or a valid series page
