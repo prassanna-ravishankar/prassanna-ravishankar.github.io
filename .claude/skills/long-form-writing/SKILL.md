@@ -1,6 +1,6 @@
 ---
 name: long-form-writing
-description: Write in flowing, professional prose inspired by Anthropic's communication style. Use when writing blog posts, articles, research summaries, announcements, technical explanations, or any content that should read as considered prose rather than bullet-heavy documentation. Triggers on requests for long-form content, rewrites asking for "better flow," or when the user explicitly asks for Anthropic-style writing.
+description: Write in flowing, professional prose. Use when writing blog posts, articles, technical explanations, or any content that should read as considered prose rather than bullet-heavy documentation. Triggers on requests for long-form content or rewrites asking for "better flow."
 ---
 
 # Long-Form Writing
@@ -11,7 +11,7 @@ Write prose that breathes. This skill transforms bullet-heavy, fragmented writin
 
 ### Sentences Carry Multiple Ideas
 
-Anthropic sentences hold claim, context, and caveat together rather than fragmenting them across bullets. A single sentence might contain a founding narrative, a belief statement, a historical comparison, and an uncertainty acknowledgment—connected by conjunctions and subordinate clauses.
+Good sentences hold claim, context, and caveat together rather than fragmenting them across bullets. A single sentence might contain a founding narrative, a belief statement, a historical comparison, and an uncertainty acknowledgment, all connected by conjunctions and subordinate clauses.
 
 **Instead of:**
 > The model is fast. It's also accurate. However, it has limitations.
@@ -21,7 +21,7 @@ Anthropic sentences hold claim, context, and caveat together rather than fragmen
 
 ### Paragraphs Develop Complete Thoughts
 
-A paragraph opens with a problem, explores its dimensions, acknowledges a counterargument, and arrives at a position—all before the next paragraph begins. Ideas unfold within paragraphs rather than being distributed across them as isolated assertions.
+A paragraph opens with a problem, explores its dimensions, acknowledges a counterargument, and arrives at a position, all before the next paragraph begins. Ideas unfold within paragraphs rather than being distributed across them as isolated assertions.
 
 ### Rhythm Varies Deliberately
 
@@ -55,21 +55,22 @@ Secondary technical details go in parentheses, keeping the main sentence readabl
 
 The parenthetical adds specificity without derailing the sentence's momentum.
 
-### Balanced Punctuation
+### Punctuation
 
-Em dashes are powerful but overuse reads as an AI writing tell. Balance them with:
+Never use em dashes. They read as an AI writing tell and interrupt prose flow. Use instead:
 
 - **Parentheses** for asides and clarifications: "the agent (which runs locally) processes requests"
 - **Periods** to break up complexity: "The context fills with code the agent doesn't need. You've traded specialization for visibility."
 - **Colons** to introduce elaboration: "The pattern is clear: every approach is push-based."
+- **Commas** for light subordination: "This approach, while experimental, produces consistent results."
 
-A good ratio: no more than 2-3 em dashes per 500 words. When you find yourself reaching for an em dash, consider whether parentheses or a period would work better.
+When you find yourself reaching for an em dash, stop and rewrite the sentence using one of the above.
 
 ### Colon-Driven Lists Within Prose
 
 When enumeration is necessary, embed it within paragraphs using colons rather than breaking into bullets:
 
-> "The process involves three stages: synthetic generation, where Claude creates varied messages; response ranking, where it evaluates alignment; and preference learning, where a model trains on this data."
+> "The process involves three stages: synthetic generation, where varied messages are created; response ranking, where alignment is evaluated; and preference learning, where a model trains on this data."
 
 ### Short Declarative Anchors
 
@@ -96,13 +97,13 @@ Signal uncertainty precisely: "The findings don't demonstrate malicious intent b
 
 ### Concrete Examples Immediately Follow Abstract Claims
 
-Not "we can modify model behavior" but "when we turn up the strength of the 'Golden Gate Bridge' feature, Claude's responses begin to focus on the Golden Gate Bridge."
+Not "we can modify model behavior" but "when we turn up the strength of the 'Golden Gate Bridge' feature, the model's responses begin to focus on the Golden Gate Bridge."
 
 ### Comparative Framing for Metrics
 
 Never isolated numbers. Always relative:
 
-> "resolved 64% of coding problems compared to Claude 3 Opus's 38%"
+> "resolved 64% of coding problems compared to the previous model's 38%"
 
 > "achieved 14.9% in screenshot-only tests versus competitors' 7.8%"
 
