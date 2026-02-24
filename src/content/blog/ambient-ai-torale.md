@@ -4,7 +4,7 @@ description: "Torale monitors the web so you don't have to. How ambient AI turns
 pubDate: 2025-11-17
 heroImage: "/images/blog/ambient-ai-torale/hero.webp"
 series: ["AI Agents", "Productivity"]
-topics: ["Torale", "Gemini", "Claude Code", "Grounded Search"]
+topics: ["Torale", "Gemini", "Claude Code", "Grounded Search", "autonomous AI agents"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

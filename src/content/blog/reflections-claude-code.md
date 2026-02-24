@@ -4,7 +4,7 @@ description: "A month with Claude Code: I shipped more projects than ever while 
 pubDate: 2025-07-25
 heroImage: "/images/blog/reflections-claude-code/hero.webp"
 series: ["Productivity"]
-topics: ["Claude Code", "GitHub", "AI Tools"]
+topics: ["Claude Code", "GitHub", "AI Tools", "ai coding agents"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import { validSeries } from '../../content/config';
+import { getQualifyingTopics } from '../../utils/topics';
 
 // Handle query parameters - redirect to clean URL if present
 if (Astro.url.search) {
@@ -31,6 +32,8 @@ validSeries.forEach(series => {
 const sortedSeries = Object.entries(seriesCounts)
   .filter(([, count]) => count > 0)
   .sort(([, countA], [, countB]) => countB - countA);
+
+const qualifyingTopics = await getQualifyingTopics();
 
 // Get latest posts for description
 const latestPosts = sortedPosts.slice(0, 3);
@@ -156,14 +159,21 @@ const structuredData = {
                 </div>
               )}
 
-              {/* Topic tags (display only) */}
+              {/* Topic tags (clickable if qualifying, else display only) */}
               {post.data.topics && post.data.topics.length > 0 && (
                 <div class="flex flex-wrap gap-1 mb-4">
-                  {post.data.topics.slice(0, 3).map(topic => (
-                    <span class="px-2 py-0.5 bg-black/20 border border-subtle/10 text-muted text-xs rounded">
-                      {topic}
-                    </span>
-                  ))}
+                  {post.data.topics.slice(0, 3).map(topic =>
+                    qualifyingTopics.has(topic) ? (
+                      <a href={`/topics/${encodeURIComponent(topic)}/`}
+                         class="px-2 py-0.5 bg-black/20 border border-subtle/10 text-muted text-xs rounded hover:bg-teal-100 dark:hover:bg-teal-900 transition-colors">
+                        {topic}
+                      </a>
+                    ) : (
+                      <span class="px-2 py-0.5 bg-black/20 border border-subtle/10 text-muted text-xs rounded">
+                        {topic}
+                      </span>
+                    )
+                  )}
                 </div>
               )}
 

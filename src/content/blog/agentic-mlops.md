@@ -4,7 +4,7 @@ description: "Explore how agentic MLOps uses AI agents and MCP to autonomously h
 pubDate: 2025-07-14
 heroImage: "/images/blog/agentic-mlops/hero.webp"
 series: ["AI Agents", "MLOps"]
-topics: ["MCP", "ClearML", "MLflow", "Kubernetes"]
+topics: ["MCP", "ClearML", "MLflow", "Kubernetes", "ai agents mlops", "ml pipeline automation", "mlops best practices"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

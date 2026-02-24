@@ -4,7 +4,7 @@ description: "A practical comparison of AI agent frameworks — OpenAI Agents SD
 pubDate: 2025-04-10
 heroImage: "/images/blog/agent-frameworks/hero.webp"
 series: ["AI Agents"]
-topics: ["OpenAI", "Google ADK", "AWS Bedrock", "Smol Agents", "LLMs"]
+topics: ["OpenAI", "Google ADK", "AWS Bedrock", "Smol Agents", "LLMs", "ai agent frameworks", "autonomous AI agents"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

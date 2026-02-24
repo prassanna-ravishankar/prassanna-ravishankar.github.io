@@ -4,7 +4,7 @@ description: "A decision framework for when to invest in MLOps at your startup â
 pubDate: 2025-03-27
 heroImage: "/images/blog/invest-mlops/hero-image2.webp"
 series: ["MLOps", "Startups"]
-topics: ["Model Deployment", "Data Pipelines", "Observability"]
+topics: ["Model Deployment", "Data Pipelines", "Observability", "mlops for startups"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

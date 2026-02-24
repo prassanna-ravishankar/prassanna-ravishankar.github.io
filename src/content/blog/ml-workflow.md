@@ -4,7 +4,7 @@ description: "Fix your ML training workflow with the Pre-Flight, In-Flight, Post
 pubDate: 2025-07-23
 heroImage: "/images/blog/ml-workflow/hero.webp"
 series: ["Machine Learning", "MLOps"]
-topics: ["GPU Training", "Model Evaluation", "Data Quality"]
+topics: ["GPU Training", "Model Evaluation", "Data Quality", "ml training workflow", "mlops best practices"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

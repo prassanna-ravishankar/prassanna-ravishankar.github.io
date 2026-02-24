@@ -4,7 +4,7 @@ description: "Build AI agents from the inside out — start with behavior in CLA
 pubDate: 2026-01-30
 heroImage: "/images/blog/building-agents-inside-out/hero.webp"
 series: ["AI Agents"]
-topics: ["Claude Code", "Agents", "Claude Agent SDK", "MCP"]
+topics: ["Claude Code", "Agents", "Claude Agent SDK", "MCP", "how to build ai agents", "autonomous AI agents"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

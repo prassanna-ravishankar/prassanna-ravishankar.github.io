@@ -4,7 +4,7 @@ description: "Scale ML models faster with the right training infrastructure. Cov
 pubDate: 2025-03-31
 heroImage: "/images/blog/ml-training-infra/hero.webp"
 series: ["Machine Learning", "MLOps"]
-topics: ["Skypilot", "Distributed Training", "GPU Cloud"]
+topics: ["Skypilot", "Distributed Training", "GPU Cloud", "ml training infrastructure", "distributed training"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

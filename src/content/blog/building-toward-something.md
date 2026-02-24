@@ -4,7 +4,7 @@ description: "After six months of AI-assisted development, the real surprise was
 pubDate: 2026-01-25
 heroImage: "/images/blog/building-toward-something/hero.webp"
 series: ["AI Agents", "Productivity"]
-topics: ["Claude Code", "Gemini", "Tool Escape Velocity", "Torale", "Repowire"]
+topics: ["Claude Code", "Gemini", "Tool Escape Velocity", "Torale", "Repowire", "ai coding agents"]
 author: "Prassanna Ravishankar"
 draft: true
 ---

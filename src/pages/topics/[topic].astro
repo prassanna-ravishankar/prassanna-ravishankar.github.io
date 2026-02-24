@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { validSeries } from '../../content/config';
 import { getQualifyingTopics } from '../../utils/topics';
 
 export async function getStaticPaths() {
@@ -9,28 +8,36 @@ export async function getStaticPaths() {
     return import.meta.env.PROD ? !data.draft : true;
   });
 
-  // Only generate pages for valid series tags (not topics)
-  return validSeries.map((series) => {
+  const counts = new Map<string, number>();
+  for (const post of allPosts) {
+    for (const topic of post.data.topics ?? []) {
+      counts.set(topic, (counts.get(topic) ?? 0) + 1);
+    }
+  }
+
+  const qualifyingTopics = Array.from(counts.entries())
+    .filter(([, c]) => c >= 2)
+    .map(([t]) => t);
+
+  return qualifyingTopics.map((topic) => {
     const filteredPosts = allPosts.filter((post) =>
-      post.data.series?.includes(series)
+      post.data.topics?.includes(topic)
     );
     return {
-      params: { tag: series },
-      props: { posts: filteredPosts, tag: series },
+      params: { topic },
+      props: { posts: filteredPosts, topic },
     };
   });
 }
 
-const { posts, tag } = Astro.props;
+const { posts, topic } = Astro.props;
 
-const qualifyingTopics = await getQualifyingTopics();
-
-// Sort posts by date (newest first)
 const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-// Format date function
+const qualifyingTopics = await getQualifyingTopics();
+
 const formatDate = (date: Date) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -39,13 +46,12 @@ const formatDate = (date: Date) => {
   });
 };
 
-// Generate schema for series page
-const seriesSchema = {
+const topicSchema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": `${tag} Articles`,
-  "description": `All blog posts in the ${tag} series by Prassanna Ravishankar`,
-  "url": `https://prassanna.io/tags/${encodeURIComponent(tag)}/`,
+  "name": `${topic} Articles`,
+  "description": `All blog posts tagged ${topic} by Prassanna Ravishankar`,
+  "url": `https://prassanna.io/topics/${encodeURIComponent(topic)}/`,
   "mainEntity": {
     "@type": "ItemList",
     "numberOfItems": sortedPosts.length,
@@ -69,11 +75,10 @@ const seriesSchema = {
 ---
 
 <Layout
-  title={`${tag} Articles | Prassanna Ravishankar`}
-  description={`Explore ${sortedPosts.length} articles on ${tag}. Deep dives into ${tag.toLowerCase()} by Prassanna Ravishankar.`}
+  title={`${topic} Articles | Prassanna Ravishankar`}
+  description={`Explore ${sortedPosts.length} articles on ${topic}. Deep dives into ${topic.toLowerCase()} by Prassanna Ravishankar.`}
 >
-  <!-- Series page structured data -->
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(seriesSchema)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(topicSchema)} />
 
   <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
@@ -97,8 +102,16 @@ const seriesSchema = {
             </svg>
           </li>
           <li>
+            <a href="/topics/" class="hover:text-teal-600 dark:hover:text-teal-400">Topics</a>
+          </li>
+          <li>
+            <svg class="w-3 h-3 text-muted" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </li>
+          <li>
             <span class="text-gray-700 dark:text-main/80" aria-current="page">
-              {tag}
+              {topic}
             </span>
           </li>
         </ol>
@@ -107,7 +120,7 @@ const seriesSchema = {
       <!-- Header -->
       <header class="mb-12 text-center">
         <h1 class="text-4xl font-bold mb-4">
-          <span class="text-teal-600 dark:text-teal-400">{tag}</span>
+          <span class="text-teal-600 dark:text-teal-400">{topic}</span>
         </h1>
         <p class="text-xl text-gray-600 dark:text-muted">
           {sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'}
@@ -143,11 +156,7 @@ const seriesSchema = {
                   {post.data.series.map((seriesTag) => (
                     <a
                       href={`/tags/${encodeURIComponent(seriesTag)}/`}
-                      class={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                        seriesTag === tag
-                          ? 'bg-teal-600 text-white'
-                          : 'bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-800'
-                      }`}
+                      class="px-3 py-1 rounded-full text-sm font-medium transition-colors bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-800"
                     >
                       {seriesTag}
                     </a>
@@ -155,21 +164,14 @@ const seriesSchema = {
                 </div>
               )}
 
-              <!-- Topic tags (clickable if qualifying, else display only) -->
+              <!-- Topic tags (display only on topic page — no recursive cross-linking) -->
               {post.data.topics && post.data.topics.length > 0 && (
                 <div class="flex flex-wrap gap-1.5 mb-4">
-                  {post.data.topics.slice(0, 4).map((topic) =>
-                    qualifyingTopics.has(topic) ? (
-                      <a href={`/topics/${encodeURIComponent(topic)}/`}
-                         class="px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-muted hover:bg-teal-100 dark:hover:bg-teal-900 transition-colors">
-                        {topic}
-                      </a>
-                    ) : (
-                      <span class="px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-muted">
-                        {topic}
-                      </span>
-                    )
-                  )}
+                  {post.data.topics.slice(0, 4).map((t) => (
+                    <span class="px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-muted">
+                      {t}
+                    </span>
+                  ))}
                 </div>
               )}
 
@@ -187,8 +189,17 @@ const seriesSchema = {
         ))}
       </div>
 
-      <!-- Back to blog link -->
-      <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
+      <!-- Back links -->
+      <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-center flex justify-center gap-6">
+        <a
+          href="/topics/"
+          class="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          All topics
+        </a>
         <a
           href="/blog/"
           class="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center"
@@ -196,7 +207,7 @@ const seriesSchema = {
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Back to all posts
+          All posts
         </a>
       </div>
     </div>

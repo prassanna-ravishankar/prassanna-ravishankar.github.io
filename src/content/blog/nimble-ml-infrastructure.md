@@ -4,7 +4,7 @@ description: "Early architectural decisions create a flywheel effect that accele
 pubDate: 2025-07-30
 heroImage: "/images/blog/nimble-ml-infra/nimble-ml-infra-hero.webp"
 series: ["MLOps", "Startups"]
-topics: ["Infrastructure", "Production"]
+topics: ["Infrastructure", "Production", "ml infrastructure strategy"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

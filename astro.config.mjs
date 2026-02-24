@@ -135,6 +135,9 @@ export default defineConfig({
         if (!isValidTagPage) return false;
       }
 
+      // Topics pages — threshold enforced by getStaticPaths, all emitted URLs are valid
+      if (page.includes('/topics/')) return true;
+
       return true;
     },
     customPages: [
@@ -167,6 +170,9 @@ export default defineConfig({
       } else if (item.url.includes('/tags/')) {
         // Series pages get higher priority (only 6 of them now)
         priority = item.url.endsWith('/tags/') ? 0.7 : 0.8;
+        changefreq = 'weekly';
+      } else if (item.url.includes('/topics/')) {
+        priority = item.url.endsWith('/topics/') ? 0.6 : 0.7;
         changefreq = 'weekly';
       }
 

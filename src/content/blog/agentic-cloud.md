@@ -4,7 +4,7 @@ description: "Agents are stateful logic, not stateless apps. The cloud primitive
 pubDate: 2026-01-10
 heroImage: "/images/blog/agentic-cloud/hero.webp"
 series: ["AI Agents"]
-topics: ["Cloud Infrastructure", "Durable Execution", "MCP", "Agent Identity", "Platform Shift"]
+topics: ["Cloud Infrastructure", "Durable Execution", "MCP", "Agent Identity", "Platform Shift", "autonomous AI agents", "cloud infrastructure"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

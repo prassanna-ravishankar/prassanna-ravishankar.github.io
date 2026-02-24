@@ -4,7 +4,7 @@ description: "Learn how the A2A Protocol enables secure AI agent communication. 
 pubDate: 2025-07-04
 heroImage: "/images/blog/a2a-protocol/hero.webp"
 series: ["AI Agents"]
-topics: ["A2A Protocol", "MCP", "OAuth", "JWT", "phlow"]
+topics: ["A2A Protocol", "MCP", "OAuth", "JWT", "phlow", "ai agent communication", "multi-agent systems"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

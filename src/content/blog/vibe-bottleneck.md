@@ -4,7 +4,7 @@ description: "Multi-repo coding agent workflows turn you into the message bus. W
 pubDate: 2026-01-23
 heroImage: "/images/blog/vibe-bottleneck/hero.webp"
 series: ["AI Agents"]
-topics: ["Claude Code", "Workflow", "Developer Experience"]
+topics: ["Claude Code", "Workflow", "Developer Experience", "ai coding agents", "multi-repo workflow"]
 draft: false
 ---
 

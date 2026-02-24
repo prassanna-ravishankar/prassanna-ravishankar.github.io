@@ -4,7 +4,7 @@ description: "Repowire is a pull-based mesh network that lets Claude Code sessio
 pubDate: 2026-01-24
 heroImage: "/images/blog/repowire/hero.webp"
 series: ["AI Agents"]
-topics: ["Claude Code", "Repowire", "Open Source"]
+topics: ["Claude Code", "Repowire", "Open Source", "ai coding agents", "multi-agent coding"]
 draft: false
 ---
 

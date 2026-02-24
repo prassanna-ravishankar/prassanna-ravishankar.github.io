@@ -4,7 +4,7 @@ description: "AI agent memory management mirrors database design. Agent state ne
 pubDate: 2026-01-01
 heroImage: "/images/blog/agents-are-databases/hero.webp"
 series: ["AI Agents"]
-topics: ["LLMs", "Databases", "Durable Execution", "Pydantic AI", "Temporal", "Prefect"]
+topics: ["LLMs", "Databases", "Durable Execution", "Pydantic AI", "Temporal", "Prefect", "autonomous AI agents", "AI agent memory"]
 author: "Prassanna Ravishankar"
 draft: false
 ---

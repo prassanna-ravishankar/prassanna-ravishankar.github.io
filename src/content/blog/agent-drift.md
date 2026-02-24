@@ -4,7 +4,7 @@ description: "Autonomous AI agents degrade over long-horizon tasks through accum
 pubDate: 2026-02-24
 heroImage: "/images/blog/agent-drift/hero.webp"
 series: ["AI Agents"]
-topics: ["autonomous agents", "LLMs", "agent reliability", "production AI", "MLOps"]
+topics: ["autonomous agents", "LLMs", "agent reliability", "production AI", "MLOps", "autonomous AI agents", "AI agent memory"]
 author: "Prassanna Ravishankar"
 draft: false
 ---
