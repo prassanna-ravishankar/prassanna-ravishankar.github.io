@@ -6,6 +6,7 @@ image: "/images/projects/phlow.png"
 github: "https://github.com/prassanna-ravishankar/phlow"
 link: "https://prassanna.io/phlow/"
 tags: ["javascript", "python", "AI agents", "JWT", "authentication", "security", "Supabase", "A2A"]
+topics: ["MCP", "ai agent communication", "autonomous AI agents"]
 pubDate: 2025-07-01
 draft: false
 ---

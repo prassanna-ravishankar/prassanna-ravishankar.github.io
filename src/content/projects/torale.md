@@ -6,6 +6,7 @@ image: "/images/projects/torale.png"
 github: "https://github.com/prassanna-ravishankar/ambi-alert"
 link: "https://app.torale.ai/"
 tags: ["python", "AI", "web monitoring", "automation", "SaaS", "notifications", "intelligence"]
+topics: ["autonomous AI agents"]
 pubDate: 2025-07-01
 draft: false
 ---

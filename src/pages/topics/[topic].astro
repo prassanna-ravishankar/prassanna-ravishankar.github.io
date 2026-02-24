@@ -4,13 +4,14 @@ import Layout from '../../layouts/Layout.astro';
 import { getQualifyingTopics } from '../../utils/topics';
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection('blog', ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true;
-  });
+  const [allPosts, allProjects] = await Promise.all([
+    getCollection('blog', ({ data }) => import.meta.env.PROD ? !data.draft : true),
+    getCollection('projects', ({ data }) => import.meta.env.PROD ? !data.draft : true),
+  ]);
 
   const counts = new Map<string, number>();
-  for (const post of allPosts) {
-    for (const topic of post.data.topics ?? []) {
+  for (const item of [...allPosts, ...allProjects]) {
+    for (const topic of item.data.topics ?? []) {
       counts.set(topic, (counts.get(topic) ?? 0) + 1);
     }
   }
@@ -23,14 +24,17 @@ export async function getStaticPaths() {
     const filteredPosts = allPosts.filter((post) =>
       post.data.topics?.includes(topic)
     );
+    const filteredProjects = allProjects.filter((project) =>
+      project.data.topics?.includes(topic)
+    );
     return {
       params: { topic },
-      props: { posts: filteredPosts, topic },
+      props: { posts: filteredPosts, projects: filteredProjects, topic },
     };
   });
 }
 
-const { posts, topic } = Astro.props;
+const { posts, projects, topic } = Astro.props;
 
 const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -46,6 +50,11 @@ const formatDate = (date: Date) => {
   });
 };
 
+const allItems = [
+  ...sortedPosts.map((p) => ({ "@type": "BlogPosting", "headline": p.data.title, "description": p.data.description, "url": `https://prassanna.io/blog/${p.slug}/`, "datePublished": p.data.pubDate.toISOString(), "author": { "@type": "Person", "name": "Prassanna Ravishankar" } })),
+  ...projects.map((p) => ({ "@type": "SoftwareApplication", "name": p.data.title, "description": p.data.description, "url": `https://prassanna.io/projects/${p.slug}/` })),
+];
+
 const topicSchema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -54,21 +63,11 @@ const topicSchema = {
   "url": `https://prassanna.io/topics/${encodeURIComponent(topic)}/`,
   "mainEntity": {
     "@type": "ItemList",
-    "numberOfItems": sortedPosts.length,
-    "itemListElement": sortedPosts.map((post, index) => ({
+    "numberOfItems": allItems.length,
+    "itemListElement": allItems.map((item, index) => ({
       "@type": "ListItem",
       "position": index + 1,
-      "item": {
-        "@type": "BlogPosting",
-        "headline": post.data.title,
-        "description": post.data.description,
-        "url": `https://prassanna.io/blog/${post.slug}/`,
-        "datePublished": post.data.pubDate.toISOString(),
-        "author": {
-          "@type": "Person",
-          "name": "Prassanna Ravishankar"
-        }
-      }
+      "item": item,
     }))
   }
 };
@@ -124,6 +123,7 @@ const topicSchema = {
         </h1>
         <p class="text-xl text-gray-600 dark:text-muted">
           {sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'}
+          {projects.length > 0 && ` · ${projects.length} ${projects.length === 1 ? 'project' : 'projects'}`}
         </p>
       </header>
 
@@ -188,6 +188,21 @@ const topicSchema = {
           </article>
         ))}
       </div>
+
+      <!-- Related Projects -->
+      {projects.length > 0 && (
+        <section class="mt-12">
+          <h2 class="text-2xl font-bold mb-6">Related Projects</h2>
+          <div class="grid gap-4 md:grid-cols-2">
+            {projects.map((project) => (
+              <a href={`/projects/${project.slug}/`} class="block p-5 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
+                <h3 class="text-lg font-semibold mb-1">{project.data.title}</h3>
+                <p class="text-gray-600 dark:text-muted text-sm">{project.data.description}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       <!-- Back links -->
       <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-center flex justify-center gap-6">

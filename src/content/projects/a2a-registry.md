@@ -6,6 +6,7 @@ image: "/images/projects/a2a-registry.webp"
 github: "https://github.com/prassanna-ravishankar/a2a-registry"
 link: "https://a2aregistry.org"
 tags: ["ai-agents", "a2a-protocol", "registry", "python", "open-source", "community"]
+topics: ["ai agent communication", "autonomous AI agents"]
 featured: true
 draft: false
 ---

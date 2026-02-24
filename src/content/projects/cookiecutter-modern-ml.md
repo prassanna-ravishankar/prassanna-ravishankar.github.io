@@ -6,6 +6,7 @@ image: "/images/projects/cookiecutter-modern-ml.webp"
 github: "https://github.com/prassanna-ravishankar/cookiecutter-modern-ml"
 link: "https://github.com/prassanna-ravishankar/cookiecutter-modern-ml"
 tags: ["python", "machine-learning", "cookiecutter", "template", "nlp", "speech", "vision", "pytorch", "transformers"]
+topics: ["mlops best practices"]
 featured: true
 draft: false
 ---

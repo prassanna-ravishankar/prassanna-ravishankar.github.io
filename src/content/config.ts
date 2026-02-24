@@ -50,6 +50,7 @@ const projectsCollection = defineCollection({
     link: z.string().optional(),
     github: z.string().optional(),
     tags: z.array(z.string()).default([]),
+    topics: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     pubDate: z.date(),
     draft: z.boolean().default(false),

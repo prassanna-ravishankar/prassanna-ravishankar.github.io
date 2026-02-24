@@ -6,6 +6,7 @@ image: "/images/blog/repowire/hero.webp"
 github: "https://github.com/prassanna-ravishankar/repowire"
 link: "https://repowire.io/"
 tags: ["python", "AI", "Claude Code", "MCP", "developer tools", "agents", "open source"]
+topics: ["Claude Code", "ai coding agents", "multi-agent coding"]
 pubDate: 2026-01-24
 draft: false
 ---

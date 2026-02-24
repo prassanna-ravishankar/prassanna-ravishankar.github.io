@@ -6,6 +6,7 @@ image: "/images/projects/clearml-mcp.webp"
 github: "https://github.com/prassanna-ravishankar/clearml-mcp"
 link: "https://pypi.org/project/clearml-mcp/"
 tags: ["python", "clearml", "mlops", "model-context-protocol", "experiment-tracking"]
+topics: ["MCP", "mlops best practices", "ml experiment tracking"]
 featured: true
 draft: false
 ---

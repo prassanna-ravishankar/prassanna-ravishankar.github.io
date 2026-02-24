@@ -6,6 +6,7 @@ image: "/images/projects/modalkit.webp"
 github: "https://github.com/prassanna-ravishankar/modalkit"
 link: "https://prassanna.io/modalkit"
 tags: ["python", "machine-learning", "modal", "framework", "mlops"]
+topics: ["mlops best practices"]
 featured: true
 draft: false
 ---
