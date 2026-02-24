@@ -1,6 +1,6 @@
 ---
-title: "Pipenv and Pyenv - The Python Productivity Combo"
-description: "A guide to setting up a productive Python environment using Pipenv and Pyenv"
+title: "Pipenv vs Pyenv: Python Version Management"
+description: "Compare pipenv vs pyenv and learn how combining both tools solves Python version management and dependency isolation in one workflow."
 pubDate: 2019-05-29
 heroImage: "/images/blog/python-deps.png"
 series: ["Python", "Productivity"]

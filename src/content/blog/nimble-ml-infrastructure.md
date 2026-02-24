@@ -1,6 +1,6 @@
 ---
-title: "Why Your ML Infrastructure Choices Create (or Kill) Momentum"
-description: "How early architectural decisions create a flywheel effect that accelerates rather than hinders your path to production. Discover the Nimble Flywheel framework for scaling ML from prototype to production."
+title: "ML Infrastructure Strategy: Build for Momentum"
+description: "Early architectural decisions create a flywheel effect that accelerates your path to production. Discover the Nimble Flywheel framework for scaling ML."
 pubDate: 2025-07-30
 heroImage: "/images/blog/nimble-ml-infra/nimble-ml-infra-hero.webp"
 series: ["MLOps", "Startups"]

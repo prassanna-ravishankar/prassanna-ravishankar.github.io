@@ -1,6 +1,6 @@
 ---
-title: "Modern ML Cookiecutter Template"
-description: "From dependency hell to device confusion - I built a modality-aware cookiecutter template that gets you from idea to training in minutes, not hours. Here's why modern ML projects need modern tooling."
+title: "Machine Learning Project Template with Modern Stack"
+description: "A modality-aware machine learning project template that gets you from idea to training in minutes using uv, Polars, and LitServe for modern ML workflows."
 pubDate: 2025-07-28
 heroImage: "/images/blog/modern-ml/hero.webp"
 series: ["Machine Learning", "Python"]

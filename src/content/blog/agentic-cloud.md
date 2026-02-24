@@ -1,6 +1,6 @@
 ---
-title: "The Agentic Cloud"
-description: "Agents are not Apps. They are Stateful Logic. Here are the primitives required to build their Operating System."
+title: "Agentic Cloud Infrastructure: Beyond 12-Factor Apps"
+description: "Agents are stateful logic, not stateless apps. The cloud primitives — durable execution, agent identity, MCP — that AI agents need to run reliably."
 pubDate: 2026-01-10
 heroImage: "/images/blog/agentic-cloud/hero.webp"
 series: ["AI Agents"]

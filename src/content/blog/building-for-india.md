@@ -1,6 +1,6 @@
 ---
 title: "Building Tech Products for India: A First-Principles Playbook"
-description: "Explore why building tech for India means rethinking everything from the ground up—addressing local habits, scale, price sensitivity, and cultural diversity with first-principles design."
+description: "Building tech products for India from first principles—local habits, scale, price sensitivity, and cultural diversity require a full ground-up rethink."
 pubDate: 2025-03-23
 heroImage: "/images/blog/building-for-india/hero-image.webp"
 series: ["Startups", "Futures"]

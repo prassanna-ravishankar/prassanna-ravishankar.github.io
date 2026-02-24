@@ -1,6 +1,6 @@
 ---
-title: "The Emergence of the full stack ML engineer"
-description: "The history of Full stack, Machine learning which results in the mergence of the ML full stack engineer"
+title: "Rise of the Full Stack Machine Learning Engineer"
+description: "How the histories of full stack web development and machine learning converged to create the full stack machine learning engineer role."
 pubDate: 2022-10-15
 heroImage: "/images/blog/full-stack-ml/plumber.png"
 series: ["Machine Learning"]

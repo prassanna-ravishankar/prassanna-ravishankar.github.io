@@ -1,6 +1,6 @@
 ---
-title: "30 Days of Claude Code: How I Became More Productive and Worse at Programming"
-description: "A month-long experiment with Claude Code that replaced Instagram reels with AI-powered coding sessions. How I shipped more projects than ever before while paradoxically becoming worse at programming from scratch."
+title: "Claude Code Productivity: I Shipped More, Coded Less"
+description: "A month with Claude Code: I shipped more projects than ever while paradoxically becoming worse at programming from scratch. Here's what actually happened."
 pubDate: 2025-07-25
 heroImage: "/images/blog/reflections-claude-code/hero.webp"
 series: ["Productivity"]

@@ -1,6 +1,6 @@
 ---
-title: "Repowire: A Pull-Based Context Breakout"
-description: "What if coding agents could ask each other questions directly? Introducing repowire, a mesh network that lets Claude Code sessions communicate in real-time."
+title: "Repowire: Multi-Agent Coding Workflow Across Repos"
+description: "Repowire is a pull-based mesh network that lets Claude Code sessions communicate across repositories in real-time, replacing stale docs with live agent-to-agent queries."
 pubDate: 2026-01-24
 heroImage: "/images/blog/repowire/hero.webp"
 series: ["AI Agents"]

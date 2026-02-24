@@ -1,6 +1,6 @@
 ---
-title: "What If AI Agents Could Fix MLOps Forever? A Thought Experiment"
-description: "A wild 2 AM thought experiment: What if AI agents could orchestrate your entire MLOps stack through MCP? From data drift to deployment, explore the future of autonomous ML operations."
+title: "Agentic MLOps: AI Agents Automating Your ML Stack"
+description: "Explore how agentic MLOps uses AI agents and MCP to autonomously handle data drift, model deployment, and ML pipeline orchestration across your entire stack."
 pubDate: 2025-07-14
 heroImage: "/images/blog/agentic-mlops/hero.webp"
 series: ["AI Agents", "MLOps"]

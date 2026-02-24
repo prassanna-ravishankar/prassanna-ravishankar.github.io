@@ -1,6 +1,6 @@
 ---
-title: "Agent Frameworks Ain't Agent Building"
-description: "Build agents from the inside out — start with behavior in CLAUDE.md, add capabilities via MCP, then wrap in code with the Claude Agent SDK."
+title: "How to Build AI Agents: Inside Out"
+description: "Build AI agents from the inside out — start with behavior in CLAUDE.md, add capabilities via MCP, then wrap in code with the Claude Agent SDK."
 pubDate: 2026-01-30
 heroImage: "/images/blog/building-agents-inside-out/hero.webp"
 series: ["AI Agents"]

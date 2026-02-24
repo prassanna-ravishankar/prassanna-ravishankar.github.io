@@ -1,6 +1,6 @@
 ---
-title: "Experiments as First-Class Citizens"
-description: "Stop treating ML experiments as disposable! Learn why elevating experiment tracking to first-class infrastructure is crucial for robust MLOps, reproducibility & Software 2.0."
+title: "ML Experiment Tracking as First-Class Infrastructure"
+description: "Treating ML experiments as disposable runs undermines reproducibility and model quality. Learn why experiment tracking belongs in MLOps infrastructure."
 pubDate: 2025-04-08
 heroImage: "/images/blog/experiments-first-class-citizens/hero.webp"
 series: ["MLOps"]

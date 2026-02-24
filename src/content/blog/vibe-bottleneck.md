@@ -1,6 +1,6 @@
 ---
-title: "The Vibe Bottleneck"
-description: "Coding agents are great at understanding repositories. But when work spans multiple repos, you become the message transmitter, the slowdown, and the source of errors."
+title: "The Vibe Bottleneck: AI Coding Workflow Across Multi-Repo"
+description: "Multi-repo coding agent workflows turn you into the message bus. When work spans repositories, you become the slowdown and the source of errors."
 pubDate: 2026-01-23
 heroImage: "/images/blog/vibe-bottleneck/hero.webp"
 series: ["AI Agents"]

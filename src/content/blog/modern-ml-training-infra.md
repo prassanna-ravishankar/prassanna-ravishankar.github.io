@@ -1,6 +1,6 @@
 ---
-title: "Navigating the Modern Landscape of Machine Learning Training Infrastructure"
-description: "A comprehensive overview of modern ML training infrastructure, covering cloud agnosticism, spot instances, on-premise solutions, heterogeneous hardware, distributed training, and emerging GPU cloud providers."
+title: "Machine Learning Training Infrastructure Guide"
+description: "Scale ML models faster with the right training infrastructure. Covers distributed training, GPU clouds, spot instances, and cloud-agnostic setups."
 pubDate: 2025-03-31
 heroImage: "/images/blog/ml-training-infra/hero.webp"
 series: ["Machine Learning", "MLOps"]

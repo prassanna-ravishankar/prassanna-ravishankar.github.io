@@ -1,6 +1,6 @@
 ---
-title: "Agents Are Databases in Disguise"
-description: "AI agents face the same challenges as databases and workflow engines. Here's why treating agent memory like a proper data system unlocks reliability."
+title: "AI Agent Memory Management With Databases"
+description: "AI agent memory management mirrors database design. Agent state needs persistence, retries, and checkpointing — the same problems backend systems solved."
 pubDate: 2026-01-01
 heroImage: "/images/blog/agents-are-databases/hero.webp"
 series: ["AI Agents"]

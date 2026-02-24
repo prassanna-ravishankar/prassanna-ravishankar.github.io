@@ -1,6 +1,6 @@
 ---
 title: "Ambient AI: Building Torale from Complexity to Simplicity"
-description: "The evolution from overengineered web scrapers to grounded search APIs, and what it takes to make information truly ambient. A technical journey through V1's failure, Gemini's unlock, and shipping a production monitoring platform."
+description: "Torale monitors the web so you don't have to. How ambient AI turns passive monitoring into proactive intelligence — and how Gemini made it possible."
 pubDate: 2025-11-17
 heroImage: "/images/blog/ambient-ai-torale/hero.webp"
 series: ["AI Agents", "Productivity"]

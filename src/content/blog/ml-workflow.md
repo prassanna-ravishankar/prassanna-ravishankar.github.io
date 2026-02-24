@@ -1,6 +1,6 @@
 ---
-title: "Stop Training and Praying"
-description: "Master efficient ML development with the Pre-Flight, In-Flight, Post-Flight framework. Learn how to catch bugs before expensive training runs, monitor training in real-time, and evaluate models beyond vanity metrics. Stop wasting millions on failed ML experiments."
+title: "A Better ML Training Workflow: Stop Training and Praying"
+description: "Fix your ML training workflow with the Pre-Flight, In-Flight, Post-Flight framework—catch bugs early, monitor runs, and evaluate beyond vanity metrics."
 pubDate: 2025-07-23
 heroImage: "/images/blog/ml-workflow/hero.webp"
 series: ["Machine Learning", "MLOps"]

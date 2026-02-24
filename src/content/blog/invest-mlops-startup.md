@@ -1,6 +1,6 @@
 ---
-title: "When (and How) to Invest in MLOps at Your Startup"
-description: "A practical guide for startup founders on when and how to invest in MLOps - from early stage flexibility to scaling infrastructure, with key principles and pitfalls to avoid."
+title: "MLOps for Startups: A Decision Framework"
+description: "A decision framework for when to invest in MLOps at your startup — from early-stage flexibility through scaling infrastructure at each growth stage."
 pubDate: 2025-03-27
 heroImage: "/images/blog/invest-mlops/hero-image2.webp"
 series: ["MLOps", "Startups"]

@@ -1,6 +1,6 @@
 ---
-title: "Machine learning ain't Javascript"
-description: "Problems in the ML ecosystem. Fragmentation in machine learning, that keeps preventing the stack from growing higher. How I took a stab at the issue."
+title: "ML Ecosystem Fragmentation (It Ain't JavaScript)"
+description: "The ML ecosystem mirrors JavaScript's 2015 framework chaos. I map the fragmentation layers and share how I tackled it by building torchwebio."
 pubDate: 2022-10-07
 heroImage: "/images/blog/ml-fragmentation/ecosystem.webp"
 series: ["Machine Learning"]
