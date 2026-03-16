@@ -1,5 +1,5 @@
 ---
-title: "Overnight Agents: What Happened When I Let 7 AI Peers Run My Repos"
+title: "Overnight Agents: Crunching Tokens"
 description: "I launched an orchestrator that managed 7 Claude Code peers across repos simultaneously. They found SQL injections, fixed a 9x cost bug, built new features, and shipped 130+ commits while I slept."
 pubDate: 2026-03-16
 heroImage: "/images/blog/overnight-agents/hero.webp"
