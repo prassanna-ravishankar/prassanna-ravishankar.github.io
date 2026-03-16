@@ -175,7 +175,7 @@ const breadcrumbSchema = {
 
 <script>
   // Simple client-side script to enhance images and add IDs to headings
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     // Add IDs to headings if they don't have them
     const headings = document.querySelectorAll('.prose h2, .prose h3');
     headings.forEach((heading, index) => {

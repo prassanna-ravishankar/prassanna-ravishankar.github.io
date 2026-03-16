@@ -97,7 +97,7 @@ export function rehypeImageOptimizer() {
         figureNode.children.push({
           type: 'element',
           tagName: 'figcaption',
-          properties: { class: 'text-center text-sm text-gray-600 dark:text-gray-400 mt-2' },
+          properties: { class: 'text-center text-sm text-muted mt-2' },
           children: [{ type: 'text', value: alt }]
         });
       }

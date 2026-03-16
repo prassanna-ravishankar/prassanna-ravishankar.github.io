@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         serif: ['Lora', 'Georgia', 'serif'],
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        sans: ['Manrope', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         display: ['Lora', 'serif'], // Restored serif for nice mixing
       },
       colors: {

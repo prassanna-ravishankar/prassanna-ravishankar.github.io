@@ -82,10 +82,10 @@ const topicSchema = {
   <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
       <!-- Breadcrumb navigation -->
-      <nav class="text-sm text-muted dark:text-muted mb-8" aria-label="Breadcrumb">
+      <nav class="text-sm text-muted mb-8" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2">
           <li>
-            <a href="/" class="hover:text-teal-600 dark:hover:text-teal-400">Home</a>
+            <a href="/" class="hover:text-primary transition-colors">Home</a>
           </li>
           <li>
             <svg class="w-3 h-3 text-muted" fill="currentColor" viewBox="0 0 20 20">
@@ -93,7 +93,7 @@ const topicSchema = {
             </svg>
           </li>
           <li>
-            <a href="/blog/" class="hover:text-teal-600 dark:hover:text-teal-400">Blog</a>
+            <a href="/blog/" class="hover:text-primary transition-colors">Blog</a>
           </li>
           <li>
             <svg class="w-3 h-3 text-muted" fill="currentColor" viewBox="0 0 20 20">
@@ -101,7 +101,7 @@ const topicSchema = {
             </svg>
           </li>
           <li>
-            <a href="/topics/" class="hover:text-teal-600 dark:hover:text-teal-400">Topics</a>
+            <a href="/topics/" class="hover:text-primary transition-colors">Topics</a>
           </li>
           <li>
             <svg class="w-3 h-3 text-muted" fill="currentColor" viewBox="0 0 20 20">
@@ -109,7 +109,7 @@ const topicSchema = {
             </svg>
           </li>
           <li>
-            <span class="text-gray-700 dark:text-main/80" aria-current="page">
+            <span class="text-main/80" aria-current="page">
               {topic}
             </span>
           </li>
@@ -119,9 +119,9 @@ const topicSchema = {
       <!-- Header -->
       <header class="mb-12 text-center">
         <h1 class="text-4xl font-bold mb-4">
-          <span class="text-teal-600 dark:text-teal-400">{topic}</span>
+          <span class="text-primary">{topic}</span>
         </h1>
-        <p class="text-xl text-gray-600 dark:text-muted">
+        <p class="text-xl text-muted">
           {sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'}
           {projects.length > 0 && ` · ${projects.length} ${projects.length === 1 ? 'project' : 'projects'}`}
         </p>
@@ -130,23 +130,23 @@ const topicSchema = {
       <!-- Posts list -->
       <div class="space-y-8">
         {sortedPosts.map((post) => (
-          <article class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+          <article class="bg-surface rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-subtle/10">
             <div class="p-6">
               <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
                 <h2 class="text-2xl font-bold">
                   <a
                     href={`/blog/${post.slug}/`}
-                    class="hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+                    class="hover:text-primary transition-colors"
                   >
                     {post.data.title}
                   </a>
                 </h2>
-                <time class="text-muted dark:text-muted text-sm mt-1 md:mt-0">
+                <time class="text-muted text-sm mt-1 md:mt-0">
                   {formatDate(post.data.pubDate)}
                 </time>
               </div>
 
-              <p class="text-gray-600 dark:text-main/80 mb-4">
+              <p class="text-muted mb-4">
                 {post.data.description}
               </p>
 
@@ -156,7 +156,7 @@ const topicSchema = {
                   {post.data.series.map((seriesTag) => (
                     <a
                       href={`/tags/${encodeURIComponent(seriesTag)}/`}
-                      class="px-3 py-1 rounded-full text-sm font-medium transition-colors bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-800"
+                      class="px-3 py-1 rounded-full text-sm font-medium transition-colors bg-primary/10 text-primary hover:bg-primary/20"
                     >
                       {seriesTag}
                     </a>
@@ -164,11 +164,11 @@ const topicSchema = {
                 </div>
               )}
 
-              <!-- Topic tags (display only on topic page — no recursive cross-linking) -->
+              <!-- Topic tags (display only on topic page) -->
               {post.data.topics && post.data.topics.length > 0 && (
                 <div class="flex flex-wrap gap-1.5 mb-4">
                   {post.data.topics.slice(0, 4).map((t) => (
-                    <span class="px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-muted">
+                    <span class="px-2 py-0.5 rounded text-xs bg-subtle/5 border border-subtle/10 text-muted">
                       {t}
                     </span>
                   ))}
@@ -177,7 +177,7 @@ const topicSchema = {
 
               <a
                 href={`/blog/${post.slug}/`}
-                class="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center"
+                class="text-primary hover:underline inline-flex items-center"
               >
                 Read more
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -195,9 +195,9 @@ const topicSchema = {
           <h2 class="text-2xl font-bold mb-6">Related Projects</h2>
           <div class="grid gap-4 md:grid-cols-2">
             {projects.map((project) => (
-              <a href={`/projects/${project.slug}/`} class="block p-5 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
+              <a href={`/projects/${project.slug}/`} class="block p-5 bg-surface rounded-lg border border-subtle/10 hover:shadow-lg transition-shadow">
                 <h3 class="text-lg font-semibold mb-1">{project.data.title}</h3>
-                <p class="text-gray-600 dark:text-muted text-sm">{project.data.description}</p>
+                <p class="text-muted text-sm">{project.data.description}</p>
               </a>
             ))}
           </div>
@@ -205,10 +205,10 @@ const topicSchema = {
       )}
 
       <!-- Back links -->
-      <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-center flex justify-center gap-6">
+      <div class="mt-12 pt-6 border-t border-subtle/10 text-center flex justify-center gap-6">
         <a
           href="/topics/"
-          class="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center"
+          class="text-primary hover:underline inline-flex items-center"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -217,7 +217,7 @@ const topicSchema = {
         </a>
         <a
           href="/blog/"
-          class="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center"
+          class="text-primary hover:underline inline-flex items-center"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
