@@ -1,7 +1,7 @@
 ---
 title: "FastHarness"
 description: "Turn AI agents into production-ready A2A services with pluggable runtime backends"
-pubDate: 2025-09-01
+pubDate: 2026-01-24
 image: "/images/projects/fastharness.webp"
 github: "https://github.com/prassanna-ravishankar/fastharness"
 link: "https://pypi.org/project/fastharness/"
