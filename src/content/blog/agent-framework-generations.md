@@ -226,7 +226,7 @@ async for message in query(
 
 Compare this to the Gen 1 while loop. The messages array is gone. The tool dispatch is gone. The "check if the model wants to call a tool" conditional is gone. You are not managing the agent's reasoning cycle. You are receiving its output. The agent decides when to read a file, when to run a test, when to edit code, and when to stop. Your code is a consumer of the agent's work, not the orchestrator of it.
 
-I wrote about this progression in [building agents inside out](/blog/building-agents-inside-out/). When I first wrapped the Claude Agent SDK in a FastAPI endpoint, the useful code (system prompt, output schema, model choice) was about 20 lines. The remaining 120 lines were message iteration, cost deduplication, step logging, and HTTP wiring. Every agent I built had the same 120 lines. So I extracted them into [FastHarness](https://github.com/prassanna-ravishankar/fastharness).
+I wrote about this progression in [building agents inside out](/blog/building-agents-inside-out/). When I first wrapped the Claude Agent SDK in a FastAPI endpoint, the code that defined the agent's actual behavior (system prompt, output schema, model choice) was a small fraction of what I wrote. The rest was message iteration, cost deduplication, step logging, and HTTP wiring. Identical plumbing, every time. So I extracted it into [FastHarness](https://github.com/prassanna-ravishankar/fastharness).
 
 ```python
 from fastharness import FastHarness, Skill
@@ -254,7 +254,7 @@ from fastharness import FastHarness
 # Claude Agent SDK (default)
 harness = FastHarness(name="my-agent")
 
-# OpenHands — agent gets a full workspace
+# OpenHands - agent gets a full workspace
 from fastharness.runtime.openhands import OpenHandsRuntimeFactory
 harness = FastHarness(
     name="dev-agent",
@@ -286,7 +286,7 @@ async with FastHarnessClient("http://localhost:8000") as client:
     # First turn
     await client.send("My name is Alice.", context_id="session-1")
 
-    # Second turn — the agent remembers
+    # Second turn - the agent remembers
     reply = await client.send("What's my name?", context_id="session-1")
     print(reply)  # "Alice"
 
@@ -313,9 +313,9 @@ This progression (list to memory object to typed context to session) mirrors wha
 
 ## Where this leaves us
 
-The trajectory is clear. Each generation reduces the ratio of infrastructure code to behavior code. Gen 1 was almost entirely infrastructure. Gen 2 replaced your infrastructure with framework infrastructure (arguable improvement). Gen 3 minimized infrastructure while keeping you in control of the loop. Gen 4 eliminates the loop and leaves you with behavior, which is what matters.
+The trajectory is clear. Each generation shifts responsibility away from the developer and toward the framework or the model. Gen 1 left everything to you. Gen 2 replaced your plumbing with framework plumbing (arguable improvement). Gen 3 gave you back control while handling the edges. Gen 4 hands the loop to the model entirely and leaves you with behavior, which is what matters.
 
-I have a bias here. I built [FastHarness](https://github.com/prassanna-ravishankar/fastharness) because I got tired of writing the same 120 lines of A2A protocol wiring for every agent. The runtime factory pattern exists because I needed the same agent to run on Claude's subprocess model for some use cases and on OpenHands for others. These are not theoretical preferences. They are extracted from production agents that I run in [Torale](https://torale.ai) and across my [project portfolio](https://github.com/prassanna-ravishankar).
+I have a bias here. I built [FastHarness](https://github.com/prassanna-ravishankar/fastharness) because I got tired of re-implementing the same A2A protocol wiring, message iteration, and cost tracking for every agent. The runtime factory pattern exists because I needed the same agent to run on Claude's subprocess model for some use cases and on OpenHands for others. These are not theoretical preferences. They are extracted from production agents that I run in [Torale](https://torale.ai) and across my [project portfolio](https://github.com/prassanna-ravishankar).
 
 But the larger point stands regardless of which specific framework you use. The question is no longer "which framework should I pick?" It is "how much of the agent loop do I want to own?" If the answer is all of it, Gen 1 is still there and still works. If the answer is none of it, Gen 4 hands the loop to the model and lets you focus on what your agent should do rather than how it should run.
 
