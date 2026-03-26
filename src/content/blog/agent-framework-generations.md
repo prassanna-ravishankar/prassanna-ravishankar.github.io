@@ -15,7 +15,9 @@ PROMPT: Abstract editorial illustration showing an evolutionary progression from
 
 I have been building agents for most of the past year. Not chatbots, not RAG pipelines, but agents that run for hours, call tools, recover from errors, and ship actual work. Over that time I have used raw API calls, LangChain, Pydantic AI, the Claude Agent SDK, and my own [FastHarness](https://github.com/prassanna-ravishankar/fastharness) framework. Each one taught me something about what matters and what doesn't.
 
-What I have come to believe is that agent frameworks have evolved through four distinct generations, and with each generation, an entire ecosystem of concepts came into sharper definition. Tools, memory, sessions, contracts, observability, safety. These concepts existed in some form from the beginning, but they started as indistinguishable hacks and gradually resolved into distinct, protocol-level primitives. The frameworks and the concepts co-evolved, each driving the other, and together they define what we mean by "agent ecosystem."
+What I have come to believe is that agent frameworks have evolved through four distinct generations, and the core change across all of them is an inversion. In Gen 1, you contain the agent: your code wraps a model call, manages the loop, dispatches tools, persists state. By Gen 4, the agent contains you: it runs autonomously, and your contribution is a system prompt and a behavior spec tucked inside its runtime. The developer went from being the outer shell to being the inner kernel.
+
+With each generation, an ecosystem of concepts (tools, memory, sessions, contracts, observability, safety) came into sharper definition alongside that inversion. They started as indistinguishable hacks inside the developer's while loop and gradually resolved into distinct, protocol-level primitives that the agent consumes. The frameworks and the concepts co-evolved, and together they define what we mean by "agent ecosystem."
 
 The best way to see this is through code.
 
@@ -65,7 +67,7 @@ while True:
 
 Every concept that would later become a distinct primitive existed here, but none of them had definition. Tools were JSON schemas you hand-wrote and dispatched with if/elif chains. A "session" was a Python list called `messages` that you appended to, truncated when it got too long, and lost when the process died. Memory was whatever you serialized to disk yourself. Observability was `print()`. Safety was a system prompt saying "don't do bad things." Cost tracking was checking your OpenAI dashboard the next morning.
 
-This worked. Millions of agents shipped this way. But every team was solving the same problems: the tool dispatch, the retry logic, the context window overflow, the conversation persistence. The concepts were there, they were just blurry. You could not point to where "tool use" ended and "session management" began because they were all tangled in the same while loop.
+This worked. Millions of agents shipped this way. But look at who contains whom: your code is the outer shell, and the model is a function call buried inside your while loop. You own everything. The model is a dependency you invoke, not an entity that acts. The concepts (tools, memory, sessions) are there, but they are just implementation details of your loop, tangled and indistinguishable.
 
 ## Generation 2: Abstractions on abstractions
 
@@ -106,23 +108,27 @@ user_proxy.initiate_chat(assistant, message="Plot NVDA stock price YTD")
 
 AutoGen's insight (agents as conversation partners, not chain links) was genuine. But [the project fractured](https://microsoft.github.io/autogen/0.2/blog/2024/11/14/confusion-created-by-forks/) in November 2024 when the original creators left Microsoft and forked it as AG2, leaving four competing versions and no clear path forward. CrewAI tried to simplify multi-agent coordination with role-based metaphors, but added its own layer of YAML configuration and anthropomorphic ceremony.
 
-<!-- IMAGE: gen2-tangle.webp (1200x630)
-PROMPT: Clean technical diagram in the style of Anthropic's engineering blog illustrations. Cream background. Crisp flat vector shapes with consistent rounded corners. Two panels side by side with generous spacing.
+<!-- IMAGE: inversion.webp (1200x630)
+PROMPT: Clean technical diagram in the style of Anthropic's engineering blog illustrations. Cream background. Crisp flat vector shapes with consistent rounded corners. Four panels arranged left to right with generous spacing, connected by thin gray arrows.
 
-Left panel titled "GEN 1" in all-caps letter-spaced text: Six small warm orange rounded rectangles of equal size, arranged loosely in two rough columns of three. No container, no connections between them. They are all the same color because the concepts (tools, memory, sessions, observability, safety, cost) are undifferentiated. Below, a label "everything is a hack" in lowercase italic.
+Panel 1 titled "GEN 1": A large warm orange rounded rectangle (representing developer code) containing a small sage green rounded rectangle inside it (representing the model). The orange is the outer shell. The green is a small dependency inside. The developer contains the model.
 
-Right panel titled "GEN 2" in all-caps letter-spaced text: The same six warm orange rectangles, now sorted into two groups inside two separate slate blue container rectangles. Three orange blocks inside a tall slate blue container labeled "LangChain" and three inside another labeled "AutoGen". The blocks are neatly organized inside their containers but the two containers have no connection to each other. The blocks are visible but trapped. Below, a label "named but not portable" in lowercase italic.
+Panel 2 titled "GEN 2": A large slate blue rounded rectangle (representing the framework) containing both a medium warm orange rectangle and a medium sage green rectangle side by side inside it. The framework contains both the developer and the model. Neither is the outer shell.
 
-A thin gray arrow connects the left panel to the right panel.
+Panel 3 titled "GEN 3": A medium warm orange rounded rectangle with a medium sage green rectangle beside it, connected by thin lines. No outer container. They are peers. The developer still writes the loop but the framework wrapper is gone.
 
-Typography: all-caps letter-spaced headings, title-case for container labels, lowercase italic for annotations. Clean sans-serif throughout. Style: Anthropic technical blog. Precise vector shapes. Muted earth tones only. No gradients, no shadows, no icons, no textures.
+Panel 4 titled "GEN 4": A large sage green rounded rectangle (representing the agent runtime) containing a small warm orange rounded rectangle inside it (representing the developer's behavior spec). The green is now the outer shell. The orange is a small configuration inside. The agent contains the developer.
+
+The visual progression shows the orange shrinking from outer shell to inner kernel while the green grows from inner dependency to outer shell. Below all four panels, a thin dashed line with the label "the inversion" in lowercase italic.
+
+Typography: all-caps letter-spaced headings for generation labels, lowercase italic for annotation. Clean sans-serif throughout. Style: Anthropic technical blog. Precise vector shapes. Muted earth tones only. No gradients, no shadows, no icons, no textures.
 -->
 
-![Concepts becoming visible but tangled in framework layers](/images/blog/agent-framework-generations/gen2-tangle.webp)
+![The ownership inversion: the developer went from outer shell to inner kernel](/images/blog/agent-framework-generations/inversion.webp)
 
 The session concept evolved from a raw messages list to Memory objects: `ConversationBufferMemory`, `ConversationSummaryMemory`, vector-store-backed retrieval memory. The intention was good. The execution was leaky. Memory was bolted on rather than built in, and the abstractions often hid critical details about what was actually being stored and retrieved. You traded a list you understood for a Memory class you had to read the source code to debug.
 
-The fundamental tension was that Gen 2 frameworks tried to own every concept. LangChain's `Tool` was not Python's function. LangChain's `Memory` was not a database. Each concept was visible (you could point to "that's the memory, that's the tool") but not portable. If you left the framework, you left its concepts too.
+The containment shifted, but not toward the agent. The framework became the new outer shell: it wrapped both you and the model in its abstractions. You were no longer containing the model directly; the framework was containing both of you. LangChain's `Tool` was not Python's function. LangChain's `Memory` was not a database. Each concept was visible (you could point to "that's the memory, that's the tool") but not portable. If you left the framework, you left its concepts too.
 
 ## Generation 3: Back to Python
 
@@ -196,11 +202,11 @@ def get_history(ctx: RunContext[UserContext]) -> str:
 
 Observability matured in parallel. Pydantic Logfire launched as [OpenTelemetry-native](https://logfire.pydantic.dev/docs/ai-observability/), meaning agent traces were standard OTel spans rather than framework-specific artifacts. The [OpenTelemetry GenAI Semantic Conventions](https://opentelemetry.io/blog/2025/ai-agent-observability/) (v1.37) defined standard attributes for tasks, actions, agents, and memory. Evaluation found its footing through SWE-bench and the distinction between outcome evaluation (did the agent get the right answer?) and trajectory evaluation (did the agent take reasonable steps to get there?).
 
-Gen 3 restored developer control. Debugging meant debugging Python. But you still wrote the agent loop. You still dispatched tool calls. The framework handled the edges; the core loop was still yours.
+Gen 3 dissolved the framework's outer shell and gave the developer back control. You could see every layer, debug every step, and swap components without rewriting your agent. But the containment had not yet inverted. You still wrote the agent loop. You still dispatched tool calls. The model was still a call inside your code, not an entity running your code.
 
 ## Generation 4: The agent gets a computer
 
-The shift to Gen 4 is not incremental. It is a category change. In every previous generation, your code orchestrates the agent. In Gen 4, the agent orchestrates itself.
+Gen 4 is where the inversion happens. In every previous generation, your code is the outer shell and the model is a call inside it. In Gen 4, the agent is the outer shell and your contribution (a system prompt, a behavior spec, a set of allowed tools) is a small configuration inside the agent's runtime. The model runs the loop. You describe what it should do.
 
 Three projects represent three different interface philosophies for the same underlying capability.
 
@@ -267,19 +273,19 @@ app = bridge.expose("research-bot", description="Research assistant")
 # One line: full A2A endpoint, streaming, multi-turn, health checks
 ```
 
-<!-- IMAGE: gen4-ecosystem.webp (1200x630)
-PROMPT: Clean technical diagram in the style of Anthropic's engineering blog illustrations. Cream background. Crisp flat vector shapes with consistent rounded corners. Two panels side by side.
+<!-- IMAGE: cycle-restart.webp (1200x630)
+PROMPT: Clean technical diagram in the style of Anthropic's engineering blog illustrations. Cream background. Crisp flat vector shapes with consistent rounded corners. Two panels side by side with a thin dashed curved arrow connecting the right panel back toward the left.
 
-Left panel titled "GEN 3" in all-caps letter-spaced text: Six sage green rounded rectangles in a clean two-column grid. Each block has a small sage green circle connector on its edge, with thin lines linking related blocks together. No outer container. The blocks are self-organized, typed, independent. Labels on blocks: "tools", "context", "guardrails", "evals", "observability", "sessions". Below, a label "typed and portable" in lowercase italic.
+Left panel titled "GEN 4" in all-caps letter-spaced text: Six sage green rounded rectangles arranged in a clean two-column grid with thin connecting lines between them. Each block is labeled with a protocol name: "MCP", "A2A", "Mem0", "Temporal", "OTel", "Sessions". The blocks are precise, organized, resolved. Below, a label "single-agent: solved" in lowercase italic.
 
-Right panel titled "GEN 4" in all-caps letter-spaced text: Six sage green rounded rectangles arranged in a ring formation with generous space in the center. Each block has thin gray lines extending outward to small faint outlined rectangles beyond the ring (representing external consumers, other agents). Labels on blocks: "MCP", "A2A", "Mem0", "Temporal", "OTel", "Sessions". The blocks are not contained by anything and each radiates connections independently. Below, a label "protocols and infrastructure" in lowercase italic.
+Right panel titled "GEN 5" in all-caps letter-spaced text: Six warm orange rounded rectangles of different sizes, not in a grid, arranged loosely with no connections between them. Each is labeled with a multi-agent concern: "coordination", "discovery", "state sync", "merge", "cost", "identity". They are not contained by anything and have no visual relationship to each other. Below, a label "multi-agent: unsolved" in lowercase italic.
 
-A thin gray arrow connects the left panel to the right panel.
+A thin dashed curved arrow arcs from the bottom of the right panel back toward the left panel, suggesting the cycle is repeating. The visual story: the left side is resolved and organized, the right side is back to the unstructured state of Gen 1, but at a higher level.
 
 Typography: all-caps letter-spaced headings, lowercase labels on blocks, lowercase italic for annotations. Clean sans-serif throughout. Style: Anthropic technical blog. Precise vector shapes. Muted earth tones only. No gradients, no shadows, no icons, no textures.
 -->
 
-![The agent ecosystem in full definition: each concept now a distinct protocol-level primitive](/images/blog/agent-framework-generations/gen4-ecosystem.webp)
+![The cycle restarts: single-agent ecosystem resolved, multi-agent ecosystem back to Gen 1](/images/blog/agent-framework-generations/cycle-restart.webp)
 
 The honest picture of Gen 4 is that it is simultaneously real and uneven. MCP adoption is genuine, but [30 CVEs were filed against MCP infrastructure in 60 days](https://www.heyuan110.com/posts/ai/2026-03-10-mcp-security-2026/) (January-February 2026), and OWASP created a dedicated [MCP Top 10](https://dev.to/mistaike_ai/owasp-just-published-an-mcp-top-10-heres-what-it-means-5ebi). The protocol shipped before anyone secured it. A2A has 150+ partner companies but production deployments [you can count on one hand](https://stackoverflow.blog/2026/03/20/was-2025-really-the-year-of-ai-agents/). Memory is fragmenting, not converging: Mem0, Zep, and Letta are building in fundamentally different directions, and data gravity (the increasing switching cost as agents accumulate personalization) is becoming the new vendor lock-in. Only [52% of teams have actual agent evals](https://www.langchain.com/state-of-agent-engineering) despite 89% having observability. And [42% of AI projects show zero ROI](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027), with Gartner predicting over 40% of agentic AI projects will be canceled by end of 2027.
 
