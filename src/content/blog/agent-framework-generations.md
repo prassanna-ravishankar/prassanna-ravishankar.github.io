@@ -1,5 +1,5 @@
 ---
-title: "The Agent Framework Arc"
+title: "The Archeology of Agent Frameworks"
 description: "Agent frameworks evolved from raw API loops to autonomous coding agents in four generations, each bringing concepts like tools, memory, and sessions into sharper definition. Now multi-agent systems are starting the cycle again."
 pubDate: 2026-03-26
 heroImage: "/images/blog/agent-framework-generations/hero.webp"
