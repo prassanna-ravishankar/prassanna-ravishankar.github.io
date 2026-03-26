@@ -1,5 +1,5 @@
 ---
-title: "Four Generations of Agent Frameworks"
+title: "The Agent Framework Arc"
 description: "Agent frameworks evolved from raw API loops to autonomous coding agents in four generations, each bringing concepts like tools, memory, and sessions into sharper definition. Now multi-agent systems are starting the cycle again."
 pubDate: 2026-03-26
 heroImage: "/images/blog/agent-framework-generations/hero.webp"
@@ -106,8 +106,16 @@ user_proxy.initiate_chat(assistant, message="Plot NVDA stock price YTD")
 
 AutoGen's insight (agents as conversation partners, not chain links) was genuine. But [the project fractured](https://microsoft.github.io/autogen/0.2/blog/2024/11/14/confusion-created-by-forks/) in November 2024 when the original creators left Microsoft and forked it as AG2, leaving four competing versions and no clear path forward. CrewAI tried to simplify multi-agent coordination with role-based metaphors, but added its own layer of YAML configuration and anthropomorphic ceremony.
 
-<!-- IMAGE: gen2-tangle.webp (1200x630, 16:9 aspect ratio)
-PROMPT: Abstract editorial illustration of concepts becoming visible but tangled. Six small geometric shapes (cube, sphere, tetrahedron, octahedron, cylinder, torus) representing different concepts (tools, memory, sessions, observability, safety, contracts), each a different color (teal #2FA898, cyan #00FFFF, gold #D98034, brick red #B54725, slate #475569, electric blue #0066FF). All six shapes are wrapped together in overlapping translucent burnt orange (#D98034 at 40% opacity) layers, partially visible but impossible to extract individually. Thin lines from outside attempt to reach specific shapes but get tangled in the wrapping. To the left, the same six shapes in their Gen 1 form: barely visible, almost the same color as the background, undifferentiated. Background: void black (#0f0f12). Digital stipple grain at 16% density. No text, no human figures. Vector art, isometric perspective.
+<!-- IMAGE: gen2-tangle.webp (1200x630)
+PROMPT: Clean technical diagram in the style of Anthropic's engineering blog illustrations. Cream background. Crisp flat vector shapes with consistent rounded corners. Two panels side by side with generous spacing.
+
+Left panel titled "GEN 1" in all-caps letter-spaced text: Six small warm orange rounded rectangles of equal size, arranged loosely in two rough columns of three. No container, no connections between them. They are all the same color because the concepts (tools, memory, sessions, observability, safety, cost) are undifferentiated. Below, a label "everything is a hack" in lowercase italic.
+
+Right panel titled "GEN 2" in all-caps letter-spaced text: The same six warm orange rectangles, now sorted into two groups inside two separate slate blue container rectangles. Three orange blocks inside a tall slate blue container labeled "LangChain" and three inside another labeled "AutoGen". The blocks are neatly organized inside their containers but the two containers have no connection to each other. The blocks are visible but trapped. Below, a label "named but not portable" in lowercase italic.
+
+A thin gray arrow connects the left panel to the right panel.
+
+Typography: all-caps letter-spaced headings, title-case for container labels, lowercase italic for annotations. Clean sans-serif throughout. Style: Anthropic technical blog. Precise vector shapes. Muted earth tones only. No gradients, no shadows, no icons, no textures.
 -->
 
 ![Concepts becoming visible but tangled in framework layers](/images/blog/agent-framework-generations/gen2-tangle.webp)
@@ -259,11 +267,19 @@ app = bridge.expose("research-bot", description="Research assistant")
 # One line: full A2A endpoint, streaming, multi-turn, health checks
 ```
 
-<!-- IMAGE: gen4-ecosystem.webp (1200x630, 16:9 aspect ratio)
-PROMPT: Abstract editorial illustration showing an ecosystem in high definition. Six distinct geometric forms arranged in a hexagonal pattern, each sharp, crisp, and clearly separated: a teal (#2FA898) dodecahedron (tools/MCP), a cyan (#00FFFF) icosahedron (contracts/A2A), a gold (#D98034) cube (memory/Mem0), an electric blue (#0066FF) octahedron (state/Temporal), a white-cyan (#E0FFFF) sphere (sessions), and a slate (#334155) tetrahedron (observability/OTel). Each form is self-illuminated with sharp edges and visible internal structure. Between them, thin precise lines (2px, white at 40% opacity) form a network, with bright particles traveling along three of the lines. Around the outer edge, a faint ring of smaller, blurrier versions of the same shapes at 15% opacity suggests the earlier generations when these concepts were indistinguishable. Background: void black (#0f0f12). Digital stipple grain at 10% density. No text, no human figures. Vector art with luminous glow effects.
+<!-- IMAGE: gen4-ecosystem.webp (1200x630)
+PROMPT: Clean technical diagram in the style of Anthropic's engineering blog illustrations. Cream background. Crisp flat vector shapes with consistent rounded corners. Two panels side by side.
+
+Left panel titled "GEN 3" in all-caps letter-spaced text: Six sage green rounded rectangles in a clean two-column grid. Each block has a small sage green circle connector on its edge, with thin lines linking related blocks together. No outer container. The blocks are self-organized, typed, independent. Labels on blocks: "tools", "context", "guardrails", "evals", "observability", "sessions". Below, a label "typed and portable" in lowercase italic.
+
+Right panel titled "GEN 4" in all-caps letter-spaced text: Six sage green rounded rectangles arranged in a ring formation with generous space in the center. Each block has thin gray lines extending outward to small faint outlined rectangles beyond the ring (representing external consumers, other agents). Labels on blocks: "MCP", "A2A", "Mem0", "Temporal", "OTel", "Sessions". The blocks are not contained by anything and each radiates connections independently. Below, a label "protocols and infrastructure" in lowercase italic.
+
+A thin gray arrow connects the left panel to the right panel.
+
+Typography: all-caps letter-spaced headings, lowercase labels on blocks, lowercase italic for annotations. Clean sans-serif throughout. Style: Anthropic technical blog. Precise vector shapes. Muted earth tones only. No gradients, no shadows, no icons, no textures.
 -->
 
-![The agent ecosystem in full definition: tools, contracts, memory, state, sessions, observability as distinct protocol-level primitives](/images/blog/agent-framework-generations/gen4-ecosystem.webp)
+![The agent ecosystem in full definition: each concept now a distinct protocol-level primitive](/images/blog/agent-framework-generations/gen4-ecosystem.webp)
 
 The honest picture of Gen 4 is that it is simultaneously real and uneven. MCP adoption is genuine, but [30 CVEs were filed against MCP infrastructure in 60 days](https://www.heyuan110.com/posts/ai/2026-03-10-mcp-security-2026/) (January-February 2026), and OWASP created a dedicated [MCP Top 10](https://dev.to/mistaike_ai/owasp-just-published-an-mcp-top-10-heres-what-it-means-5ebi). The protocol shipped before anyone secured it. A2A has 150+ partner companies but production deployments [you can count on one hand](https://stackoverflow.blog/2026/03/20/was-2025-really-the-year-of-ai-agents/). Memory is fragmenting, not converging: Mem0, Zep, and Letta are building in fundamentally different directions, and data gravity (the increasing switching cost as agents accumulate personalization) is becoming the new vendor lock-in. Only [52% of teams have actual agent evals](https://www.langchain.com/state-of-agent-engineering) despite 89% having observability. And [42% of AI projects show zero ROI](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027), with Gartner predicting over 40% of agentic AI projects will be canceled by end of 2027.
 
