@@ -21,7 +21,7 @@ With each generation, an ecosystem of concepts (tools, memory, sessions, contrac
 
 The best way to see this is through code.
 
-## Generation 1: The raw loop
+## Generation 1: The raw loop (Nov 2022 - May 2023)
 
 Before frameworks existed, building an agent meant writing a while loop. You maintained a messages array, called the API, checked if the response contained tool calls, executed them yourself, appended the results, and looped until the model stopped asking for tools.
 
@@ -69,7 +69,7 @@ Every concept that would later become a distinct primitive existed here, but non
 
 This worked. Millions of agents shipped this way. But look at who contains whom: your code is the outer shell, and the model is a function call buried inside your while loop. You own everything. The model is a dependency you invoke, not an entity that acts. The concepts (tools, memory, sessions) are there, but they are just implementation details of your loop, tangled and indistinguishable.
 
-## Generation 2: Abstractions on abstractions
+## Generation 2: Abstractions on abstractions (May 2023 - Dec 2024)
 
 LangChain launched in October 2022, written by Harrison Chase [in nine days](https://blog.langchain.com/three-years-langchain/). It introduced the abstractions that would define a generation: Chains, Agents, Tools, and Memory. Within months it had raised $20M from Sequoia and had 99,000 GitHub stars. Microsoft's AutoGen (October 2023) brought multi-agent conversation. CrewAI (January 2024) added role-based coordination with agents that had "backstories."
 
@@ -130,7 +130,7 @@ The session concept evolved from a raw messages list to Memory objects: `Convers
 
 The containment shifted, but not toward the agent. The framework became the new outer shell: it wrapped both you and the model in its abstractions. You were no longer containing the model directly; the framework was containing both of you. LangChain's `Tool` was not Python's function. LangChain's `Memory` was not a database. Each concept was visible (you could point to "that's the memory, that's the tool") but not portable. If you left the framework, you left its concepts too.
 
-## Generation 3: Back to Python
+## Generation 3: Back to Python (Dec 2024 - mid 2025)
 
 The backlash produced frameworks that stripped back to language-native patterns. Two projects defined this shift: OpenAI's Agents SDK (March 2025, evolved from their experimental Swarm) and Pydantic AI (December 2024, from Samuel Colvin, creator of Pydantic).
 
@@ -204,17 +204,11 @@ Observability matured in parallel. Pydantic Logfire launched as [OpenTelemetry-n
 
 Gen 3 dissolved the framework's outer shell and gave the developer back control. You could see every layer, debug every step, and swap components without rewriting your agent. But the containment had not yet inverted. You still wrote the agent loop. You still dispatched tool calls. The model was still a call inside your code, not an entity running your code.
 
-## Generation 4: The agent gets a computer
+## Generation 4: The agent gets a computer (mid 2025 - late 2025)
 
 Gen 4 is where the inversion happens. In every previous generation, your code is the outer shell and the model is a call inside it. In Gen 4, the agent is the outer shell and your contribution (a system prompt, a behavior spec, a set of allowed tools) is a small configuration inside the agent's runtime. The model runs the loop. You describe what it should do.
 
-Three projects represent three different interface philosophies for the same underlying capability.
-
-[OpenHands](https://github.com/All-Hands-AI/OpenHands) (formerly OpenDevin, 68K GitHub stars, [$18.8M Series A](https://openhands.dev/blog/weve-just-raised-18-8m-to-build-the-open-standard-for-autonomous-software-development)) is SDK-native: you compose coding agents from Python primitives, with Docker-sandboxed execution by default and model-agnostic routing via LiteLLM across 100+ providers.
-
-[OpenClaw](https://github.com/openclaw/openclaw) (250K+ GitHub stars, [fastest to that milestone](https://en.wikipedia.org/wiki/OpenClaw) in GitHub history) is messaging-native: a self-hosted AI gateway that embeds the Pi coding agent core and connects it to WhatsApp, Telegram, Slack, Discord, iMessage, and 15+ other channels. It is not a chatbot wrapper. It is a full agent platform (shell exec, file I/O, browser automation, MCP integration via mcporter) with multi-agent routing, persistent JSONL session transcripts, context compaction, cron automation, webhooks, and a skills system where capabilities are defined as `SKILL.md` files with three-tier precedence loading. OpenClaw went viral because it meets people where they already are, in their messaging apps, while offering the same underlying agent runtime that terminal-native tools provide to developers.
-
-The [Claude Agent SDK](https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk) is terminal-native: it exposes the same runtime that powers Claude Code. You do not write the loop. You do not dispatch tool calls. You describe the task and the model executes it.
+[OpenHands](https://github.com/All-Hands-AI/OpenHands) (formerly OpenDevin, 68K GitHub stars, [$18.8M Series A](https://openhands.dev/blog/weve-just-raised-18-8m-to-build-the-open-standard-for-autonomous-software-development)) made this concrete first: model-agnostic coding agents composed from Python primitives, with Docker-sandboxed execution by default and routing via LiteLLM across 100+ providers. The [Claude Agent SDK](https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk) crystallized the pattern further, exposing the same runtime that powers Claude Code. You do not write the loop. You do not dispatch tool calls. You describe the task and the model executes it.
 
 ```python
 from claude_agent_sdk import query, ClaudeAgentOptions
@@ -263,16 +257,6 @@ harness = FastHarness(
 )
 ```
 
-FastHarness also bridges [OpenClaw](https://openclaw.ai/) agents into the A2A protocol:
-
-```python
-from fastharness.bridges.openclaw import OpenClawBridge
-
-bridge = OpenClawBridge("ws://localhost:18789")
-app = bridge.expose("research-bot", description="Research assistant")
-# One line: full A2A endpoint, streaming, multi-turn, health checks
-```
-
 <!-- IMAGE: cycle-restart.webp (1200x630)
 PROMPT: Clean technical diagram in the style of Anthropic's engineering blog illustrations. Cream background. Crisp flat vector shapes with consistent rounded corners. Two panels side by side with a thin dashed curved arrow connecting the right panel back toward the left.
 
@@ -291,20 +275,28 @@ The honest picture of Gen 4 is that it is simultaneously real and uneven. MCP ad
 
 The single-agent ecosystem has come into focus. The concepts are distinct, protocol-level, and (mostly) vendor-neutral. But the picture is about to get blurry again.
 
-## Generation 5: The cycle restarts
+## Generation 5: The cycle restarts (Nov 2025 - now)
 
-If you have been paying attention to the pattern, what comes next should feel familiar.
+If you have been paying attention to the pattern, what comes next should feel familiar. Look at the dates: Gen 1 to Gen 2 took eighteen months. Gen 3 to Gen 4 took six months. Gen 5 started overlapping Gen 4 before it was even finished. The compression is the story.
 
-[Gastown](https://github.com/steveyegge/gastown) (Steve Yegge) orchestrates 20-30 Claude Code instances working in parallel on the same codebase. A "Mayor" agent distributes work to "Polecats" (ephemeral workers with their own git worktrees), a "Witness" detects stuck agents and triggers recovery, a "Deacon" runs health checks across all rigs, and a "Refinery" manages merges back to main. It supports multiple runtimes (Claude, Gemini, Codex, Cursor, Augment, Amp) and burns roughly $100/hour. Yegge describes it as ["Kubernetes for AI coding agents."](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) It is explicitly not production-ready. The [gasclaw](https://github.com/gastown-publish/gasclaw) project bundles Gastown with OpenClaw in a single container for a combined orchestration and agent runtime.
+[OpenClaw](https://github.com/openclaw/openclaw) launched in November 2025 and hit [250K GitHub stars](https://en.wikipedia.org/wiki/OpenClaw) faster than any project in GitHub history. Its Pi coding agent core is Gen 4 technology (shell exec, file I/O, browser automation, MCP integration), but what makes OpenClaw a Gen 5 project is what it builds on top: multi-agent routing with isolated workspaces per agent, [ACP (Agent Control Protocol)](https://docs.openclaw.ai/) for sub-agent coordination, a skills system where capabilities are defined as `SKILL.md` files with three-tier precedence loading, persistent JSONL session transcripts with context compaction, cron automation, and webhooks. It connects all of this to WhatsApp, Telegram, Slack, Discord, iMessage, and 15+ other channels. OpenClaw went viral because it meets people where they already are while offering genuine multi-agent coordination underneath. [FastHarness](https://github.com/prassanna-ravishankar/fastharness) bridges OpenClaw agents into the A2A protocol:
 
-[Repowire](https://github.com/prassanna-ravishankar/repowire) (mine) takes a different approach: a peer-to-peer mesh where Claude Code sessions discover and query each other in real-time via MCP tools. No central coordinator. Each agent remains specialized in its own repository but can reach out to others when it needs context that lives elsewhere. I wrote about [how it works](/blog/repowire/) and [why it exists](/blog/vibe-bottleneck/).
+```python
+from fastharness.bridges.openclaw import OpenClawBridge
 
-OpenClaw's [ACP (Agent Control Protocol)](https://docs.openclaw.ai/) handles intra-gateway sub-agent coordination, keeping the main chat responsive while sub-agents handle long or parallel tasks in isolated workspaces.
+bridge = OpenClawBridge("ws://localhost:18789")
+app = bridge.expose("research-bot", description="Research assistant")
+# One line: full A2A endpoint, streaming, multi-turn, health checks
+```
 
-These are three different answers to the same question: how do multiple autonomous agents coordinate? Top-down orchestration (Gastown), peer-to-peer mesh (Repowire), messaging-native sub-agents (OpenClaw's ACP). Everyone is writing their own coordination loop. There are no shared standards for how agents discover each other's state, delegate work, or merge results. A2A exists but barely applies yet because the multi-agent patterns are still too fluid to standardize.
+[Gastown](https://github.com/steveyegge/gastown) (Steve Yegge, December 2025) orchestrates 20-30 Claude Code instances working in parallel on the same codebase. A "Mayor" distributes work to "Polecats" (ephemeral workers with their own git worktrees), a "Witness" detects stuck agents, a "Deacon" runs health checks, and a "Refinery" manages merges. It supports multiple runtimes (Claude, Gemini, Codex, Cursor, Augment, Amp) and burns roughly $100/hour. Yegge describes it as ["Kubernetes for AI coding agents."](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) Three months later, in March 2026, Yegge announced [the Wasteland](https://steve-yegge.medium.com/welcome-to-the-wasteland-a-thousand-gas-towns-a5eb9bc8dc1f): a federation layer that connects thousands of Gas Towns into a distributed work network. A shared "Wanted Board" backed by [Dolt](https://www.dolthub.com/) (a SQL database with Git semantics) lets anyone running a Gas Town post work, claim tasks, submit completed work with evidence, and earn reputation stamps. The [gasclaw](https://github.com/gastown-publish/gasclaw) project bundles Gastown with OpenClaw in a single container.
 
-This is Gen 1 energy, one layer up. The concepts that just reached protocol-level definition for single agents (tools, memory, sessions, contracts, observability) need to be re-solved for multi-agent systems. MCP solved tool discovery for a single agent. What solves agent discovery for a fleet? A2A tries, but it is where MCP was in early 2024: the spec exists, the adoption barely does. Gastown manages state through git worktrees and a bespoke "Beads" system. Repowire uses a daemon registry. OpenClaw uses JSONL transcripts. Everyone has their own approach and none of them are portable.
+[Repowire](https://github.com/prassanna-ravishankar/repowire) (mine, January 2026) takes a third approach: a peer-to-peer mesh where Claude Code sessions discover and query each other in real-time via MCP tools. No central coordinator, no Mayor, no Wanted Board. Each agent remains specialized in its own repository but can reach out to others when it needs context that lives elsewhere. I wrote about [how it works](/blog/repowire/) and [why it exists](/blog/vibe-bottleneck/).
 
-The single-agent arc took four years to go from raw loops to protocol-level infrastructure (2022-2026). The multi-agent arc is starting that same journey now, but on top of a mature foundation. MCP, A2A, OTel, and durable execution already exist. The building blocks do not need to be reinvented, they need to be composed at a higher level. That is why this cycle will compress. The infrastructure layer for single agents is in place; the multi-agent layer is the one being built in the open, in real-time, with the same beautiful chaos that characterized 2022.
+Three topologies for the same problem: top-down orchestration (Gastown), federated work network (Wasteland), peer-to-peer mesh (Repowire), messaging-native sub-agents (OpenClaw's ACP). Everyone is writing their own coordination loop. There are no shared standards for how agents discover each other's state, delegate work, or merge results. Gastown manages state through git worktrees and a bespoke "Beads" system backed by Dolt. Repowire uses a daemon registry. OpenClaw uses JSONL transcripts. None of them are portable.
+
+This is Gen 1 energy, one layer up. The concepts that just reached protocol-level definition for single agents need to be re-solved for multi-agent systems. MCP solved tool discovery for a single agent. What solves agent discovery for a fleet? A2A tries, but it is where MCP was in early 2024: the spec exists, the adoption barely does.
+
+The single-agent arc took roughly three and a half years to go from raw loops to protocol-level infrastructure (November 2022 to mid 2026). The multi-agent arc is starting that same journey now, but on top of the foundation that Gen 4 built. MCP, A2A, OTel, and durable execution already exist. The building blocks do not need to be reinvented, they need to be composed at a higher level. Gastown going from single-node orchestrator to federated work network in three months suggests how fast this cycle will compress.
 
 History does not repeat, but it rhymes. The agent ecosystem just resolved into HD. Now it is about to go blurry again, one layer up, and resolve again faster.
