@@ -19,6 +19,26 @@ What I have come to believe is that agent frameworks have evolved through four d
 
 With each generation, an ecosystem of concepts (tools, memory, sessions, contracts, observability, safety) came into sharper definition alongside that inversion. They started as indistinguishable hacks inside the developer's while loop and gradually resolved into distinct, protocol-level primitives that the agent consumes. The frameworks and the concepts co-evolved, and together they define what we mean by "agent ecosystem."
 
+<!-- IMAGE: timeline.webp (1200x400)
+PROMPT: Clean horizontal timeline diagram on cream background. Minimal flat design. A single horizontal line spanning the full width, with five labeled segments of decreasing length to show acceleration.
+
+Segment 1 (longest, ~35% of the line width): labeled "GEN 1" above, "Nov 2022" at the left tick mark and "May 2023" at the right tick mark. Warm orange fill below the line. Below: "Raw loops" in small text. Key markers above: "ChatGPT", "Function calling".
+
+Segment 2 (~30% of the line width): labeled "GEN 2" above, "May 2023" to "Dec 2024". Slate blue fill below the line. Below: "LangChain, AutoGen, CrewAI". Key markers above: "LangChain $20M", "AutoGen", "CrewAI", "AutoGen forks".
+
+Segment 3 (~15% of the line width): labeled "GEN 3" above, "Dec 2024" to "mid 2025". Sage green fill below the line. Below: "OpenAI SDK, Pydantic AI". Key markers above: "Pydantic AI", "OpenAI Agents SDK".
+
+Segment 4 (~12% of the line width): labeled "GEN 4" above, "mid 2025" to "late 2025". Sage green fill below the line. Below: "Claude SDK, OpenHands, MCP, A2A". Key markers above: "MCP 97M downloads", "A2A to Linux Foundation".
+
+Segment 5 (~8% of the line width): labeled "GEN 5" above, "Nov 2025" to "now". Warm orange fill below the line (back to orange, the cycle restarting). Below: "OpenClaw, Gastown, Repowire, Wasteland". Key markers above: "OpenClaw 250K stars", "Wasteland".
+
+The physically shrinking segments make the hockey stick compression visible. The color returning to warm orange at Gen 5 visually echoes Gen 1.
+
+Typography: all-caps letter-spaced generation labels, regular weight dates, small lowercase for framework names. Clean sans-serif. No gradients, no shadows, no icons.
+-->
+
+![The agent framework timeline: each generation compresses faster than the last](/images/blog/agent-framework-generations/timeline.webp)
+
 The best way to see this is through code.
 
 ## Generation 1: The raw loop (Nov 2022 - May 2023)
