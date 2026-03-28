@@ -21,7 +21,7 @@ export async function GET(context: APIContext) {
       description: post.data.description,
       link: `/blog/${post.slug}/`,
       categories: post.data.tags,
-      author: 'prassanna.ravishankar@gmail.com (Prassanna Ravishankar)',
+      author: 'Prassanna Ravishankar',
     })),
     customData: `<language>en-us</language>`,
   });
