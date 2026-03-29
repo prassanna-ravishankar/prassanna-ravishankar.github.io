@@ -32,35 +32,36 @@ This works across Claude Code, OpenAI Codex, Google Gemini CLI, and OpenCode in 
 
 ## Setup
 
-Installation is one command:
-
 ```bash
-uv tool install "repowire[all]"
-# or pick your runtime
-uv tool install "repowire[claudemux]"
-uv tool install "repowire[codex]"
+# One-liner (detects uv/pipx/pip, runs interactive setup)
+curl -sSf https://raw.githubusercontent.com/prassanna-ravishankar/repowire/main/install.sh | sh
+
+# Or install manually
+uv tool install repowire    # or: pipx install repowire / pip install repowire
 ```
 
-Then run setup:
+Setup auto-detects which agent CLIs you have installed (Claude Code, Codex, Gemini CLI, OpenCode) and configures hooks and MCP for each:
 
 ```bash
 repowire setup
 repowire status
 ```
 
-This installs hooks for your agent CLI, registers the MCP server, and starts the daemon. Open agent sessions in different repos (each in its own tmux window), and they auto-discover each other through the daemon.
+Then open agent sessions in different repos. You can use tmux directly or the CLI helper:
 
 ```bash
-# Terminal 1
+# Option A: manual tmux
 tmux new-session -s dev -n frontend
 cd ~/projects/frontend && claude
+# (new tmux window)
+cd ~/projects/backend && codex
 
-# Terminal 2
-tmux new-window -t dev -n backend
-cd ~/projects/backend && claude
+# Option B: CLI helper
+repowire peer new ~/projects/frontend
+repowire peer new ~/projects/backend
 ```
 
-The sessions are now peers in a mesh. Each one loads its own `CLAUDE.md`, understands its own codebase, and can reach out to others when it needs context from elsewhere.
+The sessions auto-register as peers and discover each other through the daemon. Each one loads its own project context and can reach out to others when it needs information from elsewhere.
 
 ## The tools
 
@@ -90,11 +91,13 @@ Repowire exposes MCP tools that agents use to communicate:
 
 **`set_description`** updates the calling peer's task description, visible to all other peers via `list_peers`. This is how an orchestrator tracks what each peer is working on.
 
-## The orchestrator pattern
+## Patterns
 
-An orchestrator is just a peer with a broader view. There is no special orchestrator mode. It is a regular agent session that happens to manage others rather than write code.
+The MCP tools enable several coordination patterns that emerge naturally from agents being able to talk to each other.
 
-Start an orchestrator by opening a Claude Code session and giving it a brief:
+### Orchestrator
+
+The pattern that makes 10+ agents manageable. An orchestrator is just a peer with a broader view. There is no special orchestrator mode. It is a regular agent session that happens to manage others rather than write code.
 
 ```
 "You are the orchestrator. Your peers are working on fastharness,
@@ -104,9 +107,29 @@ find. Use list_peers to see who is available. Use ask_peer to check
 progress. Use broadcast to redirect work."
 ```
 
-The orchestrator can `list_peers` to see all active sessions, `ask_peer` to check on progress or request information, `notify_peer` to assign tasks, and `broadcast` to redirect all peers at once. It maintains context across the entire mesh, catches quality issues that individual peers would miss (like mocked tests pretending to be real validation), and translates high-level directives ("focus on features, not coverage") into repo-specific instructions.
+The orchestrator uses `list_peers` to monitor all sessions, `ask_peer` to check progress or request information, `notify_peer` to assign tasks, `spawn_peer` to launch new sessions on demand, and `broadcast` to redirect all peers at once. It maintains context across the entire mesh, catches quality issues that individual peers would miss (like mocked tests pretending to be real validation), and translates high-level directives into repo-specific instructions.
 
-In a recent session, an orchestrator managed seven repositories simultaneously, producing 130+ commits across all of them while catching a SQL injection, a 9x logging cost bug, and silent worker failures that had survived human code review. The orchestrator's value was not in writing code but in coordination: cross-repo awareness, quality judgment, and the ability to redirect seven independent workstreams with one sentence.
+In a [recent session](https://prassanna.io/blog/overnight-agents/), an orchestrator managed seven repositories simultaneously, producing 130+ commits while catching a SQL injection, a 9x logging cost bug, and silent worker failures that had survived human code review.
+
+### Multi-repo coordination
+
+The simplest pattern: agents in different repos ask each other questions in real time. The frontend agent needs the backend's API shape? The infra agent needs to know if the app uses SSE? These become `ask_peer` calls instead of terminal-switching and copy-pasting.
+
+### Cross-agent review
+
+Have a different agent review work. Peer A builds a feature, peer B runs a review pass (code quality, security, simplification). This works especially well with different runtimes reviewing each other's output, since they catch different classes of issues.
+
+### Worktree isolation
+
+Use `spawn_peer` to launch peers on git worktrees for parallel, isolated work. Each peer works on a branch, creates a PR, another peer reviews. Clean separation with no merge conflicts during development.
+
+### Infrastructure-as-peer
+
+A dedicated peer for infrastructure (Kubernetes, DNS, cloud config) that other project peers coordinate with directly. Need a namespace created? `ask_peer("infra", "create staging namespace for torale")`. Need to know the current proxy config? Ask instead of guessing.
+
+### Overnight autonomy
+
+Give peers tasks and disconnect. They work autonomously, report back via Telegram or the dashboard when you return. Long-running tasks (migrations, refactors, test suites) complete while you sleep. Circles scope the work so peers in one circle do not interfere with peers in another.
 
 ## Manage from your phone
 
@@ -193,9 +216,8 @@ It complements rather than replaces other approaches. Memory banks are still use
 - **Case study**: [Overnight Agents](https://prassanna.io/blog/overnight-agents/) (130+ commits across 7 repos while sleeping)
 
 ```bash
-uv tool install "repowire[all]"
+uv tool install repowire
 repowire setup
-repowire status
 ```
 
 Open two agent sessions in different repos. Ask one about the other. That is the whole idea.
