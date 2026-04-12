@@ -13,6 +13,8 @@ I have been thinking about this problem for months, ever since I started designi
 
 That question led me to agent drift, which is what happens when an autonomous AI agent runs long enough that its behavior stops resembling what you originally asked for. Not because of a bug. Not because the model changed. Because running for a long time, with minimal oversight, is itself the corrupting force.
 
+*Update: I have written a follow-up, [When Outputs Lie](/blog/when-the-output-lies/), exploring a second axis of drift that context management cannot fix.*
+
 ## Why this is a new problem
 
 For most of the history of LLM deployments, the interaction model was simple: one prompt in, one response out. Even the first wave of "agentic" systems were short chains — a tool call or two, a summarization pass, a final answer. The context window never filled up. The original instructions stayed dominant from start to finish because there was no long run to erode them.
