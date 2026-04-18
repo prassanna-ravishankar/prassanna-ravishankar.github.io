@@ -94,3 +94,4 @@ sw.*
 .astro/
 
 /.specstory
+**/hero.backup.webp
