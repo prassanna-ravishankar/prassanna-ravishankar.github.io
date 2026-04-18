@@ -1,5 +1,6 @@
 ---
-title: "AI Agent Frameworks: A Fragmented Landscape"
+title: "AI Agent Frameworks"
+subtitle: "A practical comparison of a fragmented landscape"
 description: "A practical comparison of AI agent frameworks — OpenAI Agents SDK, Google ADK, AWS Bedrock, and Smol Agents — covering architecture, multi-agent systems, and emerging trends."
 pubDate: 2025-04-10
 heroImage: "/images/blog/agent-frameworks/hero.webp"

@@ -1,5 +1,6 @@
 ---
-title: "A2A Protocol: A Builder's Guide to Agent2Agent"
+title: "The A2A Protocol"
+subtitle: "A builder's guide to Agent2Agent"
 description: "Learn how the A2A Protocol enables secure AI agent communication. Covers Google's open standard, MCP differences, authentication, monetization, orchestration, and Python examples."
 pubDate: 2025-07-04
 heroImage: "/images/blog/a2a-protocol/hero.webp"
