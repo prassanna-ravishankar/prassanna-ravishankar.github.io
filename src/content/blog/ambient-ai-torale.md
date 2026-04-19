@@ -1,5 +1,6 @@
 ---
-title: "Ambient AI: Building Torale from Complexity to Simplicity"
+title: "Ambient AI"
+subtitle: "Building Torale from complexity to simplicity"
 description: "Torale monitors the web so you don't have to. How ambient AI turns passive monitoring into proactive intelligence — and how Gemini made it possible."
 pubDate: 2025-11-17
 heroImage: "/images/blog/ambient-ai-torale/hero.webp"

@@ -1,5 +1,6 @@
 ---
-title: "The Archeology of Agent Frameworks"
+title: "Agent Framework Generations"
+subtitle: "The archeology of five generations, from API loops to federated swarms"
 description: "Digging through five generations of agent frameworks, from raw API loops to federated swarms. How the developer went from outer shell to inner kernel, why each generation compressed faster than the last, and why the cycle is restarting."
 pubDate: 2026-03-26
 heroImage: "/images/blog/agent-framework-generations/hero.webp"

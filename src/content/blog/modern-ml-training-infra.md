@@ -1,5 +1,6 @@
 ---
-title: "Machine Learning Training Infrastructure Guide"
+title: "Modern ML Training Infrastructure"
+subtitle: "Distributed training, GPU clouds, and spot instances without scaling costs"
 description: "Scale ML models faster with the right training infrastructure. Covers distributed training, GPU clouds, spot instances, and cloud-agnostic setups."
 pubDate: 2025-03-31
 heroImage: "/images/blog/ml-training-infra/hero.webp"
