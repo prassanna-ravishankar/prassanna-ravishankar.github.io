@@ -10,69 +10,61 @@ author: "Prassanna Ravishankar"
 draft: true
 ---
 
-As agents become more capable, a surprisingly basic question keeps getting harder to answer: **what exactly happened?**
+A difficult question sits at the boundary between an agent and the application around it: **what, precisely, happened?**
 
-Not “did the API call return 200?” Not “did the workflow throw an exception?” But: did the agent finish the task? Is it waiting for me? Did it make partial progress? Did a guardrail stop it? Is it safe to try again?
+That question is easy enough while an agent is a single model call. It becomes less forgiving once the work is long-running, delegated, stateful, or able to affect the outside world. The agent may be working, paused for a person, partly complete, blocked by policy, rate-limited, or uncertain whether a tool call already changed something. The application needs to distinguish these cases because it needs to behave differently in each of them.
 
-Today, the answers are usually scattered across framework-specific state machines, tool errors, callback payloads, tracing spans, UI labels, and a growing collection of custom exceptions. Every agent runtime has its own vocabulary, and every application that integrates with one has to translate it before it can decide what to show a person or do next.
+Most integrations do not give it a common way to do so. The meaning is distributed across framework states, callback payloads, tool errors, traces, exceptions, and UI labels. Each runtime has a vocabulary of its own, and each consumer reconstructs that vocabulary before it can decide what to render, retry, escalate, or stop.
 
-That feels like an interoperability problem hiding in plain sight.
+HTTP solved an analogous problem for networked systems. A client does not need to understand the server behind a response to recognise that a `301` means redirect, a `401` means authenticate, or a `429` means wait. The status code is not the whole response, but it is enough shared meaning for the client to take the next appropriate action.
 
-HTTP status codes work because a client can understand the important outcome of a request without knowing how the server was implemented. A `301` tells it to redirect. A `401` tells it authentication is needed. A `429` tells it to back off. The shared vocabulary gives software a basis for action.
+Agent systems need a layer like that. [Agent Status Codes](https://agentstatuscodes.org) is an experimental proposal for one: a portable, machine-readable vocabulary for reporting the progress, outcome, dependencies, and recovery semantics of autonomous work.
 
-Agent systems do not yet have an equivalent common language. So I’ve been working on an experimental proposal called [Agent Status Codes](https://agentstatuscodes.org): a small, open protocol for reporting progress, outcomes, human input, failures, verification, and recovery between agents and the systems that use them.
+It is deliberately not a replacement for HTTP, gRPC, A2A, MCP, OpenTelemetry, or framework-native state. Those layers have their own jobs. ASC describes the state of the work being carried through them.
 
-The aim is not to replace HTTP, gRPC, A2A, MCP, OpenTelemetry, or your framework’s internal types. It is to give the work being done by an agent a portable semantic layer that can travel through any of them.
+## Transport success is not task success
 
-## A successful request is not necessarily a successful task
+A transport can succeed while the task it carries is unfinished.
 
-This distinction is the starting point.
+An HTTP `200 OK` might mean that an application received an agent update successfully. It does not mean the agent achieved the user’s goal. The task may still be executing, waiting for approval, partly complete, or in a state where the outcome of an external side effect cannot yet be known.
 
-An HTTP `200 OK` can mean an application successfully received an update from an agent. But the work described by that update may still be running, paused for approval, partly complete, or in an uncertain state after a side effect.
+Consider an agent that can search for flights and, after approval, book one. The search succeeds. The user chooses an itinerary. The agent sends a booking request, then hits its deadline before receiving a response.
 
-Imagine an agent that can search for flights and book one once a person approves the purchase.
+Calling that `TIMEOUT` is accurate, but insufficient. A timeout tells us that time elapsed. It does not tell us whether the provider received the request, reserved the seat, or charged the card. Retrying automatically may be the right thing to do; it may also create a duplicate booking.
 
-The search succeeds. The user chooses an option. The agent creates the booking request. The request then times out.
+The status that matters is not merely “the request timed out”. It is:
 
-What should the agent report?
+> The system cannot determine whether a potentially side-effecting operation committed. Reconcile before retrying.
 
-`TIMEOUT` is true, but incomplete. It says a deadline passed. It does not say whether the booking service received the request, whether a seat was reserved, or whether a card was charged. Automatically retrying might create a duplicate booking.
+ASC calls this `RESULT_STATE_UNKNOWN`. The name is intentionally plain. Its purpose is to preserve uncertainty at exactly the point where systems are otherwise tempted to turn it into permission to replay work.
 
-What the application actually needs is something closer to:
+That distinction is not a matter of richer diagnostics. It changes control flow. A consumer that sees `RATE_LIMITED` with an explicit safe-retry contract can wait and try again. A consumer that sees `RESULT_STATE_UNKNOWN` should reconcile the original operation first. The two may both follow an awkward tool call, but they demand opposite behaviour.
 
-> The result of a potentially side-effecting operation is unknown. Reconcile before retrying.
+## A task does not have one state
 
-That is a different control-flow decision from a routine timeout. It is also exactly the kind of information that gets lost when an agent’s state is reduced to “success”, “error”, or a generic exception.
+It is tempting to respond by inventing a longer list of outcomes: `SUCCESS`, `FAILURE`, `WAITING_FOR_HUMAN`, `RATE_LIMITED`, and so on. That is useful up to a point, but it collapses several independent facts into a single label.
 
-ASC represents this as `RESULT_STATE_UNKNOWN`. The name is intentionally unglamorous. Its job is to make uncertainty explicit, rather than quietly turning it into permission to replay work.
+A useful report needs to say where the work is in its lifecycle, what best summarises the declared scope, which facts continue to hold alongside that summary, which things happened during execution, and whether another attempt is safe. These are related, but they are not interchangeable.
 
-## Agent state is not one thing
+A support agent, for example, may send a confirmation email successfully but lack permission to issue a requested refund. The parent task is `PARTIAL_SUCCESS`. Calling it a generic failure discards completed work; calling it success with a warning makes the missing refund sound cosmetic. Its child tool calls retain their own outcomes, and the parent preserves the fact that the requested result was only partly achieved.
 
-Early on, it was tempting to imagine a single list of agent outcomes: `SUCCESS`, `FAILURE`, `WAITING_FOR_HUMAN`, `RATE_LIMITED`, and so on.
+Likewise, a task waiting for an explicit purchase decision is not broken. `HUMAN_APPROVAL_REQUIRED` is expected, resumable control flow. A task that needs the user to sign in is in a different, but equally ordinary, state: `AUTHENTICATION_REQUIRED`.
 
-That was too flat.
+And an agent can finish successfully while still recording a prompt-cache miss, a fallback route, or several retry attempts. Those are operational events. They matter for cost and reliability work, but they should not replace the final outcome of the task.
 
-A useful agent report needs to preserve several facts that are easy to collapse accidentally:
+ASC separates these ideas into five constructs:
 
-- **Lifecycle phase**: is the reported work queued, executing, waiting, finished, or unknown?
-- **One primary status**: what is the best current summary of this particular scope?
-- **Conditions**: what remains true alongside that summary?
-- **Events**: what happened along the way, without becoming the final outcome?
-- **A retry contract**: whether another attempt is allowed, safe, and useful.
+- **Phase** locates the reported scope in its lifecycle.
+- **Primary status** gives the consumer one current summary on which it can act.
+- **Conditions** retain facts that coexist with that summary.
+- **Events** record occurrences without becoming the outcome.
+- **Retry contract** states whether, when, and under what side-effect assumptions another attempt is allowed.
 
-These distinctions are not academic. They stop dangerous inferences.
+The separation keeps the model composable. A terminal tool-call failure need not terminate its parent task. One child outcome should not overwrite its siblings. And an event such as `FALLBACK_USED` does not have to be smuggled into a success or failure code just so that it survives the boundary.
 
-A task may be `FINISHED` with `PARTIAL_SUCCESS`: a support agent successfully sent a confirmation email but lacked permission to issue a refund. Calling the task a generic failure would throw away the successful work. Calling it a success with a warning would understate the missing requested action.
+## The number is only the handle
 
-A task may be `WAITING` with `HUMAN_APPROVAL_REQUIRED`. That is not a crash. It is normal, resumable control flow.
-
-A task may finish successfully while recording `PROMPT_CACHE_MISS`, `FALLBACK_USED`, or `RETRY_ATTEMPTED` as events. Those facts are valuable for cost and reliability analysis, but they should not replace the outcome of the work.
-
-And a parent task should not blindly inherit the status of one child tool call. A coding agent might have one failed repository operation, two successful ones, and a still-active parent task. The hierarchy matters.
-
-## The code is a summary, not the whole payload
-
-Agent Status Codes uses a four-digit code space, partly because it is compact and familiar, but the number is never intended to carry every detail on its own.
+ASC uses four-digit codes because they are compact, familiar, and easy to pass through existing systems. But the number is a handle for shared meaning, not a container for every detail.
 
 A minimal report might look like this:
 
@@ -91,46 +83,28 @@ A minimal report might look like this:
 }
 ```
 
-The code and name travel together. The scope tells us whether this is about an overall task, a step, a tool call, a model call, a handoff, an evaluation, or an artefact. Terminality applies to that scope, rather than pretending that a terminal tool-call failure necessarily ends the entire workflow.
+The code and name travel together. The scope establishes whether the report is about a task, step, tool call, model call, handoff, evaluation, or artefact. Terminality is explicit because it applies to that scope, not necessarily to an entire workflow.
 
-The surrounding fields matter just as much as the code. They can include remediation for a human, side-effect certainty, an idempotency key, a suggested retry delay, provenance, or evidence from a verification step.
+The rest of the envelope can carry the information that should never be guessed: remediation for a person, a retry delay, idempotency context, side-effect certainty, provenance, or verification evidence. This is not an argument for verbose payloads everywhere. It is an argument for preserving the facts that make automation safe when they are needed.
 
-The point is not to make every agent payload huge. It is to establish which distinctions must survive an integration boundary when they matter.
+## Similar-looking failures are often different decisions
 
-## Human input should be a first-class outcome
+A status protocol earns its keep at the boundaries people are inclined to blur.
 
-One of the stranger habits in agent systems is treating every interruption as an error.
+`PERMISSION_DENIED` and `GUARDRAIL_BLOCKED` can both look like a refused action in an interface. They should still remain distinct. The first is an authorisation decision about a principal and resource; the second is a policy decision about proposed content, context, or action. Their remediation paths, owners, and audit implications are different.
 
-But agents frequently need people. They need missing information, authentication, confirmation before spending money, or a decision between valid options. These are not necessarily exceptional conditions. They are often the expected shape of a workflow.
+The same is true of `SUCCESS_WITH_WARNINGS` and `PARTIAL_SUCCESS`, or of `HALLUCINATION_SUSPECTED` and `HALLUCINATION_DETECTED`. A protocol should not flatten those differences simply because a generic red or amber badge would be easier to render.
 
-That is why ASC distinguishes `HUMAN_INPUT_REQUIRED`, `HUMAN_APPROVAL_REQUIRED`, and `AUTHENTICATION_REQUIRED` from policy and operational failures.
+It should also be modest about what it standardises. ASC is not trying to turn every provider exception or business-domain result into a global code. The portable core is for semantics that need to survive an implementation boundary. Local detail remains local, carried through structured extensions rather than forced into an artificial universal taxonomy.
 
-Similarly, `PERMISSION_DENIED` is not the same thing as `GUARDRAIL_BLOCKED`.
+That leaves space for an agent using one framework to communicate useful state to a UI, orchestration system, evaluation service, or another agent built with a different one.
 
-The former means an authenticated principal is not authorised to perform an operation. The latter means a policy or safety control prohibited proposed content, context, or action. They may look similar in a UI, but they lead to different remediation paths, different audit trails, and different ownership.
+## An experimental protocol needs contact with reality
 
-If the protocol erases those differences, every downstream application has to rediscover them from strings and stack traces.
+ASC 0.1 is intentionally experimental. It is not a claim that the registry is complete, a governance model is settled, or adoption has already happened. It is a proposal that needs implementation evidence.
 
-## A standard should be careful about what it does not claim
+The useful questions are practical. Which concepts map cleanly to real runtimes? Which codes prove too broad under production workloads? Where do side-effect-aware retries remain awkward? Can the same envelope travel through A2A, MCP tool results, HTTP Problem Details, gRPC details, and OpenTelemetry attributes without becoming ceremony?
 
-Agent Status Codes is not an attempt to create an exhaustive taxonomy of every model-provider error or business-domain result. That would be both impossible and unhelpful.
+The specification, registry, examples, and RFC process are open at [agentstatuscodes.org](https://agentstatuscodes.org) and in the [GitHub repository](https://github.com/prassanna-ravishankar/agent-status-codes).
 
-The draft instead tries to define a portable core: lifecycle and progress; successful and partial outcomes; interruptions and human dependencies; request, capability, authorisation, and policy decisions; transient and fatal failures; trust, quality, grounding, and verification; operational events; and a controlled extension space.
-
-The core needs to be small enough to implement, but precise enough that a consumer can safely act on it without knowing the producer’s framework.
-
-Unknown values should degrade safely. Framework-specific detail should remain available through structured extensions. And no one should need to give up their existing transport or observability stack to adopt the model.
-
-## What I want to learn next
-
-ASC 0.1 is explicitly experimental. There are no adoption claims hiding here, and it is much too early to pretend the registry is finished.
-
-The useful next step is implementation evidence.
-
-Where does the model feel natural in an agent runtime? Which codes are too broad? Which distinctions do real applications still need? Can the envelope travel cleanly through A2A, MCP tool results, HTTP Problem Details, gRPC metadata, and OpenTelemetry without becoming ceremony? What does a good SDK binding look like?
-
-Most importantly: where does the retry model break down when a real workflow has stateful tools, long-running work, delegated child tasks, and uncertain external side effects?
-
-The current draft, registry, examples, and RFC process are open at [agentstatuscodes.org](https://agentstatuscodes.org) and in the [GitHub repository](https://github.com/prassanna-ravishankar/agent-status-codes).
-
-If you build agents, runtimes, tools, or the applications around them, I’d love to know which state distinctions you keep having to reconstruct. That is probably where the protocol should earn its place.
+The test is straightforward: can a consumer that has never seen the producer’s framework still determine what happened, what remains true, and what it may safely do next? If it can, autonomous systems have a little less translation work and a safer basis for coordination.
