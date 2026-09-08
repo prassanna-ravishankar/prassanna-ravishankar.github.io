@@ -7,7 +7,7 @@ heroImage: "/images/blog/common-obligations/hero.webp"
 series: ["Futures", "AI Agents"]
 topics: ["AI governance", "AI safety", "accountability", "international cooperation", "human agency"]
 author: "Prassanna Ravishankar"
-draft: true
+draft: false
 ---
 
 The organisations building the most powerful AI systems have a difficult conflict of interest. They are trying to establish whether their technology is safe while competing to make it more capable. The governments overseeing them have a version of the same problem: protecting the public sits alongside the ambition to lead an industry that could reshape economic and military power.
