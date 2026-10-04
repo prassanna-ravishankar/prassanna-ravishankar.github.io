@@ -12,7 +12,7 @@ draft: false
 
 On a flight from London to San Francisco, I pointed an orchestrator at seven of my repositories and gave it a broad brief: explore, find problems, improve things, and ship. Each repository had its own coding agent. They could ask one another questions, share context, and keep working while I intervened occasionally from the plane and, later, the hotel.
 
-By the next morning, they had produced more than 130 commits. I wrote about that session in [Overnight Agents](/blog/overnight-agents/), but the part I keep returning to is a smaller moment inside it. One peer said it had validated three agent runtime backends. The orchestrator asked how. The answer was mocked API responses. It sent the peer back to test against real APIs, where it found four bugs.
+By the next morning, they had produced more than 130 commits. The part I keep returning to is a smaller moment inside the session. One peer said it had validated three agent runtime backends. The orchestrator asked how. The answer was mocked API responses. It sent the peer back to test against real APIs, where it found four bugs.
 
 That exchange captures something I find more interesting than the volume of code. There was a piece of engineering judgment inside the system: a claim was challenged, the evidence was found wanting, and the work changed course. Other peers discovered problems I had never put in a ticket, including a logging configuration that was costing nine times what it should.
 
@@ -78,7 +78,7 @@ Identity and authorisation make delegation concrete. A worker investigating a pa
 
 Model gateways, traces, evaluations, and cost tracking are part of this foundation, but I would use a broader label than LLMOps. Much of the factory's work happens outside a model call, and much of its output can run without a model at all. For an incident investigation, we need to connect the brief, the engineering decision, the changed artefact, the release, and the production effect. Token counts are useful; they cannot supply that account by themselves.
 
-The platform serves two populations: the agents building systems and the systems they build. Operational evidence flows back from the second to the first. An error trace can prompt a repair. An unexpected pattern in usage can challenge the original design. A successful intervention can become a reusable technique. This is the connection I explored in [Agentic Cloud](/blog/agentic-cloud/), extended here across the lifecycle of construction.
+The platform serves two populations: the agents building systems and the systems they build. Operational evidence flows back from the second to the first. An error trace can prompt a repair. An unexpected pattern in usage can challenge the original design. A successful intervention can become a reusable technique. The platform connects construction and operation into a continuing process.
 
 The two layers are a reference architecture, rather than a requirement for two separate products. An organisation might assemble them from existing infrastructure, buy a managed factory, or combine both. What matters is that the boundaries and interfaces are clear enough for work to cross them safely.
 
@@ -98,7 +98,7 @@ Once the system is live, the factory has another question to answer: did onboard
 
 Recovery also has to follow the shape of the change. Reverting a service image will not undo a migration, erase a message, or repair records already modified. The factory should produce migration plans, compatibility checks, and compensating actions where appropriate. Regeneration can reduce implementation effort; a running system still carries history.
 
-This is why I would qualify one idea from [Architects of Intent](/blog/death-of-code/). Code can become easier to regenerate while the cost of changing a deployed system remains substantial. The durable assets include data, contracts, behavioural expectations, and evidence about what happens under real workloads. A factory has to understand those assets well enough to evolve them.
+Code can become easier to regenerate while the cost of changing a deployed system remains substantial. The durable assets include data, contracts, behavioural expectations, and evidence about what happens under real workloads. A factory has to understand those assets well enough to evolve them.
 
 [METR's time-horizon measurements](https://metr.org/time-horizons/) are a useful caution here. Its tasks are largely in software engineering, machine learning, and cybersecurity, and are cleaner than ordinary work. The researchers explicitly warn against reading those results as equivalent to the work of a professional carrying rich institutional context. A long successful coding run is evidence about that run. Reliability across messy organisations remains a larger claim to establish.
 
@@ -106,11 +106,11 @@ This is why I would qualify one idea from [Architects of Intent](/blog/death-of-
 
 There is a recursive quality to this arrangement that I find compelling. A factory can encounter a missing capability and build it: a connector for an internal service, a replay harness, a migration checker, or a specialist agent for an unfamiliar subsystem. That capability can then participate in later work.
 
-I saw a small version of this when [Repowire](/blog/repowire/) was being improved by a peer communicating through Repowire itself. The same principle could apply to a factory's investigation tools, evaluation environments, or operational interfaces. Building a good simulator once may make an entire class of future changes easier to validate.
+I saw a small version of this with Repowire, the communication tool I built to let coding agents talk across repositories. One peer was improving Repowire while communicating through Repowire itself. The same principle could apply to a factory's investigation tools, evaluation environments, or operational interfaces. Building a good simulator once may make an entire class of future changes easier to validate.
 
 The useful accumulation is partly software and partly knowledge: which identifiers correspond, which API behaviours are unreliable, why an approval exists, and which attempted interventions failed. This knowledge needs sources, versioning, and a way to expire. Otherwise yesterday's successful workaround becomes tomorrow's confident mistake.
 
-Self-extension also needs boundaries. A factory improving its test tools is different from a factory weakening the release policy that judges its work. Permission policy, budgets, and independent acceptance criteria should remain under separately controlled authority. [Common Obligations](/blog/common-obligations/) argues for traceable responsibility and bounded autonomy; a system that manufactures other systems makes those requirements particularly concrete. We should be able to identify who authorised a new capability, what it can affect, and how to stop it.
+Self-extension also needs boundaries. A factory improving its test tools is different from a factory weakening the release policy that judges its work. Permission policy, budgets, and independent acceptance criteria should remain under separately controlled authority. A system that manufactures other systems needs a traceable chain of responsibility: who authorised a new capability, what it can affect, and how to stop it.
 
 Nor does every problem need a swarm. More workers create more coordination, duplicated investigation, and reconciliation. A capable single agent may handle a focused task with less overhead. The factory's organisation should follow the work, changing as models and tools improve, rather than treating a particular collection of agent roles as permanent architecture.
 
