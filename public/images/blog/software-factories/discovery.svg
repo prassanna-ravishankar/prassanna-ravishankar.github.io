@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="768" viewBox="0 0 760 768" role="img" aria-labelledby="title desc">
+<title id="title">Discovery changes what gets built</title><desc id="desc">In a hypothetical supplier onboarding process, investigation reveals a missing document link, a waiting approval, and ambiguous documents. The corresponding outputs are an integration, a durable workflow, and a specialist agent with human review.</desc>
+<rect width="760" height="768" fill="#f7f4ee"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#59666b" stroke-width="2"/></marker></defs>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="42" y="57" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Discovery changes what gets built</text>
+<text x="42" y="112" font-size="22" fill="#59666b" font-weight="700" text-anchor="start">OBSERVATION</text>
+<text x="414" y="112" font-size="22" fill="#59666b" font-weight="700" text-anchor="start">RESPONSE</text>
+<rect x="42" y="147" width="304" height="141" rx="12" fill="#eceae4" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="190" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Missing link</text>
+<text x="64" y="229" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Document exists</text>
+<text x="64" y="260" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Record cannot find it</text>
+<rect x="414" y="147" width="304" height="141" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="436" y="190" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Integration</text>
+<text x="436" y="229" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Reconcile records</text>
+<text x="436" y="260" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Preserve provenance</text>
+<path d="M346 217 H414" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="42" y="320" width="304" height="141" rx="12" fill="#eceae4" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="363" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Waiting approval</text>
+<text x="64" y="402" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">A real decision</text>
+<text x="64" y="433" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Still needs a person</text>
+<rect x="414" y="320" width="304" height="141" rx="12" fill="#dde6d9" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="436" y="363" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Durable workflow</text>
+<text x="436" y="402" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Wait, resume, route</text>
+<text x="436" y="433" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Keep the boundary</text>
+<path d="M346 390 H414" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="42" y="493" width="304" height="141" rx="12" fill="#eceae4" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="536" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Unclear document</text>
+<text x="64" y="575" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Evidence needs</text>
+<text x="64" y="606" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">interpretation</text>
+<rect x="414" y="493" width="304" height="141" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="436" y="536" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Specialist agent</text>
+<text x="436" y="575" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Extract + flag gaps</text>
+<text x="436" y="606" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Route for review</text>
+<path d="M346 563 H414" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="42" y="679" width="676" height="48" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="380" y="711" font-size="26" fill="#26343c" font-weight="700" text-anchor="middle">The initial brief can be a hypothesis.</text>
+</g></svg>

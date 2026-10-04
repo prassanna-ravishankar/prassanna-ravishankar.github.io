@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="917" viewBox="0 0 760 917" role="img" aria-labelledby="title desc">
+<title id="title">Production is an evidence loop</title><desc id="desc">Construction creates a candidate. Independent checks evaluate it. A shadow run observes real cases without modifying records. A limited rollout and monitoring inform whether to expand, revise, or recover. Human authorisation is required wherever release policy says so.</desc>
+<rect width="760" height="917" fill="#f7f4ee"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#59666b" stroke-width="2"/></marker></defs>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="42" y="57" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Production is an evidence loop</text>
+<rect x="68" y="99" width="624" height="120" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="90" y="142" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Candidate</text>
+<text x="90" y="181" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Versioned artefact + change plan</text>
+<path d="M380 219 V264" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="68" y="264" width="624" height="120" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="90" y="307" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Independent checks</text>
+<text x="90" y="346" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Behaviour, invariants, release policy</text>
+<path d="M380 384 V429" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="68" y="429" width="624" height="120" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="90" y="472" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Shadow run</text>
+<text x="90" y="511" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Observe real cases; make no changes</text>
+<path d="M380 549 V594" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="68" y="594" width="624" height="120" rx="12" fill="#dde6d9" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="90" y="637" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Limited rollout</text>
+<text x="90" y="676" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Monitor impact within agreed limits</text>
+<path d="M692 654 H725 V159 H692" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<text x="68" y="777" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Continue, revise, or recover from evidence.</text>
+<rect x="68" y="810" width="624" height="64" rx="12" fill="#eceae4" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="380" y="839" font-size="25" fill="#26343c" font-weight="700" text-anchor="middle">Human authorisation wherever</text>
+<text x="380" y="865" font-size="25" fill="#26343c" font-weight="700" text-anchor="middle">release policy requires it</text>
+</g></svg>

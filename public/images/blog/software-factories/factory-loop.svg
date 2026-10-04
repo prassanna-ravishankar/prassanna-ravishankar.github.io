@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="825" viewBox="0 0 760 825" role="img" aria-labelledby="title desc">
+<title id="title">A factory carries the whole journey</title><desc id="desc">A brief starts investigation. Investigation feeds building, building feeds independent verification, and accepted work reaches production. Evidence from verification and production can revise the plan.</desc>
+<rect width="760" height="825" fill="#f7f4ee"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#59666b" stroke-width="2"/></marker></defs>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="42" y="57" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">A factory carries the whole journey</text>
+<rect x="42" y="99" width="676" height="112" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="142" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Intent + constraints</text>
+<text x="64" y="181" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">A broad brief, a budget, and bounded authority</text>
+<rect x="42" y="280" width="304" height="139" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="323" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Investigate</text>
+<text x="64" y="362" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Evidence + design</text>
+<text x="64" y="393" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Revise the plan</text>
+<rect x="414" y="280" width="304" height="139" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="436" y="323" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Build</text>
+<text x="436" y="362" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Software + tools</text>
+<text x="436" y="393" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Specialist agents</text>
+<rect x="414" y="493" width="304" height="139" rx="12" fill="#dde6d9" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="436" y="536" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Verify</text>
+<text x="436" y="575" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Exercise the result</text>
+<text x="436" y="606" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Challenge the claims</text>
+<rect x="42" y="493" width="304" height="139" rx="12" fill="#dde6d9" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="536" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Production</text>
+<text x="64" y="575" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Release + operate</text>
+<text x="64" y="606" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Measure the effect</text>
+<path d="M194 211 V280" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M346 350 H414" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M566 419 V493" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M414 563 H346" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M194 493 V460 H22 V246 H194 V280" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<path d="M414 594 H382 V388 H346" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<text x="42" y="700" font-size="26" fill="#59666b" font-weight="400" text-anchor="start">Feedback can change an earlier decision.</text>
+<rect x="42" y="729" width="676" height="55" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="380" y="765" font-size="27" fill="#26343c" font-weight="700" text-anchor="middle">Working capability + evidence</text>
+</g></svg>
