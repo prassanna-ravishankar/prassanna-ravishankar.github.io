@@ -1,110 +1,102 @@
 ---
 title: "The Age of Software Factories"
-subtitle: "From a complex problem to a working system. Discovery included."
-description: "Software factories organise agents to investigate complex problems, build the right systems, and carry them through verification into production."
+subtitle: "Agents that discover the work, organise themselves, and build their way to production."
+description: "Software factories can form teams, discover workflows, build missing capabilities, and adapt their approach as they turn complex problems into production systems."
 pubDate: 2026-10-04
-updatedDate: 2026-10-04
+updatedDate: 2026-10-05
 heroImage: "/images/blog/software-factories/hero.webp"
 series: ["AI Agents", "Futures"]
-topics: ["software factories", "autonomous agents", "agent infrastructure", "multi-agent coding"]
+topics: ["software factories", "autonomous agents", "agent infrastructure", "multi-agent systems", "adaptive workflows"]
 author: "Prassanna Ravishankar"
 draft: false
 ---
 
-Give agents a complex problem, access to the relevant tools, and room to work. They investigate, propose a solution, build it, test it, and carry it into production. Along the way, they may discover that the original request missed the real problem.
+Give agents a complex problem, access to the relevant systems, and an outcome to pursue. They investigate, develop a solution, build it, verify it, and carry it into production. Sometimes they discover a requirement, a cause, or an opportunity that was missing from the brief.
 
-That is the promise of a **software factory**: an organised system of agents and infrastructure that turns intent into working software. Its products can be applications, integrations, workflows, infrastructure changes, or other agents.
+That is the promise of a **software factory**: a system that turns broad intent into working software, with enough evidence to put the result to use. Its output might be an application, an integration, a data pipeline, a workflow, or another agent system.
 
-The important capability is the continuity of the work. A coding agent can implement a task. A factory takes responsibility for the journey: deciding what needs to exist, constructing it, establishing that it works, and learning from what happens after release.
+The mechanism is just as interesting as the output. The factory can choose how to tackle the problem: form a team, discover a workflow, create a missing tool, and revise its organisation when the evidence changes. A general system develops a shape suited to the work in front of it.
 
-Parts of this journey are already possible autonomously in bounded settings. Making them reliable across complex environments is the next engineering challenge.
+Parts of this capability exist today in bounded settings. The larger ambition is to connect them into a reliable journey from a complex problem to a useful production system.
 
-![The factory moves from intent to production, with evidence feeding back into investigation and design.](/images/blog/software-factories/factory-loop.svg)
+## The factory designs its way of working
 
-## The problem is part of the work
+A fixed pipeline encodes an approach in advance. An adaptive factory makes parts of that approach a design decision. How many workers are useful? What expertise is missing? Which tasks can proceed independently? Where should one result be challenged before another worker relies on it?
 
-Many useful software projects begin with an imprecise request: reduce onboarding delays, investigate recurring incidents, make this service cheaper, build a product for a new market. The implementation cannot be specified fully because the necessary understanding does not exist yet.
+Answering those questions requires an evolving model of the problem: relevant systems, observed behaviour, constraints, dependencies, and unresolved assumptions. The factory uses that understanding to construct an initial organisation, then updates both the understanding and the organisation through execution.
 
-A factory needs to develop that understanding. It can inspect code, examine permitted records, analyse telemetry, reproduce failures, and ask for missing context. Its plan should change as evidence arrives.
+![The factory forms an approach from the brief and evidence, executes it, and revises it using evaluation. Reusable capabilities inform future work.](/images/blog/software-factories/adaptive-loop.svg)
 
-Consider supplier onboarding. The brief is to shorten the process while preserving approval rules. Investigation reveals three different causes of delay: documents that never reach the right record, approvals that require long waits across systems, and inconsistent documents that need interpretation.
+This is a proposed organising model, grounded in several research directions. [AFlow](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5492ecbce4439401798dcd2c90be94cd-Abstract-Conference.html) treats workflow design as a search over executable code, testing and refining candidates through execution feedback. [Automated Design of Agentic Systems](https://arxiv.org/abs/2408.08435) goes further: a meta-agent programs new agent designs, evaluates them, and builds on an archive of previous discoveries. Prompts, tool use, and control flow all become material for design.
 
-Those findings imply different solutions. The missing links need an integration. The approvals need a durable workflow. Document interpretation may benefit from a specialist agent. A conventional database, typed APIs, and deterministic rules hold the resulting system together.
+Adaptation can also happen during a task. [MANTA](https://mao-code.github.io/MANTA/) proposes a task-specific collaboration structure, audits the execution trace, and applies bounded changes to roles, communication links, execution order, information visibility, and validation paths.
 
-![Discovery shapes the solution: integrations, durable workflows, and specialist agents address different causes.](/images/blog/software-factories/discovery.svg)
+These systems demonstrate mechanisms under research conditions. They do not establish that an arbitrary enterprise brief can be completed unattended. What they make concrete is that the way agents work together can itself be generated, tested, and revised.
 
-Construction produces more discoveries. Two services may disagree about identifiers. An API may acknowledge a write before the record becomes readable. These findings must reach the design and acceptance criteria, rather than disappear into local patches.
+## Swarms, teams, and workflows
 
-The same process can conclude that a configuration change or an existing product is sufficient. Success means resolving the problem. Commit counts and agent counts are poor substitutes.
+A factory needs several ways to organise work. A swarm can explore competing explanations in parallel. A team can divide responsibilities while coordinating around shared artefacts. A workflow can encode dependencies, conditions, retries, and checkpoints once the process is understood. These arrangements overlap: a workflow can invoke a team, and a team can launch parallel investigations.
 
-## The machinery is emerging
+![The same primitives support different arrangements: parallel exploration, coordinated specialists, and a workflow with an explicit check.](/images/blog/software-factories/work-patterns.svg)
 
-Several recent projects demonstrate pieces of this capability.
+For an unfamiliar incident, parallel investigators might examine deployment history, database behaviour, and upstream failures. Once the cause is established, a smaller team can implement and challenge the repair. Release then follows a structured workflow with acceptance checks and a limited rollout.
 
-[StrongDM's software factory](https://factory.strongdm.ai/) describes agents building from specifications and scenarios without human code review. Behavioural replicas of external services provide a controlled test environment; scenarios held outside the codebase help keep acceptance separate from implementation.
+The structure should change for a reason. Repeated disagreement may call for better evidence rather than another agent. A blocked worker may need a connector. Excessive coordination may justify collapsing several roles into one. The factory needs to assess whether each change improves the result enough to justify its cost.
 
-[Cursor's experiments with long-running agents](https://cursor.com/blog/scaling-agents) show why organisation matters. Flat coordination produced contention and stalled progress. Separating planning, execution, and judging helped, although additional coordination roles could also become bottlenecks. More agents do not automatically produce more useful work.
+Shared state matters as much as communication. Workers need a place to record findings, provenance, decisions, dependencies, and completed actions. Messages move information; a maintained work record makes it possible to establish what the system currently believes and why.
 
-[Anthropic's application-development harness](https://www.anthropic.com/engineering/harness-design-long-running-apps) connects a planner, generator, and evaluator that interacts with the running application. Its experiments also exposed missed bugs and the need to tune evaluation. Some scaffolding became unnecessary as models improved.
+## Discovery has three meanings
 
-A [September 2026 paper from Microsoft researchers](https://arxiv.org/abs/2609.36323) extends the factory model across targeting, coding, review, and operations, grounded in shared system knowledge and telemetry. Its demonstrated scope is the evolution of data systems against measurable objectives; general target selection and correctness remain open problems.
+First, the factory can **discover the process that already exists**. An instruction such as “reduce supplier onboarding delays” leaves substantial uncertainty. Logs, code, records, policies, and conversations reveal how the work actually happens, including informal handoffs and exceptions. IBM's [work on process discovery](https://community.ibm.com/community/user/blogs/maja-vukovic/2026/09/10/process-discovery-for-agent-augmented-business-pro) describes building an evolving representation of that operational reality.
 
-Together, these results suggest that the building blocks are available. They also locate the hard work: maintaining context, coordinating dependencies, and producing trustworthy evidence across a long task. Broad autonomy still has to be demonstrated under the conditions where it will be used.
+In a hypothetical onboarding process, investigation might find missing document links, legitimate approval waits, and inconsistent evidence. Each calls for a different response: an integration, a durable workflow, or an agent that interprets documents and routes exceptions. The factory may also conclude that an existing product or a configuration change is sufficient.
 
-## Two layers support the factory
+Second, it can **discover a better way to solve the task**. Workflow synthesis proposes and evaluates arrangements of operations. A candidate might retrieve records, reconcile identifiers, extract evidence, and route unresolved cases to a person. Testing should expose where the sequence fails, including partial writes, duplicate callbacks, and unavailable dependencies. A plausible plan becomes an executable design that can be challenged.
 
-The architecture has two useful layers. The **factory layer** organises engineering work. The **software and agent platform** makes that work executable, durable, and observable.
+Third, it can **discover reusable routines from experience**. [Agent Workflow Memory](https://proceedings.mlr.press/v267/wang25bx.html) extracts recurring workflows from examples or experience and supplies them to agents solving later tasks. In a factory, this suggests a library of tested procedures, connectors, and skills. Their assumptions and limits should travel with them.
 
-![The factory organises engineering work. A shared platform supports its workers and the systems they produce.](/images/blog/software-factories/architecture.svg)
+These functions operate at different timescales. Discovery informs the initial approach, execution reveals gaps, and accumulated experience improves the next project. The useful learning can live in code, structured memory, and workflow definitions without requiring a change to model weights.
+
+## Two architectures take shape
+
+The organisation doing the engineering and the system being engineered are separate design problems. A temporary swarm may build a conventional service and finish. A factory may instead produce a persistent multi-agent system, or a workflow that combines ordinary code with model-based interpretation. The arrangement that helped discover the answer does not have to become the deployed product.
+
+An **agent factory** names the mechanism that creates and coordinates agents. **Software factory** describes the wider capability, including outputs that contain no agents at all.
+
+Two supporting layers make the work possible. The **factory layer** holds discovery, workflow and team design, construction, evaluation, and accumulated experience. The **software and agent platform** supplies execution, durability, access, delivery, and observation.
+
+![The factory layer adapts its approach and constructs solutions. The platform supports both its engineering workers and the systems they produce.](/images/blog/software-factories/architecture.svg)
 
 [View the architecture at full size](/images/blog/software-factories/architecture.svg).
 
-The factory maintains the brief, evidence, plan, dependencies, and acceptance criteria. It assigns work, reconciles conflicting findings, and decides whether results justify continuing. Shared state must distinguish an observation from an assumption and a completed action from an intention.
+Managed sandboxes let workers inspect repositories, run experiments, and test changes. Production runtimes serve users and preserve application state. Both use platform services, with separate permissions and lifecycles. Durable execution keeps long tasks coherent across failures, session boundaries, and waits for external decisions.
 
-The platform supplies repositories, managed sandboxes, model access, identity, secrets, data, deployment pipelines, and production runtimes. Traces, evaluations, and cost tracking connect activity to results. Much of this is familiar infrastructure, extended for workers that create tools, delegate tasks, and operate across sessions.
+The work record must distinguish an intention from a completed action. If a deployment request times out after the release succeeds, the next worker needs to discover that state before retrying. Identity and authorisation must also survive delegation: creating another worker should not expand the authority granted to the task.
 
-Two distinctions matter. First, a construction sandbox and a production runtime have different lifecycles and permissions. They can use common platform services while remaining separate execution environments. Second, durable work requires more than a saved conversation. If a deployment request times out after the release succeeds, the next worker must discover the actual state before retrying.
+Observability connects the brief, design decisions, changed artefacts, release, and production effect. Model traces and token costs are part of that account. Repositories, data contracts, tests, and operational telemetry supply the rest.
 
-Authority also has to survive delegation. A child agent should receive scoped access, with permission checks enforced by the receiving systems. Generating a deployment manifest does not confer permission to deploy it.
+## Production is part of the reasoning
 
-“LLMOps” describes only part of this foundation. The platform must connect a brief to an engineering decision, an artefact, a release, and its production effect. Many of the produced systems will barely use a model, or use none at all.
+A factory's claim of completion needs evidence independent of the workers that built the result. [StrongDM's software factory](https://factory.strongdm.ai/) describes using scenarios outside the codebase and behavioural replicas of external services to exercise interactions and failure cases. The principle matters: acceptance should not become whatever the implementation happens to pass.
 
-An **agent factory** is a useful name for the mechanism that creates and coordinates agents. **Software factory** captures the wider capability and range of outputs.
+For onboarding, deterministic checks can enforce approval boundaries and prevent duplicate transitions. Document interpretation needs evaluation against representative cases. A shadow run can compare decisions with real operations before permitting writes. A limited rollout then produces evidence under production conditions.
 
-## Production closes the loop
+![Independent checks, shadow runs, and limited rollouts connect construction to production evidence and recovery.](/images/blog/software-factories/production.svg)
 
-A factory's output becomes useful when people and systems can depend on it. Acceptance and operation therefore belong in the work from the beginning.
+The original outcome remains the measure of success. Did completion times improve? Did errors increase? Was work simply shifted onto people? A shorter queue can mean faster processing or premature rejection. The factory has to interpret the effect and revise the system accordingly.
 
-For supplier onboarding, validation should exercise duplicate submissions, late documents, partial writes, revoked access, and repeated callbacks. Deterministic checks can enforce approval boundaries and prevent duplicate transitions. Document interpretation needs separate evaluation against representative cases. The builder should not be able to quietly weaken either set of criteria.
+Recovery must account for history. Reverting a service image cannot undo a migration or repair records already modified. Compatibility checks and compensating actions remain necessary, however cheaply the code was produced.
 
-Release policy should operate independently of the worker's assessment. A shadow run can observe real cases without changing records. A limited rollout can expose failures before wider deployment. Where authorisation is required, the factory prepares the change and its evidence, waits for the decision, and resumes afterwards.
+Adaptation also needs limits. The factory can improve a test harness without gaining permission to weaken acceptance criteria. Budgets, access policy, release rules, and stopping conditions need separately controlled enforcement. Human decisions can remain explicit checkpoints while the surrounding engineering proceeds autonomously.
 
-![Independent checks, shadow runs, and limited rollouts provide evidence for release, revision, or recovery.](/images/blog/software-factories/production.svg)
+## What the factory keeps
 
-Once live, the system must answer the original question: did onboarding improve? Completion time, exception rates, errors, and human workload matter. A shorter queue could mean faster processing or premature rejection. Metrics need interpretation against the intended outcome.
+Each project can leave behind more than its delivered system: a connector, a replay environment, a migration checker, a useful team structure, or a workflow that handles a class of tasks. A missing capability built for one problem becomes a starting point for the next.
 
-Recovery must account for state. Reverting an image cannot undo a migration or repair records already modified. Compatibility checks, staged migrations, and compensating actions remain engineering requirements even when code is cheap to regenerate.
+That accumulation only helps if it remains trustworthy. Reusable procedures need provenance, validation, versioning, and a way to expire. Operational knowledge changes; a workaround that once helped can later encode the wrong assumption. Learning should preserve the conditions under which something worked.
 
-This is also where benchmark results need care. [METR's time-horizon measurements](https://metr.org/time-horizons/) largely concern cleaner software engineering, machine learning, and cybersecurity tasks. They do not establish equivalent reliability in organisations with rich institutional context. Production capability needs evidence from production conditions.
+The economics depend on how much of the whole journey becomes repeatable. Investigation, verification, deployment, maintenance, and human attention often cost more than typing the code. A factory that carries those stages can make previously neglected problems worth addressing, while still choosing to buy, simplify, or build less.
 
-## A factory can build its own tools
+Engineering judgment remains central to choosing outcomes, supplying context, and deciding what evidence is sufficient. Every delivered system also needs an owner and a path to retirement. Greater construction capacity should lead to useful capability, not an ever-growing inventory of systems nobody understands.
 
-During a task, the factory may need a connector, replay harness, migration checker, or specialist agent that does not yet exist. It can build that capability and reuse it in later work. A good simulator can make an entire class of future changes easier to verify.
-
-The accumulated asset includes knowledge: how identifiers correspond, which API behaviours are unreliable, why an approval exists, and which interventions failed. That knowledge needs sources, versioning, and expiry. Otherwise a successful workaround becomes a permanent assumption.
-
-Self-extension needs a boundary between improving the machinery and changing the rules that judge it. Release policy, budgets, and acceptance criteria require separately controlled authority. New tools and agents need traceable permissions and a way to stop them.
-
-The organisation can stay small. A focused task may need one capable agent. Larger work may benefit from specialised workers and independent evaluation. The right structure follows the dependencies and should evolve as models improve.
-
-## What becomes worth building
-
-Organisations have a long tail of problems that never become engineering projects. They are too specific for a vendor, too small for the roadmap, or too entangled with local processes. People bridge the gaps with spreadsheets, recurring messages, and memory.
-
-Software factories could change the threshold at which these problems become worth solving. The relevant cost includes investigation, verification, deployment, maintenance, and human attention. Cheaper coding alone has limited effect when the surrounding work dominates. The opportunity grows as the factory can carry more of that work reliably.
-
-Engineering judgment remains essential: choosing worthwhile problems, supplying context, shaping architecture, and deciding what evidence is sufficient. Greater implementation capacity increases the value of those decisions.
-
-It also creates an obligation to manage what gets built. Every new system needs an owner, service expectations, and a path to consolidation or retirement. A useful factory should make an organisation simpler as well as more capable.
-
-The shift is toward a continuing ability to turn broad intent into running systems. Sometimes the goal is clear. Sometimes only the friction is visible. A software factory can investigate both, discover what needs to exist, and carry the work through to production.
+The defining possibility is a system that can develop its own approach to a complex problem, discover what needs to exist, and carry the solution into production. As it works, it improves both the thing being built and its ability to build the next thing.

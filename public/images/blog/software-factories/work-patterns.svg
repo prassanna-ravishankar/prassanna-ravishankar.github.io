@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="970" viewBox="0 0 760 970" role="img" aria-labelledby="title desc">
+<title id="title">One factory, several ways to work</title><desc id="desc">Parallel exploration, coordinated specialists, and explicit workflows are different arrangements of the same primitives. They can be combined and revised as the task develops. Lines show collaboration; arrows show directed dependencies.</desc>
+<rect width="760" height="970" fill="#f7f4ee"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#59666b" stroke-width="2"/></marker></defs>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="42" y="57" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">One factory, several ways to work</text>
+<rect x="42" y="105" width="676" height="225" rx="12" fill="#f7f4ee" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="153" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Parallel exploration</text>
+<text x="64" y="204" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Competing hypotheses</text>
+<text x="64" y="239" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Shared findings</text>
+<rect x="42" y="365" width="676" height="225" rx="12" fill="#f7f4ee" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="413" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Coordinated team</text>
+<text x="64" y="464" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Specialist responsibilities</text>
+<text x="64" y="499" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Shared artefacts</text>
+<rect x="42" y="625" width="676" height="225" rx="12" fill="#f7f4ee" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="673" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Explicit workflow</text>
+<text x="64" y="724" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Dependencies + checks</text>
+<text x="64" y="759" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Conditions + retries</text>
+<path d="M444 177 H650" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M444 261 H650" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M444 177 V261" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M650 177 V261" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M444 177 L650 261" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M650 177 L444 261" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="415" y="154" width="58" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<rect x="621" y="154" width="58" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<rect x="415" y="238" width="58" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<rect x="621" y="238" width="58" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<path d="M552 444 L430 513" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M552 444 V513" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M552 444 L665 513" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M459 537 H523" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7"/>
+<path d="M581 537 H636" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7"/>
+<rect x="511" y="399" width="82" height="46" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="552" y="430" font-size="25" fill="#26343c" font-weight="700" text-anchor="middle">Lead</text>
+<rect x="401" y="513" width="58" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<rect x="523" y="513" width="58" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<rect x="636" y="513" width="58" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<path d="M456 715 H489" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M572 715 H609" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M530 738 V773" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M489 794 H381 V715 H390" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<rect x="390" y="691" width="66" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="423.0" y="722" font-size="24" fill="#26343c" font-weight="700" text-anchor="middle">Build</text>
+<rect x="489" y="691" width="83" height="46" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="530.5" y="722" font-size="24" fill="#26343c" font-weight="700" text-anchor="middle">Check</text>
+<rect x="609" y="691" width="85" height="46" rx="12" fill="#dde6d9" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="651.5" y="722" font-size="24" fill="#26343c" font-weight="700" text-anchor="middle">Ship</text>
+<rect x="489" y="773" width="83" height="46" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="530.5" y="804" font-size="24" fill="#26343c" font-weight="700" text-anchor="middle">Revise</text>
+<text x="42" y="911" font-size="26" fill="#59666b" font-weight="400" text-anchor="start">Structures can be combined and revised.</text>
+</g></svg>

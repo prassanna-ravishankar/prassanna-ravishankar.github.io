@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="875" viewBox="0 0 760 875" role="img" aria-labelledby="title desc">
+<title id="title">The factory adapts its approach</title><desc id="desc">Intent starts discovery. An evolving problem model informs the working organisation. Execution produces evidence that updates understanding and the approach. Useful capabilities are retained and inform future work.</desc>
+<rect width="760" height="875" fill="#f7f4ee"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#59666b" stroke-width="2"/></marker></defs>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="42" y="57" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">The factory adapts its approach</text>
+<rect x="42" y="99" width="676" height="112" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="142" font-size="29" fill="#26343c" font-weight="700" text-anchor="start">Intent + constraints</text>
+<text x="64" y="181" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">An outcome, context, budget, and authority</text>
+<rect x="42" y="266" width="304" height="141" rx="12" fill="#dce5ec" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="309" font-size="28" fill="#26343c" font-weight="700" text-anchor="start">Understand</text>
+<text x="64" y="348" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Systems + constraints</text>
+<text x="64" y="379" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Facts + assumptions</text>
+<rect x="414" y="266" width="304" height="141" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="436" y="309" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Form an approach</text>
+<text x="436" y="348" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Roles + connections</text>
+<text x="436" y="379" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Tools + control flow</text>
+<rect x="414" y="472" width="304" height="141" rx="12" fill="#eed9bd" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="436" y="515" font-size="28" fill="#26343c" font-weight="700" text-anchor="start">Execute + build</text>
+<text x="436" y="554" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Teams + workflows</text>
+<text x="436" y="585" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Tools + artefacts</text>
+<rect x="42" y="472" width="304" height="141" rx="12" fill="#dde6d9" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="515" font-size="27" fill="#26343c" font-weight="700" text-anchor="start">Assess evidence</text>
+<text x="64" y="554" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Tests + telemetry</text>
+<text x="64" y="585" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Outcomes + failures</text>
+<path d="M194 211 V266" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M346 336 H414" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M566 407 V472" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M414 542 H346" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M194 472 V407" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<path d="M346 581 H380 V378 H414" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<text x="42" y="662" font-size="26" fill="#59666b" font-weight="400" text-anchor="start">Evidence can change the plan and the team.</text>
+<rect x="42" y="706" width="676" height="126" rx="12" fill="#dde6d9" stroke="#9aa3a2" stroke-width="1.4"/>
+<text x="64" y="749" font-size="28" fill="#26343c" font-weight="700" text-anchor="start">Retain useful capabilities</text>
+<text x="64" y="788" font-size="25" fill="#59666b" font-weight="400" text-anchor="start">Workflows · skills · tools · tested patterns</text>
+<path d="M42 542 H22 V769 H42" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<path d="M718 769 H741 V336 H718" fill="none" stroke="#59666b" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+</g></svg>
