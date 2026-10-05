@@ -29,11 +29,7 @@ Answering those questions requires an evolving model of the problem: relevant sy
 
 ![The factory forms an approach from the brief and evidence, executes it, and revises it using evaluation. Reusable capabilities inform future work.](/images/blog/software-factories/adaptive-loop.svg)
 
-This is a proposed organising model, grounded in several research directions. [AFlow](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5492ecbce4439401798dcd2c90be94cd-Abstract-Conference.html) treats workflow design as a search over executable code, testing and refining candidates through execution feedback. [Automated Design of Agentic Systems](https://arxiv.org/abs/2408.08435) goes further: a meta-agent programs new agent designs, evaluates them, and builds on an archive of previous discoveries. Prompts, tool use, and control flow all become material for design.
-
-Adaptation can also happen during a task. [MANTA](https://mao-code.github.io/MANTA/) proposes a task-specific collaboration structure, audits the execution trace, and applies bounded changes to roles, communication links, execution order, information visibility, and validation paths.
-
-These systems demonstrate mechanisms under research conditions. They do not establish that an arbitrary enterprise brief can be completed unattended. What they make concrete is that the way agents work together can itself be generated, tested, and revised.
+The factory needs an explicit way to revise its approach. Roles, tool access, communication paths, and workflow definitions become artefacts it can inspect and change. A revision should have a reason, a bounded scope, and a check that establishes whether it helped. Otherwise, adaptation becomes another source of uncertainty.
 
 ## Swarms, teams, and workflows
 
@@ -55,7 +51,7 @@ In a hypothetical onboarding process, investigation might find missing document 
 
 Second, it can **discover a better way to solve the task**. Workflow synthesis proposes and evaluates arrangements of operations. A candidate might retrieve records, reconcile identifiers, extract evidence, and route unresolved cases to a person. Testing should expose where the sequence fails, including partial writes, duplicate callbacks, and unavailable dependencies. A plausible plan becomes an executable design that can be challenged.
 
-Third, it can **discover reusable routines from experience**. [Agent Workflow Memory](https://proceedings.mlr.press/v267/wang25bx.html) extracts recurring workflows from examples or experience and supplies them to agents solving later tasks. In a factory, this suggests a library of tested procedures, connectors, and skills. Their assumptions and limits should travel with them.
+Third, it can **discover reusable routines from experience**. A sequence that successfully reconciles records or investigates a failure can become a candidate procedure for later work. The factory can retain the executable steps, the evidence that justified them, and the conditions under which they worked. Reuse still needs validation: a successful routine is a useful starting point, not a universal instruction.
 
 These functions operate at different timescales. Discovery informs the initial approach, execution reveals gaps, and accumulated experience improves the next project. The useful learning can live in code, structured memory, and workflow definitions without requiring a change to model weights.
 
@@ -76,6 +72,20 @@ Managed sandboxes let workers inspect repositories, run experiments, and test ch
 The work record must distinguish an intention from a completed action. If a deployment request times out after the release succeeds, the next worker needs to discover that state before retrying. Identity and authorisation must also survive delegation: creating another worker should not expand the authority granted to the task.
 
 Observability connects the brief, design decisions, changed artefacts, release, and production effect. Model traces and token costs are part of that account. Repositories, data contracts, tests, and operational telemetry supply the rest.
+
+## The platform is already taking shape
+
+Vercel, Cloudflare, and the major clouds are building many of these foundations. Their products increasingly cover both the environment where agents do engineering and the environment where the resulting systems run. Reading this convergence as infrastructure for software factories is an interpretation of that direction, rather than a claim that every provider already offers the complete factory.
+
+Vercel makes the construction loop concrete. Its [durable coding-agent guide](https://vercel.com/kb/guide/how-to-build-a-durable-ai-code-agent-on-vercel) combines Workflow, Sandbox, and AI Gateway: generate code and tests, execute them in an isolated environment, and feed failures into another attempt. Workflow preserves progress and handles retries; Sandbox provides execution; Gateway routes and observes model calls. This is a small example of a worker acting on evidence, though its generated tests still need independent acceptance criteria for a real project.
+
+Cloudflare's [Agents platform](https://developers.cloudflare.com/agents/) draws a useful distinction between the **harness**, which controls the model and tool loop, and the **runtime**, which holds identity, state, scheduling, and recovery. Browser access, sandboxed execution, and MCP tools supply capabilities around that loop. Its Code Mode lets models write code to discover and orchestrate tools. The platform supports both the decisions an agent makes and the durable machinery needed to carry them out.
+
+The major clouds bring this pattern into enterprise environments. [Amazon Bedrock AgentCore](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html) supplies runtime, memory, identity, tool gateways, and evaluation. [Google's ADK](https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/adk) supports structured workflows and dynamic delegation among specialist agents, with deployment options including a managed runtime. On Azure, [Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview) combines managed execution with shared tools, identity, tracing, evaluation, and publishing.
+
+Some offerings reach into improvement as well. AgentCore describes trace-based configuration recommendations and controlled experiments; Microsoft's agent optimizer, currently in preview, generates changes to instructions, skills, tool descriptions, and model selection. These are narrower forms of adaptation than a factory redesigning its organisation around an unfamiliar problem. They nevertheless make evaluation and revision part of the platform, alongside execution.
+
+The remaining factory work is to connect these capabilities to an outcome: understand the business problem, choose an organisation, build missing capabilities, establish acceptance, and learn from production. A durable runtime can preserve a task for days. The factory still has to decide what those days should accomplish.
 
 ## Production is part of the reasoning
 
