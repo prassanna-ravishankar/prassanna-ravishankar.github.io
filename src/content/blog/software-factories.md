@@ -19,6 +19,8 @@ The mechanism is just as interesting as the output. The factory can choose how t
 
 Parts of this capability exist today in bounded settings. The larger ambition is to connect them into a reliable journey from a complex problem to a useful production system.
 
+![A general system takes the shape of the problem.](/images/blog/software-factories/adaptive-structure.webp)
+
 ## The factory designs its way of working
 
 A fixed pipeline encodes an approach in advance. An adaptive factory makes parts of that approach a design decision. How many workers are useful? What expertise is missing? Which tasks can proceed independently? Where should one result be challenged before another worker relies on it?
@@ -92,6 +94,8 @@ Adaptation also needs limits. The factory can improve a test harness without gai
 ## What the factory keeps
 
 Each project can leave behind more than its delivered system: a connector, a replay environment, a migration checker, a useful team structure, or a workflow that handles a class of tasks. A missing capability built for one problem becomes a starting point for the next.
+
+![Reusable capabilities become the foundation for different future solutions.](/images/blog/software-factories/capability-foundation.webp)
 
 That accumulation only helps if it remains trustworthy. Reusable procedures need provenance, validation, versioning, and a way to expire. Operational knowledge changes; a workaround that once helped can later encode the wrong assumption. Learning should preserve the conditions under which something worked.
 
