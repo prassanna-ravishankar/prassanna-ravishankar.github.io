@@ -44,11 +44,16 @@ export const isRecent = (date: string | undefined, now = today()) => {
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 const published = <T extends { data: { draft?: boolean } }>(e: T) => !(import.meta.env.PROD && e.data.draft);
-const stripEmoji = (s: string) => s.replace(/\s*\p{Extended_Pictographic}️?/gu, '').trim();
+/** Titles keep their words; emoji stay out of the UI. */
+export const stripEmoji = (s: string) => s.replace(/\s*\p{Extended_Pictographic}️?/gu, '').trim();
 const repoName = (url?: string) => url?.replace(/\/+$/, '').split('/').pop();
 
-function formatDuration(hms: string) {
-  const [h, m] = hms.split(':').map(Number);
+/** "01:04:32" -> "1 h 04 min", "54:55" -> "55 min" (rounded to the minute). */
+export function formatDuration(hms: string) {
+  const seconds = hms.split(':').map(Number).reduce((acc, n) => acc * 60 + n, 0);
+  const minutes = Math.round(seconds / 60);
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
   return h ? `${h} h ${String(m).padStart(2, '0')} min` : `${m} min`;
 }
 

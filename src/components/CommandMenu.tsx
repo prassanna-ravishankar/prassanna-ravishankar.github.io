@@ -17,25 +17,18 @@ const elsewhere = [
   { name: 'x', href: 'https://x.com/thenomadiccoder' },
 ];
 
-export const CommandMenu = () => {
-  const [open, setOpen] = useState(false);
+export const CommandMenu = ({ initialOpen = false }: { initialOpen?: boolean }) => {
+  const [open, setOpen] = useState(initialOpen);
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((o) => !o);
-      } else if (e.key === 'Escape') {
-        setOpen(false);
-      }
-    };
-    const onOpen = () => setOpen(true);
+    const onToggle = () => setOpen((o) => !o);
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    window.addEventListener('command-menu-toggle', onToggle);
     document.addEventListener('keydown', onKey);
-    window.addEventListener('open-command-menu', onOpen);
     return () => {
+      window.removeEventListener('command-menu-toggle', onToggle);
       document.removeEventListener('keydown', onKey);
-      window.removeEventListener('open-command-menu', onOpen);
     };
   }, []);
 

@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import Badge from '../../components/ui/Badge.astro';
+import ArticleHeader from '../../components/ArticleHeader.astro';
+import Verse from '../../components/Verse.astro';
 
 export async function getStaticPaths() {
   const verses = await getCollection('verses');
@@ -12,72 +13,28 @@ export async function getStaticPaths() {
 }
 
 const { verse } = Astro.props;
-const { Content } = await verse.render();
+const { title, description, pubDate, image, tags } = verse.data;
 ---
 
-<Layout 
-  title={`${verse.data.title} | Verses | Prassanna Ravishankar`}
-  description={verse.data.description}
+<Layout
+  title={`${title} | Verses | Prassanna Ravishankar`}
+  description={description}
 >
-  <article class="container mx-auto py-12 px-4">
-    <div class="max-w-3xl mx-auto">
-      <header class="mb-12 text-center">
-        <h1 class="text-4xl md:text-5xl font-display font-bold mb-6 text-main">{verse.data.title}</h1>
-        {verse.data.description && (
-          <p class="text-xl text-muted mb-6 font-light italic">
-            {verse.data.description}
-          </p>
-        )}
-        
-        <div class="flex flex-wrap justify-center gap-2 mb-6">
-          {verse.data.tags?.map(tag => (
-            <Badge variant="outline">#{tag}</Badge>
-          ))}
-        </div>
-        
-        <div class="text-sm text-muted font-mono uppercase tracking-widest">
-          {new Date(verse.data.pubDate).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </div>
-      </header>
-
-      {verse.data.image && (
-        <div class="mb-12 rounded-2xl overflow-hidden shadow-2xl border border-subtle/5 relative group">
-          <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
-          <img 
-            src={verse.data.image} 
-            alt={verse.data.title}
-            class="w-full h-auto  transition-all duration-700"
-          />
-        </div>
-      )}
-
-      <div class="prose dark:prose-invert prose-lg max-w-none font-serif leading-loose poetry-content mx-auto">
-        <Content />
-      </div>
-      
-      <div class="mt-16 pt-8 border-t border-subtle/10 text-center">
-        <a 
-          href="/verses" 
-          class="text-primary hover:text-primary-hover hover:underline inline-flex items-center transition-colors font-mono text-sm"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Verses
-        </a>
-      </div>
+  <article class="pr-article">
+    {image && (
+      <figure class="pr-hero">
+        <img src={image} alt="" loading="eager" />
+      </figure>
+    )}
+    <ArticleHeader
+      title={title}
+      kind="poem"
+      lead={description}
+      facts={[pubDate.toISOString().slice(0, 10)]}
+      topics={tags.map((t) => ({ label: t }))}
+    />
+    <div class="pr-article-body">
+      <Verse body={verse.body} />
     </div>
   </article>
 </Layout>
-
-<style>
-  /* Style poetry content */
-  .poetry-content :global(p) {
-    margin-bottom: 2em;
-    white-space: pre-line;
-  }
-</style>

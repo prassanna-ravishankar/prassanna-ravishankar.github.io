@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer utilities {
-  .prose {
-    @apply prose-strong:text-main prose-th:text-main prose-td:text-main prose-headings:text-main prose-p:text-main;
-  }
-}

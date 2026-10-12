@@ -1,0 +1,38 @@
+---
+// A poem set for reading: stanzas of lines, a line number in the margin every fourth line, hanging indents on wraps.
+// Stanzas are split on blank lines; inline **bold** and *italic* from the markdown source are kept.
+export interface Props {
+  body: string;
+  numberEvery?: number;
+}
+
+const { body, numberEvery = 4 } = Astro.props;
+
+const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const inline = (s: string) =>
+  escape(s)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<em>$2</em>');
+
+const stanzas = body
+  .trim()
+  .split(/\n\s*\n/)
+  .map((stanza) => stanza.split('\n').map((line) => line.trimEnd()).filter(Boolean));
+
+let n = 0;
+---
+<div class="pr-verse">
+  {stanzas.map((lines) => (
+    <ol class="pr-stanza" start={n + 1}>
+      {lines.map((line) => {
+        n += 1;
+        return (
+          <li class="pr-line">
+            <span class="pr-line-no" aria-hidden="true">{n % numberEvery === 0 ? n : ''}</span>
+            <span class="pr-line-text" set:html={inline(line)} />
+          </li>
+        );
+      })}
+    </ol>
+  ))}
+</div>

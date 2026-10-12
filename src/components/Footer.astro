@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
 <script>
   document.addEventListener('astro:page-load', () => {
     document.querySelector('[data-open-palette]')?.addEventListener('click', () => {
-      window.dispatchEvent(new CustomEvent('open-command-menu'));
+      window.dispatchEvent(new CustomEvent('request-command-menu'));
     });
   });
 </script>

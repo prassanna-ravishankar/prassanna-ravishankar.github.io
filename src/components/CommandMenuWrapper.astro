@@ -1,5 +1,26 @@
 ---
-import { CommandMenu } from './CommandMenu';
+// The palette's React code loads on first use (⌘K or the footer's "jump to"), not on every page.
 ---
+<div id="pr-palette-root" transition:persist></div>
 
-<CommandMenu client:idle />
+<script>
+  let ready: Promise<void> | undefined;
+
+  function toggle() {
+    if (!ready) {
+      ready = import('./mountCommandMenu').then(({ mountCommandMenu }) =>
+        mountCommandMenu(document.getElementById('pr-palette-root')!),
+      );
+      return;
+    }
+    ready.then(() => window.dispatchEvent(new CustomEvent('command-menu-toggle')));
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      toggle();
+    }
+  });
+  window.addEventListener('request-command-menu', toggle);
+</script>

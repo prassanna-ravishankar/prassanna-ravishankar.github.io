@@ -1,7 +1,9 @@
-/* prassanna.io design tokens. Source of truth: design-system/tokens.json. */
+/* prassanna.io design tokens. Source of truth: design-system/tokens.json.
+   Newsreader ships instanced to the type scale's needs: roman wght 360-600 x opsz 12-72, italic wght 360-600 at opsz 20
+   (italic is only set at 16-22px). Plex Mono is Latin-subset. Rebuilt from the design system artifact's font files with fonttools varLib.instancer and pyftsubset. */
 
-@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable.woff2') format('woff2'); font-weight: 200 800; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable-Italic.woff2') format('woff2'); font-weight: 200 800; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable.woff2') format('woff2'); font-weight: 360 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable-Italic.woff2') format('woff2'); font-weight: 360 600; font-style: italic; font-display: swap; }
 @font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-400-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
