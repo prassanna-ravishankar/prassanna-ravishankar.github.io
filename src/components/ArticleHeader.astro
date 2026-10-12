@@ -1,0 +1,29 @@
+---
+import Tag from './Tag.astro';
+
+// Top of an essay, poem or episode: facts in the margin, title, lead and topics in the text column.
+export interface Props {
+  title: string;
+  kind?: 'essay' | 'poem' | 'episode' | 'project';
+  lead?: string;
+  facts?: (string | { label: string; href: string } | undefined)[];
+  topics?: { label: string; href?: string }[];
+}
+
+const { title, kind = 'essay', lead, facts = [], topics = [] } = Astro.props;
+---
+<header class="pr-frame pr-article-head">
+  <div class="pr-margin">
+    <ul class="pr-meta pr-meta-list">
+      <li>{kind}</li>
+      {facts.filter(Boolean).map((f) => (typeof f === 'string' ? <li>{f}</li> : <li><a href={f!.href}>{f!.label}</a></li>))}
+    </ul>
+  </div>
+  <div>
+    <h1 class="pr-title">{title}</h1>
+    {lead && <p class="pr-lead" role="doc-subtitle">{lead}</p>}
+    {topics.length > 0 && (
+      <ul class="pr-tags">{topics.slice(0, 5).map((t) => <li><Tag href={t.href} label={t.label} /></li>)}</ul>
+    )}
+  </div>
+</header>

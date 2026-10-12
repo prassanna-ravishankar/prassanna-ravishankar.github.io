@@ -1,9 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PageHead from '../../components/PageHead.astro';
+import PostListItem from '../../components/PostListItem.astro';
+import Tag from '../../components/Tag.astro';
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import { validSeries } from '../../content/config';
-import { getQualifyingTopics } from '../../utils/topics';
 
 // Handle query parameters - redirect to clean URL if present
 if (Astro.url.search) {
@@ -32,8 +33,6 @@ validSeries.forEach(series => {
 const sortedSeries = Object.entries(seriesCounts)
   .filter(([, count]) => count > 0)
   .sort(([, countA], [, countB]) => countB - countA);
-
-const qualifyingTopics = await getQualifyingTopics();
 
 // Get latest posts for description
 const latestPosts = sortedPosts.slice(0, 3);
@@ -80,113 +79,19 @@ const structuredData = {
   description={blogDescription}
   structuredData={structuredData}
 >
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8 text-center text-main">Blog</h1>
 
-    <p class="text-lg mb-8 text-center text-muted max-w-3xl mx-auto">
-      Technical insights on machine learning, MLOps, AI engineering, and software development.
-      Sharing practical experiences and deep dives into the latest trends in tech.
-    </p>
-
-    <!-- Series Cloud -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4 text-center text-main/90">Browse by Series</h2>
-      <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-        {sortedSeries.map(([series, count]) => (
-          <a
-            href={`/tags/${encodeURIComponent(series)}/`}
-            class="px-4 py-2 bg-surface border border-accent/30 text-accent rounded-full text-sm font-medium hover:bg-accent/10 hover:text-accent transition-colors"
-          >
-            {series}
-            <span class="ml-1 opacity-70 text-muted">({count})</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- Blog Posts Grid -->
-    <section class="max-w-6xl mx-auto">
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {sortedPosts.map((post) => (
-          <article class="bg-surface rounded-sm border border-accent/20 hover:border-accent/50 hover:shadow-[0_0_15px_rgba(217,128,52,0.1)] transition-all duration-300 group">
-            {post.data.heroImage && (
-              <Image
-                src={post.data.heroImage}
-                alt={post.data.title}
-                width={400}
-                height={192}
-                class="w-full h-48 object-cover rounded-t-lg"
-                loading="lazy"
-              />
-            )}
-            <div class="p-6">
-              <header class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">
-                  <a
-                    href={`/blog/${post.slug}/`}
-                    class="text-main font-serif hover:text-accent transition-colors"
-                  >
-                    {post.data.title}
-                  </a>
-                </h2>
-                <time
-                  datetime={post.data.pubDate.toISOString()}
-                  class="text-sm text-muted font-mono"
-                >
-                  {post.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-              </header>
-
-              <p class="text-muted mb-4 line-clamp-3">
-                {post.data.description}
-              </p>
-
-              {/* Series tags (clickable) */}
-              {post.data.series && post.data.series.length > 0 && (
-                <div class="flex flex-wrap gap-1.5 mb-2">
-                  {post.data.series.map(series => (
-                    <a
-                      href={`/tags/${encodeURIComponent(series)}/`}
-                      class="px-2 py-0.5 bg-subtle/5 border border-accent/30 text-accent text-xs rounded hover:bg-subtle/10 transition-colors"
-                    >
-                      {series}
-                    </a>
-                  ))}
-                </div>
-              )}
-
-              {/* Topic tags (clickable if qualifying, else display only) */}
-              {post.data.topics && post.data.topics.length > 0 && (
-                <div class="flex flex-wrap gap-1 mb-4">
-                  {post.data.topics.slice(0, 3).map(topic =>
-                    qualifyingTopics.has(topic) ? (
-                      <a href={`/topics/${encodeURIComponent(topic)}/`}
-                         class="px-2 py-0.5 bg-black/20 border border-subtle/10 text-muted text-xs rounded hover:bg-teal-100 dark:hover:bg-teal-900 transition-colors">
-                        {topic}
-                      </a>
-                    ) : (
-                      <span class="px-2 py-0.5 bg-black/20 border border-subtle/10 text-muted text-xs rounded">
-                        {topic}
-                      </span>
-                    )
-                  )}
-                </div>
-              )}
-
-              <a
-                href={`/blog/${post.slug}/`}
-                class="text-accent hover:text-accent/80 font-medium text-sm hover:underline decoration-accent underline-offset-4"
-              >
-                Read more →
-              </a>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  </main>
+  <PageHead title="writing" count={`${sortedPosts.length} essays`}>
+    {sortedSeries.map(([series, count]) => <Tag href={`/tags/${encodeURIComponent(series)}/`} label={`${series} ${count}`} />)}
+    <Tag href="/topics/" label="topics" />
+  </PageHead>
+  <ul class="pr-list pr-index">
+    {sortedPosts.map((post) => (
+      <PostListItem
+        title={post.data.title}
+        href={`/blog/${post.slug}/`}
+        meta={[post.data.pubDate.toISOString().slice(0, 10), post.data.series[0]]}
+        summary={post.data.description}
+      />
+    ))}
+  </ul>
 </Layout>

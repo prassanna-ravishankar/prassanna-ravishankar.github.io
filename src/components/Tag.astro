@@ -1,0 +1,4 @@
+---
+const { href, label } = Astro.props as { href?: string; label: string };
+---
+{href ? <a class="pr-tag pr-focus" href={href}>{label}</a> : <span class="pr-tag">{label}</span>}

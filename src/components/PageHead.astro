@@ -1,0 +1,11 @@
+---
+// The head of an index page: a lowercase mono h1 over a 1px ink line, with an optional count and a row below.
+const { title, count } = Astro.props as { title: string; count?: string };
+---
+<header class="pr-page-head">
+  <div class="pr-log-head">
+    <h1 class="pr-section">{title}</h1>
+    {count && <span class="pr-meta">{count}</span>}
+  </div>
+  {Astro.slots.has('default') && <div class="pr-page-head-row"><slot /></div>}
+</header>

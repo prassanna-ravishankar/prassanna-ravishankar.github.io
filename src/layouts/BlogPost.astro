@@ -2,9 +2,9 @@
 import Layout from './Layout.astro';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import NotionNav from '../components/NotionNav.astro';
+import ArticleHeader from '../components/ArticleHeader.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
-import Badge from '../components/ui/Badge.astro';
+import { getQualifyingTopics } from '../utils/topics';
 
 type Props = {
   entry: CollectionEntry<'blog'>;
@@ -12,218 +12,79 @@ type Props = {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const { title, subtitle, description, pubDate, updatedDate, heroImage, series, topics } = entry.data;
 
-// Format date function
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-};
-
-// Estimate reading time
-const estimateReadingTime = (text: string) => {
-  const wordsPerMinute = 200;
-  const words = text.split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return minutes;
-};
-
-// Get content for reading time estimation
-const readingTime = estimateReadingTime(entry.body);
+const readingTime = Math.ceil(entry.body.split(/\s+/).length / 200);
+const qualifyingTopics = await getQualifyingTopics();
 
 // Make Image component available to MDX content
 const components = { Image };
 
-// Ensure canonical URL for blog posts
 const canonicalURL = `https://prassanna.io/blog/${entry.slug}/`;
 
-// Generate breadcrumb structured data
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://prassanna.io"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": "https://prassanna.io/blog"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": entry.data.title,
-      "item": canonicalURL
-    }
-  ]
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://prassanna.io" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://prassanna.io/blog" },
+    { "@type": "ListItem", "position": 3, "name": title, "item": canonicalURL },
+  ],
 };
 ---
 
 <Layout
-  title={`${entry.data.title} | Prassanna Ravishankar`}
-  description={entry.data.description}
-  image={entry.data.heroImage}
+  title={`${title} | Prassanna Ravishankar`}
+  description={description}
+  image={heroImage}
   article={true}
-  publishedTime={entry.data.pubDate.toISOString()}
-  modifiedTime={entry.data.updatedDate?.toISOString()}
-  tags={[...(entry.data.series || []), ...(entry.data.topics || [])]}
+  publishedTime={pubDate.toISOString()}
+  modifiedTime={updatedDate?.toISOString()}
+  tags={[...series, ...topics]}
 >
-  <!-- Canonical handled by Layout -->
-  
-  <!-- Breadcrumb structured data -->
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-  
-  <article class="container mx-auto py-12 px-4">
-    <div class="max-w-3xl mx-auto">
-      <!-- Breadcrumb navigation -->
-      <nav class="text-sm text-muted mb-8 font-mono" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-2">
-          <li>
-            <a href="/" class="hover:text-primary transition-colors">Home</a>
-          </li>
-          <li>/</li>
-          <li>
-            <a href="/blog" class="hover:text-primary transition-colors">Blog</a>
-          </li>
-          <li>/</li>
-          <li>
-            <span class="text-main/80" aria-current="page">
-              {entry.data.title}
-            </span>
-          </li>
-        </ol>
-      </nav>
-      
-      <!-- Hero image if available -->
-      {entry.data.heroImage && (
-        <div class="mb-10 relative group">
-          <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none rounded-xl"></div>
-          <Image
-            src={entry.data.heroImage}
-            alt={entry.data.title}
-            width={1200}
-            height={630}
-            class="w-full h-auto rounded-xl shadow-2xl border border-subtle/5 bg-surface transition-all duration-700"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </div>
-      )}
-      
-      <!-- Post header -->
-      <header class="mb-12 border-b border-subtle/10 pb-8">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-main font-display leading-tight">{entry.data.title}</h1>
 
-        {entry.data.subtitle && (
-          <p role="doc-subtitle" class="text-xl md:text-2xl text-muted mb-6 font-display leading-snug">{entry.data.subtitle}</p>
-        )}
+  <article class="pr-article">
+    {heroImage && (
+      <figure class="pr-hero">
+        <Image src={heroImage} alt="" width={1200} height={630} loading="eager" fetchpriority="high" />
+      </figure>
+    )}
 
-        <div class="flex flex-wrap items-center text-muted gap-6 text-sm font-mono uppercase tracking-wider">
-          <time class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            {formatDate(entry.data.pubDate)}
-          </time>
-          
-          <span class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            {readingTime} min read
-          </span>
-        </div>
-        
-        {/* Series tags */}
-        {entry.data.series && entry.data.series.length > 0 && (
-          <div class="flex flex-wrap gap-2 mt-6">
-            {entry.data.series.map(series => (
-              <a href={`/tags/${encodeURIComponent(series)}/`}>
-                <Badge variant="primary" class="hover:bg-primary/20 transition-colors uppercase tracking-wide">
-                  {series}
-                </Badge>
-              </a>
-            ))}
-          </div>
-        )}
-      </header>
-      
-      <!-- Navigation -->
-      <NotionNav />
-      
-      <!-- Post content -->
-      <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-headings:text-main prose-p:text-main/80 prose-a:text-primary prose-a:no-underline prose-a:border-b prose-a:border-primary/50 hover:prose-a:border-primary prose-code:text-accent prose-pre:bg-surface prose-pre:border prose-pre:border-subtle/5 prose-blockquote:border-l-primary prose-img:rounded-xl">
+    <ArticleHeader
+      title={title}
+      lead={subtitle}
+      facts={[
+        pubDate.toISOString().slice(0, 10),
+        `${readingTime} min`,
+        ...series.map((s) => ({ label: s, href: `/tags/${encodeURIComponent(s)}/` })),
+      ]}
+      topics={topics.map((t) => ({ label: t, href: qualifyingTopics.has(t) ? `/topics/${encodeURIComponent(t)}/` : undefined }))}
+    />
+
+    <div class="pr-frame pr-article-body">
+      <div class="pr-prose">
         <Content components={components} />
-      </div>
-      
-      <!-- Related posts -->
-      <RelatedPosts currentPost={entry} />
-      
-      <!-- Back to blog link -->
-      <div class="mt-16 pt-8 border-t border-subtle/10">
-        <a href="/blog" class="group inline-flex items-center text-muted hover:text-main transition-colors">
-          <span class="w-8 h-8 rounded-full bg-subtle/5 flex items-center justify-center mr-3 group-hover:bg-primary group-hover:text-main transition-colors border border-subtle/10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-          </span>
-          Back to all posts
-        </a>
       </div>
     </div>
   </article>
+
+  <RelatedPosts currentPost={entry} />
 </Layout>
 
 <script>
-  // Simple client-side script to enhance images and add IDs to headings
   document.addEventListener('astro:page-load', () => {
-    // Add IDs to headings if they don't have them
-    const headings = document.querySelectorAll('.prose h2, .prose h3');
-    headings.forEach((heading, index) => {
-      if (!heading.id) {
-        const headingText = heading.textContent;
-        heading.id = headingText
-          .toLowerCase()
-          .replace(/[^\w\s]/g, '')
-          .replace(/\s+/g, '-');
-        
-        // Add a number if ID already exists
-        if (document.getElementById(heading.id) !== heading) {
-          heading.id = `${heading.id}-${index}`;
+    document.querySelectorAll<HTMLButtonElement>('.pr-code-copy').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const code = btn.closest('.pr-code')?.querySelector('pre')?.textContent ?? '';
+        try {
+          await navigator.clipboard.writeText(code);
+          btn.textContent = 'Copied';
+          setTimeout(() => (btn.textContent = 'Copy'), 1600);
+        } catch {
+          btn.textContent = 'Copy failed';
         }
-      }
-    });
-    
-    // Find all images in the blog content that aren't already wrapped
-    const images = document.querySelectorAll('.prose img:not([data-processed])');
-    
-    images.forEach(img => {
-      // Skip if image is already in a figure element
-      if (img.closest('figure')) {
-        img.setAttribute('data-processed', 'true');
-        return;
-      }
-      
-      // Add width and height attributes if they don't exist
-      if (!img.hasAttribute('width')) {
-        img.setAttribute('width', '800');
-      }
-      
-      if (!img.hasAttribute('height')) {
-        img.setAttribute('height', '600');
-      }
-      
-      // Add loading="lazy" attribute
-      img.setAttribute('loading', 'lazy');
-      
-      // Add class for styling
-      img.className = 'w-full h-auto rounded-md';
-      
-      // Mark as processed
-      img.setAttribute('data-processed', 'true');
+      });
     });
   });
 </script>

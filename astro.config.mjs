@@ -8,6 +8,7 @@ import partytown from '@astrojs/partytown';
 // Image optimization plugins
 import { remarkImagePaths } from './src/plugins/remark-image-paths.mjs';
 import { rehypeImageOptimizer } from './src/plugins/rehype-image-optimizer.mjs';
+import { rehypeCodeFigure } from './src/plugins/rehype-code-figure.mjs';
 
 import react from '@astrojs/react';
 import llmsTxt from '@4hse/astro-llms-txt';
@@ -219,12 +220,13 @@ export default defineConfig({
   
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
-      wrap: true
+      // Colours come from tokens via --astro-code-* (src/styles/ds.css); long lines scroll, never wrap
+      theme: 'css-variables',
+      wrap: false
     },
     // Image optimization plugins
     remarkPlugins: [remarkImagePaths],
-    rehypePlugins: [rehypeImageOptimizer],
+    rehypePlugins: [rehypeImageOptimizer, rehypeCodeFigure],
   },
   
   // Enable image optimization

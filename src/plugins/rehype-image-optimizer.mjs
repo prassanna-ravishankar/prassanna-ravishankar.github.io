@@ -77,7 +77,6 @@ export function rehypeImageOptimizer() {
           width,
           height,
           loading: 'lazy',
-          class: 'w-full h-auto rounded-md'
         },
         children: node.children
       };
@@ -86,7 +85,7 @@ export function rehypeImageOptimizer() {
       const figureNode = {
         type: 'element',
         tagName: 'figure',
-        properties: { class: 'my-6' },
+        properties: {},
         children: [
           imageNode
         ]
@@ -97,7 +96,7 @@ export function rehypeImageOptimizer() {
         figureNode.children.push({
           type: 'element',
           tagName: 'figcaption',
-          properties: { class: 'text-center text-sm text-muted mt-2' },
+          properties: { class: 'pr-meta' },
           children: [{ type: 'text', value: alt }]
         });
       }
