@@ -8,15 +8,18 @@ export interface Props {
   title?: string;
   moreHref?: string;
   moreLabel?: string;
+  /** h1 when the log is the page itself (/log/), h2 when it is a section. */
+  headingLevel?: 'h1' | 'h2';
 }
 
-const { entries, limit = 0, title = 'log', moreHref, moreLabel = 'Full log' } = Astro.props;
+const { entries, limit = 0, title = 'log', moreHref, moreLabel = 'Full log', headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
 const today = buildDay();
 ---
 
 <section class="pr-log" aria-label={title} data-log data-limit={limit}>
   <div class="pr-log-head">
-    <h2 class="pr-section">{title}</h2>
+    <Heading class="pr-section">{title}</Heading>
     <div class="pr-filters" role="group" aria-label="Filter the log">
       {LOG_FILTERS.map((f, i) => (
         <button type="button" class="pr-filter pr-focus" aria-pressed={i === 0 ? 'true' : 'false'} data-kinds={f.kinds.join(' ')}>{f.label}</button>

@@ -6,6 +6,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 h1, h2, h3, h4, h5, h6, p, figure, blockquote, pre { margin: 0; }
 img, video { max-width: 100%; height: auto; }
 button, input { font: inherit; color: inherit; }
+b, strong { font-weight: 600; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-serif); font-size: 19px; line-height: 31px; font-optical-sizing: auto; -webkit-font-smoothing: antialiased; }
 [hidden] { display: none !important; }
 ::selection { background: var(--marigold-soft); color: var(--ink); }
@@ -52,9 +53,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .pr-theme svg { width: 16px; height: 16px; }
 
 /* Command palette: the one lifted surface */
-.pr-palette-backdrop { position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-start; justify-content: center; padding: 20vh var(--space-4) 0; background: rgb(0 0 0 / .35); }
+.pr-palette-backdrop { position: fixed; inset: 0; z-index: 50; background: rgb(0 0 0 / .35); }
+.pr-palette-content { position: fixed; z-index: 51; top: 20vh; left: 50%; transform: translateX(-50%); width: calc(100% - 2 * var(--space-4)); max-width: 36rem; }
+.pr-palette-content:focus { outline: none; }
 .pr-palette { box-shadow: none; width: 100%; max-width: 36rem; background: var(--paper-raised); color: var(--ink); border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; font-family: var(--font-mono); }
 .pr-palette [cmdk-input] { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; line-height: 24px; padding: var(--space-4); background: transparent; color: var(--ink); border: 0; border-bottom: 1px solid var(--rule); outline: none; }
+.pr-palette [cmdk-input]:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 .pr-palette [cmdk-input]::placeholder { color: var(--ink-muted); }
 .pr-palette [cmdk-list] { max-height: 60vh; overflow-y: auto; padding: var(--space-2); }
 .pr-palette [cmdk-group-heading] { font-size: 13px; line-height: 20px; color: var(--ink-muted); padding: var(--space-2) var(--space-3) var(--space-1); }
@@ -224,7 +228,7 @@ a.pr-tag:hover { background: var(--indigo); color: var(--on-indigo); }
 .pr-prose hr { border: 0; border-top: 1px solid var(--rule); }
 .pr-prose mark { background: linear-gradient(to bottom, transparent 18%, var(--marigold-soft) 18%, var(--marigold-soft) 92%, transparent 92%); color: inherit; padding: 0 2px; margin: 0 -2px; border-radius: var(--radius-sm); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .pr-prose figure img, .pr-prose > p > img { width: 100%; height: auto; border-radius: var(--radius-md); display: block; }
-.pr-prose figcaption { margin-top: var(--space-2); }
+.pr-prose figure:not(.pr-code) figcaption { margin-top: var(--space-2); }
 .pr-prose table { display: block; overflow-x: auto; border-collapse: collapse; font-size: 16px; line-height: 24px; }
 .pr-prose th { font-family: var(--font-mono); font-size: 13px; line-height: 20px; font-weight: 400; color: var(--ink-muted); text-align: left; padding: var(--space-2) var(--space-4) var(--space-2) 0; border-bottom: 1px solid var(--rule); }
 .pr-prose td { vertical-align: baseline; padding: var(--space-2) var(--space-4) var(--space-2) 0; border-bottom: 1px solid var(--rule); }
@@ -233,6 +237,8 @@ a.pr-tag:hover { background: var(--indigo); color: var(--on-indigo); }
 /* Code: Shiki css-variables theme, tinted with the two accents only */
 :root { --astro-code-foreground: var(--ink); --astro-code-background: transparent; --astro-code-token-keyword: var(--indigo); --astro-code-token-comment: var(--ink-muted); --astro-code-token-string: var(--ink); --astro-code-token-string-expression: var(--ink); --astro-code-token-constant: var(--ink); --astro-code-token-parameter: var(--ink); --astro-code-token-function: var(--ink); --astro-code-token-punctuation: var(--ink); --astro-code-token-link: var(--indigo); }
 .pr-code pre.astro-code { background: transparent !important; }
+.pr-code pre code, :where(.pr-root) code, kbd, samp { font-family: var(--font-mono); }
+.pr-code pre code { font-size: inherit; line-height: inherit; }
 .pr-code .astro-code span[style*="--astro-code-token-comment"] { font-style: italic; }
 
 /* After the essay */

@@ -100,32 +100,22 @@ const articleSchema = article ? {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f5f6f3" />
 
-    <!-- Theme Initialization -->
+    <!-- Theme: applied before paint, and again after every view-transition swap (the router replaces <html>'s attributes).
+         Toggling lives in src/utils/theme.ts and writes the same localStorage key this reads. -->
     <script is:inline>
-      (function() {
-        const getTheme = () => {
-          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-            return localStorage.getItem('theme');
-          }
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-          }
-          return 'light';
+      (function () {
+        if (window.__applyTheme) return;
+        window.__applyTheme = function (doc) {
+          var stored = null;
+          try { stored = localStorage.getItem('theme'); } catch (e) {}
+          var theme = stored || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          doc.documentElement.classList.toggle('dark', theme === 'dark');
+          var meta = doc.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#14161a' : '#f5f6f3');
         };
-
-        const theme = getTheme();
-        
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-        
-        // Update theme-color meta tag
-        const themeColor = document.querySelector('meta[name="theme-color"]');
-        if (themeColor) {
-          themeColor.setAttribute('content', theme === 'dark' ? '#14161a' : '#f5f6f3');
-        }
+        window.__applyTheme(document);
+        document.addEventListener('astro:before-swap', function (e) { window.__applyTheme(e.newDocument); });
+        document.addEventListener('astro:after-swap', function () { window.__applyTheme(document); });
       })();
     </script>
 
@@ -270,3 +260,19 @@ const articleSchema = article ? {
     <CommandMenuWrapper />
   </body>
 </html>
+
+<script>
+  // Code-block Copy buttons (emitted by src/plugins/rehype-code-figure.mjs on any markdown page). One delegated listener survives view transitions.
+  document.addEventListener('click', async (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.pr-code-copy');
+    if (!btn) return;
+    const code = btn.closest('.pr-code')?.querySelector('pre')?.textContent ?? '';
+    try {
+      await navigator.clipboard.writeText(code);
+      btn.textContent = 'Copied';
+    } catch {
+      btn.textContent = 'Copy failed';
+    }
+    setTimeout(() => (btn.textContent = 'Copy'), 1600);
+  });
+</script>

@@ -72,19 +72,3 @@ const breadcrumbSchema = {
   <RelatedPosts currentPost={entry} />
 </Layout>
 
-<script>
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll<HTMLButtonElement>('.pr-code-copy').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        const code = btn.closest('.pr-code')?.querySelector('pre')?.textContent ?? '';
-        try {
-          await navigator.clipboard.writeText(code);
-          btn.textContent = 'Copied';
-          setTimeout(() => (btn.textContent = 'Copy'), 1600);
-        } catch {
-          btn.textContent = 'Copy failed';
-        }
-      });
-    });
-  });
-</script>

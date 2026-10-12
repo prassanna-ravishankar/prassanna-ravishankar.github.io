@@ -3,7 +3,7 @@ import { visit } from 'unist-util-visit';
 /**
  * Wraps highlighted code blocks in the design system's CodeBlock markup:
  * <figure class="pr-code"><figcaption>lang · Copy</figcaption><pre>…</pre></figure>.
- * The Copy button is wired up client-side in BlogPost.astro.
+ * The Copy button is wired by one delegated listener in Layout.astro, so it works on any page.
  */
 export function rehypeCodeFigure() {
   return (tree) => {
