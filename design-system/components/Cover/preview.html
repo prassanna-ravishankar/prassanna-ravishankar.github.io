@@ -1,0 +1,55 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>prassanna.io</title>
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--paper); color:var(--ink); font-family:var(--font-serif); overflow:hidden; }
+  .cover { position:relative; width:960px; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
+  .art svg { display:block; width:480px; height:288px; }
+  .indigo { fill:var(--indigo); }
+  .deep { fill:var(--ink); }
+  .mari { fill:var(--marigold); }
+  .hl { fill:var(--marigold-soft); }
+  .blk { rx:var(--radius-md); }
+  .sm { rx:var(--radius-sm); }
+  .hair { stroke:var(--rule-strong); stroke-width:1; }
+  .dot { fill:var(--marigold); stroke:var(--on-marigold); stroke-width:1.5; }
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
+  .name { margin:0; font-family:var(--font-mono); font-size:56px; line-height:.95; font-weight:500; letter-spacing:-.02em; color:var(--ink); }
+  .tag { margin:var(--space-3) 0 0 2px; font-family:var(--font-serif); font-style:italic; font-size:14px; line-height:20px; color:var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 288" width="480" height="288">
+<!--
+  blocks      indigo 160×240 slab bleeding off the top (the accent, largest) · ink 232×168 bleeding off the right (the graphite) · marigold 96×32 once (the signature mark) · marigold-soft 288×32 highlighter stroke laid across both, ≈30% of 960×288
+  arrangement one tall indigo slab with an ink block stepped down beside it, a highlighter stroke crossing the two at a body-line height; the marigold mark sits on the ground above the ink
+  pattern     "a work log, mono first": four rule-strong hairlines at a space-8 pitch, the rows of the log, running behind the blocks, three carrying the marigold recent-activity dot at their start
+  scales      sides in space-8 multiples; gutters space-4; pitch space-8 (32); stroke height space-8; corners radius-md, mark and stroke radius-sm
+-->
+<line class="hair" x1="0" y1="48.5" x2="480" y2="48.5"/>
+<line class="hair" x1="0" y1="80.5" x2="480" y2="80.5"/>
+<line class="hair" x1="0" y1="112.5" x2="480" y2="112.5"/>
+<line class="hair" x1="0" y1="144.5" x2="480" y2="144.5"/>
+<circle class="dot" cx="12" cy="48.5" r="4"/>
+<circle class="dot" cx="12" cy="80.5" r="4"/>
+<circle class="dot" cx="12" cy="144.5" r="4"/>
+<rect class="indigo blk" x="32" y="-16" width="160" height="272" rx="4"/>
+<rect class="deep blk" x="208" y="96" width="288" height="160" rx="4"/>
+<rect class="mari sm" x="240" y="32" width="96" height="32" rx="2"/>
+<rect class="hl sm" x="112" y="176" width="288" height="32" rx="2"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">prassanna.io</h1>
+<p class="tag">A work log: agent infrastructure, essays and verse.</p>
+</div>
+</div>
+</body>
+</html>

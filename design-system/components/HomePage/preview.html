@@ -1,0 +1,88 @@
+<!-- @dsCard group="Pages" page height=2000 width=1200 subtitle="The landing page at prassanna.io" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home — preview</title>
+<style>
+  .home { padding: var(--space-8) var(--space-8) var(--space-16) var(--space-24); }
+  .home-intro { margin-top: var(--space-16); }
+  .home-statement { font-family: var(--font-serif); font-size: 32px; line-height: 42px; font-weight: 360; letter-spacing: -0.01em; font-variation-settings: 'opsz' 48; margin: 0 0 var(--space-4); text-wrap: balance; }
+  .home-bio { margin: 0; text-wrap: pretty; }
+  .home-ext a { color: var(--indigo); }
+  .home-sec { margin-top: var(--space-16); }
+  .home-foot { margin-top: var(--space-24); padding-top: var(--space-4); border-top: 1px solid var(--rule); max-width: var(--wide-max); }
+  .home-foot ul { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); list-style: none; margin: 0; padding: 0; }
+  @media (max-width: 760px) {
+    .home { padding: var(--space-4) var(--space-4) var(--space-12); }
+    .home-intro { margin-top: var(--space-12); }
+    .home-statement { font-size: 27px; line-height: 36px; }
+    .home-intro > .pr-margin { order: 2; margin-top: var(--space-6); }
+    .home-sec { margin-top: var(--space-12); }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var P = window.Prass, h = React.createElement;
+  var TODAY = '2026-10-05';
+  function Meta(items) { return h('ul', { className: 'pr-meta pr-meta-list' }, items.map(function (x, i) { return h('li', { key: i }, x); })); }
+  function ext(href, label) { return h('span', { className: 'home-ext' }, h('a', { href: href }, label)); }
+
+  var log = [
+    { date: '2026-10-05', kind: 'pushed', title: 'repowire', detail: 'Let your coding agents talk to each other.' },
+    { date: '2026-10-04', kind: 'essay', title: 'The Age of Software Factories', detail: 'AI Agents' },
+    { date: '2026-09-28', kind: 'pushed', title: 'common-obligations' },
+    { date: '2026-09-14', kind: 'pushed', title: 'a2a-registry', detail: 'A directory of A2A agents.' },
+    { date: '2026-09-08', kind: 'essay', title: 'Common Obligations', detail: 'Futures' },
+    { date: '2026-09-08', kind: 'pushed', title: 'clusterkit' },
+    { date: '2026-09-05', kind: 'pushed', title: 'agent-dj' },
+    { date: '2026-09-05', kind: 'pushed', title: 'webwhen' },
+    { date: '2026-08-31', kind: 'pushed', title: 'agent-status-codes' },
+    { date: '2026-04-12', kind: 'essay', title: 'When Outputs Lie', detail: 'AI Agents' },
+    { date: '2026-03-27', kind: 'pushed', title: 'fastharness', detail: 'Agents as production A2A services.' },
+    { date: '2026-03-26', kind: 'essay', title: 'Agent Framework Generations', detail: 'AI Agents' },
+    { date: '2026-03-23', kind: 'pushed', title: 'phlow', detail: 'Auth for agent networks.' },
+    { date: '2026-03-16', kind: 'essay', title: 'Overnight Agents: Crunching Tokens', detail: 'AI Agents' },
+    { date: '2026-02-24', kind: 'essay', title: 'Agent Drift in AI Systems', detail: 'AI Agents' },
+    { date: '2025-04-13', kind: 'episode', title: 'Less Friction, More Vibe', detail: 'Feed Forward, 1 h 04 min' },
+    { date: '2025-03-21', kind: 'episode', title: 'Wellness', detail: 'Feed Forward, 1 h 08 min' },
+    { date: '2024-10-15', kind: 'poem', title: 'Dream Machine' },
+    { date: '2019-05-31', kind: 'poem', title: 'An Ode to Truth' }
+  ];
+  var projects = [
+    { name: 'repowire', summary: 'Let your coding agents talk to each other.', language: 'Go', lastPush: '2026-10-05', since: '2026' },
+    { name: 'a2a-registry', summary: 'A community directory of agents that speak A2A.', language: 'Python', lastPush: '2026-09-14', since: '2025' },
+    { name: 'fastharness', summary: 'Turn agents into production A2A services with pluggable runtimes.', language: 'Python', lastPush: '2026-03-27', since: '2026' },
+    { name: 'phlow', summary: 'JWT authentication for agent-to-agent networks.', language: 'Python', lastPush: '2026-03-23', since: '2025' },
+    { name: 'modalkit', summary: 'Deploy ML models on Modal with production defaults.', language: 'Python', lastPush: '2026-03-16', since: '2025' },
+    { name: 'cloudregion', summary: 'Canonical region names across AWS, Azure and GCP.', language: 'Python', lastPush: '2026-01-30', since: '2025' }
+  ];
+
+  var page = h('div', { className: 'home pr-root' },
+    h(P.SiteNav, { current: '/' }),
+
+    h('header', { className: 'pr-frame home-intro' },
+      h('div', { className: 'pr-margin' }, Meta([
+        'London', 'Staff engineer, Scale AI',
+        ext('https://github.com/prassanna-ravishankar', 'github'), ext('https://x.com/thenomadiccoder', 'x'),
+        ext('https://www.linkedin.com/in/prassanna-ravishankar/', 'linkedin'), ext('/rss.xml', 'rss')
+      ])),
+      h('div', null,
+        h('p', { className: 'home-statement' }, 'I build infrastructure for AI agents.'),
+        h('p', { className: 'home-bio' }, 'Meshes, services and auth for agents that run for hours without someone watching. Before this I ran ML platforms at Papercup and did a PhD in computer vision. I also write essays, the occasional poem, and co-host Feed Forward.')
+      )
+    ),
+
+    h('div', { className: 'home-sec' }, h(P.Log, { entries: log, today: TODAY, limit: 12, moreHref: '/log/', moreLabel: 'Full log' })),
+    h('div', { className: 'home-sec' }, h(P.ProjectTable, { projects: projects, today: TODAY, count: '14 projects', moreHref: '/projects/' })),
+
+    h('footer', { className: 'home-foot' },
+      h('ul', { className: 'pr-meta' }, h('li', null, '© 2026 Prassanna Ravishankar'), h('li', null, h('a', { href: '/rss.xml' }, 'rss')), h('li', null, h('a', { href: 'https://github.com/prassanna-ravishankar/prassanna-ravishankar.github.io' }, 'site source')))
+    )
+  );
+  ReactDOM.createRoot(document.getElementById('root')).render(page);
+</script>
+</body>
+</html>

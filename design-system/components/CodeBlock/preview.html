@@ -1,0 +1,12 @@
+<!-- @dsCard group="Writing" height=230 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>preview</title></head>
+<body>
+<div id="root" class="pr-pad"></div>
+<script>
+  var P = window.Prass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(P.CodeBlock, { filename: 'train.yaml', code: 'resources:\n  accelerators: A100:8\n  use_spot: true\n\nrun: |\n  torchrun --nproc_per_node=8 train.py' }));
+</script>
+</body>
+</html>
