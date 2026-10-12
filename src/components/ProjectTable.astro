@@ -1,0 +1,41 @@
+---
+import RecentDot from './RecentDot.astro';
+import { isRecent, today as buildDay, type ProjectRow } from '../utils/log';
+
+export interface Props {
+  projects: ProjectRow[];
+  title?: string | false;
+  count?: string;
+  moreHref?: string;
+  moreLabel?: string;
+}
+
+const { projects, title = 'projects', count, moreHref, moreLabel = 'All projects' } = Astro.props;
+const today = buildDay();
+---
+
+<section class="pr-projects" aria-label={title || 'projects'}>
+  {title !== false && (
+    <div class="pr-log-head">
+      <h2 class="pr-section">{title}</h2>
+      {count && <span class="pr-meta">{count}</span>}
+    </div>
+  )}
+  <table class="pr-table">
+    <thead>
+      <tr><th scope="col">name</th><th scope="col">what it does</th><th scope="col">lang</th><th scope="col">last push</th><th scope="col">since</th></tr>
+    </thead>
+    <tbody>
+      {projects.map((p) => (
+        <tr>
+          <th scope="row" class="pr-td-name"><a href={p.href} class="pr-focus">{p.name}</a></th>
+          <td class="pr-td-what">{p.summary}</td>
+          <td class="pr-td-data">{p.language}</td>
+          <td class="pr-td-data"><span class="pr-push"><RecentDot on={isRecent(p.lastPush, today)} />{p.lastPush}</span></td>
+          <td class="pr-td-data">{p.since}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {moreHref && <div class="pr-log-more"><a class="pr-btn pr-btn-text pr-focus" href={moreHref}>{moreLabel}</a></div>}
+</section>

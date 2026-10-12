@@ -1,240 +1,47 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import Card from '../components/ui/Card.astro';
-import Button from '../components/ui/Button.astro';
-import { FadeIn, StaggerContainer, StaggerItem } from '../components/ui/FadeIn.tsx';
-import ProtocolGridWrapper from '../components/ProtocolGridWrapper.astro';
+import Log from '../components/Log.astro';
+import ProjectTable from '../components/ProjectTable.astro';
+import { getLogEntries, getProjectRows, logPage } from '../utils/log';
 
-// Fetch content from all collections
-const verses = await getCollection('verses', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-});
+const LIMIT = 12;
+const [entries, projects] = await Promise.all([getLogEntries(), getProjectRows()]);
 
-const projects = await getCollection('projects', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-});
-
-const blogPosts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-});
-
-const podcastEpisodes = await getCollection('podcasts', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-});
-
-// Combine all content items
-const allContent = [
-  ...verses.map(item => ({
-    type: 'verse',
-    slug: `/verses/${item.slug}/`,
-    title: item.data.title,
-    description: item.data.description || '',
-    pubDate: item.data.pubDate,
-  })),
-  ...projects.map(item => ({
-    type: 'project',
-    slug: `/projects/${item.slug}/`,
-    title: item.data.title,
-    description: item.data.description || '',
-    pubDate: item.data.pubDate,
-  })),
-  ...blogPosts.map(item => ({
-    type: 'blog',
-    slug: `/blog/${item.slug}/`,
-    title: item.data.title,
-    description: item.data.description || '',
-    pubDate: item.data.pubDate,
-  }))
+const profile = [
+  { label: 'github', href: 'https://github.com/prassanna-ravishankar' },
+  { label: 'x', href: 'https://x.com/thenomadiccoder' },
+  { label: 'linkedin', href: 'https://www.linkedin.com/in/prassanna-ravishankar/' },
+  { label: 'rss', href: '/rss.xml' },
 ];
-
-// Sort by date (newest first) and take the 6 most recent items
-const latestContent = allContent
-  .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf())
-  .slice(0, 6);
-
-// Get latest podcast episodes
-const latestEpisodes = podcastEpisodes
-  .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
-  .slice(0, 3); // Show latest 3 episodes
 ---
 
-<Layout title="Prassanna Ravishankar - ML Engineer & Researcher">
-  <!-- Hero Section -->
-  <section class="min-h-screen relative flex items-center justify-center overflow-hidden py-20 px-4">
-    <!-- Background Glow -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow"></div>
-
-    <ProtocolGridWrapper />
-
-    <div class="max-w-7xl mx-auto w-full relative z-10">
-      <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-20">
-        
-        <!-- Text Content -->
-        <FadeIn client:visible direction="up" className="lg:w-1/2 space-y-8 text-center lg:text-left order-2 lg:order-1">
-          <div class="space-y-4">
-            <h2 class="text-accent font-serif tracking-widest text-sm uppercase italic opacity-80">Agent & ML Infrastructure</h2>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight tracking-tight text-main">
-              Prassanna
-              <br />
-              <span class="text-primary">Ravishankar</span>
-            </h1>
-          </div>
-
-          <p class="text-xl md:text-2xl text-muted font-light max-w-2xl mx-auto lg:mx-0">
-            Architecting infrastructure for the <span class="text-main font-medium">Agentic Web</span>. 
-            <br class="hidden md:block" />
-            Synthesizing Systems, Intelligence, and the Poetic.
-          </p>
-
-          <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
-            <Button href="/projects/" variant="primary">
-              View Protocols
-            </Button>
-            <Button href="/verses/" variant="secondary" class="font-serif italic">
-              Code & Verse
-            </Button>
-          </div>
-        </FadeIn>
-
-        <!-- Profile Picture Hero -->
-        <FadeIn client:visible direction="left" delay={0.2} className="lg:w-1/2 flex justify-center order-1 lg:order-2">
-          <div class="relative w-80 h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px]">
-            <!-- Decorative Rings -->
-            <div class="absolute inset-0 border border-dashed border-primary/20 rounded-full animate-spin-slow" style="animation-duration: 30s"></div>
-            <div class="absolute inset-4 border border-dotted border-accent/30 rounded-full animate-spin-slow" style="animation-duration: 20s; animation-direction: reverse"></div>
-            
-            <!-- Profile Image Container -->
-            <div class="absolute inset-8 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl shadow-primary/20 animate-float bg-surface">
-               <Image
-                src="/tarot.webp"
-                alt="Prassanna Ravishankar"
-                width={500}
-                height={500}
-                class="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
-                loading="eager"
-                fetchpriority="high"
-              />
-            </div>
-            
-            <!-- Tech Floating Elements -->
-            <div class="absolute top-[10%] right-[10%] p-3 bg-surface border border-subtle/10 rounded-xl shadow-xl animate-float" style="animation-delay: 1s">
-              <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
-            </div>
-            <div class="absolute bottom-[20%] left-[5%] p-3 bg-surface border border-subtle/10 rounded-xl shadow-xl animate-float" style="animation-delay: 2s">
-              <span class="text-xs font-serif italic text-muted">The Signal</span>
-            </div>
-          </div>
-        </FadeIn>
-
-      </div>
+<Layout
+  title="Prassanna Ravishankar - ML Engineer & Researcher"
+  description="Prassanna Ravishankar builds infrastructure for AI agents: meshes, services and auth. Essays on agents and ML systems, verse, and the Feed Forward podcast."
+>
+  <header class="pr-frame pr-intro">
+    <div class="pr-margin">
+      <ul class="pr-meta pr-meta-list">
+        <li>London</li>
+        <li>Staff engineer, Scale AI</li>
+        {profile.map((p) => <li><a href={p.href}>{p.label}</a></li>)}
+      </ul>
     </div>
-  </section>
-
-  <!-- Latest Content (The Synthesis) -->
-  <section class="max-w-7xl mx-auto px-4 py-24 space-y-32">
-    <div class="space-y-12">
-      <div class="flex items-end justify-between border-b border-subtle/10 pb-4">
-        <div class="space-y-1">
-          <h2 class="text-3xl font-display font-medium text-main">Latest Syntheses</h2>
-          <p class="text-sm text-muted font-mono tracking-tight">Systems // Intelligence // Poetics</p>
-        </div>
-        <a href="/blog" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">STREAM ALL &rarr;</a>
-      </div>
-
-      <StaggerContainer client:visible className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {latestContent.map((item, index) => {
-          // Unique styling based on type
-          const isVerse = item.type === 'verse';
-          const isProject = item.type === 'project';
-          const accentClass = isVerse ? 'text-accent' : (isProject ? 'text-primary' : 'text-primary-light');
-          const typeLabel = isVerse ? 'Poetic' : (isProject ? 'System' : 'Signal');
-          
-          return (
-            <StaggerItem>
-              <Card href={item.slug} class="h-full p-8 flex flex-col items-start border-subtle/10 hover:border-primary/20">
-                  <div class="flex items-center justify-between w-full mb-6">
-                    <div class={`flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] ${accentClass}`}>
-                       <span class="w-2 h-2 rounded-full bg-current animate-pulse-slow"></span>
-                       {typeLabel}
-                    </div>
-                    <time class="text-[10px] font-mono text-muted uppercase">
-                      {new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                    </time>
-                  </div>
-
-                  <h3 class={`text-xl font-bold text-main group-hover:text-primary transition-colors mb-4 leading-tight relative z-10 ${isVerse ? 'font-serif italic' : 'font-display'}`}>
-                    {item.title}
-                  </h3>
-                  
-                  <p class="text-muted text-sm leading-relaxed mb-8 line-clamp-3 relative z-10 font-light">
-                    {item.description}
-                  </p>
-
-                  <div class="mt-auto pt-4 w-full flex justify-between items-center border-t border-subtle/5 group-hover:border-primary/10 transition-colors relative z-10">
-                     <span class="text-[10px] font-mono text-muted uppercase tracking-widest group-hover:text-primary transition-colors">
-                        {isProject ? 'analyze_protocol()' : (isVerse ? 'explore_verse()' : 'read_signal()')}
-                     </span>
-                     <svg class={`w-4 h-4 transition-all group-hover:translate-x-1 ${accentClass}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                     </svg>
-                  </div>
-              </Card>
-            </StaggerItem>
-          );
-        })}
-      </StaggerContainer>
+    <div>
+      <h1 class="pr-statement">I build infrastructure for AI agents.</h1>
+      <p>
+        Meshes, services and auth for agents that run for hours without someone watching. Before this I led the ML platforms
+        team at Papercup and researched computer vision at the Computer Vision Center in Barcelona. I also write essays, the
+        occasional poem, and co-host Feed Forward.
+      </p>
     </div>
+  </header>
 
-    <!-- Podcasts -->
-    <div class="space-y-12">
-      <div class="flex items-end justify-between border-b border-subtle/10 pb-4">
-        <h2 class="text-3xl font-display font-medium text-main">Conversations</h2>
-        <a href="/podcasts" class="hidden md:block text-muted hover:text-main transition-colors text-sm font-mono tracking-widest">LISTEN &rarr;</a>
-      </div>
+  <div class="pr-sec">
+    <Log entries={logPage(entries, LIMIT)} limit={LIMIT} moreHref="/log/" />
+  </div>
 
-      <FadeIn client:visible direction="up" className="rounded-2xl bg-surface border border-subtle/10 overflow-hidden relative">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent"></div>
-        
-        <div class="grid lg:grid-cols-2 gap-8 relative z-10">
-          <div class="p-10 flex flex-col justify-center">
-            <h3 class="text-4xl font-display font-bold text-main mb-4">The Signal & The Silence</h3>
-            <p class="text-muted text-lg leading-relaxed mb-8 max-w-md">
-              Decoding the signals of tomorrow. From neural networks to philosophical voids.
-            </p>
-            <div>
-               <Button href="/podcasts" variant="primary">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
-                Listen to Episodes
-              </Button>
-            </div>
-          </div>
-          
-          <div class="bg-black/20 p-6 border-l border-subtle/10 overflow-y-auto max-h-[500px]">
-             <div class="space-y-4">
-              {latestEpisodes.map((episode, index) => {
-                 const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
-                 return (
-                  <a href={`/podcasts/${episodeSlug}/`} class="group flex items-center gap-4 p-4 rounded-xl hover:bg-subtle/5 transition-colors border border-transparent hover:border-subtle/10">
-                    <span class="font-mono text-muted group-hover:text-primary transition-colors">0{index + 1}</span>
-                    <div class="flex-grow">
-                      <h4 class="text-main font-medium group-hover:text-primary transition-colors mb-1">{episode.data.title}</h4>
-                      <div class="flex items-center gap-3 text-xs text-muted font-mono">
-                         <span>{episode.data.duration}</span>
-                      </div>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-subtle/5 flex items-center justify-center group-hover:bg-primary group-hover:text-main transition-all text-muted">
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
-                    </div>
-                  </a>
-                 );
-              })}
-             </div>
-          </div>
-        </div>
-      </FadeIn>
-    </div>
-
-  </section>
+  <div class="pr-sec">
+    <ProjectTable projects={projects.slice(0, 6)} count={`${projects.length} projects`} moreHref="/projects/" />
+  </div>
 </Layout>

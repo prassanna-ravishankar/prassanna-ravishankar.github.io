@@ -3,6 +3,9 @@ name: Deploy Astro site to Pages
 on:
   push:
     branches: ["main"]
+  # Daily rebuild so the log's GitHub activity and recent-activity dots stay current
+  schedule:
+    - cron: "17 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -29,6 +32,8 @@ jobs:
         run: npm ci
       - name: Build with Astro
         run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

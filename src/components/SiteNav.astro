@@ -23,6 +23,6 @@ const isCurrent = (it: (typeof items)[number]) =>
         <a class="pr-nav-link pr-focus" href={it.href} aria-current={isCurrent(it) ? 'page' : undefined}>{it.label}</a>
       </li>
     ))}
-    <li><ThemeToggle /></li>
   </ul>
+  <ThemeToggle />
 </nav>
