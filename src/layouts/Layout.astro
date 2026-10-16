@@ -30,6 +30,11 @@ const {
   structuredData
 } = Astro.props;
 
+// Long titles drop the site-name suffix (it stays in og:site_name); the bare title is the Article headline
+const SITE_SUFFIX = ' | Prassanna Ravishankar';
+const bareTitle = title.endsWith(SITE_SUFFIX) ? title.slice(0, -SITE_SUFFIX.length) : title;
+const pageTitle = title.length > 60 ? bareTitle : title;
+
 // Ensure canonical URL always uses prassanna.io (non-www) with consistent trailing slashes
 let canonicalPath = Astro.url.pathname;
 // Normalize trailing slash behavior - always add trailing slash for directories
@@ -70,7 +75,7 @@ const websiteSchema = {
 const articleSchema = article ? {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": title.replace(/ \| Prassanna Ravishankar$/, ""),
+  "headline": bareTitle,
   "description": description,
   "image": new URL(image, Astro.url).toString(),
   "datePublished": publishedTime,
@@ -136,7 +141,7 @@ const articleSchema = article ? {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     
     <!-- Canonical URL -->
@@ -145,7 +150,7 @@ const articleSchema = article ? {
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.url).toString()} />
     <meta property="og:site_name" content="Prassanna Ravishankar" />
@@ -159,7 +164,7 @@ const articleSchema = article ? {
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
+    <meta property="twitter:title" content={pageTitle} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url).toString()} />
     <meta property="twitter:site" content="@thenomadiccoder" />
