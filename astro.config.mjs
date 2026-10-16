@@ -194,7 +194,7 @@ export default defineConfig({
     },
   }), react(), llmsTxt({
     title: 'Prassanna Ravishankar',
-    description: 'ML Engineer & Startup Builder. Writing about Machine Learning, MLOps, AI Agents, and building products.',
+    description: 'Staff engineer building infrastructure for AI agents. Essays on agents, ML systems and MLOps, plus verse and the Feed Forward podcast.',
     docSet: [
       {
         title: 'Blog Posts',
