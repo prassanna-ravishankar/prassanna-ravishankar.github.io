@@ -1,6 +1,6 @@
 ---
 title: "A2A Registry"
-description: "A community-driven, open-source directory of AI agents using the A2A Protocol"
+description: "An open-source directory of AI agents that speak the A2A Protocol"
 pubDate: 2025-08-10
 image: "/images/projects/a2a-registry.webp"
 github: "https://github.com/prassanna-ravishankar/a2a-registry"

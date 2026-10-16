@@ -1,10 +1,12 @@
 ---
 import RecentDot from './RecentDot.astro';
-import { LOG_FILTERS, isBuilt, isRecent, today as buildDay, type LogEntry } from '../utils/log';
+import { LOG_FILTERS, isBuilt, isRecent, today as buildDay, visibleRows, type LogEntry } from '../utils/log';
 
 export interface Props {
   entries: LogEntry[];
   limit?: number;
+  /** Most built rows a mixed filter shows, so writing is not crowded out. */
+  builtCap?: number;
   title?: string;
   moreHref?: string;
   moreLabel?: string;
@@ -12,12 +14,13 @@ export interface Props {
   headingLevel?: 'h1' | 'h2';
 }
 
-const { entries, limit = 0, title = 'log', moreHref, moreLabel = 'Full log', headingLevel = 'h2' } = Astro.props;
+const { entries, limit = 0, builtCap = 0, title = 'log', moreHref, moreLabel = 'Full log', headingLevel = 'h2' } = Astro.props;
 const Heading = headingLevel;
 const today = buildDay();
+const shown = visibleRows(LOG_FILTERS[0].kinds, entries.map((e) => e.kind), limit || Infinity, builtCap || Infinity);
 ---
 
-<section class="pr-log" aria-label={title} data-log data-limit={limit}>
+<section class="pr-log" aria-label={title} data-log data-limit={limit} data-built-cap={builtCap}>
   <div class="pr-log-head">
     <Heading class="pr-section">{title}</Heading>
     <div class="pr-filters" role="group" aria-label="Filter the log">
@@ -30,7 +33,7 @@ const today = buildDay();
     {entries.map((e, i) => {
       const built = isBuilt(e.kind);
       return (
-        <li class:list={['pr-log-row', built ? 'pr-log-built' : 'pr-log-written']} data-kind={e.kind} hidden={limit > 0 && i >= limit}>
+        <li class:list={['pr-log-row', built ? 'pr-log-built' : 'pr-log-written']} data-kind={e.kind} hidden={!shown[i]}>
           <span class="pr-log-date pr-meta"><RecentDot on={built && isRecent(e.date, today)} /><time datetime={e.date}>{e.date}</time></span>
           <span class="pr-log-kind pr-meta">{e.kind}</span>
           <span class="pr-log-title"><a href={e.href} class="pr-focus">{e.title}</a></span>
@@ -39,14 +42,17 @@ const today = buildDay();
       );
     })}
   </ol>
-  <p class="pr-empty pr-meta" hidden={entries.length > 0}>Nothing here yet.</p>
+  <p class="pr-empty pr-meta" hidden={shown.includes(true)}>Nothing here yet.</p>
   {moreHref && <div class="pr-log-more"><a class="pr-btn pr-btn-text pr-focus" href={moreHref}>{moreLabel}</a></div>}
 </section>
 
 <script>
+  import { visibleRows } from '../utils/log-view';
+
   function initLogs() {
     document.querySelectorAll<HTMLElement>('[data-log]').forEach((log) => {
       const limit = Number(log.dataset.limit) || Infinity;
+      const builtCap = Number(log.dataset.builtCap) || Infinity;
       const rows = [...log.querySelectorAll<HTMLElement>('.pr-log-row')];
       const empty = log.querySelector<HTMLElement>('.pr-empty')!;
       const buttons = log.querySelectorAll<HTMLButtonElement>('.pr-filter');
@@ -54,13 +60,9 @@ const today = buildDay();
         btn.addEventListener('click', () => {
           const kinds = btn.dataset.kinds!.split(' ');
           buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-          let shown = 0;
-          for (const row of rows) {
-            const show = kinds.includes(row.dataset.kind!) && shown < limit;
-            row.hidden = !show;
-            if (show) shown++;
-          }
-          empty.hidden = shown > 0;
+          const shown = visibleRows(kinds, rows.map((r) => r.dataset.kind!), limit, builtCap);
+          rows.forEach((row, i) => (row.hidden = !shown[i]));
+          empty.hidden = shown.includes(true);
         });
       });
     });

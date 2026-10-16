@@ -23,10 +23,13 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 /* Home intro and page sections */
 .pr-statement { font-family: var(--font-serif); font-size: 32px; line-height: 42px; font-weight: 360; letter-spacing: -0.01em; font-variation-settings: 'opsz' 48; margin: 0 0 var(--space-4); text-wrap: balance; }
 .pr-intro p { margin: 0; text-wrap: pretty; }
+.pr-portrait img { display: block; width: 100%; max-width: var(--margin-col); height: auto; aspect-ratio: 1; border-radius: var(--radius-md); margin-bottom: var(--space-4); }
 .pr-sec { margin-top: var(--space-16); }
 @media (max-width: 760px) {
   .pr-statement { font-size: 27px; line-height: 36px; }
-  .pr-intro > .pr-margin { order: 2; margin-top: var(--space-4); }
+  .pr-intro > .pr-margin { display: contents; }
+  .pr-intro .pr-meta-list { order: 2; margin-top: var(--space-4); }
+  .pr-portrait img { width: 72px; margin-bottom: var(--space-2); }
   .pr-sec { margin-top: var(--space-12); }
 }
 

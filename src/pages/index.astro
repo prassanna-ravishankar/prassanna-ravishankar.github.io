@@ -5,6 +5,8 @@ import ProjectTable from '../components/ProjectTable.astro';
 import { getLogEntries, getProjectRows, logPage } from '../utils/log';
 
 const LIMIT = 12;
+/** Half the home log at most is code activity; essays, poems and episodes fill the rest. */
+const BUILT_CAP = LIMIT / 2;
 const [entries, projects] = await Promise.all([getLogEntries(), getProjectRows()]);
 
 const profile = [
@@ -21,6 +23,10 @@ const profile = [
 >
   <header class="pr-frame pr-intro">
     <div class="pr-margin">
+      <picture class="pr-portrait">
+        <source type="image/avif" srcset="/images/portrait-160.avif 160w, /images/portrait-320.avif 320w" sizes="(max-width: 760px) 72px, 160px" />
+        <img src="/images/portrait-160.webp" srcset="/images/portrait-160.webp 160w, /images/portrait-320.webp 320w" sizes="(max-width: 760px) 72px, 160px" width="160" height="160" alt="Illustrated portrait of Prassanna Ravishankar" fetchpriority="high" />
+      </picture>
       <ul class="pr-meta pr-meta-list">
         <li>London</li>
         <li>Staff engineer, Scale AI</li>
@@ -31,14 +37,14 @@ const profile = [
       <h1 class="pr-statement">I build infrastructure for AI agents.</h1>
       <p>
         Meshes, services and auth for agents that run for hours without someone watching. Before this I led the ML platforms
-        team at Papercup and researched computer vision at the Computer Vision Center in Barcelona. I also write essays, the
-        occasional poem, and co-host Feed Forward.
+        team at Papercup, and earlier left a PhD in computer vision in Barcelona. I also write essays, the occasional poem,
+        and co-host Feed Forward.
       </p>
     </div>
   </header>
 
   <div class="pr-sec">
-    <Log entries={logPage(entries, LIMIT)} limit={LIMIT} moreHref="/log/" />
+    <Log entries={logPage(entries, LIMIT)} limit={LIMIT} builtCap={BUILT_CAP} moreHref="/log/" />
   </div>
 
   <div class="pr-sec">

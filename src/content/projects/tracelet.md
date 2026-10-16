@@ -1,6 +1,6 @@
 ---
 title: "Tracelet"
-description: "An automagic PyTorch metric exporter that seamlessly integrates with popular experiment tracking tools"
+description: "Captures PyTorch training metrics and sends them to MLflow, Weights & Biases, ClearML or AIM with little code change"
 pubDate: 2024-12-13
 tags: ["python", "pytorch", "machine learning", "metrics", "mlops"]
 topics: ["mlops best practices", "ml experiment tracking"]

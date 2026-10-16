@@ -1,6 +1,6 @@
 ---
 title: "Modalkit"
-description: "A powerful Python framework for deploying ML models on Modal with production-ready features."
+description: "A Python framework for deploying ML models on Modal from YAML config, with auth, queues, batching and storage mounts"
 pubDate: 2025-07-10
 image: "/images/projects/modalkit.webp"
 github: "https://github.com/prassanna-ravishankar/modalkit"

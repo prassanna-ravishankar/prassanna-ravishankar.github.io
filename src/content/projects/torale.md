@@ -1,6 +1,6 @@
 ---
 title: "Torale"
-description: "AI-powered web monitoring platform that tracks topics and alerts you when meaningful changes occur across the internet"
+description: "Watches the web for topics you describe and emails you when something relevant changes"
 featured: true
 image: "/images/projects/torale.png"
 github: "https://github.com/prassanna-ravishankar/ambi-alert"

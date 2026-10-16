@@ -1,6 +1,6 @@
 ---
 title: "ClearML MCP Server"
-description: "A lightweight Model Context Protocol server that enables AI assistants to interact with ClearML experiments, models, and projects"
+description: "A Model Context Protocol server that lets AI assistants query ClearML experiments, models and projects"
 pubDate: 2025-07-14
 image: "/images/projects/clearml-mcp.webp"
 github: "https://github.com/prassanna-ravishankar/clearml-mcp"

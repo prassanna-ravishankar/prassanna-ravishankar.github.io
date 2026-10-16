@@ -2,10 +2,9 @@
 import { getCollection } from 'astro:content';
 import { podcasts } from '../data/podcasts.js';
 import { getGitHubActivity, type Repo } from './github';
+import { LOG_FILTERS, type LogKind } from './log-view';
 
-export const BUILT_KINDS = ['pushed', 'release', 'project'] as const;
-export const WRITTEN_KINDS = ['essay', 'poem', 'episode'] as const;
-export type LogKind = (typeof BUILT_KINDS)[number] | (typeof WRITTEN_KINDS)[number];
+export { BUILT_KINDS, LOG_FILTERS, WRITTEN_KINDS, isBuilt, visibleRows, type LogKind } from './log-view';
 
 export interface LogEntry {
   date: string; // ISO yyyy-mm-dd
@@ -24,18 +23,9 @@ export interface ProjectRow {
   since: string;
 }
 
-export const LOG_FILTERS = [
-  { id: 'all', label: 'all', kinds: [...BUILT_KINDS, ...WRITTEN_KINDS] },
-  { id: 'built', label: 'built', kinds: [...BUILT_KINDS] },
-  { id: 'essay', label: 'essays', kinds: ['essay'] },
-  { id: 'poem', label: 'verse', kinds: ['poem'] },
-  { id: 'episode', label: 'podcast', kinds: ['episode'] },
-] as const;
-
 const RECENT_DAYS = 30;
 
 export const today = () => new Date().toISOString().slice(0, 10);
-export const isBuilt = (kind: LogKind) => (BUILT_KINDS as readonly string[]).includes(kind);
 export const isRecent = (date: string | undefined, now = today()) => {
   if (!date) return false;
   const days = (Date.parse(now) - Date.parse(date)) / 86400000;
@@ -47,6 +37,14 @@ const published = <T extends { data: { draft?: boolean } }>(e: T) => !(import.me
 /** Titles keep their words; emoji stay out of the UI. */
 export const stripEmoji = (s: string) => s.replace(/\s*\p{Extended_Pictographic}️?/gu, '').trim();
 const repoName = (url?: string) => url?.replace(/\/+$/, '').split('/').pop();
+
+/** Site copy for repos without a project page whose GitHub description reads as marketing. */
+const REPO_COPY: Record<string, string> = {
+  'a2a-agent-bootstrapping': 'Four general-purpose A2A agents that seed a2aregistry.org',
+  aisay: 'A cowsay-style ASCII art generator using Stable Diffusion',
+};
+/** GitHub descriptions with emoji and stray spaces before punctuation removed. */
+const tidy = (s?: string | null) => (s ? stripEmoji(s).replace(/\s+([.,;:!?])/g, '$1').replace(/\s+/g, ' ').trim() || undefined : undefined);
 
 /** "01:04:32" -> "1 h 04 min", "54:55" -> "55 min" (rounded to the minute). */
 export function formatDuration(hms: string) {
@@ -93,6 +91,9 @@ export async function getLogEntries(): Promise<LogEntry[]> {
     const p = projectByRepo.get(repo.toLowerCase());
     return p ? `/projects/${p.slug}/` : fallback;
   };
+  /** The site's own project copy wins over the GitHub description. */
+  const repoDetail = (r: Repo) =>
+    projectByRepo.get(r.name.toLowerCase())?.data.description ?? REPO_COPY[r.name.toLowerCase()] ?? tidy(r.description);
   const showTitle = (id: string) => podcasts.find((s) => id.startsWith(`${s.slug}/`))?.title;
 
   const entries: LogEntry[] = [
@@ -101,7 +102,7 @@ export async function getLogEntries(): Promise<LogEntry[]> {
       kind: 'pushed' as const,
       title: r.name,
       href: builtHref(r.name, r.url),
-      detail: r.description ?? undefined,
+      detail: repoDetail(r),
     })),
     ...releases.map((r) => ({
       date: r.publishedAt,
