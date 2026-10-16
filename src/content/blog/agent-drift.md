@@ -1,7 +1,8 @@
 ---
 title: "Agent Drift in AI Systems"
+seoTitle: "Agent Drift: Why Long-Running AI Agents Go Off Track"
 subtitle: "How autonomous agents lose the plot"
-description: "Agent drift is when autonomous AI agents degrade over long tasks through context pollution, not single failures. What it is, why it happens, how to prevent it."
+description: "Agent drift is when an AI agent slowly strays from its original goal over a long run. What causes it, the three forms it takes, and how to prevent it."
 pubDate: 2026-02-24
 heroImage: "/images/blog/agent-drift/hero.webp"
 series: ["AI Agents"]
