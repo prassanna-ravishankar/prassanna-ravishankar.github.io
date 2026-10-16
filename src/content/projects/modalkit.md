@@ -4,7 +4,7 @@ description: "A Python framework for deploying ML models on Modal from YAML conf
 pubDate: 2025-07-10
 image: "/images/projects/modalkit.webp"
 github: "https://github.com/prassanna-ravishankar/modalkit"
-link: "https://prassanna.io/modalkit"
+link: "https://prassanna.io/modalkit/"
 tags: ["python", "machine-learning", "modal", "framework", "mlops"]
 topics: ["mlops best practices"]
 featured: true

@@ -11,8 +11,6 @@ externalLinks:
 tags: ["AI", "cybersecurity", "social engineering", "elections", "deepfakes", "digital security", "privacy"]
 ---
 
-# AI and Digital Vulnerabilities
-
 In this first episode of a two-part series, we dive into the complex world of AI-driven digital vulnerabilities and their societal impact.
 
 ## Episode Highlights

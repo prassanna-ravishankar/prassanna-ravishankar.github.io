@@ -12,8 +12,6 @@ externalLinks:
 tags: ["SAAS", "software", "AI", "subscription models", "business", "technology"]
 ---
 
-# SAAS isn't dead
-
 In this episode, we challenge the notion that Software as a Service (SaaS) is becoming obsolete, exploring how this business model is evolving in the age of AI.
 
 ## Episode Highlights

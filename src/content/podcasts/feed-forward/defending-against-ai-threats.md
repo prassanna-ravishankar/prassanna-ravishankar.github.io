@@ -11,8 +11,6 @@ externalLinks:
 tags: ["AI security", "cybersecurity", "honeypots", "zero-trust", "watermarking", "open-source", "security"]
 ---
 
-# Defending Against AI Threats
-
 In this episode, we explore the evolving landscape of AI security threats and the innovative defensive strategies being developed to counter them.
 
 ## Episode Highlights

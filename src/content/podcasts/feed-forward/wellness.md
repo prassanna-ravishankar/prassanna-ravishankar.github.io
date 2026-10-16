@@ -12,8 +12,6 @@ externalLinks:
 tags: ["wellness", "mental health", "cultural perspectives", "relationships", "nutrition", "community", "AI", "chatbots"]
 ---
 
-# Wellness
-
 In this episode, we explore the multifaceted nature of wellness and how it intersects with technology and society. From traditional approaches to modern innovations, we delve deep into what makes us truly well.
 
 ## Episode Highlights

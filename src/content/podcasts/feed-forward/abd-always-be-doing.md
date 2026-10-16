@@ -13,8 +13,6 @@ guests:
   - "Daniel"
 ---
 
-# ABD: Always be doing
-
 In this special episode with Daniel, we explore how AI is transforming our daily workflows and the future of productivity.
 
 ## Episode Highlights
