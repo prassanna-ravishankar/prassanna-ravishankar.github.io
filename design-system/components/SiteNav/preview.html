@@ -1,0 +1,12 @@
+<!-- @dsCard group="Navigation" height=110 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>preview</title></head>
+<body>
+<div id="root" class="pr-pad"></div>
+<script>
+  var P = window.Prass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(P.SiteNav, { current: '/blog/' }));
+</script>
+</body>
+</html>

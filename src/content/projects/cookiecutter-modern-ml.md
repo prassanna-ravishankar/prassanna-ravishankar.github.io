@@ -1,6 +1,6 @@
 ---
 title: "Modern ML Cookiecutter"
-description: "A modality-aware, end-to-end template for modern machine learning projects covering NLP, Speech, and Vision with best-in-class models and researcher-friendly configuration"
+description: "A project template for NLP, speech or vision models, with uv, typed config, local or SkyPilot training and LitServe serving"
 pubDate: 2025-07-29
 image: "/images/projects/cookiecutter-modern-ml.webp"
 github: "https://github.com/prassanna-ravishankar/cookiecutter-modern-ml"

@@ -1,9 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
-
-import TechTimelineWrapper from '../components/TechTimelineWrapper.astro';
-import TechStackWrapper from '../components/TechStackWrapper.astro';
+import ArticleHeader from '../components/ArticleHeader.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 
 const data = {
   name: 'Prassanna Ravishankar',
@@ -81,7 +79,7 @@ const data = {
       degree: 'PhD Student and Teaching Assistant',
       duration: 'May 2013 - Feb 2017',
       location: 'Barcelona, Spain',
-      details: 'Implemented Slither, a random forest framework for semantic segmentation using C++ and Python.'
+      details: 'Left in 2017 before completing the PhD. Implemented Slither, a random forest framework for semantic segmentation using C++ and Python.'
     },
     {
       institution: 'University of Sheffield',
@@ -153,124 +151,93 @@ const personSchema = {
     }
   }))
 };
+// "May 2025 - Present" -> "2025-05 to now"
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const isoMonth = (s: string) => {
+  const [mon, year] = s.trim().split(/\s+/);
+  const m = MONTHS.indexOf(mon.slice(0, 3));
+  return m < 0 ? s.trim().toLowerCase().replace('present', 'now') : `${year}-${String(m + 1).padStart(2, '0')}`;
+};
+const isoRange = (range: string) => range.split(' - ').map(isoMonth).join(' to ');
+
+const stack = [
+  { label: 'languages', items: data.skills.programming },
+  { label: 'frameworks', items: data.skills.frameworks },
+  { label: 'tools', items: data.skills.tools },
+];
 ---
 
-  <Layout title={`About | ${data.name}`} description={data.description}>
-  <!-- Person structured data -->
+<Layout title={`About | ${data.name}`} description={data.description}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 
-  <!-- Hero Section -->
-  <section class="relative py-20 px-4 overflow-hidden">
-    <!-- Background glow -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] animate-pulse-slow"></div>
-
-    <div class="max-w-4xl mx-auto relative z-10 animate-fade-in-up">
-      <div class="text-center mb-12">
-        <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 text-main tracking-tight">
-          <span class="text-primary-light">Hello,</span> I'm Prassanna
-        </h1>
-        <p class="text-2xl text-muted font-light mb-6">{data.title}</p>
-
-        <!-- Divider -->
-        <div class="h-1 w-24 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"></div>
-
-        <p class="text-xl text-main/80 max-w-2xl mx-auto leading-relaxed font-light">
-          {data.description}
+  <article class="pr-article">
+    <ArticleHeader
+      title={data.name}
+      kind="about"
+      lead={data.description}
+      facts={[
+        data.experience[0].location.replace(', U.K.', ''),
+        `${data.experience[0].role}, ${data.experience[0].company}`,
+      ]}
+    >
+      <SocialLinks slot="margin" />
+    </ArticleHeader>
+    <div class="pr-frame pr-article-body">
+      <div class="pr-prose">
+        <p>
+          I am a Machine Learning Engineer focused on the intersection of infrastructure, data, and modelling.
+          My work revolves around building robust systems that enable the "Agentic Web," where AI agents can reliably operate, communicate, and execute complex workflows.
         </p>
-
-        <!-- Social Links -->
-        <div class="flex justify-center gap-4 mt-8">
-          <a
-            href={data.links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white border border-border rounded-full hover:bg-zinc-800 hover:border-zinc-600 hover:scale-105 transition-all duration-300"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            <span class="font-medium">GitHub</span>
-          </a>
-
-          <a
-            href={data.links.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex items-center gap-2 px-6 py-3 bg-[#0077B5] text-white rounded-full hover:bg-[#006396] hover:scale-105 transition-all duration-300 shadow-lg"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-            </svg>
-            <span class="font-medium">LinkedIn</span>
-          </a>
-        </div>
+        <p>
+          Currently, I'm simplifying the unification of Code and AI, designing protocols that allow agents to be more than just chat bots.
+        </p>
       </div>
     </div>
+  </article>
+
+  <section class="pr-sec pr-about-sec" aria-label="experience">
+    <div class="pr-log-head"><h2 class="pr-section">experience</h2></div>
+    <ul class="pr-list">
+      {data.experience.map((job) => (
+        <li class="pr-frame pr-post">
+          <div class="pr-margin"><ul class="pr-meta pr-meta-list"><li>{isoRange(job.duration)}</li><li>{job.location}</li></ul></div>
+          <div>
+            <h3 class="pr-post-title">{job.role}, {job.company}</h3>
+            {job.achievements.length > 0 && (
+              <ul class="pr-about-points">{job.achievements.map((a) => <li>{a}</li>)}</ul>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
   </section>
 
-  <!-- Main Content Split -->
-  <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
-    
-    <!-- Left Column: Intro & Skills (Sticky) -->
-    <div class="lg:col-span-4 space-y-12">
-      <div class="lg:sticky lg:top-32 space-y-12">
-        
-        <!-- About Text -->
-        <section>
-          <h2 class="text-2xl font-bold text-main mb-6 flex items-center gap-2">
-            <span class="text-primary">01.</span> About
-          </h2>
-          <p class="text-muted leading-relaxed mb-6">
-            I am a Machine Learning Engineer focused on the intersection of infrastructure, data, and modelling. 
-            My work revolves around building robust systems that enable the "Agentic Web," where AI agents can reliably operate, communicate, and execute complex workflows.
-          </p>
-          <p class="text-muted leading-relaxed">
-            Currently, I'm simplifying the unification of Code and AI, designing protocols that allow agents to be more than just chat bots.
-          </p>
-        </section>
+  <section class="pr-sec pr-about-sec" aria-label="education">
+    <div class="pr-log-head"><h2 class="pr-section">education</h2></div>
+    <ul class="pr-list">
+      {data.education.map((edu) => (
+        <li class="pr-frame pr-post">
+          <div class="pr-margin"><ul class="pr-meta pr-meta-list"><li>{isoRange(edu.duration)}</li><li>{edu.location}</li></ul></div>
+          <div>
+            <h3 class="pr-post-title">{edu.degree}, {edu.institution}</h3>
+            <p class="pr-post-summary">{edu.details}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-        <!-- Skills Compact -->
-        <section>
-          <h2 class="text-2xl font-bold text-main mb-6 flex items-center gap-2">
-            <span class="text-primary">02.</span> Stack
-          </h2>
-          
-          <TechStackWrapper skills={data.skills} />
-        </section>
-
-      </div>
-    </div>
-
-    <!-- Right Column: Timeline & Education -->
-    <div class="lg:col-span-8 space-y-20">
-      
-      <!-- Experience Timeline -->
-      <section>
-        <h2 class="text-3xl font-display font-bold text-main mb-8 flex items-center gap-3">
-          <span class="text-primary">03.</span> Experience
-        </h2>
-        <TechTimelineWrapper experiences={data.experience} />
-      </section>
-
-      <!-- Education Grid -->
-      <section>
-        <h2 class="text-3xl font-display font-bold text-main mb-8 flex items-center gap-3">
-          <span class="text-primary">04.</span> Education
-        </h2>
-        <div class="grid grid-cols-1 gap-6">
-          {data.education.map((edu) => (
-            <div class="p-6 rounded-2xl border border-subtle/10 bg-subtle/5 hover:bg-subtle/10 transition-colors">
-              <div class="flex flex-col md:flex-row justify-between mb-2">
-                <h3 class="text-lg font-bold text-main">{edu.degree}</h3>
-                <span class="text-sm font-mono text-muted">{edu.duration}</span>
-              </div>
-              <p class="text-primary font-medium mb-2">{edu.institution}</p>
-              <p class="text-sm text-muted">{edu.details}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-    </div>
-  </div>
+  <section class="pr-sec pr-about-sec" aria-label="stack">
+    <div class="pr-log-head"><h2 class="pr-section">stack</h2></div>
+    <table class="pr-table">
+      <tbody>
+        {stack.map((row) => (
+          <tr>
+            <th scope="row" class="pr-td-data">{row.label}</th>
+            <td class="pr-td-what pr-stack-items">{row.items.join(', ')}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
 </Layout>

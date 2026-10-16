@@ -1,0 +1,15 @@
+<!-- @dsCard group="Writing" height=360 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>preview</title></head>
+<body>
+<div id="root" class="pr-pad"></div>
+<script>
+  var P = window.Prass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('ul', { className: 'pr-list' },
+    h(P.PostListItem, { title: 'The Age of Software Factories', href: '#', date: '2026-10-04', series: 'AI Agents', summary: 'Agents that discover the work, organise themselves, and build their way to production.' }),
+    h(P.PostListItem, { title: 'When Outputs Lie', href: '#', date: '2026-04-12', series: 'AI Agents', summary: "Your agent's outputs look composed. Its internal state is desperate." }),
+    h(P.PostListItem, { title: 'AI and the Future of Programming: Architects of Intent', href: '#', date: '2025-12-27', series: 'AI Agents', summary: 'Code is becoming a transient artifact. The future belongs to people who specify intent.' })));
+</script>
+</body>
+</html>

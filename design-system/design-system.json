@@ -1,0 +1,94 @@
+{
+  "v": 3,
+  "assetGroups": {
+    "Logos": {
+      "name": "Logos",
+      "tile": "m",
+      "order": [
+        "favicon.svg",
+        "mark-ink.svg",
+        "mark-paper.svg",
+        "apple-touch-icon.png",
+        "icon-192.png",
+        "icon-512.png",
+        "favicon-32.png"
+      ],
+      "files": {
+        "favicon.svg": {
+          "name": "favicon.svg",
+          "blob": "6507ce8f610b124d8dc88716eb2982f6",
+          "size": 686,
+          "type": "image/svg+xml"
+        },
+        "mark-ink.svg": {
+          "name": "mark-ink.svg",
+          "blob": "ed8f3d7cdfffd76c39e0a0ee83b7b413",
+          "size": 629,
+          "type": "image/svg+xml"
+        },
+        "mark-paper.svg": {
+          "name": "mark-paper.svg",
+          "blob": "a0c52f4db317ed7faaf6388ecb87d17a",
+          "size": 629,
+          "type": "image/svg+xml"
+        },
+        "apple-touch-icon.png": {
+          "name": "apple-touch-icon.png",
+          "blob": "fa847ae5229417a309fe10b4ea6936b9",
+          "size": 3600,
+          "type": "image/png"
+        },
+        "icon-192.png": {
+          "name": "icon-192.png",
+          "blob": "0ca1d9bcb1b955558316ba318c102af6",
+          "size": 3884,
+          "type": "image/png"
+        },
+        "icon-512.png": {
+          "name": "icon-512.png",
+          "blob": "d13c455234389e544ef65dc3270027b6",
+          "size": 10646,
+          "type": "image/png"
+        },
+        "favicon-32.png": {
+          "name": "favicon-32.png",
+          "blob": "53643c3f611c2b23c2d2f92439c0d715",
+          "size": 960,
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-10-05T20:55:56Z",
+    "v": 1
+  },
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "groups": [
+    "Logos"
+  ],
+  "lastChange": {
+    "by": "Prass",
+    "at": "2026-10-05T21:15:27Z",
+    "via": "Claude",
+    "note": "Added the mark: favicon, app icons and bare marks."
+  },
+  "layout": "files",
+  "libraries": [
+    {
+      "name": "react",
+      "version": "18"
+    },
+    {
+      "name": "react-dom",
+      "version": "18"
+    }
+  ],
+  "namespace": "Prass",
+  "sections": {},
+  "title": "prassanna.io"
+}

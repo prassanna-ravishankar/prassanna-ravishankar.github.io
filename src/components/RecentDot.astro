@@ -1,0 +1,7 @@
+---
+// Marks activity in the last 30 days; computed from dates, never set by hand.
+const { on } = Astro.props as { on: boolean };
+---
+{on
+  ? <span class="pr-dot pr-dot-active" role="img" aria-label="Active in the last 30 days" title="Active in the last 30 days"></span>
+  : <span class="pr-dot-space" aria-hidden="true"></span>}

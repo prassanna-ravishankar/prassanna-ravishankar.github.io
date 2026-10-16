@@ -1,6 +1,6 @@
 ---
 title: "Phlow"
-description: "JWT-based authentication framework for AI agent networks using Supabase - making agent-to-agent communication secure and effortless"
+description: "JWT authentication for agent-to-agent calls, built on Supabase"
 featured: true
 image: "/images/projects/phlow.png"
 github: "https://github.com/prassanna-ravishankar/phlow"

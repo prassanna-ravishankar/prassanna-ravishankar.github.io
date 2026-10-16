@@ -1,6 +1,6 @@
 ---
 title: "TorchWebIO"
-description: "Simple model to app generator"
+description: "Generates a web demo from a PyTorch model, with no frontend code"
 image: "/images/projects/torchwebio.webp"
 link: "https://torchwebio.readthedocs.io/en/latest/"
 github: "https://github.com/prassanna-ravishankar/torchwebio"

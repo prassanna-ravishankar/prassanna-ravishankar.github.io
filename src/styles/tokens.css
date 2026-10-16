@@ -1,0 +1,66 @@
+/* prassanna.io design tokens. Source of truth: design-system/tokens.json.
+   Newsreader ships instanced to the type scale's needs: roman wght 360-600 x opsz 12-72, italic wght 360-600 at opsz 20
+   (italic is only set at 16-22px). Plex Mono is Latin-subset. Rebuilt from the design system artifact's font files with fonttools varLib.instancer and pyftsubset. */
+
+@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable.woff2') format('woff2'); font-weight: 360 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable-Italic.woff2') format('woff2'); font-weight: 360 600; font-style: italic; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-400-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+
+:root {
+  color-scheme: light;
+  --paper: #f5f6f3;
+  --paper-sunk: #eaece7;
+  --paper-raised: #fcfcfa;
+  --ink: #1b1e21;
+  --ink-muted: #575e66;
+  --rule: #d3d6d0;
+  --rule-strong: #80868c;
+  --indigo: #2b3a8f;
+  --indigo-soft: #e2e5f3;
+  --on-indigo: #f5f6f3;
+  --marigold: #e2a01b;
+  --marigold-soft: #f9e6b3;
+  --on-marigold: #1b1e21;
+  --focus: var(--indigo);
+
+  --font-serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  --measure: 36rem;
+  --margin-col: 10rem;
+  --page-max: 50rem;
+  --wide-max: 64rem;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --paper: #14161a;
+  --paper-sunk: #1c1f24;
+  --paper-raised: #20242a;
+  --ink: #e7e8e3;
+  --ink-muted: #a2a8ae;
+  --rule: #2d3238;
+  --rule-strong: #6c737b;
+  --indigo: #a3afef;
+  --indigo-soft: #232a4b;
+  --on-indigo: #14161a;
+  --marigold: #efb23d;
+  --marigold-soft: #3b3016;
+  --on-marigold: #14161a;
+}

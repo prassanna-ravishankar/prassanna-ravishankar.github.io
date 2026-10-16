@@ -5,21 +5,18 @@ import type { Data, Layout, Config } from "plotly.js";
 function getThemeColors() {
   const isDark = document.documentElement.classList.contains("dark");
   const style = getComputedStyle(document.documentElement);
-
-  const rgb = (name: string) => {
-    const val = style.getPropertyValue(name).trim();
-    return `rgb(${val})`;
-  };
+  const token = (name: string) => style.getPropertyValue(name).trim();
 
   return {
     isDark,
     background: "rgba(0,0,0,0)",
     paper: "rgba(0,0,0,0)",
-    text: rgb("--color-text-main"),
-    muted: rgb("--color-text-muted"),
-    gridColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-    primary: rgb("--color-primary"),
-    accent: rgb("--color-accent"),
+    text: token("--ink"),
+    muted: token("--ink-muted"),
+    gridColor: token("--rule"),
+    primary: token("--indigo"),
+    accent: token("--marigold"),
+    font: token("--font-mono"),
   };
 }
 
@@ -59,6 +56,7 @@ export default function PlotlyChart({
     paper_bgcolor: theme.paper,
     plot_bgcolor: theme.background,
     font: {
+      family: theme.font,
       ...layout.font,
       color: theme.text,
     },

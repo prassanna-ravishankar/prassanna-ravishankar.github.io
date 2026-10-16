@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostListItem from './PostListItem.astro';
+import { formatDuration, stripEmoji } from '../utils/log';
+
+// One show: facts in the margin, description and listen links beside it, then its episodes.
+export interface Props {
+  show: { title: string; slug: string; description: string; cohost?: string; latestEpisode?: string; platforms?: { name: string; url: string }[] };
+  episodes: CollectionEntry<'podcasts'>[];
+  heading?: 'h1' | 'h2';
+  limit?: number;
+}
+
+const { show, episodes, heading = 'h2', limit } = Astro.props;
+const Heading = heading;
+const shown = limit ? episodes.slice(0, limit) : episodes;
+const episodeSlug = (e: CollectionEntry<'podcasts'>) => e.id.split('/').pop()!.replace(/\.mdx?$/, '');
+---
+<section class="pr-show">
+  <div class="pr-frame">
+    <div class="pr-margin">
+      <ul class="pr-meta pr-meta-list">
+        <li>podcast</li>
+        {show.cohost && <li>with {show.cohost}</li>}
+        {episodes.length > 0 ? <li>{episodes.length} episodes</li> : show.latestEpisode && <li>latest: {show.latestEpisode}</li>}
+      </ul>
+    </div>
+    <div>
+      <Heading class="pr-show-title">
+        {heading === 'h2' && episodes.length > 0 ? <a href={`/podcasts/${show.slug}/`} class="pr-focus">{show.title}</a> : show.title}
+      </Heading>
+      <p class="pr-show-desc">{show.description}</p>
+      {show.platforms && (
+        <div class="pr-actions">
+          {show.platforms.map((p) => <a class="pr-btn pr-focus" href={p.url} rel="noopener">Listen on {p.name}</a>)}
+        </div>
+      )}
+    </div>
+  </div>
+  {shown.length > 0 && (
+    <ul class="pr-list pr-index pr-show-episodes">
+      {shown.map((e) => (
+        <PostListItem
+          title={stripEmoji(e.data.title)}
+          href={`/podcasts/${episodeSlug(e)}/`}
+          meta={[e.data.pubDate.toISOString().slice(0, 10), formatDuration(e.data.duration)]}
+          summary={e.data.description}
+        />
+      ))}
+    </ul>
+  )}
+  {limit && episodes.length > limit && (
+    <div class="pr-frame"><div></div><div class="pr-log-more"><a class="pr-btn pr-btn-text pr-focus" href={`/podcasts/${show.slug}/`}>All {episodes.length} episodes</a></div></div>
+  )}
+</section>

@@ -1,0 +1,13 @@
+<!-- @dsCard group="Primitives" height=150 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>preview</title></head>
+<body>
+<div id="root" class="pr-pad"></div>
+<script>
+  var P = window.Prass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('p', { className: 'pr-root', style: { maxWidth: 'var(--measure)', margin: 0, fontSize: '19px', lineHeight: '31px' } },
+    'That question led me to agent drift. Not because of a bug, not because the model changed, but because ', h(P.Mark, null, 'running for a long time, with minimal oversight, is itself the corrupting force.')));
+</script>
+</body>
+</html>

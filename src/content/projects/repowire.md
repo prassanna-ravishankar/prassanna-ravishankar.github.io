@@ -1,6 +1,6 @@
 ---
 title: "Repowire"
-description: "Mesh network for AI coding agents - enables Claude Code sessions to communicate with each other in real-time"
+description: "A mesh that lets AI coding agents (Claude Code, Codex, OpenCode, Pi) message each other across projects and machines"
 featured: true
 image: "/images/blog/repowire/hero.webp"
 github: "https://github.com/prassanna-ravishankar/repowire"

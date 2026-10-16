@@ -1,0 +1,22 @@
+---
+// One row of a writing index: facts in the margin, title and one-sentence summary beside it.
+export interface Props {
+  title: string;
+  href: string;
+  meta?: (string | undefined)[];
+  summary?: string;
+}
+
+const { title, href, meta = [], summary } = Astro.props;
+const facts = meta.filter(Boolean);
+const firstSentence = (s: string) => s.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? s;
+---
+<li class="pr-frame pr-post">
+  <div class="pr-margin">
+    {facts.length > 0 && <ul class="pr-meta pr-meta-list">{facts.map((f) => <li>{f}</li>)}</ul>}
+  </div>
+  <div>
+    <h2 class="pr-post-title"><a href={href} class="pr-focus">{title}</a></h2>
+    {summary && <p class="pr-post-summary">{firstSentence(summary)}</p>}
+  </div>
+</li>

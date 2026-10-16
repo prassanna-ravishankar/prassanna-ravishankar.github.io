@@ -1,7 +1,8 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import '../styles/global.css';
-import Header from '../components/Header.astro';
+import '../styles/tokens.css';
+import '../styles/ds.css';
+import SiteNav from '../components/SiteNav.astro';
 import Footer from '../components/Footer.astro';
 import CommandMenuWrapper from '../components/CommandMenuWrapper.astro';
 
@@ -97,41 +98,29 @@ const articleSchema = article ? {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1A1614" />
+    <meta name="theme-color" content="#f5f6f3" />
 
-    <!-- Theme Initialization -->
+    <!-- Theme: applied before paint, and again after every view-transition swap (the router replaces <html>'s attributes).
+         Toggling lives in src/utils/theme.ts and writes the same localStorage key this reads. -->
     <script is:inline>
-      (function() {
-        const getTheme = () => {
-          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-            return localStorage.getItem('theme');
-          }
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-          }
-          return 'light';
+      (function () {
+        if (window.__applyTheme) return;
+        window.__applyTheme = function (doc) {
+          var stored = null;
+          try { stored = localStorage.getItem('theme'); } catch (e) {}
+          var theme = stored || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          doc.documentElement.classList.toggle('dark', theme === 'dark');
+          var meta = doc.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#14161a' : '#f5f6f3');
         };
-
-        const theme = getTheme();
-        
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-        
-        // Update theme-color meta tag
-        const themeColor = document.querySelector('meta[name="theme-color"]');
-        if (themeColor) {
-          themeColor.setAttribute('content', theme === 'dark' ? '#1A1614' : '#FDFBF7');
-        }
+        window.__applyTheme(document);
+        document.addEventListener('astro:before-swap', function (e) { window.__applyTheme(e.newDocument); });
+        document.addEventListener('astro:after-swap', function () { window.__applyTheme(document); });
       })();
     </script>
 
-    <!-- Google Fonts: Lora (serif) + Manrope (sans) + JetBrains Mono (mono) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    <!-- Self-hosted fonts (src/styles/tokens.css); only the body face is preloaded -->
+    <link rel="preload" href="/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- View Transitions -->
     <ClientRouter />
@@ -142,11 +131,10 @@ const articleSchema = article ? {
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/favicon.svg" as="image" />
-    <link rel="preload" href="/tarot.webp" as="image" fetchpriority="high" />
-    
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -260,14 +248,31 @@ const articleSchema = article ? {
     <!-- Allow additional head content -->
     <slot name="head" />
   </head>
-  <body>
-    <div class="flex flex-col min-h-screen">
-      <Header />
-      <main class="flex-grow pt-20">
+  <body class="pr-root">
+    <a class="pr-skip pr-focus" href="#main">Skip to content</a>
+    <div class="pr-shell">
+      <SiteNav />
+      <main id="main" class="pr-main">
         <slot />
       </main>
       <Footer />
-      <CommandMenuWrapper />
     </div>
+    <CommandMenuWrapper />
   </body>
 </html>
+
+<script>
+  // Code-block Copy buttons (emitted by src/plugins/rehype-code-figure.mjs on any markdown page). One delegated listener survives view transitions.
+  document.addEventListener('click', async (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.pr-code-copy');
+    if (!btn) return;
+    const code = btn.closest('.pr-code')?.querySelector('pre')?.textContent ?? '';
+    try {
+      await navigator.clipboard.writeText(code);
+      btn.textContent = 'Copied';
+    } catch {
+      btn.textContent = 'Copy failed';
+    }
+    setTimeout(() => (btn.textContent = 'Copy'), 1600);
+  });
+</script>

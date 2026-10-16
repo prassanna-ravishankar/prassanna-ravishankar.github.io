@@ -95,3 +95,6 @@ sw.*
 
 /.specstory
 **/hero.backup.webp
+
+# Design system fonts ship from public/fonts
+design-system/fonts/

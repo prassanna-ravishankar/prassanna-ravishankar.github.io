@@ -1,0 +1,28 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const items = [
+  { label: 'log', href: '/' },
+  { label: 'projects', href: '/projects/' },
+  { label: 'writing', href: '/blog/', also: ['/tags/', '/topics/'] },
+  { label: 'verse', href: '/verses/' },
+  { label: 'podcast', href: '/podcasts/' },
+  { label: 'about', href: '/about/' },
+];
+
+const path = Astro.url.pathname;
+const isCurrent = (it: (typeof items)[number]) =>
+  it.href === '/' ? path === '/' : [it.href, ...(it.also ?? [])].some((p) => path.startsWith(p));
+---
+
+<nav class="pr-nav" aria-label="Site">
+  <a class="pr-wordmark pr-focus" href="/">prassanna.io</a>
+  <ul class="pr-nav-list">
+    {items.map((it) => (
+      <li>
+        <a class="pr-nav-link pr-focus" href={it.href} aria-current={isCurrent(it) ? 'page' : undefined}>{it.label}</a>
+      </li>
+    ))}
+  </ul>
+  <ThemeToggle />
+</nav>

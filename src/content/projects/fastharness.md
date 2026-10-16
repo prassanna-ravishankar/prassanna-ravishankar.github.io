@@ -1,6 +1,6 @@
 ---
 title: "FastHarness"
-description: "Turn AI agents into production-ready A2A services with pluggable runtime backends"
+description: "Serves AI agents over the A2A protocol, with swappable runtime backends"
 pubDate: 2026-01-24
 image: "/images/projects/fastharness.webp"
 github: "https://github.com/prassanna-ravishankar/fastharness"

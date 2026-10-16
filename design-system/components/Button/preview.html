@@ -1,0 +1,13 @@
+<!-- @dsCard group="Primitives" height=84 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>preview</title></head>
+<body>
+<div id="root" class="pr-pad"></div>
+<script>
+  var P = window.Prass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', alignItems: 'center' } },
+    h(P.Button, { variant: 'primary' }, 'Subscribe by RSS'), h(P.Button, null, 'View on GitHub'), h(P.Button, { variant: 'text' }, 'Listen on Spotify'), h(P.Button, { disabled: true }, 'Disabled')));
+</script>
+</body>
+</html>

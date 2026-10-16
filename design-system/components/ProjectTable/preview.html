@@ -1,0 +1,17 @@
+<!-- @dsCard group="Projects" height=380 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ProjectTable — preview</title></head>
+<body>
+<div id="root" class="pr-pad"></div>
+<script>
+  var P = window.Prass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(P.ProjectTable, { today: '2026-10-05', count: '14 projects', projects: [
+    { name: 'repowire', summary: 'Let your coding agents talk to each other.', language: 'Go', lastPush: '2026-10-05', since: '2026' },
+    { name: 'a2a-registry', summary: 'A community directory of agents that speak A2A.', language: 'Python', lastPush: '2026-09-14', since: '2025' },
+    { name: 'fastharness', summary: 'Turn agents into production A2A services with pluggable runtimes.', language: 'Python', lastPush: '2026-03-27', since: '2026' },
+    { name: 'phlow', summary: 'JWT authentication for agent-to-agent networks.', language: 'Python', lastPush: '2026-03-23', since: '2025' }
+  ] }));
+</script>
+</body>
+</html>

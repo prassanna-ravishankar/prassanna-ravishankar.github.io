@@ -1,8 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import Card from './ui/Card.astro';
-import Badge from './ui/Badge.astro';
+import PostListItem from './PostListItem.astro';
 
 interface Props {
   currentPost: CollectionEntry<'blog'>;
@@ -11,98 +10,30 @@ interface Props {
 
 const { currentPost, limit = 3 } = Astro.props;
 
-// Get all blog posts
-const allPosts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-});
+const others = (await getCollection('blog', ({ data }) => (import.meta.env.PROD ? !data.draft : true))).filter(
+  (post) => post.slug !== currentPost.slug,
+);
 
-// Filter out current post
-const otherPosts = allPosts.filter(post => post.slug !== currentPost.slug);
-
-// Calculate similarity based on shared series
-const getRelatedPosts = (current: CollectionEntry<'blog'>, posts: CollectionEntry<'blog'>[], maxResults: number) => {
-  const currentSeries = new Set(current.data.series || []);
-
-  if (currentSeries.size === 0) {
-    // If no series, return most recent posts
-    return posts
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-      .slice(0, maxResults)
-      .map(post => ({ post, score: 0, sharedSeries: [] as string[] }));
-  }
-
-  // Score posts based on series overlap
-  const scoredPosts = posts.map(post => {
-    const postSeries = new Set(post.data.series || []);
-    const sharedSeries = [...currentSeries].filter(s => postSeries.has(s));
-    const score = sharedSeries.length;
-
-    return {
-      post,
-      score,
-      sharedSeries
-    };
-  });
-
-  // Sort by score (descending) then by date (descending)
-  scoredPosts.sort((a, b) => {
-    if (b.score !== a.score) {
-      return b.score - a.score;
-    }
-    return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf();
-  });
-
-  return scoredPosts.slice(0, maxResults);
-};
-
-const relatedPosts = getRelatedPosts(currentPost, otherPosts, limit);
-
-// Format date function
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-};
+// Rank by shared series, then recency
+const currentSeries = new Set(currentPost.data.series);
+const shared = (post: CollectionEntry<'blog'>) => post.data.series.filter((s) => currentSeries.has(s)).length;
+const related = others
+  .sort((a, b) => shared(b) - shared(a) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, limit);
 ---
 
-{relatedPosts.length > 0 && (
-  <section class="mt-12 pt-8 border-t border-subtle/10">
-    <h2 class="text-2xl font-bold mb-6 text-main">Related Posts</h2>
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {relatedPosts.map(({ post, sharedSeries }) => (
-        <Card href={`/blog/${post.slug}/`} class="flex flex-col h-full p-6">
-            <h3 class="font-semibold text-lg mb-2 text-main group-hover:text-primary transition-colors">
-                {post.data.title}
-            </h3>
-
-            <p class="text-muted text-sm mb-3 line-clamp-3">
-              {post.data.description}
-            </p>
-
-            <div class="mt-auto pt-4 flex items-center justify-between text-sm text-muted border-t border-subtle/5">
-              <time>{formatDate(post.data.pubDate)}</time>
-
-              {sharedSeries.length > 0 && (
-                <div class="flex flex-wrap gap-1">
-                  {sharedSeries.slice(0, 2).map(series => (
-                    <Badge variant="primary">{series}</Badge>
-                  ))}
-                </div>
-              )}
-            </div>
-        </Card>
+{related.length > 0 && (
+  <section class="pr-after" aria-label="related">
+    <div class="pr-log-head"><h2 class="pr-section">related</h2></div>
+    <ul class="pr-list">
+      {related.map((post) => (
+        <PostListItem
+          title={post.data.title}
+          href={`/blog/${post.slug}/`}
+          meta={[post.data.pubDate.toISOString().slice(0, 10), post.data.series[0]]}
+          summary={post.data.description}
+        />
       ))}
-    </div>
+    </ul>
   </section>
 )}
-
-<style>
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>

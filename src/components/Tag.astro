@@ -1,0 +1,6 @@
+---
+// Tag README: labels display lowercase, never all caps. Hrefs keep the taxonomy's own case.
+const { href, label: raw } = Astro.props as { href?: string; label: string };
+const label = raw.toLowerCase();
+---
+{href ? <a class="pr-tag pr-focus" href={href}>{label}</a> : <span class="pr-tag">{label}</span>}

@@ -1,6 +1,6 @@
 ---
 title: "CloudRegion"
-description: "A lightweight Python library for canonical cloud region mapping across AWS, Azure, and Google Cloud Platform"
+description: "A Python library that converts cloud region names between AWS, Azure and Google Cloud"
 featured: false
 image: "/images/projects/cloudregion.png"
 github: "https://github.com/prassanna-ravishankar/cloudregion"

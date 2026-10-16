@@ -1,6 +1,6 @@
 ---
 title: "Python Productivity Stack"
-description: "A curated collection of tools for machine learning productivity"
+description: "A collection of Python tools for machine learning work: environments, linting, typing and experiment tooling"
 image: "/images/projects/python-productivity.webp"
 link: "https://github.com/prassanna-ravishankar/python-productivity-stack"
 github: "https://github.com/prassanna-ravishankar/python-productivity-stack"

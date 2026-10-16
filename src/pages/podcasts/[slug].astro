@@ -1,9 +1,10 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { formatDate } from '../../utils';
-import { Image } from 'astro:assets';
 import { podcasts } from '../../data/podcasts.js';
+import ArticleHeader from '../../components/ArticleHeader.astro';
+import PodcastShow from '../../components/PodcastShow.astro';
+import { formatDuration, stripEmoji } from '../../utils/log';
 
 // Generate static paths for both podcast shows and episodes
 export async function getStaticPaths() {
@@ -109,250 +110,49 @@ if (type === 'episode' && entry) {
 }
 ---
 
-<Layout 
+<Layout
   title={type === 'show' ? `${show.title} | Podcasts | Prassanna Ravishankar` : `${entry.data.title} | Podcasts | Prassanna Ravishankar`}
   description={type === 'show' ? show.description : entry.data.description}
 >
-  {type === 'episode' && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
-  
-  <main class="container mx-auto px-4 py-8">
-    <a href="/podcasts" class="inline-flex items-center text-primary hover:text-primary-hover mb-6 transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-      </svg>
-      Back to all podcasts
-    </a>
+  {type === 'episode' && <script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
 
-    {type === 'show' ? (
-      <>
-        <div class="bg-surface rounded-2xl shadow-xl overflow-hidden mb-8 border border-subtle/5">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
-            <div class="md:col-span-1">
-              {show.imageUrl ? (
-                <div class="relative group">
-                   <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none rounded-lg"></div>
-                   <img 
-                    src={show.imageUrl} 
-                    alt={`Cover image for ${show.title}`}
-                    class="w-full rounded-lg shadow-md  transition-all duration-700"
-                  />
-                </div>
-              ) : (
-                <div class="w-full aspect-square bg-subtle/5 rounded-lg flex items-center justify-center border border-subtle/10">
-                  <span class="text-muted">No cover image</span>
-                </div>
-              )}
+  {type === 'show' ? (
+    <PodcastShow show={show} episodes={episodes} heading="h1" />
+  ) : (
+    <article class="pr-article">
+      <ArticleHeader
+        title={stripEmoji(entry.data.title)}
+        kind="episode"
+        facts={[
+          entry.data.pubDate.toISOString().slice(0, 10),
+          formatDuration(entry.data.duration),
+          entry.data.season && entry.data.episodeNumber ? `S${entry.data.season} E${entry.data.episodeNumber}` : undefined,
+          { label: show.title, href: `/podcasts/${show.slug}/` },
+        ]}
+        topics={entry.data.tags.map((t) => ({ label: t }))}
+      />
+      <div class="pr-frame pr-article-body">
+        <div class="pr-prose">
+          <p>{entry.data.description}</p>
+          {entry.data.audioFile && (
+            <audio controls preload="none" src={entry.data.audioFile}>Your browser does not support the audio element.</audio>
+          )}
+          {entry.data.externalLinks && (
+            <div class="pr-actions">
+              {Object.entries(entry.data.externalLinks).map(([platform, url]) => (
+                <a class="pr-btn pr-focus" href={url} rel="noopener">Listen on {platform === 'youtube' ? 'YouTube' : platform.charAt(0).toUpperCase() + platform.slice(1)}</a>
+              ))}
             </div>
-            
-            <div class="md:col-span-2">
-              <h1 class="text-3xl font-bold mb-4 text-main">{show.title}</h1>
-              <p class="text-main/80 mb-6 leading-relaxed">{show.description}</p>
-              
-              {show.cohost && (
-                <p class="text-muted mb-4 font-mono text-sm">
-                  Co-hosted with <span class="text-main/80">{show.cohost}</span>
-                </p>
-              )}
-              
-              {show.topics && show.topics.length > 0 && (
-                <div class="mb-6">
-                  <h2 class="text-lg font-semibold mb-3 text-main/90">Topics</h2>
-                  <div class="flex flex-wrap gap-2">
-                    {show.topics.map(topic => (
-                      <span class="bg-subtle/5 border border-subtle/10 text-muted px-3 py-1 rounded text-sm font-mono">
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {show.platforms && show.platforms.length > 0 && (
-                <div>
-                  <h2 class="text-lg font-semibold mb-3 text-main/90">Listen on</h2>
-                  <div class="flex flex-wrap gap-2">
-                    {show.platforms.map(platform => (
-                      <a 
-                        href={platform.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        class={`${platform.color} text-white px-3 py-1 rounded-full transition-colors inline-flex items-center text-sm shadow-lg`}
-                        aria-label={`Listen on ${platform.name}`}
-                        title={`Listen on ${platform.name}`}
-                      >
-                        <span class="mr-1">
-                          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                            <path d={platform.icon === 'spotify' ? 
-                              "M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" :
-                              platform.icon === 'youtube' ? 
-                              "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" :
-                              ""
-                            } />
-                          </svg>
-                        </span>
-                        {platform.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Episodes Section */}
-        <div class="bg-surface rounded-2xl shadow-xl overflow-hidden border border-subtle/5">
-          <div class="p-8">
-            <h2 class="text-2xl font-bold mb-6 text-main">Episodes</h2>
-            <div class="space-y-6">
-              {episodes?.map(episode => {
-                const episodeSlug = episode.id.split('/').pop().replace(/\.md$/, '');
-                return (
-                  <a 
-                    href={`/podcasts/${episodeSlug}/`}
-                    class="block p-4 hover:bg-subtle/5 rounded-xl transition-all border border-transparent hover:border-subtle/10 group"
-                  >
-                    <div class="flex flex-wrap items-center gap-2 mb-2">
-                      {episode.data.season && episode.data.episodeNumber && (
-                        <span class="bg-primary/20 text-primary text-xs font-bold px-2 py-1 rounded border border-primary/20">
-                          S{episode.data.season} E{episode.data.episodeNumber}
-                        </span>
-                      )}
-                      
-                      <span class="text-muted text-sm font-mono">
-                        {formatDate(episode.data.pubDate)}
-                      </span>
-                      
-                      {episode.data.duration && (
-                        <span class="text-muted text-sm font-mono">
-                          • {episode.data.duration}
-                        </span>
-                      )}
-                    </div>
-                    
-                    <h3 class="text-xl font-semibold mb-2 text-main group-hover:text-primary transition-colors">
-                      {episode.data.title}
-                    </h3>
-                    
-                    <p class="text-muted line-clamp-2">
-                      {episode.data.description}
-                    </p>
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </>
-    ) : (
-      <div class="bg-surface rounded-2xl shadow-xl overflow-hidden border border-subtle/5">
-        <div class="md:flex">
-          <div class="md:w-1/3">
-            {entry.data.coverImage ? (
-              <Image 
-                src={entry.data.coverImage} 
-                alt={`Cover image for ${entry.data.title}`}
-                width={600}
-                height={800}
-                class="w-full h-64 md:h-full object-cover"
-              />
-            ) : (
-              <div class="w-full h-64 md:h-full bg-subtle/5 flex items-center justify-center border-r border-subtle/10">
-                <span class="text-muted">No cover image</span>
-              </div>
-            )}
-          </div>
-          
-          <div class="md:w-2/3 p-8">
-            <div class="flex flex-wrap items-center gap-2 mb-4">
-              {entry.data.season && entry.data.episodeNumber && (
-                <span class="bg-primary/20 text-primary text-xs font-bold px-2 py-1 rounded border border-primary/20">
-                  S{entry.data.season} E{entry.data.episodeNumber}
-                </span>
-              )}
-              
-              <span class="text-muted text-sm font-mono">
-                {formatDate(entry.data.pubDate)}
-              </span>
-              
-              {entry.data.duration && (
-                <span class="text-muted text-sm font-mono">
-                  • {entry.data.duration}
-                </span>
-              )}
-            </div>
-            
-            <h1 class="text-3xl font-bold mb-4 text-main">{entry.data.title}</h1>
-            <p class="text-main/80 mb-8 leading-relaxed">{entry.data.description}</p>
-            
-            {entry.data.audioFile && (
-              <div class="mb-8 p-4 bg-subtle/5 rounded-xl border border-subtle/10">
-                <h2 class="text-sm font-mono text-muted mb-3 uppercase tracking-wider">Listen Now</h2>
-                <audio controls class="w-full">
-                  <source src={entry.data.audioFile} type="audio/mpeg">
-                  Your browser does not support the audio element.
-                </audio>
-              </div>
-            )}
-            
-            {entry.data.externalLinks && Object.keys(entry.data.externalLinks).length > 0 && (
-              <div class="mb-8">
-                <h2 class="text-lg font-semibold mb-3 text-main/90">Listen on</h2>
-                <div class="flex flex-wrap gap-2">
-                  {Object.entries(entry.data.externalLinks).map(([platform, url]) => (
-                    <a 
-                      href={url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      class={`${
-                        platform === 'spotify' ? 'bg-[#1DB954] hover:bg-[#1ed760]' :
-                        platform === 'youtube' ? 'bg-[#FF0000] hover:bg-[#ff1a1a]' :
-                        'bg-gray-700 hover:bg-gray-600'
-                      } text-white px-4 py-2 rounded-full transition-colors inline-flex items-center text-sm font-medium shadow-md`}
-                    >
-                      {platform.charAt(0).toUpperCase() + platform.slice(1)}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {entry.data.guests && entry.data.guests.length > 0 && (
-              <div class="mb-6">
-                <h2 class="text-lg font-semibold mb-3 text-main/90">Guests</h2>
-                <ul class="space-y-2">
-                  {entry.data.guests.map(guest => (
-                    <li class="text-main/80 flex items-center gap-2">
-                       <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                       {guest}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            
-            {entry.data.tags && entry.data.tags.length > 0 && (
-              <div>
-                <h2 class="text-lg font-semibold mb-3 text-main/90">Topics</h2>
-                <div class="flex flex-wrap gap-2">
-                  {entry.data.tags.map(tag => (
-                    <span class="bg-subtle/5 border border-subtle/10 text-muted px-3 py-1 rounded text-sm font-mono">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        
-        <div class="p-8 border-t border-subtle/5">
-          <h2 class="text-2xl font-bold mb-6 text-main">Show Notes</h2>
-          <div class="prose prose-invert max-w-none prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:text-main prose-p:text-main/80 prose-li:text-main/80">
-            <Content />
-          </div>
+          )}
+          {entry.data.guests && entry.data.guests.length > 0 && <p>With {entry.data.guests.join(', ')}.</p>}
+          <h2>Show notes</h2>
         </div>
       </div>
-    )}
-  </main>
+      <div class="pr-frame">
+        <div class="pr-prose pr-notes">
+          <Content />
+        </div>
+      </div>
+    </article>
+  )}
 </Layout>

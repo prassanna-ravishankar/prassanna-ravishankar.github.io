@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { getQualifyingTopics } from '../../utils/topics';
+import PageHead from '../../components/PageHead.astro';
+import PostListItem from '../../components/PostListItem.astro';
+import Tag from '../../components/Tag.astro';
 
 export async function getStaticPaths() {
   const [allPosts, allProjects] = await Promise.all([
@@ -40,16 +42,6 @@ const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const qualifyingTopics = await getQualifyingTopics();
-
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-};
-
 const allItems = [
   ...sortedPosts.map((p) => ({ "@type": "BlogPosting", "headline": p.data.title, "description": p.data.description, "url": `https://prassanna.io/blog/${p.slug}/`, "datePublished": p.data.pubDate.toISOString(), "author": { "@type": "Person", "name": "Prassanna Ravishankar" } })),
   ...projects.map((p) => ({ "@type": "SoftwareApplication", "name": p.data.title, "description": p.data.description, "url": `https://prassanna.io/projects/${p.slug}/` })),
@@ -79,152 +71,27 @@ const topicSchema = {
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(topicSchema)} />
 
-  <div class="container mx-auto py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      <!-- Breadcrumb navigation -->
-      <nav class="text-sm text-muted mb-8" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-2">
-          <li>
-            <a href="/" class="hover:text-primary transition-colors">Home</a>
-          </li>
-          <li>
-            <svg class="w-3 h-3 text-muted" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </li>
-          <li>
-            <a href="/blog/" class="hover:text-primary transition-colors">Blog</a>
-          </li>
-          <li>
-            <svg class="w-3 h-3 text-muted" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </li>
-          <li>
-            <a href="/topics/" class="hover:text-primary transition-colors">Topics</a>
-          </li>
-          <li>
-            <svg class="w-3 h-3 text-muted" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </li>
-          <li>
-            <span class="text-main/80" aria-current="page">
-              {topic}
-            </span>
-          </li>
-        </ol>
-      </nav>
-
-      <!-- Header -->
-      <header class="mb-12 text-center">
-        <h1 class="text-4xl font-bold mb-4">
-          <span class="text-primary">{topic}</span>
-        </h1>
-        <p class="text-xl text-muted">
-          {sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'}
-          {projects.length > 0 && ` · ${projects.length} ${projects.length === 1 ? 'project' : 'projects'}`}
-        </p>
-      </header>
-
-      <!-- Posts list -->
-      <div class="space-y-8">
-        {sortedPosts.map((post) => (
-          <article class="bg-surface rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-subtle/10">
-            <div class="p-6">
-              <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold">
-                  <a
-                    href={`/blog/${post.slug}/`}
-                    class="hover:text-primary transition-colors"
-                  >
-                    {post.data.title}
-                  </a>
-                </h2>
-                <time class="text-muted text-sm mt-1 md:mt-0">
-                  {formatDate(post.data.pubDate)}
-                </time>
-              </div>
-
-              <p class="text-muted mb-4">
-                {post.data.description}
-              </p>
-
-              <!-- Series tags (clickable) -->
-              {post.data.series && post.data.series.length > 0 && (
-                <div class="flex flex-wrap gap-2 mb-2">
-                  {post.data.series.map((seriesTag) => (
-                    <a
-                      href={`/tags/${encodeURIComponent(seriesTag)}/`}
-                      class="px-3 py-1 rounded-full text-sm font-medium transition-colors bg-primary/10 text-primary hover:bg-primary/20"
-                    >
-                      {seriesTag}
-                    </a>
-                  ))}
-                </div>
-              )}
-
-              <!-- Topic tags (display only on topic page) -->
-              {post.data.topics && post.data.topics.length > 0 && (
-                <div class="flex flex-wrap gap-1.5 mb-4">
-                  {post.data.topics.slice(0, 4).map((t) => (
-                    <span class="px-2 py-0.5 rounded text-xs bg-subtle/5 border border-subtle/10 text-muted">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <a
-                href={`/blog/${post.slug}/`}
-                class="text-primary hover:underline inline-flex items-center"
-              >
-                Read more
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-            </div>
-          </article>
+  <PageHead title={topic} count={[`${sortedPosts.length} ${sortedPosts.length === 1 ? 'essay' : 'essays'}`, projects.length > 0 && `${projects.length} ${projects.length === 1 ? 'project' : 'projects'}`].filter(Boolean).join(' ')}>
+    <Tag href="/topics/" label="all topics" />
+  </PageHead>
+  <ul class="pr-list pr-index">
+    {sortedPosts.map((post) => (
+      <PostListItem
+        title={post.data.title}
+        href={`/blog/${post.slug}/`}
+        meta={[post.data.pubDate.toISOString().slice(0, 10), post.data.series[0]]}
+        summary={post.data.description}
+      />
+    ))}
+  </ul>
+  {projects.length > 0 && (
+    <section class="pr-sec">
+      <div class="pr-log-head"><h2 class="pr-section">projects</h2></div>
+      <ul class="pr-list">
+        {projects.map((p) => (
+          <PostListItem title={p.slug} href={`/projects/${p.slug}/`} meta={[p.data.pubDate.toISOString().slice(0, 10), 'project']} summary={p.data.description} />
         ))}
-      </div>
-
-      <!-- Related Projects -->
-      {projects.length > 0 && (
-        <section class="mt-12">
-          <h2 class="text-2xl font-bold mb-6">Related Projects</h2>
-          <div class="grid gap-4 md:grid-cols-2">
-            {projects.map((project) => (
-              <a href={`/projects/${project.slug}/`} class="block p-5 bg-surface rounded-lg border border-subtle/10 hover:shadow-lg transition-shadow">
-                <h3 class="text-lg font-semibold mb-1">{project.data.title}</h3>
-                <p class="text-muted text-sm">{project.data.description}</p>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <!-- Back links -->
-      <div class="mt-12 pt-6 border-t border-subtle/10 text-center flex justify-center gap-6">
-        <a
-          href="/topics/"
-          class="text-primary hover:underline inline-flex items-center"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          All topics
-        </a>
-        <a
-          href="/blog/"
-          class="text-primary hover:underline inline-flex items-center"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          All posts
-        </a>
-      </div>
-    </div>
-  </div>
+      </ul>
+    </section>
+  )}
 </Layout>
