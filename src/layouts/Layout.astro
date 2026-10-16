@@ -70,7 +70,7 @@ const websiteSchema = {
 const articleSchema = article ? {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": title,
+  "headline": title.replace(/ \| Prassanna Ravishankar$/, ""),
   "description": description,
   "image": new URL(image, Astro.url).toString(),
   "datePublished": publishedTime,

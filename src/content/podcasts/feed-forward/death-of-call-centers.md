@@ -11,8 +11,6 @@ externalLinks:
 tags: ["call centers", "customer support", "AI", "automation", "customer service", "chatbots", "predictive support"]
 ---
 
-# The Death of Call Centers
-
 In this inaugural episode of Feed Forward, we explore how AI is revolutionizing customer support and potentially marking the end of traditional call centers.
 
 ## Episode Highlights

@@ -14,8 +14,6 @@ guests:
   - "Daniel"
 ---
 
-# Deepseek: The Dawn of a New AI Arms Race?
-
 In this special episode with guest Daniel, we explore the geopolitical implications of AI development, focusing on the recent US draft bill targeting DeepSeek.
 
 ## Episode Highlights

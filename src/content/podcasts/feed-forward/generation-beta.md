@@ -12,8 +12,6 @@ externalLinks:
 tags: ["Generation Beta", "AI", "technology", "future", "social media", "ethics", "Meta", "NVIDIA"]
 ---
 
-# Generation Beta
-
 In this episode, we explore the unique characteristics and challenges facing Generation Beta - the first generation to grow up in a world where AI is ubiquitous.
 
 ## Episode Highlights

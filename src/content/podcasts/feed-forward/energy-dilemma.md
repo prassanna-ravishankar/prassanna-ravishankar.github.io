@@ -12,8 +12,6 @@ externalLinks:
 tags: ["energy", "sustainability", "AI", "climate change", "nuclear energy", "carbon emissions", "urban planning"]
 ---
 
-# The Energy Dilemma: AI's Consumption vs. Sustainability
-
 In this episode, we tackle the complex relationship between artificial intelligence and environmental sustainability, exploring both challenges and opportunities.
 
 ## Episode Highlights

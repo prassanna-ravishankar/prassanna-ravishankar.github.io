@@ -12,8 +12,6 @@ externalLinks:
 tags: ["algorithms", "justice system", "crime prevention", "ethics", "technology", "AI", "policing"]
 ---
 
-# Algorithms and Justice: A New Frontier
-
 In this episode, we explore the intersection of technology and justice, examining how algorithms are reshaping our approach to crime prevention and law enforcement.
 
 ## Episode Highlights

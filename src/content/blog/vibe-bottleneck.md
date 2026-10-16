@@ -48,4 +48,4 @@ Coding agents have become remarkably good at understanding individual repositori
 
 The coordination problem is not. Every context breakout that exists today is push-based: you write it down, publish it, hope it's still accurate when someone needs it. What's missing is a pull-based context breakout, where an agent can ask a question when it needs an answer and get a response from the actual source of truth—not from documentation you wrote last week, but from another agent that's currently looking at the code.
 
-In [Part 2](/blog/repowire), I'll introduce something I've been building to address exactly that.
+In [Part 2](/blog/repowire/), I'll introduce something I've been building to address exactly that.

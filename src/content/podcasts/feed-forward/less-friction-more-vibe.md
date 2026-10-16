@@ -12,8 +12,6 @@ externalLinks:
 tags: ["AI", "software engineering", "developer tools", "technical debt", "automation", "refactoring", "productivity", "coding culture"]
 ---
 
-# Less Friction, More Vibe ✨
-
 In this episode, we explore how AI is transforming the landscape of software engineering and what it means for developers at all levels.
 
 ## Episode Highlights
