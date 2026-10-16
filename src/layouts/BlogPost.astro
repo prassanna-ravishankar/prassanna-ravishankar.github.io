@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content';
 import ArticleHeader from '../components/ArticleHeader.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import { getQualifyingTopics } from '../utils/topics';
+import { heroInfo, heroSrcset } from '../utils/hero-variants.mjs';
 
 type Props = {
   entry: CollectionEntry<'blog'>;
@@ -21,6 +22,8 @@ const qualifyingTopics = await getQualifyingTopics();
 const components = { Image };
 
 const canonicalURL = `https://prassanna.io/blog/${entry.slug}/`;
+
+const hero = heroImage && (await heroInfo(heroImage));
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -45,9 +48,9 @@ const breadcrumbSchema = {
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <article class="pr-article">
-    {heroImage && (
+    {hero && (
       <figure class="pr-hero">
-        <Image src={heroImage} alt={title} width={1200} height={630} loading="eager" fetchpriority="high" />
+        <img src={heroImage} srcset={heroSrcset(heroImage, hero)} sizes="(max-width: 760px) calc(100vw - 2rem), 36rem" alt={title} width={hero.width} height={hero.height} loading="eager" fetchpriority="high" decoding="async" />
       </figure>
     )}
 

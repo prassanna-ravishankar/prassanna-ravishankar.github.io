@@ -39,6 +39,23 @@ function projectSitemaps() {
   };
 }
 
+// Content page URL -> updatedDate, else pubDate, read from frontmatter for sitemap lastmod
+function contentDates() {
+  const dates = new Map();
+  for (const collection of ['blog', 'podcasts', 'projects', 'verses']) {
+    const dir = path.join('src/content', collection);
+    for (const file of fs.readdirSync(dir, { recursive: true })) {
+      if (!/\.mdx?$/.test(file)) continue;
+      const frontmatter = fs.readFileSync(path.join(dir, file), 'utf-8').split(/^---$/m)[1] ?? '';
+      const date = (key) => frontmatter.match(new RegExp(`^${key}:\\s*["']?([\\d-]+)`, 'm'))?.[1];
+      const lastmod = date('updatedDate') ?? date('pubDate');
+      if (lastmod) dates.set(`https://prassanna.io/${collection}/${path.basename(file).replace(/\.mdx?$/, '')}/`, lastmod);
+    }
+  }
+  return dates;
+}
+const lastmods = contentDates();
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://prassanna.io',
@@ -176,13 +193,9 @@ export default defineConfig({
         changefreq = 'weekly';
       }
 
-      return {
-        ...item,
-        changefreq,
-        priority,
-        // Add lastmod as current date (in production, you'd use actual file modification dates)
-        lastmod: new Date().toISOString(),
-      };
+      // Only content pages carry a real date; everything else gets no lastmod
+      const lastmod = lastmods.get(item.url);
+      return { ...item, changefreq, priority, ...(lastmod && { lastmod: new Date(lastmod).toISOString() }) };
     }
   }), partytown({
     config: {
