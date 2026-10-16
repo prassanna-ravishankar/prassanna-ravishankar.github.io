@@ -1,9 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import { validSeries } from '../../content/config';
-import { getQualifyingTopics } from '../../utils/topics';
 
 // Handle query parameters - redirect to clean URL if present
 if (Astro.url.search) {
@@ -33,7 +31,6 @@ const sortedSeries = Object.entries(seriesCounts)
   .filter(([, count]) => count > 0)
   .sort(([, countA], [, countB]) => countB - countA);
 
-const qualifyingTopics = await getQualifyingTopics();
 
 // Get latest posts for description
 const latestPosts = sortedPosts.slice(0, 3);
@@ -80,113 +77,43 @@ const structuredData = {
   description={blogDescription}
   structuredData={structuredData}
 >
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8 text-center text-main">Blog</h1>
-
-    <p class="text-lg mb-8 text-center text-muted max-w-3xl mx-auto">
-      Technical insights on machine learning, MLOps, AI engineering, and software development.
-      Sharing practical experiences and deep dives into the latest trends in tech.
-    </p>
-
-    <!-- Series Cloud -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4 text-center text-main/90">Browse by Series</h2>
-      <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+  <div class="site-frame">
+    <section class="wide mt-16 max-md:mt-12" aria-label="writing">
+      <div class="section-head">
+        <h1 class="section-title">writing</h1>
+        <span class="meta">{posts.length} essays</span>
+      </div>
+      <ul class="flex flex-wrap gap-2 list-none m-0 p-0 py-4 border-b border-border" aria-label="Series">
         {sortedSeries.map(([series, count]) => (
-          <a
-            href={`/tags/${encodeURIComponent(series)}/`}
-            class="px-4 py-2 bg-surface border border-accent/30 text-accent rounded-full text-sm font-medium hover:bg-accent/10 hover:text-accent transition-colors"
-          >
-            {series}
-            <span class="ml-1 opacity-70 text-muted">({count})</span>
-          </a>
+          <li>
+            <a href={`/tags/${encodeURIComponent(series)}/`} class="tag">{series}<span class="ml-1.5 opacity-70">{count}</span></a>
+          </li>
         ))}
-      </div>
-    </section>
-
-    <!-- Blog Posts Grid -->
-    <section class="max-w-6xl mx-auto">
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      </ul>
+      <ol class="list-none m-0 p-0">
         {sortedPosts.map((post) => (
-          <article class="bg-surface rounded-sm border border-accent/20 hover:border-accent/50 hover:shadow-[0_0_15px_rgba(217,128,52,0.1)] transition-all duration-300 group">
-            {post.data.heroImage && (
-              <Image
-                src={post.data.heroImage}
-                alt={post.data.title}
-                width={400}
-                height={192}
-                class="w-full h-48 object-cover rounded-t-lg"
-                loading="lazy"
-              />
-            )}
-            <div class="p-6">
-              <header class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">
-                  <a
-                    href={`/blog/${post.slug}/`}
-                    class="text-main font-serif hover:text-accent transition-colors"
-                  >
-                    {post.data.title}
-                  </a>
-                </h2>
-                <time
-                  datetime={post.data.pubDate.toISOString()}
-                  class="text-sm text-muted font-mono"
-                >
-                  {post.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-              </header>
-
-              <p class="text-muted mb-4 line-clamp-3">
-                {post.data.description}
-              </p>
-
-              {/* Series tags (clickable) */}
-              {post.data.series && post.data.series.length > 0 && (
-                <div class="flex flex-wrap gap-1.5 mb-2">
-                  {post.data.series.map(series => (
-                    <a
-                      href={`/tags/${encodeURIComponent(series)}/`}
-                      class="px-2 py-0.5 bg-subtle/5 border border-accent/30 text-accent text-xs rounded hover:bg-subtle/10 transition-colors"
-                    >
-                      {series}
-                    </a>
-                  ))}
-                </div>
-              )}
-
-              {/* Topic tags (clickable if qualifying, else display only) */}
-              {post.data.topics && post.data.topics.length > 0 && (
-                <div class="flex flex-wrap gap-1 mb-4">
-                  {post.data.topics.slice(0, 3).map(topic =>
-                    qualifyingTopics.has(topic) ? (
-                      <a href={`/topics/${encodeURIComponent(topic)}/`}
-                         class="px-2 py-0.5 bg-black/20 border border-subtle/10 text-muted text-xs rounded hover:bg-teal-100 dark:hover:bg-teal-900 transition-colors">
-                        {topic}
-                      </a>
-                    ) : (
-                      <span class="px-2 py-0.5 bg-black/20 border border-subtle/10 text-muted text-xs rounded">
-                        {topic}
-                      </span>
-                    )
-                  )}
-                </div>
-              )}
-
-              <a
-                href={`/blog/${post.slug}/`}
-                class="text-accent hover:text-accent/80 font-medium text-sm hover:underline decoration-accent underline-offset-4"
-              >
-                Read more →
-              </a>
+          <li class="margin-frame py-6 border-b border-border">
+            <div class="pt-1 max-md:pt-0">
+              <ul class="meta meta-list">
+                <li><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time></li>
+                {post.data.series?.[0] && <li>{post.data.series[0]}</li>}
+              </ul>
             </div>
-          </article>
+            <div>
+              <h2 class="post-row-title"><a href={`/blog/${post.slug}/`}>{post.data.title}</a></h2>
+              <p class="post-row-summary">{post.data.subtitle ?? post.data.description}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
-  </main>
+  </div>
 </Layout>
+<style>
+  .tag { display: inline-flex; font-family: theme('fontFamily.mono'); font-size: 13px; line-height: 20px; padding: 1px 8px; border-radius: 2px; background: rgb(var(--color-indigo-soft)); color: rgb(var(--color-primary)); text-decoration: none; white-space: nowrap; }
+  .tag:hover { background: rgb(var(--color-primary)); color: rgb(var(--color-on-primary)); }
+  .post-row-title { font-size: 21px; line-height: 30px; font-weight: 560; margin: 0; font-variation-settings: 'opsz' 24; }
+  .post-row-title a { color: rgb(var(--color-text-main)); text-decoration: none; }
+  .post-row-title a:hover { color: rgb(var(--color-primary)); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .post-row-summary { font-size: 16px; line-height: 25px; color: rgb(var(--color-text-muted)); margin: 0.25rem 0 0; }
+</style>

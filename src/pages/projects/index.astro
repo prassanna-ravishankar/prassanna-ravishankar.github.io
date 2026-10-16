@@ -1,22 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProjectGridWrapper from '../../components/ProjectGridWrapper.astro';
+import ProjectTable from '../../components/log/ProjectTable.astro';
+import { getProjectRows } from '../../lib/worklog';
 
+const rows = await getProjectRows();
 ---
 
-<Layout title="Projects | Prassanna Ravishankar" description="Showcase of machine learning projects, open source tools, and experiments.">
-  <div class="container mx-auto py-20 px-4">
-    <!-- Header -->
-    <div class="max-w-3xl mx-auto text-center mb-16 space-y-4">
-      <h1 class="text-4xl md:text-5xl font-display font-bold text-main">
-        Projects & Experiments
-      </h1>
-      <p class="text-xl text-muted font-light leading-relaxed">
-        A collection of open-source tools, ML infrastructure, and agentic protocols.
-      </p>
+<Layout title="Projects | Prassanna Ravishankar" description="Open-source tools for agent infrastructure and ML systems, with what each does, its language and when it was last worked on.">
+  <div class="site-frame">
+    <div class="mt-16 max-md:mt-12">
+      <ProjectTable projects={rows} count={`${rows.length} projects`} />
     </div>
-
-    <!-- Interactive Grid -->
-    <ProjectGridWrapper />
   </div>
 </Layout>

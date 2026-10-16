@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "snapshot:github": "node scripts/snapshot-github.mjs"
   },
   "dependencies": {
     "@4hse/astro-llms-txt": "^1.0.4",

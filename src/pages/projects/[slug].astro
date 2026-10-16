@@ -1,7 +1,8 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { Image } from 'astro:assets';
+import Button from '../../components/ui/Button.astro';
+import { getRepos, isRecent, repoNameFromUrl } from '../../lib/github';
 
 // Generate static paths for all projects
 export async function getStaticPaths() {
@@ -14,100 +15,68 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+
+const repoName = repoNameFromUrl(project.data.github);
+const { repos } = await getRepos();
+const repo = repoName ? repos.find((r) => r.name.toLowerCase() === repoName.toLowerCase()) : undefined;
+const LANGS: Record<string, string> = { python: 'Python', javascript: 'JavaScript', typescript: 'TypeScript', go: 'Go', rust: 'Rust', 'c++': 'C++' };
+const language = repo?.language ?? project.data.tags.map((t) => LANGS[t.toLowerCase()]).find(Boolean) ?? null;
+// Built things are named as published: the repo name when it is the same thing as the title.
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const name = repoName && (slug(repoName).startsWith(slug(project.data.title)) || slug(project.data.title).startsWith(slug(repoName))) ? repoName : project.data.title;
 ---
 
 <Layout title={`${project.data.title} | Projects | Prassanna Ravishankar`} description={project.data.description}>
-  <div class="container mx-auto py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-8">
-        <a href="/projects" class="text-primary hover:text-primary-hover hover:underline inline-flex items-center transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          Back to Projects
-        </a>
+  <article class="site-frame">
+    <header class="margin-frame mt-16 max-md:mt-12">
+      <div class="pt-2 max-md:pt-0">
+        <ul class="meta meta-list">
+          <li><a href="/projects/">project</a></li>
+          {language && <li>{language}</li>}
+          <li>since {project.data.pubDate.getFullYear()}</li>
+          {repo && (
+            <li class="inline-flex items-center gap-2">
+              {isRecent(repo.pushedAt)
+                ? <span class="dot dot-recent" role="img" aria-label="Active in the last 30 days" title="Active in the last 30 days"></span>
+                : null}
+              pushed {repo.pushedAt}
+            </li>
+          )}
+        </ul>
       </div>
-      
-      <article class="bg-surface rounded-2xl shadow-xl overflow-hidden border border-subtle/5">
-        {project.data.image && (
-          <div class="w-full aspect-video relative group">
-            <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
-            <img
-              src={project.data.image}
-              alt={`${project.data.title} - ${project.data.description}`}
-              class="w-full h-full object-cover"
-            />
+      <div>
+        <h1 class="project-title">{name}</h1>
+        <p class="post-lead">{project.data.description}</p>
+        {(project.data.link || project.data.github) && (
+          <div class="mt-6 flex flex-wrap gap-3">
+            {project.data.link && <Button href={project.data.link} rel="noopener">Open {name}</Button>}
+            {project.data.github && <Button href={project.data.github} variant="secondary" rel="noopener">View on GitHub</Button>}
           </div>
         )}
-        
-        <div class="p-8">
-          <header class="mb-8">
-            <h1 class="text-3xl font-bold mb-4 text-main">{project.data.title}</h1>
-            
-            <div class="flex flex-wrap items-center gap-4 mb-4">
-              <div class="text-muted font-mono text-sm">
-                {new Date(project.data.pubDate).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </div>
-              
-              {project.data.featured && (
-                <span class="bg-primary/10 border border-primary/20 text-primary text-xs font-medium px-2 py-0.5 rounded">
-                  Featured
-                </span>
-              )}
-            </div>
-            
-            {project.data.tags && project.data.tags.length > 0 && (
-              <div class="flex flex-wrap gap-2">
-                {project.data.tags.map(tag => (
-                  <span class="bg-subtle/5 border border-subtle/10 text-main/80 px-2 py-1 rounded text-xs">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-          </header>
-          
-          {(project.data.link || project.data.github) && (
-            <div class="mb-8 flex flex-wrap gap-4">
-              {project.data.github && (
-                <a 
-                  href={project.data.github}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="bg-subtle/5 hover:bg-subtle/10 text-white px-4 py-2 rounded-md transition-colors inline-flex items-center border border-subtle/10"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                  </svg>
-                  View on GitHub
-                </a>
-              )}
-              
-              {project.data.link && (
-                <a 
-                  href={project.data.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-md transition-colors inline-flex items-center shadow-lg shadow-primary/20"
-                >
-                  <span>View Project</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              )}
-            </div>
-          )}
-          
-          <div class="prose dark:prose-invert max-w-none prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:text-main">
-            <Content />
-          </div>
-        </div>
-      </article>
+      </div>
+    </header>
+
+    {project.data.image && (
+      <div class="margin-frame mt-10">
+        <div aria-hidden="true"></div>
+        <img src={project.data.image} alt="" class="w-full h-auto rounded bg-surface" />
+      </div>
+    )}
+
+    <div class="margin-frame mt-10">
+      <div aria-hidden="true"></div>
+      <div class="prose post-prose dark:prose-invert max-w-none">
+        <Content />
+      </div>
     </div>
-  </div>
+
+    <div class="margin-frame">
+      <div aria-hidden="true"></div>
+      <p class="mt-16 pt-4 border-t border-border m-0"><a href="/projects/" class="text-link">All projects</a></p>
+    </div>
+  </article>
 </Layout>
+<style>
+  .project-title { font-family: theme('fontFamily.mono'); font-size: 36px; line-height: 44px; font-weight: 500; letter-spacing: -0.02em; margin: 0; overflow-wrap: anywhere; }
+  @media (max-width: 760px) { .project-title { font-size: 28px; line-height: 36px; } }
+</style>

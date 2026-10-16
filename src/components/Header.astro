@@ -1,98 +1,55 @@
 ---
 import ThemeToggle from '../components/ThemeToggle.astro';
 
-// Navigation links
+// Lowercase mono labels read as identifiers, like the wordmark. URLs are unchanged.
 const navItems = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
-  { name: 'Verses', url: '/verses/' },
-  { name: 'Podcasts', url: '/podcasts/' },
-  { name: 'Projects', url: '/projects/' },
-  { name: 'About', url: '/about/' },
+  { name: 'log', url: '/' },
+  { name: 'projects', url: '/projects/' },
+  { name: 'writing', url: '/blog/' },
+  { name: 'verse', url: '/verses/' },
+  { name: 'podcast', url: '/podcasts/' },
+  { name: 'about', url: '/about/' },
 ];
 
-// Get current path for highlighting active link
 const currentPath = Astro.url.pathname;
+const isActive = (url: string) =>
+  url === '/' ? currentPath === '/' : currentPath === url || currentPath.startsWith(url);
 ---
 
-<header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto">
-  <nav class="bg-surface/80 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-accent/30">
-    <div class="flex items-center justify-between gap-8">
-      <a href="/" class="text-lg font-semibold font-serif whitespace-nowrap text-main hover:text-accent transition-colors">Prassanna Ravishankar</a>
-
-      <!-- Mobile Controls (Theme + Menu) -->
-      <div class="md:hidden flex items-center gap-2 -mr-2">
-        <ThemeToggle />
-        <button id="menu-toggle" class="p-2 rounded-full hover:bg-subtle/10 text-main transition-colors" aria-label="Toggle menu">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Desktop navigation -->
-      <div class="hidden md:flex items-center gap-1">
-        {navItems.map(item => {
-          const isActive = currentPath === item.url || (item.url !== '/' && currentPath.startsWith(item.url));
-          return (
+<header class="site-frame pt-6 md:pt-8">
+  <nav class="wide flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3 border-b border-border pb-3" aria-label="Site">
+    <a href="/" class="font-mono text-[18px] leading-6 font-medium tracking-[-0.01em] text-main no-underline">prassanna.io</a>
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <ul class="flex flex-wrap gap-x-3 gap-y-1 list-none m-0 p-0">
+        {navItems.map(item => (
+          <li>
             <a
               href={item.url}
-              class={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                isActive
-                  ? 'text-accent bg-subtle/5 border border-accent/20'
-                  : 'text-muted hover:text-accent hover:bg-subtle/5'
-              }`}
-            >
-              {item.name}
-            </a>
-          );
-        })}
-        <div class="pl-2 border-l border-subtle/10 ml-2">
-          <ThemeToggle />
-        </div>
-      </div>
+              aria-current={isActive(item.url) ? 'page' : undefined}
+              class:list={[
+                'font-mono text-[14px] leading-5 font-medium no-underline px-1 py-0.5 rounded-sm',
+                isActive(item.url) ? 'text-main bg-marigold-soft' : 'text-muted hover:text-main',
+              ]}
+            >{item.name}</a>
+          </li>
+        ))}
+      </ul>
+      <span class="flex items-center gap-1 md:pl-2 md:border-l md:border-border">
+        <button
+          type="button"
+          class="open-command-menu hidden md:inline font-mono text-[13px] leading-5 text-muted hover:text-main px-1"
+          aria-label="Search the site"
+        >⌘K</button>
+        <ThemeToggle />
+      </span>
     </div>
   </nav>
-
-  <!-- Mobile navigation dropdown -->
-  <div id="mobile-menu" class="md:hidden hidden mt-2">
-    <div class="bg-surface/95 backdrop-blur-md rounded-2xl px-4 py-3 shadow-lg border border-accent/30">
-      <div class="flex flex-col gap-1">
-        {navItems.map(item => {
-          const isActive = currentPath === item.url || (item.url !== '/' && currentPath.startsWith(item.url));
-          return (
-            <a
-              href={item.url}
-              class={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                isActive
-                  ? 'text-accent bg-subtle/5 border border-accent/20'
-                  : 'text-muted hover:text-accent hover:bg-subtle/5'
-              }`}
-            >
-              {item.name}
-            </a>
-          );
-        })}
-      </div>
-    </div>
-  </div>
 </header>
 
 <script>
-  // Mobile menu toggle
-  // Wrap in astro:page-load for View Transitions compatibility
   document.addEventListener('astro:page-load', () => {
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    if (menuToggle && mobileMenu) {
-      // Clean up potential old listeners if any (though unlikely with fresh DOM)
-      const newToggle = menuToggle.cloneNode(true);
-      menuToggle.parentNode.replaceChild(newToggle, menuToggle);
-      
-      newToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    }
+    document.querySelectorAll('.open-command-menu').forEach((btn) => {
+      btn.addEventListener('click', () => window.dispatchEvent(new CustomEvent('open-command-menu')));
+    });
   });
 </script>

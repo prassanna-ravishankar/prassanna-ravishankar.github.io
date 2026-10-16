@@ -4,6 +4,9 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  # Rebuild daily so the work log's GitHub activity stays current.
+  schedule:
+    - cron: "17 5 * * *"
 
 permissions:
   contents: read
@@ -29,6 +32,9 @@ jobs:
         run: npm ci
       - name: Build with Astro
         run: npm run build
+        env:
+          # Authenticates the build-time GitHub API call for the work log (read-only, public repos).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

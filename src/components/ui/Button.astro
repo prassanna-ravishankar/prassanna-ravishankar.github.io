@@ -19,18 +19,18 @@ const {
 
 const Element = href ? "a" : "button";
 
-const baseStyles = "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-full";
+const baseStyles = "inline-flex items-center justify-center gap-2 font-mono font-medium rounded no-underline transition-colors";
 
 const variants = {
-  primary: "bg-primary hover:bg-primary-hover text-white shadow-lg shadow-primary/20 hover:scale-105",
-  secondary: "bg-surface text-main/90 border border-subtle/10 hover:bg-subtle/5 hover:border-primary/30",
-  ghost: "bg-transparent text-muted hover:text-main hover:bg-subtle/5"
+  primary: "bg-primary text-on-primary border border-primary hover:bg-primary-hover",
+  secondary: "bg-transparent text-main border border-rule-strong hover:bg-surface",
+  ghost: "bg-transparent text-primary border border-transparent hover:underline underline-offset-[3px]"
 };
 
 const sizes = {
-  sm: "px-4 py-2 text-sm",
-  md: "px-6 py-3 text-base",
-  lg: "px-8 py-4 text-lg"
+  sm: "h-8 px-3 text-[13px]",
+  md: "h-9 px-3 text-[14px]",
+  lg: "h-11 px-4 text-[15px]"
 };
 ---
 

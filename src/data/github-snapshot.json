@@ -1,0 +1,303 @@
+{
+  "_note": "Fallback used when the GitHub API is unreachable at build time (e.g. local builds without GITHUB_TOKEN). CI fetches live data. Refresh with: npm run snapshot:github",
+  "generated_at": "2026-10-16T08:45:00Z",
+  "repos": [
+    {
+      "name": "a2a-registry",
+      "html_url": "https://github.com/prassanna-ravishankar/a2a-registry",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2026-10-16T00:18:45Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "repowire",
+      "html_url": "https://github.com/prassanna-ravishankar/repowire",
+      "description": "Let your coding agents talk to each other.",
+      "language": "Go",
+      "pushed_at": "2026-10-15T08:07:03Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "grove",
+      "html_url": "https://github.com/prassanna-ravishankar/grove",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-10-14T12:10:28Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "common-obligations",
+      "html_url": "https://github.com/prassanna-ravishankar/common-obligations",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-10-09T00:27:40Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "homebrew-repowire",
+      "html_url": "https://github.com/prassanna-ravishankar/homebrew-repowire",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-10-08T08:51:21Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "clusterkit",
+      "html_url": "https://github.com/prassanna-ravishankar/clusterkit",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-09-08T20:55:00Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "agent-dj",
+      "html_url": "https://github.com/prassanna-ravishankar/agent-dj",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-09-05T18:03:27Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "webwhen",
+      "html_url": "https://github.com/prassanna-ravishankar/webwhen",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-09-05T03:29:53Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "agent-status-codes",
+      "html_url": "https://github.com/prassanna-ravishankar/agent-status-codes",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-08-31T19:52:23Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "pulse",
+      "html_url": "https://github.com/prassanna-ravishankar/pulse",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-06-17T23:43:47Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "agentdance",
+      "html_url": "https://github.com/prassanna-ravishankar/agentdance",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-06-17T23:33:17Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "clearml-mcp",
+      "html_url": "https://github.com/prassanna-ravishankar/clearml-mcp",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2026-06-16T20:10:01Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "fastharness",
+      "html_url": "https://github.com/prassanna-ravishankar/fastharness",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2026-03-27T16:37:05Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "nudge",
+      "html_url": "https://github.com/prassanna-ravishankar/nudge",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-03-24T22:19:41Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "phlow",
+      "html_url": "https://github.com/prassanna-ravishankar/phlow",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2026-03-23T19:00:56Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "modalkit",
+      "html_url": "https://github.com/prassanna-ravishankar/modalkit",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2026-03-16T13:34:03Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "dotclaude",
+      "html_url": "https://github.com/prassanna-ravishankar/dotclaude",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-03-14T01:23:15Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "reorient",
+      "html_url": "https://github.com/prassanna-ravishankar/reorient",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-02-24T15:43:33Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "aggy",
+      "html_url": "https://github.com/prassanna-ravishankar/aggy",
+      "description": null,
+      "language": null,
+      "pushed_at": "2026-02-06T22:37:19Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "tracelet",
+      "html_url": "https://github.com/prassanna-ravishankar/tracelet",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2026-01-30T13:13:03Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "cloudregion",
+      "html_url": "https://github.com/prassanna-ravishankar/cloudregion",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2026-01-30T13:08:22Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "coding-a2a",
+      "html_url": "https://github.com/prassanna-ravishankar/coding-a2a",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-12-08T17:42:23Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "vibeml",
+      "html_url": "https://github.com/prassanna-ravishankar/vibeml",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-11-24T12:05:27Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "narrative-engine",
+      "html_url": "https://github.com/prassanna-ravishankar/narrative-engine",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-11-19T09:53:40Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "code-diffusion",
+      "html_url": "https://github.com/prassanna-ravishankar/code-diffusion",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-11-12T13:42:53Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "terraform-personal",
+      "html_url": "https://github.com/prassanna-ravishankar/terraform-personal",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-10-27T07:49:02Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "cc-search",
+      "html_url": "https://github.com/prassanna-ravishankar/cc-search",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-10-13T14:32:20Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "a2a-agent-bootstrapping",
+      "html_url": "https://github.com/prassanna-ravishankar/a2a-agent-bootstrapping",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-10-03T22:30:21Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "doctether",
+      "html_url": "https://github.com/prassanna-ravishankar/doctether",
+      "description": null,
+      "language": null,
+      "pushed_at": "2025-09-10T16:12:45Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "cookiecutter-modern-ml",
+      "html_url": "https://github.com/prassanna-ravishankar/cookiecutter-modern-ml",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2025-07-28T20:45:57Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "Slither",
+      "html_url": "https://github.com/prassanna-ravishankar/Slither",
+      "description": null,
+      "language": "C++",
+      "pushed_at": "2025-07-12T15:36:34Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "torchwebio",
+      "html_url": "https://github.com/prassanna-ravishankar/torchwebio",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2022-09-28T13:04:43Z",
+      "fork": false,
+      "archived": false
+    },
+    {
+      "name": "python-productivity-stack",
+      "html_url": "https://github.com/prassanna-ravishankar/python-productivity-stack",
+      "description": null,
+      "language": "Python",
+      "pushed_at": "2022-07-23T19:51:37Z",
+      "fork": false,
+      "archived": false
+    }
+  ]
+}

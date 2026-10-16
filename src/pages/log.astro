@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LogList from '../components/log/LogList.astro';
+import { getLogEntries } from '../lib/worklog';
+
+const entries = await getLogEntries();
+---
+
+<Layout
+  title="Log | Prassanna Ravishankar"
+  description="Everything made, in one dated list: open-source pushes, essays, verse and podcast episodes."
+>
+  <div class="site-frame">
+    <div class="mt-16 max-md:mt-12">
+      <LogList entries={entries} limit={1000} title="full log" />
+    </div>
+  </div>
+</Layout>

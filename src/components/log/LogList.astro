@@ -1,0 +1,124 @@
+---
+/**
+ * The work log: everything made, in one dated list.
+ * Built things (pushes, releases) are named in mono; written things (essays, poems, episodes) in serif.
+ * A marigold dot marks built entries from the last 30 days, computed from the date.
+ */
+import { isRecent } from '../../lib/github';
+import type { LogEntry, LogKind } from '../../lib/worklog-types';
+
+interface Props {
+  entries: LogEntry[];
+  title?: string;
+  limit?: number;
+  filters?: boolean;
+  moreHref?: string;
+  moreLabel?: string;
+}
+
+const { entries, title = 'log', limit = 12, filters = true, moreHref, moreLabel = 'Full log' } = Astro.props;
+
+const BUILT: LogKind[] = ['pushed', 'release', 'project'];
+const groupOf = (k: LogKind) => (BUILT.includes(k) ? 'built' : k);
+const sorted = [...entries].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+const today = new Date();
+
+const FILTERS = [
+  { id: 'all', label: 'all' },
+  { id: 'built', label: 'built' },
+  { id: 'essay', label: 'essays' },
+  { id: 'poem', label: 'verse' },
+  { id: 'episode', label: 'podcast' },
+].filter((f) => f.id === 'all' || sorted.some((e) => groupOf(e.kind) === f.id));
+---
+
+<section class="work-log wide" aria-label={title} data-limit={limit}>
+  <div class="section-head">
+    <h2 class="section-title">{title}</h2>
+    {filters && FILTERS.length > 2 && (
+      <div class="flex flex-wrap gap-1" role="group" aria-label="Filter the log">
+        {FILTERS.map((f) => (
+          <button
+            type="button"
+            class="log-filter font-mono text-[13px] leading-5 font-medium px-2 rounded-sm text-muted hover:text-main aria-pressed:text-main aria-pressed:bg-marigold-soft"
+            data-filter={f.id}
+            aria-pressed={f.id === 'all' ? 'true' : 'false'}
+          >{f.label}</button>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <ol class="list-none m-0 p-0">
+    {sorted.map((e, i) => {
+      const built = groupOf(e.kind) === 'built';
+      const recent = built && isRecent(e.date, today);
+      return (
+        <li class="log-row" data-group={groupOf(e.kind)} hidden={i >= limit ? true : undefined}>
+          <span class="log-date meta">
+            {recent
+              ? <span class="dot dot-recent" role="img" aria-label="Active in the last 30 days" title="Active in the last 30 days"></span>
+              : <span class="dot" aria-hidden="true"></span>}
+            <time datetime={e.date}>{e.date}</time>
+          </span>
+          <span class="log-kind meta">{e.kind}</span>
+          <a
+            class:list={['log-title', built ? 'log-title-built' : 'log-title-written']}
+            href={e.href}
+            rel={e.external ? 'noopener' : undefined}
+          >{e.title}</a>
+          {e.detail && <span class="log-detail">{e.detail}</span>}
+        </li>
+      );
+    })}
+  </ol>
+  <p class="log-empty meta py-6 m-0" hidden>Nothing here yet.</p>
+  {moreHref && <p class="mt-4 mb-0"><a class="text-link" href={moreHref}>{moreLabel}</a></p>}
+</section>
+
+<style>
+  .log-row {
+    display: grid;
+    grid-template-columns: 8.5rem 5.5rem minmax(0, 1fr) minmax(0, 19rem);
+    column-gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgb(var(--color-border));
+  }
+  .log-row[hidden] { display: none; }
+  .log-date { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .log-title { color: rgb(var(--color-text-main)); text-decoration: none; }
+  .log-title:hover { color: rgb(var(--color-primary)); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .log-title-built { font-family: theme('fontFamily.mono'); font-size: 16px; line-height: 24px; font-weight: 500; }
+  .log-title-written { font-size: 18px; line-height: 24px; font-weight: 450; }
+  .log-detail { font-size: 16px; line-height: 24px; color: rgb(var(--color-text-muted)); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 760px) {
+    .log-row { grid-template-columns: auto minmax(0, 1fr); row-gap: 0.25rem; }
+    .log-title, .log-detail { grid-column: 1 / -1; }
+    .log-detail { text-align: left; white-space: normal; }
+  }
+</style>
+
+<script>
+  function setup() {
+    document.querySelectorAll<HTMLElement>('.work-log').forEach((log) => {
+      const limit = Number(log.dataset.limit || 12);
+      const rows = Array.from(log.querySelectorAll<HTMLElement>('.log-row'));
+      const buttons = Array.from(log.querySelectorAll<HTMLButtonElement>('.log-filter'));
+      const empty = log.querySelector<HTMLElement>('.log-empty');
+      const apply = (filter: string) => {
+        let shown = 0;
+        rows.forEach((row) => {
+          const match = filter === 'all' || row.dataset.group === filter;
+          const show = match && shown < limit;
+          row.hidden = !show;
+          if (show) shown++;
+        });
+        if (empty) empty.hidden = shown > 0;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === filter)));
+      };
+      buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter || 'all')));
+    });
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>

@@ -42,18 +42,32 @@ Valid series for blog posts: `Machine Learning`, `MLOps`, `AI Agents`, `Python`,
 ComponentName.tsx        → React component with client-side logic
 ComponentNameWrapper.astro → Astro wrapper that fetches data and passes to React
 ```
-Examples: `ProjectGrid`, `TechTimeline`, `TechStack`, `ProtocolGrid`, `CommandMenu`
+Example: `CommandMenu`
 
 Hydration directives:
 - `client:load` for immediately needed interactivity
-- `client:visible` for below-fold animations (FadeIn, StaggerContainer)
+- `client:visible` for below-fold components
+
+### Design system ("work log")
+
+- Two voices: **IBM Plex Mono** (`font-mono`) for structure and things built (nav, section heads, project/repo names, dates); **Newsreader** (`font-serif`, also mapped to `sans`/`display`) for reading. Fonts are self-hosted in `public/fonts/`.
+- One accent, `primary` (indigo), for anything actionable. `marigold` marks what is recent or current (the 30-day activity dot, the active nav item, `marigold-soft` highlights). Never use marigold as text on paper.
+- Layout helpers in `global.css`: `.site-frame` (page gutter), `.wide` (64rem, data), `.margin-frame` (10rem facts column + 36rem text column), `.meta`, `.section-head`/`.section-title`, `.text-link`, `.dot-recent`, `.post-title`/`.post-lead`/`.post-prose`.
+- No cards, shadows, gradients, glows or entrance animations.
+
+### Work log data (`src/lib/`)
+
+- `github.ts` fetches public repo activity at build time (`GITHUB_TOKEN` is passed in CI). If the API is unreachable it falls back to `src/data/github-snapshot.json`; refresh that with `npm run snapshot:github`.
+- `worklog.ts` merges pushes, essays, poems and episodes into log entries (home page and `/log/`) and joins the projects collection with GitHub for `ProjectTable` (`/projects/`).
+- The deploy workflow also runs daily so the log stays current.
 
 ### Theming System (`src/styles/global.css` + `tailwind.config.js`)
 
 CSS variables define semantic colors:
 ```css
---color-background, --color-surface, --color-primary, --color-accent,
---color-text-main, --color-text-muted, --color-border, --color-subtle
+--color-background, --color-surface, --color-raised, --color-primary, --color-accent (= primary),
+--color-marigold, --color-marigold-soft, --color-indigo-soft, --color-text-main, --color-text-muted,
+--color-border, --color-rule-strong, --color-subtle
 ```
 
 Tailwind maps these: `bg-background`, `text-main`, `text-muted`, `border-subtle`, etc.

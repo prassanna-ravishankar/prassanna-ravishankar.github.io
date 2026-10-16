@@ -1,0 +1,31 @@
+---
+/** Writing rows on the margin frame: date and series in the margin, title and summary beside them. */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { posts: CollectionEntry<'blog'>[] }
+const { posts } = Astro.props;
+---
+
+<ol class="list-none m-0 p-0">
+  {posts.map((post) => (
+    <li class="margin-frame py-6 border-b border-border">
+      <div class="pt-1 max-md:pt-0">
+        <ul class="meta meta-list">
+          <li><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time></li>
+          {post.data.series?.[0] && <li>{post.data.series[0]}</li>}
+        </ul>
+      </div>
+      <div>
+        <h2 class="row-title"><a href={`/blog/${post.slug}/`}>{post.data.title}</a></h2>
+        <p class="row-summary">{post.data.subtitle ?? post.data.description}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .row-title { font-size: 21px; line-height: 30px; font-weight: 560; margin: 0; font-variation-settings: 'opsz' 24; }
+  .row-title a { color: rgb(var(--color-text-main)); text-decoration: none; }
+  .row-title a:hover { color: rgb(var(--color-primary)); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .row-summary { font-size: 16px; line-height: 25px; color: rgb(var(--color-text-muted)); margin: 0.25rem 0 0; }
+</style>

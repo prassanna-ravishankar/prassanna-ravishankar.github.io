@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import Badge from '../../components/ui/Badge.astro';
 
 export async function getStaticPaths() {
   const verses = await getCollection('verses');
@@ -19,65 +18,47 @@ const { Content } = await verse.render();
   title={`${verse.data.title} | Verses | Prassanna Ravishankar`}
   description={verse.data.description}
 >
-  <article class="container mx-auto py-12 px-4">
-    <div class="max-w-3xl mx-auto">
-      <header class="mb-12 text-center">
-        <h1 class="text-4xl md:text-5xl font-display font-bold mb-6 text-main">{verse.data.title}</h1>
-        {verse.data.description && (
-          <p class="text-xl text-muted mb-6 font-light italic">
-            {verse.data.description}
-          </p>
-        )}
-        
-        <div class="flex flex-wrap justify-center gap-2 mb-6">
-          {verse.data.tags?.map(tag => (
-            <Badge variant="outline">#{tag}</Badge>
-          ))}
-        </div>
-        
-        <div class="text-sm text-muted font-mono uppercase tracking-widest">
-          {new Date(verse.data.pubDate).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </div>
-      </header>
+  <article class="site-frame">
+    <header class="margin-frame mt-16 max-md:mt-12">
+      <div class="pt-2 max-md:pt-0">
+        <ul class="meta meta-list">
+          <li><a href="/verses/">poem</a></li>
+          <li><time datetime={verse.data.pubDate.toISOString()}>{verse.data.pubDate.toISOString().slice(0, 10)}</time></li>
+        </ul>
+      </div>
+      <div>
+        <h1 class="verse-title">{verse.data.title}</h1>
+        {verse.data.description && <p class="verse-lead">{verse.data.description}</p>}
+      </div>
+    </header>
 
-      {verse.data.image && (
-        <div class="mb-12 rounded-2xl overflow-hidden shadow-2xl border border-subtle/5 relative group">
-          <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
-          <img 
-            src={verse.data.image} 
-            alt={verse.data.title}
-            class="w-full h-auto  transition-all duration-700"
-          />
-        </div>
-      )}
+    {verse.data.image && (
+      <div class="margin-frame mt-10">
+        <div aria-hidden="true"></div>
+        <img src={verse.data.image} alt="" class="w-full h-auto rounded" />
+      </div>
+    )}
 
-      <div class="prose dark:prose-invert prose-lg max-w-none font-serif leading-loose poetry-content mx-auto">
+    <div class="margin-frame mt-10">
+      <div aria-hidden="true"></div>
+      <div class="poetry-content">
         <Content />
       </div>
-      
-      <div class="mt-16 pt-8 border-t border-subtle/10 text-center">
-        <a 
-          href="/verses" 
-          class="text-primary hover:text-primary-hover hover:underline inline-flex items-center transition-colors font-mono text-sm"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Verses
-        </a>
-      </div>
+    </div>
+
+    <div class="margin-frame">
+      <div aria-hidden="true"></div>
+      <p class="mt-16 pt-4 border-t border-border m-0"><a href="/verses/" class="text-link">All verse</a></p>
     </div>
   </article>
 </Layout>
 
 <style>
   /* Style poetry content */
-  .poetry-content :global(p) {
-    margin-bottom: 2em;
-    white-space: pre-line;
-  }
+  .verse-title { font-size: 40px; line-height: 46px; font-weight: 420; letter-spacing: -0.01em; font-variation-settings: 'opsz' 60; margin: 0; text-wrap: balance; }
+  .verse-lead { font-style: italic; font-size: 22px; line-height: 34px; font-weight: 360; color: rgb(var(--color-text-muted)); margin: 1rem 0 0; }
+  @media (max-width: 760px) { .verse-title { font-size: 32px; line-height: 38px; } .verse-lead { font-size: 20px; line-height: 30px; } }
+  /* Poems: generous leading, never justified, stanzas separated by one body line. */
+  .poetry-content { font-size: 20px; line-height: 36px; }
+  .poetry-content :global(p) { margin: 0 0 2rem; white-space: pre-line; }
 </style>

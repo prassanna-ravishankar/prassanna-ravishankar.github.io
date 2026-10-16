@@ -2,92 +2,166 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * prassanna.io design system: "work log".
+ * Mono (IBM Plex Mono) carries structure and things built; serif (Newsreader) carries reading.
+ * One accent (indigo) for anything you can act on; marigold for what is recent or matters.
+ * Colours are RGB triplets so Tailwind's /<alpha> modifiers keep working.
+ */
+
+@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable.woff2') format('woff2-variations'), url('/fonts/Newsreader-Variable.woff2') format('woff2'); font-weight: 200 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('/fonts/Newsreader-Variable-Italic.woff2') format('woff2-variations'), url('/fonts/Newsreader-Variable-Italic.woff2') format('woff2'); font-weight: 200 800; font-style: italic; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-400-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-500.woff2') format('woff2'); font-weight: 500 700; font-style: normal; font-display: swap; }
+
 @layer base {
   :root {
-    /* Light Mode (Default) */
-    --color-background: 253 251 247; /* #FDFBF7 - Warm Paper */
-    --color-surface: 242 239 233;     /* #F2EFE9 - Slightly Darker Warm */
-    
-    --color-primary: 35 140 125;      /* #238C7D - Strong Teal */
-    --color-primary-hover: 29 115 102; /* #1D7366 */
-    --color-primary-light: 77 191 176; /* #4DBFB0 */
-    
-    --color-accent: 197 109 36;       /* #C56D24 - Burnt Orange */
-    --color-accent-hover: 163 90 30;   /* #A35A1E */
-    
-    --color-text-main: 26 22 20;      /* #1A1614 - Almost Black */
-    --color-text-muted: 82 76 72;     /* #524C48 - Warm Dark Gray */
-    --color-border: 228 228 231;      /* zinc-200 */
-    
-    --color-subtle: 0 0 0;            /* Black for glass/subtle effects on light bg */
+    /* Light */
+    --color-background: 245 246 243;    /* paper        #f5f6f3 */
+    --color-surface: 234 236 231;       /* paper-sunk   #eaece7 */
+    --color-raised: 252 252 250;        /* paper-raised #fcfcfa */
+
+    --color-text-main: 27 30 33;        /* ink          #1b1e21 */
+    --color-text-muted: 87 94 102;      /* ink-muted    #575e66 */
+
+    --color-border: 211 214 208;        /* rule         #d3d6d0 */
+    --color-rule-strong: 128 134 140;   /* rule-strong  #80868c */
+
+    --color-primary: 43 58 143;         /* indigo       #2b3a8f */
+    --color-primary-hover: 33 45 112;
+    --color-primary-light: 43 58 143;
+    --color-on-primary: 245 246 243;    /* on-indigo */
+    --color-indigo-soft: 226 229 243;   /* #e2e5f3 */
+
+    /* Legacy "accent" now points at indigo: one accent for anything actionable. */
+    --color-accent: 43 58 143;
+    --color-accent-hover: 33 45 112;
+
+    --color-marigold: 226 160 27;       /* #e2a01b — marks only, never text on paper */
+    --color-marigold-soft: 249 230 179; /* #f9e6b3 — highlighter behind ink */
+    --color-on-marigold: 27 30 33;
+
+    --color-subtle: 0 0 0;
   }
 
   .dark {
-    /* Dark Mode */
-    --color-background: 26 22 20;     /* #1A1614 */
-    --color-surface: 38 32 29;        /* #26201D */
-    
-    --color-primary: 47 168 152;      /* #2FA898 */
-    --color-primary-hover: 37 137 122; /* #25897A */
-    --color-primary-light: 93 212 196; /* #5DD4C4 */
-    
-    --color-accent: 217 128 52;       /* #D98034 */
-    --color-accent-hover: 181 101 37;  /* #B56525 */
-    
-    --color-text-main: 244 244 245;   /* zinc-100 */
-    --color-text-muted: 161 161 170;  /* zinc-400 */
-    --color-border: 39 39 42;         /* zinc-800 */
-    
-    --color-subtle: 255 255 255;      /* White for glass/subtle effects on dark bg */
+    --color-background: 20 22 26;       /* #14161a */
+    --color-surface: 28 31 36;          /* #1c1f24 */
+    --color-raised: 32 36 42;           /* #20242a */
+
+    --color-text-main: 231 232 227;     /* #e7e8e3 */
+    --color-text-muted: 162 168 174;    /* #a2a8ae */
+
+    --color-border: 45 50 56;           /* #2d3238 */
+    --color-rule-strong: 108 115 123;   /* #6c737b */
+
+    --color-primary: 163 175 239;       /* #a3afef */
+    --color-primary-hover: 190 199 245;
+    --color-primary-light: 163 175 239;
+    --color-on-primary: 20 22 26;
+    --color-indigo-soft: 35 42 75;      /* #232a4b */
+
+    --color-accent: 163 175 239;
+    --color-accent-hover: 190 199 245;
+
+    --color-marigold: 239 178 61;       /* #efb23d */
+    --color-marigold-soft: 59 48 22;    /* #3b3016 */
+    --color-on-marigold: 20 22 26;
+
+    --color-subtle: 255 255 255;
   }
 
   html {
-    scroll-behavior: smooth;
-    @apply antialiased bg-background text-main;
+    @apply antialiased bg-background text-main font-serif;
+    font-optical-sizing: auto;
+    font-size: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
   }
 
   body {
-    @apply overflow-x-hidden selection:bg-primary-light/30 selection:text-primary-light;
+    @apply overflow-x-hidden;
+    font-size: 19px;
+    line-height: 31px;
   }
+
+  ::selection {
+    background: rgb(var(--color-marigold-soft));
+    color: rgb(var(--color-text-main));
+  }
+
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible, input:focus-visible {
+    outline: 2px solid rgb(var(--color-primary));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Page frame: left-aligned, offset on wide screens, 16px gutter on phones. */
+  .site-frame { @apply px-4 md:px-8 lg:pl-24 lg:pr-8; }
+  .wide { max-width: 64rem; }
+  .reading { max-width: 50rem; }
+
+  /* Margin frame: facts column + text column. */
+  .margin-frame { display: grid; grid-template-columns: 10rem minmax(0, 36rem); column-gap: 1.5rem; }
+  @media (max-width: 760px) {
+    .margin-frame { grid-template-columns: minmax(0, 1fr); row-gap: 0.5rem; }
+    .margin-frame .meta-list { flex-direction: row; flex-wrap: wrap; column-gap: 1rem; }
+  }
+
+  .meta { font-family: theme('fontFamily.mono'); font-size: 13px; line-height: 20px; color: rgb(var(--color-text-muted)); }
+  .meta-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+  .meta a { color: rgb(var(--color-primary)); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem 1.5rem; flex-wrap: wrap; padding-bottom: 0.75rem; border-bottom: 1px solid rgb(var(--color-text-main)); }
+  .section-title { font-family: theme('fontFamily.mono'); font-size: 15px; line-height: 20px; font-weight: 500; margin: 0; color: rgb(var(--color-text-main)); }
+
+  .text-link { font-family: theme('fontFamily.mono'); font-size: 14px; line-height: 20px; font-weight: 500; color: rgb(var(--color-primary)); text-decoration: none; }
+  .text-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 9999px; flex: none; }
+  .dot-recent { background: rgb(var(--color-marigold)); box-shadow: 0 0 0 1.5px rgb(var(--color-on-marigold)); }
+
+  .mark { background: linear-gradient(to bottom, transparent 18%, rgb(var(--color-marigold-soft)) 18%, rgb(var(--color-marigold-soft)) 92%, transparent 92%); color: inherit; padding: 0 2px; margin: 0 -2px; border-radius: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 }
 
 @layer utilities {
-  .modern-card {
-    @apply bg-surface border border-border rounded-xl transition-all duration-300;
-  }
+  /* Kept for pages not yet redesigned: a flat surface, no hover lift or glow. */
+  .modern-card { @apply bg-surface border border-border rounded transition-colors duration-150; }
+  .modern-card:hover { @apply border-rule-strong; }
 
-  .modern-card:hover {
-    @apply border-accent/20 transform -translate-y-1 shadow-2xl shadow-primary/10;
-  }
-  
-  /* Dark mode specific override for modern-card hover to keep the glowy feel */
-  .dark .modern-card:hover {
-     background-color: rgb(24 24 27 / 0.8); /* zinc-900/80 equivalent */
-  }
+  /* Gradient text is retired; render as plain ink. */
+  .text-gradient { color: rgb(var(--color-text-main)); }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-light via-accent to-primary-light background-animate;
-  }
-
-  /* Global prose overrides for our semantic theme */
   .prose {
-    @apply prose-strong:text-main prose-th:text-main prose-td:text-main/90 prose-headings:text-main prose-p:text-main/90;
-  }
-
-  .background-animate {
-    background-size: 200%;
-    animation: gradient-x 3s ease infinite;
-  }
-
-  @keyframes gradient-x {
-
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-
-    50% {
-      background-position: 100% 50%;
-    }
+    @apply prose-strong:text-main prose-th:text-main prose-td:text-main prose-headings:text-main prose-p:text-main prose-a:text-primary;
   }
 }
+
+/* Reading pages: titles, leads and long-form prose (essays, projects, episodes). */
+.post-title { font-size: 40px; line-height: 46px; font-weight: 420; letter-spacing: -0.01em; font-variation-settings: 'opsz' 60; margin: 0; text-wrap: balance; }
+.post-lead { font-style: italic; font-size: 22px; line-height: 34px; font-weight: 360; color: rgb(var(--color-text-muted)); margin: 1rem 0 0; text-wrap: pretty; }
+  @media (max-width: 760px) { .post-title { font-size: 32px; line-height: 38px; } .post-lead { font-size: 20px; line-height: 30px; } }
+
+.post-prose { font-size: 19px; line-height: 31px; color: rgb(var(--color-text-main)); }
+.post-prose p, .post-prose li { color: rgb(var(--color-text-main)); }
+.post-prose h2 { font-size: 27px; line-height: 34px; font-weight: 500; margin-top: 3rem; margin-bottom: 1rem; font-variation-settings: 'opsz' 36; }
+.post-prose h3 { font-size: 21px; line-height: 30px; font-weight: 560; margin-top: 2rem; margin-bottom: 0.5rem; }
+.post-prose a { color: rgb(var(--color-primary)); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; font-weight: inherit; }
+.post-prose a:hover { text-decoration-thickness: 2px; }
+.post-prose code { font-family: theme('fontFamily.mono'); font-size: 0.85em; font-weight: 400; background: rgb(var(--color-surface)); padding: 1px 4px; border-radius: 2px; color: rgb(var(--color-text-main)); }
+.post-prose code::before, .post-prose code::after { content: none; }
+.post-prose pre { background: rgb(var(--color-surface)) !important; color: rgb(var(--color-text-main)); border-radius: 4px; font-size: 14.5px; line-height: 23px; padding: 1rem; }
+.post-prose pre code { background: none; padding: 0; font-size: inherit; }
+.post-prose blockquote { border-left: 1px solid rgb(var(--color-rule-strong)); font-style: italic; color: rgb(var(--color-text-muted)); quotes: none; }
+.post-prose blockquote p::before, .post-prose blockquote p::after { content: none; }
+.post-prose img { border-radius: 4px; }
+.post-prose figcaption { font-family: theme('fontFamily.mono'); font-size: 13px; line-height: 20px; color: rgb(var(--color-text-muted)); }
+.post-prose hr { border-color: rgb(var(--color-border)); }
+.post-prose table { font-size: 16px; line-height: 24px; }
+.post-prose th { font-family: theme('fontFamily.mono'); font-size: 13px; font-weight: 400; color: rgb(var(--color-text-muted)); }
+.post-prose mark { background: rgb(var(--color-marigold-soft)); color: inherit; padding: 0 2px; border-radius: 2px; }
