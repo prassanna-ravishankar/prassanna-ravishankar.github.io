@@ -2,19 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import Log from '../components/Log.astro';
 import ProjectTable from '../components/ProjectTable.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 import { getLogEntries, getProjectRows, logPage } from '../utils/log';
 
 const LIMIT = 12;
 /** Half the home log at most is code activity; essays, poems and episodes fill the rest. */
 const BUILT_CAP = LIMIT / 2;
 const [entries, projects] = await Promise.all([getLogEntries(), getProjectRows()]);
-
-const profile = [
-  { label: 'github', href: 'https://github.com/prassanna-ravishankar' },
-  { label: 'x', href: 'https://x.com/thenomadiccoder' },
-  { label: 'linkedin', href: 'https://www.linkedin.com/in/prassanna-ravishankar/' },
-  { label: 'rss', href: '/rss.xml' },
-];
 ---
 
 <Layout
@@ -30,7 +24,7 @@ const profile = [
       <ul class="pr-meta pr-meta-list">
         <li>London</li>
         <li>Staff engineer, Scale AI</li>
-        {profile.map((p) => <li><a href={p.href}>{p.label}</a></li>)}
+        <li><SocialLinks /></li>
       </ul>
     </div>
     <div>

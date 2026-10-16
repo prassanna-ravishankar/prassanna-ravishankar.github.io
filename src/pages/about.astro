@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ArticleHeader from '../components/ArticleHeader.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 
 const data = {
   name: 'Prassanna Ravishankar',
@@ -177,11 +178,10 @@ const stack = [
       facts={[
         data.experience[0].location.replace(', U.K.', ''),
         `${data.experience[0].role}, ${data.experience[0].company}`,
-        { label: 'github', href: social.github },
-        { label: 'x', href: social.twitter },
-        { label: 'linkedin', href: social.linkedin },
       ]}
-    />
+    >
+      <SocialLinks slot="margin" />
+    </ArticleHeader>
     <div class="pr-frame pr-article-body">
       <div class="pr-prose">
         <p>

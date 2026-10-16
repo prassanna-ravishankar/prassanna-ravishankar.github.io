@@ -19,6 +19,7 @@ const { title, kind = 'essay', lead, facts = [], topics = [], mono = false } = A
     <ul class="pr-meta pr-meta-list">
       <li>{kind}</li>
       {facts.filter(Boolean).map((f) => (typeof f === 'string' ? <li>{f}</li> : <li><a href={f!.href}>{f!.label}</a></li>))}
+      {Astro.slots.has('margin') && <li><slot name="margin" /></li>}
     </ul>
   </div>
   <div>
