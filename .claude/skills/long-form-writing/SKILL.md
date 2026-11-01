@@ -9,23 +9,15 @@ A post is one person telling the reader what he thinks and why. The voice stays 
 
 ## Voice
 
-**Say the position early.** The reader should know what the post argues within the first few paragraphs. "That framing is incomplete." does more than three paragraphs of context circling the point.
-
-**Write as one person.** "I" for opinions and experience, "you" for the reader. Never the institutional "we" of a company announcement.
-
-**Never invent a stake.** Experience earns a claim only when it is real. If a section would be stronger with a story (something built, run, or broken) and none was supplied, ask the author for one. Do not fabricate anecdotes, numbers, or "I've been thinking about this for months" openers. A post can work without a story, and an invented one reads as forced.
-
-**Curiosity is a voice too.** When there is no stake, write from the question: what was confusing, what you looked up, what you still don't get. "I always find this confusing and I never use `git checkout --ours` because of that, but I looked it up" (Julia Evans) is first person without claiming authority.
-
-**Show the work.** Earn claims with things the reader can check: the exact command, error message, prompt, config, version, price, or file name. "I run `claude --dangerously-skip-permissions`. More specifically I have an alias called `claude-yolo`" (Armin Ronacher) says more than "I give the agent full autonomy". Link to the repo, the transcript, the earlier post.
-
-**Say what isn't working.** Name the annoyance, the part you're unhappy with, the thing that will date the post ("I expect this blog post to age very poorly"). Admitting the rough edge is what makes the rest believable.
-
-**Answer the reader's doubt directly.** When a claim invites an obvious objection, state it in the reader's words and answer it. This replaces hedging spread across every sentence.
-
-**Use plain words.** "is", "shows", "lets" are fine. Prefer the word you would say out loud to a colleague. Humour and bluntness are allowed when they are how you'd actually say it ("I hate that. Also, it flickers."). Never add a joke for its own sake.
-
-**Commit, or qualify once.** State what you believe. When unsure, say so once and say why ("I only have my own setup to go on") instead of softening every sentence with "arguably", "somewhat", "quite".
+- **Say the position early**: The reader should know what the post argues within the first few paragraphs. "That framing is incomplete." does more than three paragraphs of context circling the point.
+- **Write as one person**: "I" for opinions and experience, "you" for the reader. Never the institutional "we" of a company announcement.
+- **Never invent a stake**: Experience earns a claim only when it is real. If a section would be stronger with a story (something built, run, or broken) and none was supplied, ask the author for one. Do not fabricate anecdotes, numbers, or "I've been thinking about this for months" openers. A post can work without a story, and an invented one reads as forced.
+- **Curiosity is a voice too**: When there is no stake, write from the question: what was confusing, what you looked up, what you still don't get. "I always find this confusing and I never use `git checkout --ours` because of that, but I looked it up" (Julia Evans) is first person without claiming authority.
+- **Show the work**: Earn claims with things the reader can check: the exact command, error message, prompt, config, version, price, or file name. "I run `claude --dangerously-skip-permissions`. More specifically I have an alias called `claude-yolo`" (Armin Ronacher) says more than "I give the agent full autonomy". Link to the repo, the transcript, the earlier post.
+- **Say what isn't working**: Name the annoyance, the part you're unhappy with, the thing that will date the post ("I expect this blog post to age very poorly"). Admitting the rough edge is what makes the rest believable.
+- **Answer the reader's doubt directly**: When a claim invites an obvious objection, state it in the reader's words and answer it. This replaces hedging spread across every sentence.
+- **Use plain words**: "is", "shows", "lets" are fine. Prefer the word you would say out loud to a colleague. Humour and bluntness are allowed when they are how you'd actually say it ("I hate that. Also, it flickers."). Never add a joke for its own sake.
+- **Commit, or qualify once**: State what you believe. When unsure, say so once and say why ("I only have my own setup to go on") instead of softening every sentence with "arguably", "somewhat", "quite".
 
 ## The mix: story and depth
 
@@ -45,7 +37,7 @@ Split overloaded sentences. If a sentence needs two parentheticals and a semicol
 
 Headings make a claim or ask a question ("Harness is the wrong term", "Why Pi?"), not a label ("Background", "Overview").
 
-Bullets suit genuinely parallel items (sources of noise, things to watch). Arguments go in prose.
+When making a set of distinct points, use a list with a bold label and a colon: `- **Tool call residue**: Every API response gets appended verbatim...`. Not a bold phrase opening a paragraph (`**Tool call residue.** Every API...`). Keep the label short and let the text after the colon carry the point. A single argument that builds from one step to the next stays in prose.
 
 ## Structure
 
