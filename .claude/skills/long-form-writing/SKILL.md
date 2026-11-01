@@ -35,9 +35,11 @@ Vary sentence length. A short sentence can land a point after a longer setup ("T
 
 Split overloaded sentences. If a sentence needs two parentheticals and a semicolon to hold together, it is two or three sentences.
 
-Headings make a claim or ask a question ("Harness is the wrong term", "Why Pi?"), not a label ("Background", "Overview").
+Headings make a claim or ask a question ("Harness is the wrong term", "Why Pi?"), not a label ("Background", "Overview"). Use sentence case. Don't follow a heading with a one-line paragraph that restates it; start on the content.
 
-When making a set of distinct points, use a list with a bold label and a colon: `- **Tool call residue**: Every API response gets appended verbatim...`. Not a bold phrase opening a paragraph (`**Tool call residue.** Every API...`). Keep the label short and let the text after the colon carry the point. A single argument that builds from one step to the next stays in prose.
+When making a set of distinct points, use a list with a bold label and a colon: `- **Tool call residue**: Every API response gets appended verbatim...`. Not a bold phrase opening a paragraph (`**Tool call residue.** Every API...`). Use the list only when the points really are parallel and the labels help the reader scan. Keep the label short and don't restate it after the colon ("**Performance**: Performance has improved..."). A single argument that builds from one step to the next stays in prose.
+
+Pick one term for each concept and keep it. If it's an "agent" in one paragraph, it isn't an "assistant" in the next and a "system" after that.
 
 ## Structure
 
@@ -53,16 +55,20 @@ Draft fast, then edit, mostly by cutting. Before handing a draft back:
 2. If a section can't be fixed sentence by sentence, explain it out loud in a few lines and replace the section with that.
 3. Check the leave-out list below.
 4. Mark anything that needs a real story, number, or link from the author as `[Ask Prass: ...]` rather than filling it in.
+5. Ask "what about this reads as AI-generated?", list what comes back, and fix it.
 
 ## Leave out
 
 - Em dashes. Use periods, colons, commas, or parentheses.
 - Exclamation marks and hype words ("revolutionary", "game-changing").
-- Adverbs that announce a reaction: "Interestingly", "Surprisingly", "Notably".
 - Throat-clearing: "It's worth noting", "Let's dive in", "In today's fast-moving landscape".
+- Vague attribution: "experts argue", "many developers feel", "the community has moved away from". Name who (a thread, a survey, a person, a release note) and link it, or own it as your observation ("I've seen people move away from...").
 - Hypothetical examples when a real one exists.
 - Triplets used for cadence rather than because there are three things.
 - Manufactured contrast: "That is not X. It is Y.", "Not because A. Not because B. Because C.", and dramatic fragments that restate the previous sentence. Say what it is.
+- Trailing negations tacked onto a sentence: "The options come from the selected item, no guessing." Write the clause properly or drop it.
+
+Some words are a matter of dose, not a ban: "crucial", "landscape", "at its core", "the real question", "interestingly", a trailing "-ing" phrase ("..., highlighting the need for X"). Once, where it is the right word, is fine. Banning them all makes prose stilted; a cluster of them in one paragraph is the tell. Too much and none are both failures.
 
 ## Models
 
