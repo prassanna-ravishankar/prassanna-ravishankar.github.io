@@ -1,153 +1,59 @@
 ---
 name: long-form-writing
-description: Write in flowing, professional prose. Use when writing blog posts, articles, technical explanations, or any content that should read as considered prose rather than bullet-heavy documentation. Triggers on requests for long-form content or rewrites asking for "better flow."
+description: Write blog posts and long-form articles for prassanna.io in Prass's voice. One person saying what he thinks, with storytelling and technical depth mixed to suit the post. Use when drafting, rewriting, or editing posts, essays, or technical explanations, or when asked for "better flow" or less AI-sounding prose.
 ---
 
 # Long-Form Writing
 
-Write prose that breathes. This skill transforms bullet-heavy, fragmented writing into flowing, connected prose that carries readers through complete thoughts.
+A post is one person telling the reader what he thinks and why. The voice stays the same in every post. What changes is the mix: some posts are a story, some are a technical deep dive, many blend the two. Decide the mix before writing.
 
-## Core Principles
+## Voice
 
-### Sentences Carry Multiple Ideas
+**Say the position early.** The reader should know what the post argues within the first few paragraphs. "That framing is incomplete." does more than three paragraphs of context circling the point.
 
-Good sentences hold claim, context, and caveat together rather than fragmenting them across bullets. A single sentence might contain a founding narrative, a belief statement, a historical comparison, and an uncertainty acknowledgment, all connected by conjunctions and subordinate clauses.
+**Write as one person.** "I" for opinions and experience, "you" for the reader. Never the institutional "we" of a company announcement.
 
-**Instead of:**
-> The model is fast. It's also accurate. However, it has limitations.
+**Never invent a stake.** Experience earns a claim only when it is real. If a section would be stronger with a story (something built, run, or broken) and none was supplied, ask the author for one. Do not fabricate anecdotes, numbers, or "I've been thinking about this for months" openers. A post without a story is fine. A post with a fake one reads as forced.
 
-**Write:**
-> The model delivers both speed and accuracy, though these gains come with tradeoffs that users should understand before deployment.
+**Answer the reader's doubt directly.** When a claim invites an obvious objection, state it in the reader's words and answer it. This replaces hedging spread across every sentence.
 
-### Paragraphs Develop Complete Thoughts
+**Use plain words.** "is", "shows", "lets" are fine. Prefer the word you would say out loud to a colleague.
 
-A paragraph opens with a problem, explores its dimensions, acknowledges a counterargument, and arrives at a position, all before the next paragraph begins. Ideas unfold within paragraphs rather than being distributed across them as isolated assertions.
+**Commit, or qualify once.** State what you believe. When unsure, say so once and say why ("I only have my own setup to go on") instead of softening every sentence with "arguably", "somewhat", "quite".
 
-### Rhythm Varies Deliberately
+## The mix: story and depth
 
-The typical pattern: a long sentence establishing complexity, followed by a medium sentence developing it, followed by a short declarative that lands the point. This creates prose that moves rather than prose that lists.
+Choose per post and state the choice in the plan.
 
-## Sentence Construction Patterns
+- **Story-led**: an opinion, a bet, a lesson learned. Short paragraphs, mostly one idea per sentence. Concrete examples from real use. Few citations.
+- **Depth-led**: research, mechanisms, failure modes. Longer sentences are fine when they hold a claim together with its condition. Citations, numbers with a comparison ("around 23%, against above 70% on shorter benchmarks"), diagrams. Still first person, still a position.
+- **Blended**: a real incident carries a technical argument. The story opens or anchors a section, then the post goes deep on the mechanism the story exposed. The Torale SSL incident in `vibe-bottleneck.md` is the model: a specific failure, then what it reveals about push-based context.
 
-### The "X, but Y" Pivot
+The mix can shift within a post. A depth-led section can open with two lines of story; a story-led post can stop for one dense paragraph when the mechanism needs it.
 
-Open with an expected position, then pivot to acknowledge complexity:
+## Rhythm
 
-> "This view may sound implausible or grandiose, and there are good reasons to be skeptical of it."
+Vary sentence length. A short sentence or fragment can land a point after a longer setup ("Not because of a bug. Not because the model changed."). Use one or two per section, not a drumbeat.
 
-> "We believe the impact of AI might be comparable to the industrial revolution, but we aren't confident it will go well."
+Split overloaded sentences. If a sentence needs two parentheticals and a semicolon to hold together, it is two or three sentences.
 
-The pivot acknowledges nuance rather than overselling.
+Headings make a claim or ask a question ("Harness is the wrong term", "Why Pi?"), not a label ("Background", "Overview").
 
-### Embedded Counterarguments
+Bullets suit genuinely parallel items (sources of noise, things to watch). Arguments go in prose.
 
-Rather than defending against criticism in separate paragraphs, bake skepticism directly into sentences:
+## Structure
 
-> "Perhaps with hindsight we'll decide we were wrong... Nevertheless, we believe it's necessary to err on the side of caution."
+There is no fixed arc. Open with the position or the incident. Skip background this audience already has. End when the argument ends: on the bet, the open question, or what you are watching next. No humility closer ("the work has just begun"), no recap.
 
-This absorbs objections into the flow rather than quarantining them.
+## Leave out
 
-### Parenthetical Precision
+- Em dashes. Use periods, colons, commas, or parentheses.
+- Exclamation marks and hype words ("revolutionary", "game-changing").
+- Adverbs that announce a reaction: "Interestingly", "Surprisingly", "Notably".
+- Throat-clearing: "It's worth noting", "Let's dive in", "In today's fast-moving landscape".
+- Hypothetical examples when a real one exists.
+- Triplets used for cadence rather than because there are three things.
 
-Secondary technical details go in parentheses, keeping the main sentence readable:
+## Examples
 
-> "...leading on SWE-bench (72.5%) and Terminal-bench (43.2%)"
-
-The parenthetical adds specificity without derailing the sentence's momentum.
-
-### Punctuation
-
-Never use em dashes. They read as an AI writing tell and interrupt prose flow. Use instead:
-
-- **Parentheses** for asides and clarifications: "the agent (which runs locally) processes requests"
-- **Periods** to break up complexity: "The context fills with code the agent doesn't need. You've traded specialization for visibility."
-- **Colons** to introduce elaboration: "The pattern is clear: every approach is push-based."
-- **Commas** for light subordination: "This approach, while experimental, produces consistent results."
-
-When you find yourself reaching for an em dash, stop and rewrite the sentence using one of the above.
-
-### Colon-Driven Lists Within Prose
-
-When enumeration is necessary, embed it within paragraphs using colons rather than breaking into bullets:
-
-> "The process involves three stages: synthetic generation, where varied messages are created; response ranking, where alignment is evaluated; and preference learning, where a model trains on this data."
-
-### Short Declarative Anchors
-
-Plant a short, direct sentence, then elaborate in the sentences that follow:
-
-> "Character training remains experimental. The approach raises questions about customizability versus coherence, and what traits AI systems should embody as capabilities expand."
-
-The anchor lands the point; the elaboration develops it.
-
-## Epistemic Honesty
-
-Use explicit epistemic markers rather than weak hedging adverbs:
-
-| Prefer | Avoid |
-|--------|-------|
-| "we believe" | "somewhat" |
-| "we aren't confident" | "fairly" |
-| "there are good reasons to be skeptical" | "quite" |
-| "perhaps with hindsight" | "arguably" |
-
-Signal uncertainty precisely: "The findings don't demonstrate malicious intent but show sophisticated strategic reasoning" rather than "The findings arguably don't really show malicious intent."
-
-## Grounding and Specificity
-
-### Concrete Examples Immediately Follow Abstract Claims
-
-Not "we can modify model behavior" but "when we turn up the strength of the 'Golden Gate Bridge' feature, the model's responses begin to focus on the Golden Gate Bridge."
-
-### Comparative Framing for Metrics
-
-Never isolated numbers. Always relative:
-
-> "resolved 64% of coding problems compared to the previous model's 38%"
-
-> "achieved 14.9% in screenshot-only tests versus competitors' 7.8%"
-
-The comparison gives meaning to the measurement.
-
-## Verb and Word Choice
-
-### Active, Forward-Motion Verbs
-
-| Prefer | Avoid |
-|--------|-------|
-| enables | allows |
-| represents | is |
-| demonstrates | shows |
-| reveals | indicates |
-| delivers | provides |
-
-### What to Never Write
-
-- Exclamation marks
-- "Revolutionary," "game-changing," "cutting-edge"
-- Isolated adjectives without evidence
-- Sentence fragments for emphasis
-- Marketing cadence or sales language
-- Bullet points where prose would serve better
-
-## Structural Patterns
-
-### Narrative Arc
-
-Problem identification → urgency or context → proposed approach → findings or implementation → implications → acknowledged limitations
-
-### Professional Humility in Conclusions
-
-End by acknowledging incompleteness rather than overclaiming:
-
-> "The work has really just begun."
-
-> "This represents early-stage research."
-
-> "Stronger evaluations will likely be necessary as capabilities advance."
-
-This builds credibility rather than diminishing impact.
-
-## Transformation Examples
-
-See [references/transformations.md](references/transformations.md) for before/after examples showing how to convert bullet-heavy writing into flowing prose.
+See [references/examples.md](references/examples.md) for before/after pairs drawn from posts on this site.
