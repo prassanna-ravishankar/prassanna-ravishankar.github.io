@@ -1,34 +1,125 @@
 # Examples
 
-Before/after pairs. Most "after" passages are taken from, or edited from, posts on this site; "Show the work" and "Write from the question" paraphrase Armin Ronacher and Julia Evans.
+The "after" passages come from Prass's three original posts (`ml-fragmentation.md`, `full-stack-ml.md`, `pipenv-pyenv.md`), lightly edited for typos and dashes. Several "before" passages are real lines from later, AI-assisted posts.
 
 ---
 
-## Open with the position
+## Frame the post
 
 ### Before
 
-> As autonomous agents become more prevalent, understanding their failure modes is increasingly important. Recent research has shed new light on how agents behave over long-horizon tasks, and these findings have significant implications for how we think about reliability.
+> As machine learning matures, the ecosystem has grown increasingly complex. This article examines the challenges posed by framework fragmentation and explores potential solutions.
 
-### After (`when-the-output-lies.md`)
+### After (`ml-fragmentation.md`)
 
-> A few months ago I wrote about agent drift, the phenomenon where autonomous AI agents degrade over long-horizon tasks through accumulated context pollution. [...] All of them, at root, problems of what the agent knows and how it attends to what it knows.
+> Okay, this is a bit of a rant-post. I've been developing this library called torchwebio. [...] While building it, I was not-so-gently reminded of how fragmented the ML ecosystem looks. It looks a lot like the state of JavaScript frameworks in 2015.
 >
-> That framing is incomplete.
+> **A small warning**: I am a computer vision guy by trade, so most of this article is going to have computer vision bias. I *try* to be general, but my brain cheats me often.
 
-The reader knows the argument by the second paragraph, and the short line carries it.
+The reader knows what kind of post this is, why it exists, and where the author's blind spots are, all before the first heading.
 
 ---
 
-## Write as one person
+## Dated history as evidence
 
 ### Before
 
-> We believe this approach represents a meaningful step toward more reliable coordination, though we acknowledge there is much work still to be done.
+> Newcomers often find fragmented ecosystems difficult to navigate, which can slow adoption and discourage contribution.
+
+### After (`ml-fragmentation.md`)
+
+> I was a web designer back in my university days, up until 2011. My world was HTML4, CSS2 and the good old jQuery. In the subsequent years, HTML5 became a thing, CSS3 happened, and nodejs took over. I wanted to make a website in 2015 and **I did not know where to start**!
+
+The claim about newcomers is made by one specific newcomer, with years attached.
+
+---
+
+## Question the artifact
+
+### Before
+
+> Configuration files in some frameworks contain parameters irrelevant to the task at hand, which can lead to confusion.
+
+### After (`ml-fragmentation.md`)
+
+> ```yaml
+> _BASE_: "../Base-RCNN-FPN.yaml"
+> SOLVER:
+>   STEPS: (210000, 250000)
+>   MAX_ITER: 270000
+> ```
+>
+> Why does an inference step on a single image need to know about `STEPS` or `MAX_ITER`? Why does it even matter? Why does the configuration have a `_BASE_` configuration? What if you send this config over to a friend and forget the base configuration?
+
+The real config is on the page, so every question is one the reader can check.
+
+---
+
+## Think out loud
+
+### Before
+
+> The design evolved from a checkpoint-watching approach to an in-loop hook, which proved more elegant.
+
+### After (`ml-fragmentation.md`)
+
+> My first thought was: "Oh! I could checkpoint my model and have a script run watchdog to look at my checkpoint folder and update an application based on a new checkpoint." Something about that design felt off, it felt too circuitous. I didn't want a separate "training" stage and a separate "inference" stage, no matter how granular it was.
+>
+> The next thought was to have it in the training loop itself. Oh! I was onto something.
+
+The reader gets the rejected idea and the reason, which is what makes the final design convincing.
+
+---
+
+## Blunt, with a reason
+
+### Before
+
+> Some frameworks arguably take a more ecosystem-centric approach than others, which may offer certain advantages.
+
+### After (`ml-fragmentation.md`)
+
+> Tensorflow isn't. Tensorflow aims to "own" your ecosystem and experience and asks you to lock into the framework heavily. [...] Don't even try using these extended APIs with your non-tensorflow library. PyTorch takes a different approach: they promote an ecosystem of libraries and tooling, and let the community pick the parts they like.
+
+---
+
+## Narrate the terminal
+
+### After (`pipenv-pyenv.md`)
+
+> ```bash
+> # I forget to put a version number
+> $ (project_env) vim requirements.txt
+> $ (project_env) cat requirements.txt
+> BeautifulSoup
+>
+> # Just because I like autocomplete
+> $ (project_env) pip install bpython
+> ```
+
+The comments are the author talking, and the forgotten version number sets up the argument for lock files a few paragraphs later.
+
+---
+
+## Labelled points
+
+### After (`full-stack-ml.md`)
+
+> - **Data ingest**: Nothing happens without data. In order to ingest large amounts of data across different silos and warehouses, one has to write queries in different forms. [...] The whole objective in this layer of the stack is to curate unstructured, often distributed data into ML-ready datasets.
+
+Short label, colon, and text that doesn't repeat the label.
+
+---
+
+## Manufactured contrast
+
+### Before (`agent-drift.md`)
+
+> That gap is not a capability problem. It is a duration problem.
 
 ### After
 
-> I think pull-based context is what's missing. Every option today makes you write things down ahead of time and hope they're still true when someone needs them.
+> The models were the same; the tasks were longer. That is why I think of drift as a problem of duration.
 
 ---
 
@@ -40,49 +131,7 @@ The reader knows the argument by the second paragraph, and the short line carrie
 
 ### After
 
-> The superfolder hack: clone every repo into one parent directory and point the agent at it. Now it can see everything. It also loads every CLAUDE.md at once, the rules conflict, and the context fills with code it doesn't need. You've traded specialization for visibility and got neither.
-
----
-
-## Answer the doubt in the reader's words
-
-### Before
-
-> While some may argue that this advantage could be temporary, there are arguably several reasons to believe it may persist.
-
-### After
-
-> At this point you might object: this works today, but why would it still work in a year?
->
-> Fair question. Two reasons.
-
----
-
-## Show the work
-
-### Before
-
-> I give my agents a high degree of autonomy and keep tooling lightweight, which has worked well in practice.
-
-### After
-
-> I run Claude Code with every permission check off, inside a container. My custom tools are plain scripts it can call. When it needs the database it uses `psql`, which is more than good enough.
-
-The reader can copy the setup or argue with it. "A high degree of autonomy" gives them nothing to do either.
-
----
-
-## Write from the question
-
-### Before
-
-> Git's terminology around HEAD can be a source of confusion for developers.
-
-### After
-
-> A head is a branch and `HEAD` is the current branch. I think that's the weirdest naming choice in git, and after years of using it I still have to look up which side is "ours" during a rebase.
-
-No authority claimed, nothing invented, and it's still first person.
+> The superfolder hack: clone every repo into one parent directory and point the agent at it. Now it can see everything. It also loads every CLAUDE.md at once, the rules conflict, and the context fills with code it doesn't need.
 
 ---
 
@@ -94,32 +143,18 @@ No authority claimed, nothing invented, and it's still first person.
 
 ### After
 
-Either drop the anecdote and argue the point directly, or leave a note for the author:
+Either drop the anecdote and argue the point directly, or leave a note:
 
 > [Ask Prass: has a handoff failure actually bitten you? A specific incident would anchor this section.]
 
 ---
 
-## Story carrying depth
+## Endings
 
-### After (`vibe-bottleneck.md`)
+### Before (`ml-fragmentation.md`)
 
-> The root cause was Cloudflare: ExternalDNS was auto-activating the Cloudflare proxy regardless of how many times I manually disabled it, and that proxy was interfering with certificate validation. The SSL error was real but it was a symptom rather than the cause [...] Instead I was the relay, transmitting "SSL error" because that's what I understood from the surface, and two hours of downtime followed because the human in the loop was a lossy channel.
-
-A real failure, told plainly, makes the abstract claim (humans are lossy relays) concrete before the post generalises it.
-
----
-
-## Depth that still lands
-
-### Before (`agent-drift.md`)
-
-> On earlier, shorter benchmarks, frontier models routinely scored above 70%. On SWE-bench Pro, those same models landed around 23%. Claude Opus 4.1 and GPT-5 both. A fifty-point collapse with no change to the underlying model.
->
-> That gap is not a capability problem. It is a duration problem.
+> It's a small step, but I hope it helps.
 
 ### After
 
-> On earlier, shorter benchmarks, frontier models routinely scored above 70%. On SWE-bench Pro, Claude Opus 4.1 and GPT-5 both landed around 23%. The models were the same; the tasks were longer. That is why I think of drift as a problem of duration.
-
-The numbers keep their comparison. The "not X, it is Y" verdict and the dramatic fragments go: they are the cadence that makes prose read as generated.
+End on the thing itself: what torchwebio does now, what it still can't do, or what you'd build next.
