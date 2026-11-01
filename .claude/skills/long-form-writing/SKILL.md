@@ -13,7 +13,7 @@ A post is one person telling the reader what he thinks and why. The voice stays 
 
 **Write as one person.** "I" for opinions and experience, "you" for the reader. Never the institutional "we" of a company announcement.
 
-**Never invent a stake.** Experience earns a claim only when it is real. If a section would be stronger with a story (something built, run, or broken) and none was supplied, ask the author for one. Do not fabricate anecdotes, numbers, or "I've been thinking about this for months" openers. A post without a story is fine. A post with a fake one reads as forced.
+**Never invent a stake.** Experience earns a claim only when it is real. If a section would be stronger with a story (something built, run, or broken) and none was supplied, ask the author for one. Do not fabricate anecdotes, numbers, or "I've been thinking about this for months" openers. A post can work without a story, and an invented one reads as forced.
 
 **Answer the reader's doubt directly.** When a claim invites an obvious objection, state it in the reader's words and answer it. This replaces hedging spread across every sentence.
 
@@ -33,7 +33,7 @@ The mix can shift within a post. A depth-led section can open with two lines of 
 
 ## Rhythm
 
-Vary sentence length. A short sentence or fragment can land a point after a longer setup ("Not because of a bug. Not because the model changed."). Use one or two per section, not a drumbeat.
+Vary sentence length. A short sentence can land a point after a longer setup ("That framing is incomplete."). Use one or two per section, not a drumbeat.
 
 Split overloaded sentences. If a sentence needs two parentheticals and a semicolon to hold together, it is two or three sentences.
 
@@ -53,6 +53,7 @@ There is no fixed arc. Open with the position or the incident. Skip background t
 - Throat-clearing: "It's worth noting", "Let's dive in", "In today's fast-moving landscape".
 - Hypothetical examples when a real one exists.
 - Triplets used for cadence rather than because there are three things.
+- Manufactured contrast: "That is not X. It is Y.", "Not because A. Not because B. Because C.", and dramatic fragments that restate the previous sentence. Say what it is.
 
 ## Examples
 

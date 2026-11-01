@@ -20,7 +20,7 @@ The reader knows the argument by the second paragraph, and the short line carrie
 
 ---
 
-## One person, not a company
+## Write as one person
 
 ### Before
 
@@ -28,7 +28,7 @@ The reader knows the argument by the second paragraph, and the short line carrie
 
 ### After
 
-> I think pull-based context is the missing piece. I could be wrong about the mechanism, but I'm sure about the gap: every option today makes you write things down and hope they're still true later.
+> I think pull-based context is what's missing. Every option today makes you write things down ahead of time and hope they're still true when someone needs them.
 
 ---
 
@@ -84,10 +84,14 @@ A real failure, told plainly, makes the abstract claim (humans are lossy relays)
 
 ## Depth that still lands
 
-### After (`agent-drift.md`)
+### Before (`agent-drift.md`)
 
 > On earlier, shorter benchmarks, frontier models routinely scored above 70%. On SWE-bench Pro, those same models landed around 23%. Claude Opus 4.1 and GPT-5 both. A fifty-point collapse with no change to the underlying model.
 >
 > That gap is not a capability problem. It is a duration problem.
 
-Numbers come with their comparison, and the dense paragraph ends on a two-sentence verdict.
+### After
+
+> On earlier, shorter benchmarks, frontier models routinely scored above 70%. On SWE-bench Pro, Claude Opus 4.1 and GPT-5 both landed around 23%. The models were the same; the tasks were longer. That is why I think of drift as a problem of duration.
+
+The numbers keep their comparison. The "not X, it is Y" verdict and the dramatic fragments go: they are the cadence that makes prose read as generated.
