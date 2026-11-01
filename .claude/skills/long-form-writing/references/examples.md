@@ -1,6 +1,6 @@
 # Examples
 
-Before/after pairs. The "after" passages are taken from, or edited from, posts on this site.
+Before/after pairs. Most "after" passages are taken from, or edited from, posts on this site; "Show the work" and "Write from the question" paraphrase Armin Ronacher and Julia Evans.
 
 ---
 
@@ -55,6 +55,34 @@ The reader knows the argument by the second paragraph, and the short line carrie
 > At this point you might object: this works today, but why would it still work in a year?
 >
 > Fair question. Two reasons.
+
+---
+
+## Show the work
+
+### Before
+
+> I give my agents a high degree of autonomy and keep tooling lightweight, which has worked well in practice.
+
+### After
+
+> I run Claude Code with every permission check off, inside a container. My custom tools are plain scripts it can call. When it needs the database it uses `psql`, which is more than good enough.
+
+The reader can copy the setup or argue with it. "A high degree of autonomy" gives them nothing to do either.
+
+---
+
+## Write from the question
+
+### Before
+
+> Git's terminology around HEAD can be a source of confusion for developers.
+
+### After
+
+> A head is a branch and `HEAD` is the current branch. I think that's the weirdest naming choice in git, and after years of using it I still have to look up which side is "ours" during a rebase.
+
+No authority claimed, nothing invented, and it's still first person.
 
 ---
 
