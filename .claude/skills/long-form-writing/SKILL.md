@@ -40,7 +40,7 @@ The mix can shift within a post. A depth-led section can open with two lines of 
 
 ## Rhythm
 
-Vary sentence length. A short sentence can land a point after a longer setup ("Tensorflow isn't."). Use one or two per section, not a drumbeat.
+Vary sentence length. A short sentence can land a point, like "Tensorflow isn't." straight after the heading "Some ML frameworks are doing it right". Use one or two per section, not a drumbeat.
 
 Split overloaded sentences. If a sentence needs two parentheticals and a semicolon to hold together, it is two or three sentences.
 
@@ -79,7 +79,7 @@ Draft fast, then edit, mostly by cutting. Before handing a draft back:
 ## Leave out
 
 - Em dashes and spaced hyphens used as dashes. Use periods, colons, commas, or parentheses.
-- Exclamation marks and hype words ("revolutionary", "game-changing").
+- Hype: exclamation marks used for excitement ("This changes everything!") and words like "revolutionary" or "game-changing". An exclamation of surprise or frustration in your own story ("Oh! I was onto something.", "I did not know where to start!") is fine, sparingly; that's reacting, not selling.
 - Throat-clearing: "It's worth noting", "Let's dive in", "In today's fast-moving landscape".
 - Vague attribution: "experts argue", "many developers feel", "the community has moved away from". Name who (a thread, a survey, a person, a release note) and link it, or own it as your observation ("I've seen people move away from...").
 - Hypothetical examples when a real one exists.

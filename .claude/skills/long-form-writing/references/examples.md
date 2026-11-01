@@ -28,7 +28,7 @@ The reader knows what kind of post this is, why it exists, and where the author'
 
 ### After (`ml-fragmentation.md`)
 
-> I was a web designer back in my university days, up until 2011. My world was HTML4, CSS2 and the good old jQuery. In the subsequent years, HTML5 became a thing, CSS3 happened, and nodejs took over. I wanted to make a website in 2015 and **I did not know where to start**!
+> I was a web designer back in my university days, up until 2011. My world was HTML4, CSS2 and the good old jQuery. In the subsequent years, HTML5 became a thing, CSS3 happened, and nodejs took over. I wanted to make a website in 2015 and I did not know where to start!
 
 The claim about newcomers is made by one specific newcomer, with years attached.
 
@@ -79,6 +79,8 @@ The reader gets the rejected idea and the reason, which is what makes the final 
 
 ### After (`ml-fragmentation.md`)
 
+> ### Some ML frameworks are doing it right
+>
 > Tensorflow isn't. Tensorflow aims to "own" your ecosystem and experience and asks you to lock into the framework heavily. [...] Don't even try using these extended APIs with your non-tensorflow library. PyTorch takes a different approach: they promote an ecosystem of libraries and tooling, and let the community pick the parts they like.
 
 ---
