@@ -1,93 +1,83 @@
-# The pleasure of being human
+# The pleasure of being bad at something
 
-Revised working outline, November 2, 2026. Original title: “The pleasure of being bad at something.” For discussion before drafting.
+Working outline, November 2, 2026. Branch for discussion before drafting.
 
-## Direction
+## Shape and tone
 
-A quiet, poetic essay about finding our way into an activity deeply enough to enjoy inhabiting it. Make room for the awkward beginning, the familiarity of returning, and the absorption that sometimes follows. Being bad remains part of that experience, but defending mediocrity no longer needs to carry the essay.
+A personal essay that begins with the growing capability of coding agents, spends time with fitness and learning drums, and gradually settles. Around 900–1,200 words, probably without section headings in the finished piece.
 
-Prass's direction:
+Follow the [long-form-writing skill](../.claude/skills/long-form-writing/SKILL.md). Use [ML fragmentation](../src/content/blog/ml-fragmentation.md) as a reference for Prass's direct, conversational voice. The tone here can be quieter. Poetic feeling should come from concrete experience and the pace of the prose.
 
-> Something more poetic, a take a step back moment, the power of habit and how coding agents prevent us from breaking the effort barrier (don't over index on this). In a way, the pleasure of being human.
+Prass's latest correction is central: not every paragraph needs to be thought-provoking. Allow plain narration. Let a detail stand without explaining what it teaches us. Avoid repeated rhetorical questions, paragraphs that each end in an insight, and a constant effort to make the reader feel something.
+
+The ending should feel like settling into the experience, with these last lines:
+
+> The pleasure of being bad.
 >
-> And in a way the automation being task oriented, gives us space for symphony and flow.
+> The pleasure of being human.
 
-The tension: assistance can arrive before we have time to become absorbed. It can also clear away the tasks that keep interrupting us, allowing attention to settle on something larger. Both possibilities should run through the essay. Neither needs to defeat the other.
+Nothing after them. Do not explain the ending in advance or build toward it with a crescendo of aphorisms.
 
-## Voice and approach
+## Opening: the agents are getting good
 
-Reflective and story-led, roughly 900–1,200 words, with few or no visible section headings. Follow the [long-form-writing skill](../.claude/skills/long-form-writing/SKILL.md): plain spoken language, first-person curiosity, real details when available, no invented personal history. [ML fragmentation](../src/content/blog/ml-fragmentation.md) remains a reference for Prass thinking out loud, rather than a structural model for this gentler essay.
+Begin with Prass's observation that coding agents are becoming incredibly good. Keep it conversational and grounded in his use. Avoid a release roundup, benchmarks, predictions, or the literal transition “that got me thinking.”
 
-Poetic through attention and rhythm. Give an observation time to develop. Avoid a string of aphorisms, decorative metaphors, or grand claims about what makes humans unique. “Symphony” is Prass's image for a larger experience made possible by coordinated parts; use it sparingly rather than assigning every tool an instrument.
+The contrast can emerge gradually: useful work can now be completed with very little of the effort it once demanded from him, while other parts of his life have involved months of participation. Neither experience has to invalidate the other.
 
-Treat habit, effort, and flow as experiences to examine. Do not imply that effort reliably produces flow or that agents necessarily diminish it. This is not a neuroscience explanation or a habit-building guide.
+His [July 2025 reflection](../src/content/blog/reflections-claude-code.md) records how assistance renewed his excitement about building while raising concerns about programming competence. That is background, not a section to recap. The essay should move beyond coding early.
 
-## Movement of the essay
+## Spend time with the year of fitness
 
-### Four weeks before the rhythm started coming
+Prass lost 38 kilograms over a year, from October 2024 to September 2025. State those facts plainly. This gives the essay a longer timescale alongside the speed of coding assistance.
 
-Open with the drums. Prass started learning earlier in 2026, was “shit for about 4 weeks,” then started getting the rhythm. He plateaued again, broke through again, and can now play basic grooves. That uneven progression gives the essay a concrete shape before any reflection on automation.
+There is room here for the ordinary repetition of that year, if Prass supplies it. Do not invent a workout routine, diet, starting weight, motivation, emotional transformation, or steady rate of progress. Do not assume his fitness experience had the same plateaus as his drumming.
 
-Stay with what he has actually described. Do not invent a practice schedule, a teacher, a song, the sound of the room, or a moment when his limbs suddenly moved without thought. Whether the breakthrough felt like absorption, satisfaction, or something else remains a useful detail to ask about.
+Avoid treating weight loss as a measure of human worth, a prescription for anyone else, or proof of a universal lesson about discipline. This is his experience. The number can sit on the page without becoming a slogan.
 
-The example corrects the first outline's emphasis on remaining mediocre: improvement matters here. It arrives unevenly, and basic grooves are already a real change in what he can do. Being bad is part of the time spent learning, rather than a condition the essay needs to celebrate for its own sake.
+[Optional detail from Prass: What ordinary part of that year would you want to describe? A familiar routine or small moment is enough.]
 
-### Returning can make beginning easier
+## Move into the drums
 
-Explore habit as familiarity with the way into an activity. Returning means you do not always have to decide from scratch whether the initial effort is worthwhile. You may remember that beginning feels different from being immersed.
+Earlier in 2026, Prass started learning drums. His account:
 
-The second plateau matters. Avoid a neat story in which four difficult weeks unlock permanent ease. Ask how returning felt after he had already experienced one breakthrough. Do not assume that habit alone caused his progress.
+> I was shit for about 4 weeks before I started getting the rhythm, and then plateud again, and then broke free again, and now I can play basic grooves.
 
-Keep this small and personal. Avoid streaks, discipline prescriptions, and claims about how many days a habit takes to establish. The question is what repeated participation makes available to your attention.
+Keep the plainness of this. Four weeks, some progress, another plateau, another breakthrough, basic grooves. Several paragraphs can simply describe the experience once details are available, without ending each one on a philosophical observation.
 
-### Help can arrive before you settle in
+This is not an argument for staying mediocre. Improvement is part of the story, and it happens unevenly. Habit can enter through returning to the activity, without turning the essay into instructions for building habits.
 
-Bring coding agents in briefly. A solution can arrive while you are still getting acquainted with the problem. If the first discomfort always prompts delegation, when do you get far enough into an activity to discover whether you enjoy it?
+Do not infer a practice schedule, a teacher, a song, frustration, or a particular bodily sensation. The experience of getting the rhythm is still available for Prass to describe; the facts above are already enough to establish the progression.
 
-Treat this as a question, not a verdict. Lost coding ability should not become the centre of the essay. The old title can surface here: some of what looks like tolerating incompetence may simply be allowing yourself time to enter.
+## Briefly return to assistance and space
 
-### Help can also let you stay
+There is an initial effort before some activities become enjoyable or absorbing. An agent can complete a task before we spend much time inside it. Keep this as one observation, not a general claim that automation prevents learning or flow.
 
-Develop the other possibility with equal care. Automating a bounded task can remove an interruption or make a larger creative undertaking possible. Attention can stay with how the whole thing is taking shape while individual tasks are handled elsewhere.
+Give equal room to Prass's other point: task-oriented automation creates space for symphony and flow. Handling individual tasks can make a larger creative undertaking possible, or let attention stay with the whole. There is pleasure in that involvement too.
 
-This is where “symphony and flow” belongs. Explore the pleasure of bringing parts together, noticing what fits, changing direction, and remaining involved in an unfolding whole. Avoid reducing this to becoming a manager or completing more tasks per hour.
+Use “symphony” lightly. The drums do not need to become an elaborate metaphor in which every tool is an instrument and the author is a conductor. Nor should the fitness example be reduced to a comparison between bodies and machines.
 
-Prass's July 2025 reflection provides a real complication: assistance revived his excitement about building even as he worried about his programming ability. The same tool can alter where participation happens. That change deserves curiosity.
+## Let the ending settle
 
-### What do we want the space for?
+Come back to the basic grooves he can play now. Stay at that scale. There is no need to promise mastery, prove the value of the previous weeks, or tell readers how to live.
 
-Let the essay take a step back. With some tasks taken care of, what would we like to spend time inside? Leave room for an activity whose value is felt while doing it, without requiring a useful result or exceptional skill.
+The preceding paragraph should be simple and concrete, based on what Prass has described about playing. Let the movement toward the last lines slow down. Leave the reader with someone taking pleasure in an activity, without asking the experience to justify itself any further.
 
-Return to the basic grooves he can play now. Let their significance stay at the scale of someone learning an instrument. End with attention still on the activity. Avoid a manifesto, rules for using AI, or a concluding definition of humanity.
-
-## Existing material
-
-- Prass's account in this conversation: “the drums that I started learning earlier this year. I was shit for about 4 weeks before I started getting the rhythm, and then plateud again, and then broke free again, and now I can play basic grooves.” This is the primary personal example. Preserve the plainness and the uneven progress.
-- [Dream Machine, October 2024](../src/content/verses/dream-machine.md) moves from scattered attention toward sustained involvement, with images of flow and small steps. It is a closer thematic companion than the earlier outline recognised. A short passage might help, but let Prass decide what he still identifies with.
-- [Claude Code reflection, July 2025](../src/content/blog/reflections-claude-code.md) records renewed excitement and flow while building with assistance, alongside concern about lost competence. Cite it as his account at that time. It is AI-assisted and should not set the new essay's cadence.
-- This conversation supplies the central tension and the image of symphony. A passage about writing with AI is optional; omit it if it distracts from the quieter piece.
-
-## A possible tonal passage
-
-Possible opening, using the facts Prass supplied:
-
-> I started learning the drums earlier this year. I was shit for about four weeks before I started getting the rhythm. Then I plateaued again. Then something gave, and now I can play basic grooves.
+> The pleasure of being bad.
 >
-> I keep coming back to those four weeks when I think about effort. How do you know, while you are still struggling with something, what it might eventually feel like to do it?
+> The pleasure of being human.
 
-The second paragraph proposes a reflection for Prass to assess; it does not establish a previously reported feeling. Let his description of the breakthrough supply the next paragraph before introducing agents.
+## Source material and factual boundaries
 
-## Detail that would deepen the opening
+- This conversation: agents becoming incredibly good; the value of habit; initial effort; automation making room for symphony and flow; the requested quiet ending.
+- Fitness: 38 kilograms lost from October 2024 to September 2025. No other specifics supplied yet.
+- Drums: began earlier in 2026; roughly four difficult weeks; rhythm began coming; another plateau and breakthrough; now able to play basic grooves.
+- [Dream Machine](../src/content/verses/dream-machine.md): a thematic companion about attention, small steps, and flow. It need not be quoted in the finished essay.
+- [Claude Code reflection](../src/content/blog/reflections-claude-code.md): evidence of his earlier experience with assistance, not a voice reference or proof of his current feelings.
 
-[Ask Prass: When you started getting the rhythm, what changed about the experience of playing? Was it satisfaction at getting it right, being able to lose yourself in it, or something else?]
+## Editing pass
 
-The core anecdote is now supplied. This follow-up can deepen it; it is not a prerequisite for continuing. Do not infer bodily sensations, frustration, or flow from the fact of improvement alone.
+Read for the passages that are trying too hard. Remove unnecessary rhetorical questions and explanations after concrete details. Let ordinary sentences connect the more reflective moments.
 
-## Editing checks
+Keep coding near the beginning and in a short return later. Keep habit as a thread rather than a thesis that every anecdote must prove. Avoid romanticising all difficulty or making scientific claims about how effort produces flow.
 
-- Keep participation central; avoid falling back into a defence of mediocre results.
-- Give automation's capacity to enable flow as much weight as its capacity to bypass an absorbing activity.
-- Keep coding to one example and habit to one thread.
-- Read aloud for natural rhythm. Cut lofty phrases, repeated contrasts, and anything that sounds like a motivational poster.
-- Keep effort contingent: sometimes it opens into pleasure, sometimes it remains unnecessary friction.
-- Let the ending leave the reader with something to notice rather than something to optimise.
+Check every personal detail against what Prass has actually supplied. Mark missing material rather than filling it in. Finish on the requested two lines, without a recap.
