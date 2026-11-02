@@ -1,80 +1,86 @@
-# The pleasure of being bad at something
+# The pleasure of being human
 
-Working outline, November 2, 2026. For discussion before drafting.
+Revised working outline, November 2, 2026. Original title: “The pleasure of being bad at something.” For discussion before drafting.
 
-## The question
+## Direction
 
-What if you enjoy doing something and never become particularly good at it? Does it still deserve a place in your life?
+A quiet, poetic essay about finding our way into an activity deeply enough to enjoy inhabiting it. Make room for the awkward beginning, the familiarity of returning, and the absorption that sometimes follows. Being bad remains part of that experience, but defending mediocrity no longer needs to carry the essay.
 
-The argument to explore: enjoyment can justify an activity even when it produces nothing impressive and improvement is uncertain. “Being bad is the first step to being good” grants permission on the condition that you eventually improve. This essay asks whether that condition belongs there.
+Prass's direction:
 
-This is a proposed position for Prass to explore, not a claim about how he already feels about a particular hobby.
+> Something more poetic, a take a step back moment, the power of habit and how coding agents prevent us from breaking the effort barrier (don't over index on this). In a way, the pleasure of being human.
+>
+> And in a way the automation being task oriented, gives us space for symphony and flow.
+
+The tension: assistance can arrive before we have time to become absorbed. It can also clear away the tasks that keep interrupting us, allowing attention to settle on something larger. Both possibilities should run through the essay. Neither needs to defeat the other.
 
 ## Voice and approach
 
-Story-led, personal and exploratory, roughly 1,000–1,200 words. Follow the repository's [long-form-writing skill](../.claude/skills/long-form-writing/SKILL.md), using [ML fragmentation](../src/content/blog/ml-fragmentation.md) as a voice reference: think out loud, be specific about the annoyance or uncertainty, and let the reader follow the reasoning.
+Reflective and story-led, roughly 900–1,200 words, with few or no visible section headings. Follow the [long-form-writing skill](../.claude/skills/long-form-writing/SKILL.md): plain spoken language, first-person curiosity, real details when available, no invented personal history. [ML fragmentation](../src/content/blog/ml-fragmentation.md) remains a reference for Prass thinking out loud, rather than a structural model for this gentler essay.
 
-AI enters through Prass's documented experience of enjoying greater building capacity while worrying about lost programming competence. Keep both experiences intact. Avoid a general argument that tools are bad or difficulty is inherently valuable.
+Poetic through attention and rhythm. Give an observation time to develop. Avoid a string of aphorisms, decorative metaphors, or grand claims about what makes humans unique. “Symphony” is Prass's image for a larger experience made possible by coordinated parts; use it sparingly rather than assigning every tool an instrument.
 
-## Material already available
+Treat habit, effort, and flow as experiences to examine. Do not imply that effort reliably produces flow or that agents necessarily diminish it. This is not a neuroscience explanation or a habit-building guide.
 
-- [Claude Code reflection, July 2025](../src/content/blog/reflections-claude-code.md): describes renewed excitement about building, alongside concern about becoming worse at programming from scratch. Use as evidence of what Prass wrote then, not proof of his present feelings. This later, AI-assisted post is not a voice reference.
-- [Dream Machine, October 2024](../src/content/verses/dream-machine.md): “a path where small steps bring joy / a joy with the journey / a journey towards a goal / a goal that is the journey.” A possible connection to explore with Prass. The poem's existence does not establish how he feels about writing poetry today, or whether he thinks it is good.
-- This conversation: Prass chose the title after considering several technical topics, then asked AI to help develop it. That gives us an honest, small example of assistance in the very activity under discussion.
+## Movement of the essay
 
-## Possible movement of the essay
+### Arriving takes a little time
 
-### 1. Start with something you wanted to do
+Begin close to the moment before an activity becomes absorbing: hesitation, a first imperfect attempt, the time it takes for attention to settle. An observation or question can open the piece without a fabricated scene.
 
-Open with one real attempt at an activity whose result mattered less than the experience of doing it. Give the reader the actual thing: a line, a problem, an attempt, or a choice to return to it.
+Being bad belongs here as something you can tolerate while getting involved. Pleasure may only become apparent after you have stayed a while. Leave room for attempts that remain frustrating, too.
 
-[Ask Prass: Is there a particular poem, piece of code, or activity you enjoyed doing despite being dissatisfied with the result? What do you remember about doing it?]
+### Returning can make beginning easier
 
-If no anecdote comes to mind, open directly with the question. Do not invent a scene to make the essay feel personal.
+Explore habit as familiarity with the way into an activity. Returning means you do not always have to decide from scratch whether the initial effort is worthwhile. You may remember that beginning feels different from being immersed.
 
-### 2. Examine the promise of getting better
+Keep this small and personal. Avoid streaks, discipline prescriptions, and claims about how many days a habit takes to establish. The question is what repeated participation makes available to your attention.
 
-“Everyone starts somewhere” is comforting, but it points toward a future in which the activity becomes defensible because you are good at it. Follow that thought one step further: what if you stay mediocre?
+### Help can arrive before you settle in
 
-Explore whether Prass feels a pressure to justify hobbies through improvement, publication, usefulness, or an audience. Own any such observation personally rather than asserting that all adults experience it.
+Bring coding agents in briefly. A solution can arrive while you are still getting acquainted with the problem. If the first discomfort always prompts delegation, when do you get far enough into an activity to discover whether you enjoy it?
 
-Keep wanting to improve compatible with enjoying the activity now. The argument does not require indifference to quality.
+Treat this as a question, not a verdict. Lost coding ability should not become the centre of the essay. The old title can surface here: some of what looks like tolerating incompetence may simply be allowing yourself time to enter.
 
-### 3. Ask what happens during the attempt
+### Help can also let you stay
 
-Trying to phrase a thought can help you discover what you mean. Working through a problem can reveal which part interests you. The finished result may leave those experiences invisible to everyone except the person who made it.
+Develop the other possibility with equal care. Automating a bounded task can remove an interruption or make a larger creative undertaking possible. Attention can stay with how the whole thing is taking shape while individual tasks are handled elsewhere.
 
-Use the opening example to make this concrete. Which part held your attention? What would receiving a better finished version have left out?
+This is where “symphony and flow” belongs. Explore the pleasure of bringing parts together, noticing what fits, changing direction, and remaining involved in an unfolding whole. Avoid reducing this to becoming a manager or completing more tasks per hour.
 
-Avoid explaining every pleasure as an investment in future skills. If the defence of an enjoyable afternoon is that it makes you more productive later, we have restored the condition the essay was questioning.
+Prass's July 2025 reflection provides a real complication: assistance revived his excitement about building even as he worried about his programming ability. The same tool can alter where participation happens. That change deserves curiosity.
 
-### 4. Let the tools complicate the argument
+### What do we want the space for?
 
-Return to the July 2025 reflection. AI helped Prass revive projects and enjoy building again. It also prompted worries about losing programming competence. Both are documented in the same piece.
+Let the essay take a step back. With some tasks taken care of, what would we like to spend time inside? Leave room for an activity whose value is felt while doing it, without requiring a useful result or exceptional skill.
 
-Which frustrations are welcome to disappear? Which parts would you choose to do yourself? Dependency errors do not need a romantic defence. Assistance can make participation possible as well as remove parts of it.
+Return to a concrete detail from the opening if one is supplied. End with attention still on the activity. Avoid a manifesto, rules for using AI, or a concluding definition of humanity.
 
-Briefly acknowledge this essay's own development with AI if useful. Explore where help creates room to think and where a polished answer might settle a thought too early. Avoid turning that into a rule about how everyone should write.
+## Existing material
 
-### 5. Return to the activity without demanding a payoff
+- [Dream Machine, October 2024](../src/content/verses/dream-machine.md) moves from scattered attention toward sustained involvement, with images of flow and small steps. It is a closer thematic companion than the earlier outline recognised. A short passage might help, but let Prass decide what he still identifies with.
+- [Claude Code reflection, July 2025](../src/content/blog/reflections-claude-code.md) records renewed excitement and flow while building with assistance, alongside concern about lost competence. Cite it as his account at that time. It is AI-assisted and should not set the new essay's cadence.
+- This conversation supplies the central tension and the image of symphony. A passage about writing with AI is optional; omit it if it distracts from the quieter piece.
 
-Return to the opening attempt and whether you would do it again. Let the concrete pleasure carry the ending.
+## A possible tonal passage
 
-The question to resolve personally: would you still want this in your life if you never became impressive at it?
+Proposed prose to test the voice, not a report of a personal memory:
 
-Do not finish with a productivity plan, a call to reclaim hobbies, or a promise that accepting mediocrity secretly produces excellence.
+> There is a little while at the beginning when you are still outside the thing you sat down to do. The first sentence feels awkward. You change a word and read it again. It is easy to leave at this point, before anything has begun to hold your attention. I wonder how often the pleasure is somewhere beyond that first reluctance, and how much of habit is remembering the way there.
+>
+> Help can change that experience in either direction. It can finish the sentence before you have found what you mean. It can also take care of something that would otherwise pull you away, leaving you time to follow the thought. There are things I would like help finishing so that I can spend longer with the things I enjoy.
 
-## What needs Prass's input
+## Personal detail to add when available
 
-One lived example is enough to anchor the next draft. The most useful detail is what was enjoyable during the attempt, independently of the result.
+[Ask Prass: Is there an activity where you recognise the change from initial reluctance to absorption, or a moment when automation gave you room to stay with a larger creative whole? What actually held your attention?]
 
-The earlier question still seems useful: when you reread an old poem, can you remember what made you want to write it, independently of whether you think it is any good now? Poetry is an option, not an assumed answer.
+This is useful material for drafting, not a prerequisite for discussing the shape. Do not invent a hobby, a bodily sensation, or an autobiographical scene to fill the gap.
 
-## Editing checks for the draft
+## Editing checks
 
-- Preserve the tension between enjoying help and wanting to participate.
-- Remove invented memories, inferred feelings, and generic claims about society.
-- Check for a sentimental tone that the real example has not earned.
-- Cut repeated versions of “the journey matters.” Develop the argument instead.
-- Use plain, spoken language; avoid manufactured contrasts, em dashes, and slogan-like endings.
-- Keep the title provisional until the personal example shows whether “pleasure” is the right word.
+- Keep participation central; avoid falling back into a defence of mediocre results.
+- Give automation's capacity to enable flow as much weight as its capacity to bypass an absorbing activity.
+- Keep coding to one example and habit to one thread.
+- Read aloud for natural rhythm. Cut lofty phrases, repeated contrasts, and anything that sounds like a motivational poster.
+- Keep effort contingent: sometimes it opens into pleasure, sometimes it remains unnecessary friction.
+- Let the ending leave the reader with something to notice rather than something to optimise.
