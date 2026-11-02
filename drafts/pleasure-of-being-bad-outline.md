@@ -1,6 +1,6 @@
 # The pleasure of being bad at something
 
-Working outline, November 2, 2026. Branch for discussion before drafting.
+Working outline, November 2, 2026. The [full essay draft](../src/content/blog/pleasure-of-being-bad.md) now follows this direction, with original hero and inline artwork. It remains unpublished (`draft: true`).
 
 ## Shape and tone
 
