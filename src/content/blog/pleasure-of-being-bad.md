@@ -6,7 +6,7 @@ heroImage: "/images/blog/pleasure-of-being-bad/hero.webp"
 series: []
 topics: ["Creativity", "Learning", "AI", "Habits"]
 author: "Prassanna Ravishankar"
-draft: true
+draft: false
 ---
 
 Coding agents are getting incredibly good, and I am having a lot of fun with them. There is something quite addictive about having an idea and being able to follow it much further than you expected. A thing that would have needed a weekend of figuring out unfamiliar tools becomes something you can start now. You make a change, see what happens, make another. I wrote [last year](/blog/reflections-claude-code/) about shipping more while becoming worse at programming from scratch, and the discomfort of that trade has stayed interesting to me. But so has the pleasure. I don't want to forget that part while discussing what we might be losing. Building things had become exciting again, and a lot of that excitement came from being able to get past the places where I would previously have stopped.
@@ -17,7 +17,7 @@ This year I also started learning the drums. I was shit for about four weeks bef
 
 I find it easy to be generous about that sort of beginning when someone else is doing it. Of course you can't play yet. You've only just started. It seems reasonable that learning an instrument should take a while, and there is no shortage of encouragement available to a beginner. But much of that encouragement comes with a promise: keep going and you'll get good. I understand the appeal. I want to get better too. Still, I'd like there to be a little room for the possibility that I do this for a while and remain fairly ordinary at it. Basic grooves already give me something to play, a small patch of music I can find my way around. There is plenty beyond it, but I don't have to spend the whole time looking over there. I can enjoy what is available to me now and still want to learn the next thing.
 
-![A drummer finding a little rhythm, with colour in the air.](/images/blog/pleasure-of-being-bad/drums.webp)
+![A little of it is beginning to feel like mine.](/images/blog/pleasure-of-being-bad/drums.webp)
 
 Habit is interesting here because it can make room for an attempt that doesn't amount to very much. You return to something because it has become a familiar corner of the day, without having to assemble a convincing argument for it each time. I like that more than the heroic version of discipline, where every repetition proves how badly you want the result. Sometimes the result is too far away to be much use. Sometimes you don't know how much you want it yet. You need a little time with the activity before you can tell, long enough for some of the strangeness to wear off. If every awkward attempt becomes an occasion to reconsider whether you have any aptitude, it seems quite possible to talk yourself out of something you would eventually have enjoyed.
 
@@ -25,7 +25,7 @@ There is a similar awkwardness in writing. A sentence can be wrong in a way that
 
 That is part of what makes the question of effort difficult. I can ask for a finished version while I am still working out what I mean by finished. With coding, the first moment of resistance now offers a convenient place to hand the problem over. Much of the time that is useful. I don't need a personal relationship with every task involved in building something. But if I hand over anything as soon as it starts asking something of me, I might leave before I have had a chance to get interested. There is often a stretch at the beginning where your attention is still elsewhere, as though you've sat down but haven't quite arrived. The details take a little while to become familiar. I wonder how often I mistake that stretch for a verdict on the activity itself. Being able to bypass it so easily makes it worth noticing, even if I choose to bypass it anyway.
 
-![Loose painted shapes and wandering lines find room together on warm paper.](/images/blog/pleasure-of-being-bad/flow.webp)
+![For a while, the rest can wait.](/images/blog/pleasure-of-being-bad/flow.webp)
 
 And then there is the other experience, which is just as real to me: help can keep the whole thing moving. That was there in my early excitement about coding agents. I could spend longer developing an idea because a task within it no longer took all the time I had. There is a kind of symphony possible in that, with individual parts being worked on while you stay with the shape of the whole. You can notice that something doesn't fit, change your mind about it, or follow an unexpected possibility without losing the rest of the work. There can be a quiet gathering of attention in that, until the separate tasks begin to feel like one thing you are making. It would be strange for me to celebrate the pleasure of involvement and then insist that it only counts when I do every part myself.
 
